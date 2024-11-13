@@ -1,0 +1,13 @@
+{
+    "Home": {
+        "title": "B ChiYuan-Gentleman Animation Exchange",
+        "description": "B 2D has the latest and hottest animation and comic content, allowing you to find the latest domestic and foreign animation content at any time. All excellent content is in B 2D."
+    },
+    "Navbar": {
+        "home": "Home",
+        "about": "About",
+        "contact": "Contact",
+        "english": "English",
+        "chinese_hant": "Traditional Chinese"
+    }
+}
