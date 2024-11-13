@@ -13,7 +13,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   let messages;
   try {
-    console.log(locale,'locale');
     messages = (await import(`../locales/${locale}.json`)).default;
   } catch (error) {
     console.error('Failed to load messages:', error);

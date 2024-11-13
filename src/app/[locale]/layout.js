@@ -25,7 +25,6 @@ export default async function RootLayout({ children, params }) {
 
   const messages = await getMessages(locale);
 
-  console.log(messages,'messages');
   // Load metadata translations
   const metadataTranslations = messages.Home;
 
