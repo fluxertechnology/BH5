@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Make sure to import Cookies
 import Image from "next/image";
 import styled from "styled-components";
+import Grid2 from "@mui/material/Grid2";
 
 // import logo from "../../public/footer/logo_p.svg";
 // import app_download from "/footer/app_download.svg";
@@ -36,32 +37,33 @@ const DesktopFooter = ({ locale }) => {
               className="mr-3 mb-2"
             />
           </div>
-          {/* <Grid
+          <Grid2
             container
             className="area_left_row"
             direction="row"
             alignItems="start"
             spacing={0}
           >
-            {urlItems.map((item, index) => (
-              <Grid
+            {/* {urlItems.map((item, index) => ( */}
+              <Grid2
                 item
                 sm
-                key={index}
-                onClick={item.onClick}
+                // key={index}
+                // onClick={item.onClick}
                 className="cursor mt-3 link"
               >
-                {item.text}
-              </Grid>
-            ))}
-            {serviceTerms.map((item, index) => (
-              <Grid item sm key={index} className="cursor mt-3">
+                {/* {item.text} */}
+                hihihi
+              </Grid2>
+            {/* ))} */}
+            {/* {serviceTerms.map((item, index) => (
+              <Grid2 item sm key={index} className="cursor mt-3">
                 <LinkComponent routes={item.url} key={index} className="link">
                   {item.text}
                 </LinkComponent>
-              </Grid>
-            ))}
-          </Grid> */}
+              </Grid2>
+            ))} */}
+          </Grid2>
           {/* <div className="area_left_row">
             {friendUrlItems.map((item, index) => (
               <div key={index}>{item.text}</div>
