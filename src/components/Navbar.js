@@ -3,17 +3,19 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie'; // Make sure to import Cookies
+import Cookies from 'js-cookie'; 
 
 const Navbar = ({ locale }) => {
     const t = useTranslations('Navbar');
     const router = useRouter();
 
     const changeLanguage = (newLocale) => {
-        Cookies.set('NEXT_LOCALE', newLocale, { path: '/' }); // Set the new locale
-        console.log(newLocale, 'Locale changed'); // Log the new locale
-        router.push(`/${newLocale}`); // Navigate to the new locale route
+        Cookies.set('NEXT_LOCALE', newLocale, { path: '/' });
+        router.refresh();
     };
+    
+    
+    
 
     return (
         <nav style={styles.navbar}>
