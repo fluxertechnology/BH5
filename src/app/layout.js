@@ -1,4 +1,5 @@
 import Navbar from './../components/Navbar';
+import Footer from './../components/Footer';
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -28,6 +29,7 @@ export default async function RootLayout({ children }) {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar locale={locale} />
           {children}
+          <Footer locale={locale} />
         </NextIntlClientProvider>
       </body>
     </html>
