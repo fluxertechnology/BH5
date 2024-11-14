@@ -5,14 +5,15 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Make sure to import Cookies
 import Image from "next/image";
+import styles from "@/styles/components/Footer.module.css"
 
-import logo from "../../public/footer/logo_p.svg";
+// import logo from "../../public/footer/logo_p.svg";
 // import app_download from "/footer/app_download.svg";
 // import app_download_dark from "/footer/app_download_dark.svg";
 // import friend_socrial from "/footer/friend_socrial.svg";
 // import friend_socrial_dark from "/footer/friend_socrial_dark.svg";
 
-const Footer = ({ locale }) => {
+const DesktopFooter = ({ locale }) => {
   // const t = useTranslations('Footer');
   // const router = useRouter();
 
@@ -23,10 +24,10 @@ const Footer = ({ locale }) => {
   // };
 
   return (
-    <div style={styles.footerCont}>
-      <div style={styles.area}>
-        <div style={styles.area_left}>
-          <div style={styles.area_left_img}>
+    <div className={styles.footerCont}>
+      <div className={styles.area}>
+        <div className={styles.area_left}>
+          <div className={styles.area_left_img}>
             <Image
               width={"138"}
               height={"40"}
@@ -67,12 +68,12 @@ const Footer = ({ locale }) => {
             ))}
           </div> */}
         </div>
-        <div style={styles.area_right}>
+        <div className={styles.area_right}>
           {/* <QrCode /> */}
           {/* <FriendSocial /> */}
         </div>
       </div>
-      <div style={styles.area_description}>
+      <div className={styles.area_description}>
         {locale === "tc" ? (
           <ol>
             <li> ©2023 B次元</li>
@@ -111,47 +112,4 @@ const Footer = ({ locale }) => {
   );
 };
 
-const styles = {
-  footerCont: {
-    backgroundColor: "#f3f4f5",
-    color: "#646464",
-    minHeight: "250px",
-    width: "100%",
-    fontSize: " 1.1rem",
-  },
-  area: {
-    display: "flex",
-    justifyContent: "center",
-    padding: "1em 10em",
-  },
-  area_left: {
-    borderBottom: "1px solid gray",
-    width: "100%",
-    justifyContent: "start",
-  },
-  area_left_img: {
-    display: "flex",
-    alignItems: "center",
-    height: "40px",
-    margin: "20px 0 0 0",
-    fontSize: "0.8rem",
-  },
-  area_right: {
-    borderBottom: "1px solid gray",
-    //   display: "grid",
-    justifyContent: "end",
-    textAlign: "center",
-    width: "100%",
-    padding: "1em",
-    display: "flex",
-    alignItems: "center",
-  },
-  area_description: {
-    paddingBottom: "2em",
-    fontSize: "0.9rem",
-    lineHeight: "1.2rem",
-    textAlign: "center",
-  },
-};
-
-export default Footer;
+export default DesktopFooter;

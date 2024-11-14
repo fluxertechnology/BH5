@@ -1,9 +1,9 @@
-import Navbar from './../components/Navbar';
-import Footer from './../components/Footer';
+import DesktopHeader from '@/components/layout/Header/DesktopHeader';
+import DesktopFooter from '@/components/layout/Footer/DesktopFooter';
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import './globals.css'; 
+import '@/styles/globals.css';
 
 
 export default async function RootLayout({ children }) {
@@ -27,9 +27,9 @@ export default async function RootLayout({ children }) {
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Navbar locale={locale} />
+          <DesktopHeader locale={locale} />
           {children}
-          <Footer locale={locale} />
+          <DesktopFooter locale={locale} />
         </NextIntlClientProvider>
       </body>
     </html>

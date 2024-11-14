@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import IndexSwiper from './../components/index/IndexSwiper';
-import ComicSlider from './../components/index/ComicSlider';
-import AnimeSlider from './../components/index/AnimeSlider';
+import IndexSwiper from '@/components/index/IndexSwiper';
+import ComicSlider from '@/components/index/ComicSlider';
+import AnimeSlider from '@/components/index/AnimeSlider';
 
 export default function HomePage() {
   const t = useTranslations('Home');

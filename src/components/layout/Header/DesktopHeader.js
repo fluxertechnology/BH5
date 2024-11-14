@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'; // Make sure to import Cookies
 
-const Navbar = ({ locale }) => {
+const DesktopHeader = ({ locale }) => {
     const t = useTranslations('Navbar');
     const router = useRouter();
 
@@ -71,4 +71,4 @@ const styles = {
     },
 };
 
-export default Navbar;
+export default DesktopHeader;
