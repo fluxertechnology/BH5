@@ -9,5 +9,8 @@
         "contact": "Contact",
         "english": "English",
         "chinese_hant": "Traditional Chinese"
+    },
+    "Common":{
+        "error":"Something went wrong!"
     }
 }

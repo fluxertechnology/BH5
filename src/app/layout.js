@@ -1,4 +1,35 @@
-export default async function RootLayout({ children }) {
+import Navbar from './../components/Navbar';
+import {NextIntlClientProvider} from 'next-intl';
+import {getLocale, getMessages} from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import './globals.css'; 
 
-  return  children;
+
+export default async function RootLayout({ children }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
+  // Load metadata translations
+  const metadataTranslations = messages.Home;
+
+  // Set metadata
+  const metadata = {
+    title: metadataTranslations.title,
+    description: metadataTranslations.description,
+  };
+
+  return (
+    <html lang={locale}>
+      <head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </head>
+      <body>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Navbar locale={locale} />
+          {children}
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
 }

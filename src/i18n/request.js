@@ -1,26 +1,15 @@
-import { getRequestConfig } from "next-intl/server";
-import { routing } from "./routing";
-import { notFound } from "next/navigation";
+import { getRequestConfig } from 'next-intl/server';
+import { cookies } from 'next/headers'; // Import the cookies function
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  let locale = await requestLocale;
-
-  if (!locale || !routing.locales.includes(locale)) {
-    locale = routing.defaultLocale;
-  }
-
-  // if (!locale || !routing.locales.includes(locale)) notFound();
-
-  let messages;
-  try {
-    messages = (await import(`../locales/${locale}.json`)).default;
-  } catch (error) {
-    console.error('Failed to load messages:', error);
-    throw new Error('Messages not found');
-  }
+export default getRequestConfig(async () => {
+  // Await the cookies function to get the cookie store
+  const cookieStore = await cookies(); 
+  const cookieLocale = cookieStore.get('NEXT_LOCALE')?.value; // Access the cookie value safely
+  const locales = ['en', 'tc'];
+  const locale = locales.includes(cookieLocale) ? cookieLocale : 'en'; // Default to 'en'
 
   return {
     locale,
-    messages,
+    messages: (await import(`./../locales/${locale}.json`)).default
   };
 });

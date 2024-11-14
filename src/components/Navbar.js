@@ -2,31 +2,30 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'; // Make sure to import Cookies
 
 const Navbar = ({ locale }) => {
     const t = useTranslations('Navbar');
     const router = useRouter();
-    const pathname = usePathname(); // Get the current pathname
 
     const changeLanguage = (newLocale) => {
-        // Split the pathname into parts
-        const pathParts = pathname.split("/").slice(2); // Remove the first two segments (locale and empty string)
-        const newPath = `/${newLocale}/${pathParts.join("/")}`; // Construct the new path
-        router.push(newPath); // Navigate to the new path
+        Cookies.set('NEXT_LOCALE', newLocale, { path: '/' }); // Set the new locale
+        console.log(newLocale, 'Locale changed'); // Log the new locale
+        router.push(`/${newLocale}`); // Navigate to the new locale route
     };
 
     return (
         <nav style={styles.navbar}>
             <ul style={styles.navList}>
                 <li style={styles.navItem}>
-                    <Link href={`/${locale}/`}>{t('home')}</Link>
+                    <Link href={`/`}>{t('home')}</Link>
                 </li>
                 <li style={styles.navItem}>
-                    <Link href={`/${locale}/about`}>{t('about')}</Link>
+                    <Link href={`/about`}>{t('about')}</Link>
                 </li>
                 <li style={styles.navItem}>
-                    <Link href={`/${locale}/contact`}>{t('contact')}</Link>
+                    <Link href={`/contact`}>{t('contact')}</Link>
                 </li>
             </ul>
             <div style={styles.languageSwitcher}>

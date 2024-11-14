@@ -1,13 +1,16 @@
 {
   "Home": {
-      "title": "B次元-紳士動漫交流",
-      "description": "B二次元有最新最火热的动画、漫画内容，让你随时找到国内外最新动漫内容，优直内容都在B二次元。"
+    "title": "B次元-紳士動漫交流",
+    "description": "B二次元有最新最火热的动画、漫画内容，让你随时找到国内外最新动漫内容，优直内容都在B二次元。"
   },
   "Navbar": {
-      "home": "首頁",
-      "about": "關於",
-      "contact": "聯絡",
-      "english": "英文",
-      "chinese_hant": "繁體中文"
+    "home": "首頁",
+    "about": "關於",
+    "contact": "聯絡",
+    "english": "英文",
+    "chinese_hant": "繁體中文"
+  },
+  "Common": {
+    "error": "出了點問題！"
   }
 }
