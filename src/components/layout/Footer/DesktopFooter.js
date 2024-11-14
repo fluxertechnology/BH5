@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Make sure to import Cookies
 import Image from "next/image";
-import styles from "@/styles/components/Footer.module.css"
+import styled from "styled-components";
 
 // import logo from "../../public/footer/logo_p.svg";
 // import app_download from "/footer/app_download.svg";
@@ -24,10 +24,10 @@ const DesktopFooter = ({ locale }) => {
   // };
 
   return (
-    <div className={styles.footerCont}>
-      <div className={styles.area}>
-        <div className={styles.area_left}>
-          <div className={styles.area_left_img}>
+    <PCFooterElement className={"PCFooterElement"}>
+      <div className="area">
+        <div className="area_left">
+          <div className="area_left_img">
             <Image
               width={"138"}
               height={"40"}
@@ -68,12 +68,12 @@ const DesktopFooter = ({ locale }) => {
             ))}
           </div> */}
         </div>
-        <div className={styles.area_right}>
+        <div className="area_right">
           {/* <QrCode /> */}
           {/* <FriendSocial /> */}
         </div>
       </div>
-      <div className={styles.area_description}>
+      <div className="area_description">
         {locale === "tc" ? (
           <ol>
             <li> ©2023 B次元</li>
@@ -108,8 +108,74 @@ const DesktopFooter = ({ locale }) => {
           </ol>
         )}
       </div>
-    </div>
+    </PCFooterElement>
   );
 };
 
 export default DesktopFooter;
+
+export const bottom_footer_height = "250";
+export const PCFooterElement = styled.div`
+  /*  */
+  background-color: #f3f4f5;
+  height: ${bottom_footer_height + "px"};
+  font-size: 1.1rem;
+  width: 100%;
+  color: #646464;
+  .area {
+    display: flex;
+    justify-content: center;
+    padding: 1em 10em;
+    @media (min-width: 900px) {
+      padding: 1em 5em;
+    }
+    @media (max-width: 1080px) {
+      padding: 1em 5em;
+    }
+    @media (min-width: 1081px) {
+      padding: 1em 10em;
+    }
+
+    &_left {
+      border-bottom: 1px solid gray;
+      width: 100%;
+      justify-content: start;
+      &_img {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        margin: 20px 0 0 0;
+        font-size: 0.8rem;
+      }
+    }
+
+    &_right {
+      border-bottom: 1px solid gray;
+      display: grid;
+      justify-content: end;
+      text-align: center;
+      width: 100%;
+      padding: 1em;
+      display: flex;
+      align-items: center;
+    }
+
+    &_description {
+      padding-bottom: 2em;
+      font-size: 0.9rem;
+      line-height: 1.2rem;
+      text-align: center;
+    }
+  }
+  .link {
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #646464;
+    align-self: center;
+    &:hover {
+      color: #f24c7c;
+    }
+  }
+`;
