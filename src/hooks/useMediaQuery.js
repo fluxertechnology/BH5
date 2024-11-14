@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
  * Custom hook to detect device type based on media queries and touchscreen capability.
  * @returns {Object} - An object containing booleans for isDesktop, isTablet, isMobile, and isTouchDevice.
  */
-
 const useMediaQuery = () => {
   const [isDesktop, setIsDesktop] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
@@ -18,6 +17,7 @@ const useMediaQuery = () => {
       setIsDesktop(width > 1024);
       setIsTablet(width >= 768 && width <= 1024);
       setIsMobile(width < 768);
+      checkTouchDevice(); 
     };
 
     const checkTouchDevice = () => {
@@ -26,7 +26,6 @@ const useMediaQuery = () => {
 
     // Initial checks
     updateDeviceType();
-    checkTouchDevice();
 
     // Add event listener for resize
     window.addEventListener('resize', updateDeviceType);
