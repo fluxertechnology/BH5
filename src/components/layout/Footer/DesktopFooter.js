@@ -702,7 +702,7 @@ const DesktopFooter = ({ locale }) => {
                 sm="true"
                 key={index}
                 // onClick={item.onClick}
-                className="cursor mt-3 link"
+                className="cursor-pointer mt-3 link"
               >
                 {item.text}
               </Grid2>
@@ -712,7 +712,7 @@ const DesktopFooter = ({ locale }) => {
                 item="true"
                 sm="true"
                 key={index}
-                className="cursor mt-3 link"
+                className="cursor-pointer mt-3 link"
               >
                 <Link href={item.url} key={index}>
                   {item.text}
@@ -852,7 +852,7 @@ const FriendSocial = () => {
     setIsHover(false);
   }
   return (
-    <FriendSocialElement className="cursor" onClick={onClick}>
+    <FriendSocialElement className="cursor-pointer" onClick={onClick}>
       <Image
         width={"56"}
         height={"56"}
