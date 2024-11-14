@@ -46,8 +46,8 @@ const DesktopFooter = ({ locale }) => {
           >
             {/* {urlItems.map((item, index) => ( */}
               <Grid2
-                item
-                sm
+                // item
+                sm="true"
                 // key={index}
                 // onClick={item.onClick}
                 className="cursor mt-3 link"
@@ -116,7 +116,7 @@ const DesktopFooter = ({ locale }) => {
 
 export default DesktopFooter;
 
-export const bottom_footer_height = "250";
+export const bottom_footer_height = "250px";
 export const PCFooterElement = styled.div`
   /*  */
   background-color: #f3f4f5;
