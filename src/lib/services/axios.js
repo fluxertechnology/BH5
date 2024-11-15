@@ -2,7 +2,7 @@
 import axios from "axios";
 
 
-import { apiUrl } from "../constants";
+import { apiUrl } from "@/lib/constants";
 import callToast from "@/lib/services/toastCall";
 
 const loading = "/images/shared/axiosLoading.svg";
