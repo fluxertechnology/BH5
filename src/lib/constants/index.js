@@ -56,14 +56,15 @@ export const shortTermTimestamp = 30 * 60 * 1000;
 export const apiUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 // 判斷哪個網址圖片可以正常連線沒被封，可以的記錄下來之後就連那個
-// TODO(ZY): uncomment and fix document issues
-// for (let i = 0; i < apiDomain.length; i++) {
-//   let img = document.createElement("img");
-//   img.src = apiDomain[i] + "/downzai/assets/images/test.jpg";
-//   img.onload = () => {
-//     window.localStorage.setItem("domain", encryptionData(apiDomain[i]));
-//   };
-// }
+if (typeof window !== 'undefined') {
+  for (let i = 0; i < apiDomain.length; i++) {
+    let img = document.createElement("img");
+    img.src = apiDomain[i] + "/downzai/assets/images/test.jpg";
+    img.onload = () => {
+      window.localStorage.setItem("domain", encryptionData(apiDomain[i]));
+    };
+  }
+}
 
 let qqReg = /^[1-9]\d{4,10}$/;
 let phoneReg = /^(1[3-9]\d{9}|9\d{8})$/;

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { toastAutoCloseDuring } from "../constants";
+import { toastAutoCloseDuring } from "@/lib/constants";
 
 let toastMsg = [];
 
