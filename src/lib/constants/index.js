@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import placeholder_345x80 from "@public/images/imgPlaceholder/345x80.jpg";
 // import placeholder_688x140 from "/images/imgPlaceholder/688x140.jpg";
 import placeholder_694x206 from "@public/images/imgPlaceholder/694x206.jpg";

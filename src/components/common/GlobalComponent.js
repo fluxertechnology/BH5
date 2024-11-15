@@ -5,6 +5,8 @@ import { useEffect } from "react";
 
 import { useGlobalContext } from "@/store";
 
+import { AxiosCenter } from "@/lib/services/axios";
+
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
 
@@ -32,7 +34,7 @@ export default function GlobalComponent() {
 
   return (
     <div>
-      <h1>GlobalComponent</h1>
+      <AxiosCenter.RenderLoadingElement />
     </div>
   );
 }

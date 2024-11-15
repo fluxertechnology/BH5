@@ -5,7 +5,7 @@ import axios from "axios";
 import { apiUrl } from "../constants";
 import callToast from "@/lib/services/toastCall";
 
-const loading = "/images/shared/axiosItemLoading.svg";
+const loading = "/images/shared/axiosLoading.svg";
 // import { nowLang } from "../i18n/Metronici18n";
 const nowLang = 'en'; // TODO(ZY): Check current language
 const axiosItem = axios.create({

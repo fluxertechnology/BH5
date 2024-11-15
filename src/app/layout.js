@@ -35,6 +35,7 @@ export default async function RootLayout({ children }) {
                   {children}
               </div>
               <DesktopFooter locale={locale} />
+              <GlobalComponent />
             </GlobalProvider>
           </NextIntlClientProvider>
       </body>
