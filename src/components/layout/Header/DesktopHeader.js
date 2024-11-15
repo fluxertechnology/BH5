@@ -639,14 +639,9 @@ const DesktopHeader = ({ locale }) => {
     <StyleSheetManager shouldForwardProp={() => true}>
         <HomeMainSwitchPageElement slide_height={slide_height}>
           <TopBarContainer>
-            {isMobile ? (
-                <p>You are on a mobile device!</p>
-              ) : (
-                // <WebTopBar  />
-                <StyleSheetManager shouldForwardProp={() => true}>
-                  <TopSearchBar />
-                </StyleSheetManager>
-              )}
+            {isDesktop && (
+            <TopSearchBar />
+            )}
           </TopBarContainer>
         </HomeMainSwitchPageElement>
       </StyleSheetManager>
