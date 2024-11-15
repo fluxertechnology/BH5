@@ -8,19 +8,14 @@ import Image from "next/image";
 import styled from "styled-components";
 import Grid2 from "@mui/material/Grid2";
 import { useState } from 'react';
-// import QRCode from "qrcode.react";
+import { QRCodeCanvas as QRCode } from "qrcode.react";
 
 // start copy of constants
-const colors = {
-  dark_pink: "#FA719A",
-  light_pink: "#fcdce5",
-  back_dark_pink: "#f24c7c",
-  text_grey: "#646464",
-  text_light_grey: "#a8a8a8",
-  back_grey: "#f4f4f4",
-  light_star: "#fde17b",
-  grey: "#f3f4f5",
-};
+const downloadPage = [
+  "https://bc6y9.com",
+  "https://trun.2jidj7m.com/share",
+  "https://jingyindao-1.com/",
+];
 
 const officialContact = "https://sto13.com/offcial";
 const profileService = "https://189.cafe/Sshzd";
@@ -894,12 +889,12 @@ const QrCode = () => {
               Scan to download APP
             </li>
             <li>
-              {/* <QRCode
+              <QRCode
                 className="share_info_qrcode_item_img"
                 value={downloadPage[1]}
                 onTouchStart={qrcodeStart}
                 onTouchEnd={qrcodeEnd}
-              /> */}
+              />
             </li>
           </ol>
         </div>
@@ -941,6 +936,12 @@ const QrCodeElement = styled.div`
         border-radius: 5px;
         box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
         z-index: 1;
+
+        .share_info_qrcode_item_img{
+          width: 128px;
+          height: 128px;
+          margin: 5px auto;
+        }
       }
       .qrcode_text {
         color: #f24c7c;
