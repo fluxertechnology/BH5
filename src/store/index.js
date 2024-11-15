@@ -5,6 +5,8 @@ import rootReducer from "@/store/reducers";
 
 const GlobalContext = createContext();
 
+let context = null;
+
 export function GlobalProvider({ children }) {
   const initialState = {};
   const [state, dispatch] = useReducer(rootReducer, initialState);
@@ -22,12 +24,19 @@ export function GlobalProvider({ children }) {
 }
 
 export function useGlobalContext() {
-  return useContext(GlobalContext);
+  context = useContext(GlobalContext);
+  return context;
+}
+
+export function useGlobalDispatch(callback) {
+  if (!context) useContext(GlobalContext);
+  return callback(context.dispatch);
 }
 
 const Store = {
   getState: () => {
-    return useGlobalContext().state;
+    if (!context) useContext(GlobalContext);
+    return context.state;
   },
 };
 

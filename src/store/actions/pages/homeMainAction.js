@@ -1,6 +1,6 @@
 import axiosRequest from "@/lib/services/axios";
 import { requestUrlConstants, checkIsMobile } from "@/lib/constants";
-import store from "../..";
+import store from "@/store";
 
 const { getNewAnimeHome, postRefreshAnime, postContinueHistory } =
   requestUrlConstants;
@@ -13,7 +13,7 @@ const { getNewAnimeHome, postRefreshAnime, postContinueHistory } =
 export const getHomeData = () => {
   return function (dispatch) {
     const formData = new FormData();
-    formData.append("token", store.getState().user.id);
+    formData.append("token", store.getState().user?.id);
     axiosRequest.post(getNewAnimeHome, formData).then((data) => {
       dispatch({
         type: "INIT_HOME_DATA",
@@ -31,7 +31,7 @@ export const getHomeData = () => {
 export const getContinueWatchData = () => {
   return function (dispatch) {
     const formData = new FormData();
-    formData.append("uid", store.getState().user.id);
+    formData.append("uid", store.getState().user?.id);
     axiosRequest.post(postContinueHistory, formData).then((data) => {
       dispatch({
         type: "UPDATE_HOME_DATA",
