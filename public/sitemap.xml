@@ -7,11 +7,15 @@
             xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
       
           <url>
-            <loc>https://91bblili.com/about/me/</loc>
+            <loc>https://91bblili.com/about/me</loc>
           </url>
         
           <url>
-            <loc>https://91bblili.com/about/</loc>
+            <loc>https://91bblili.com/about</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home</loc>
           </url>
         
           <url>
