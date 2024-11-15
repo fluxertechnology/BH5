@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import styled from "styled-components";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { StyleSheetManager } from "styled-components";
 
 // start copy of constants
@@ -640,7 +640,7 @@ const DesktopHeader = ({ locale }) => {
         <HomeMainSwitchPageElement slide_height={slide_height}>
           <TopBarContainer>
             {isDesktop && (
-            <TopSearchBar />
+                <TopSearchBar />
             )}
           </TopBarContainer>
         </HomeMainSwitchPageElement>
@@ -677,10 +677,10 @@ const DesktopHeader = ({ locale }) => {
 };
 
 const TopBarContainer = ({ children }) => {
-  const [not_fixed, setNot_fixed] = useState("false");
-  const [show_shadow, setShow_shadow] = useState("true");
-  const [z_index, setZindex] = useState(10);
-  const [backgroundColor1, setBbackgroundColor1] = useState("transparent");
+  const not_fixed = false;
+  const show_shadow = true;
+  const z_index = 10;
+  const backgroundColor1 = "transparent";
 
   return (
     <StyleSheetManager shouldForwardProp={() => true}>
@@ -791,7 +791,7 @@ const TopSearchBar = ({
   // const intl = useIntl();
   // const lang = useLang();
   const ContainerRef = useRef();
-  const [scroll, setScroll] = useState("false");
+  const [scroll, setScroll] = useState(0);
   // const [questInfoList, setQuestInfoList] = useState([]);
   // const [membershipDate, setMembershipDate] = useState("");
   // const [tabValue, setTabValue] = React.useState(1);
@@ -827,25 +827,25 @@ const TopSearchBar = ({
     },
   ]);
 
-  // useEffect(() => {
-  //   const onScroll = () => {
-  //     let { scrollY } = global?.window;
-  //     setScroll(Boolean(scrollY));
-  //     let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
-  //     if (TargetStyle) {
-  //       TargetStyle.transition = "0.2s";
-  //       if (scrollY) {
-  //         TargetStyle.backgroundColor = "#fff";
-  //         TargetStyle.borderBottom = "0.5px grey dotted";
-  //       } else {
-  //         TargetStyle.backgroundColor = colors.dark_pink;
-  //         TargetStyle.borderBottom = "none";
-  //       }
-  //     }
-  //   };
-  //   global?.window.addEventListener("scroll", onScroll);
-  //   return () => global?.window.removeEventListener("scroll", onScroll);
-  // }, []);
+  useEffect(() => {
+    const onScroll = () => {
+      let { scrollY } = window;
+      setScroll(Boolean(scrollY));
+      let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
+      if (TargetStyle) {
+        TargetStyle.transition = "0.2s";
+        if (scrollY) {
+          TargetStyle.backgroundColor = "#fff";
+          TargetStyle.borderBottom = "0.5px grey dotted";
+        } else {
+          TargetStyle.backgroundColor = "#FA719A";
+          TargetStyle.borderBottom = "none";
+        }
+      }
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // useEffect(() => {
   //   let daily = [
