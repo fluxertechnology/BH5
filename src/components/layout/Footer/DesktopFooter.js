@@ -8,20 +8,18 @@ import Image from "next/image";
 import styled from "styled-components";
 import Grid2 from "@mui/material/Grid2";
 import { useState } from 'react';
+import { QRCodeCanvas as QRCode } from "qrcode.react";
 
 // start copy of constants
-const colors = {
-  dark_pink: "#FA719A",
-  light_pink: "#fcdce5",
-  back_dark_pink: "#f24c7c",
-  text_grey: "#646464",
-  text_light_grey: "#a8a8a8",
-  back_grey: "#f4f4f4",
-  light_star: "#fde17b",
-  grey: "#f3f4f5",
-};
+const downloadPage = [
+  "https://bc6y9.com",
+  "https://trun.2jidj7m.com/share",
+  "https://jingyindao-1.com/",
+];
 
 const officialContact = "https://sto13.com/offcial";
+const profileService = "https://189.cafe/Sshzd";
+const profileFeedback = "https://189.cafe/Slq3n";
 
 const pageUrlConstants = {
   post: {
@@ -631,8 +629,6 @@ const pageUrlConstants = {
 
 const { home } = pageUrlConstants;
 
-// import app_download from "/footer/app_download.svg";
-// import app_download_dark from "/footer/app_download_dark.svg";
 const DesktopFooter = ({ locale }) => {
   // const t = useTranslations('Footer');
   // const router = useRouter();
@@ -701,7 +697,7 @@ const DesktopFooter = ({ locale }) => {
                 item="true"
                 sm="true"
                 key={index}
-                // onClick={item.onClick}
+                onClick={item.onClick}
                 className="cursor-pointer mt-3 link"
               >
                 {item.text}
@@ -727,7 +723,7 @@ const DesktopFooter = ({ locale }) => {
           </div> */}
         </div>
         <div className="area_right">
-          {/* <QrCode /> */}
+          <QrCode />
           <FriendSocial />
         </div>
       </div>
@@ -839,6 +835,124 @@ export const PCFooterElement = styled.div`
   }
 `;
 
+/*
+QRCode Start
+*/
+
+let timer;
+let touchduration = 500;
+const QrCode = () => {
+  const [isHover, setIsHover] = useState(false);
+  // const intl = useIntl();
+  function qrcodeStart(e) {
+    timer = setTimeout(qrcodeLong, touchduration);
+  }
+  function qrcodeEnd(e) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+  }
+
+  function qrcodeLong() {
+    let link = document.createElement("a");
+    link.href = downloadPage[1];
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.click();
+  }
+  function onHover() {
+    setIsHover(true);
+  }
+  function onLeaveHover() {
+    setIsHover(false);
+  }
+  return (
+    <QrCodeElement>
+      <div className="qrcode">
+        <div>
+          <Image
+            width={"56"}
+            height={"56"}
+            onMouseEnter={onHover}
+            onMouseLeave={onLeaveHover}
+            className={"search_bar_nav_item_btn_img"}
+            src={isHover ? "/images/footer/app_download_dark.svg" : "/images/footer/app_download.svg"}
+            alt={"app_download"}
+          />
+        </div>
+        <div className="pt-1 qrcode_text">
+          Download APP
+        </div>
+        <div className="qrcode_float">
+          <ol>
+            <li>
+              Scan to download APP
+            </li>
+            <li>
+              <QRCode
+                className="share_info_qrcode_item_img"
+                value={downloadPage[1]}
+                onTouchStart={qrcodeStart}
+                onTouchEnd={qrcodeEnd}
+              />
+            </li>
+          </ol>
+        </div>
+      </div>
+    </QrCodeElement>
+  );
+};
+
+const QrCodeElement = styled.div`
+  /*  */
+  margin-right: 2em;
+  font-size: 1.1rem;
+
+  .qrcode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    white-space: nowrap;
+    color: #646464;
+    &_float {
+      display: none;
+    }
+    li {
+      margin: 5px;
+    }
+    &:hover {
+      .qrcode_float {
+        z-index: 100;
+        font-size: 14px;
+        color: #646464;
+        background-color: #fff;
+        padding: 5px;
+        text-align: center;
+        position: absolute;
+        display: flex;
+        bottom: 100px;
+        left: -50px;
+        border-radius: 5px;
+        box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
+        z-index: 1;
+
+        .share_info_qrcode_item_img{
+          width: 128px;
+          height: 128px;
+          margin: 5px auto;
+        }
+      }
+      .qrcode_text {
+        color: #f24c7c;
+      }
+    }
+  }
+`;
+
+/*
+Friend Social Start
+*/
 const FriendSocial = () => {
   // const intl = useIntl();
   const [isHover, setIsHover] = useState(false);
