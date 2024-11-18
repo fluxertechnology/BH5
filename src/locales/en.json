@@ -102,6 +102,11 @@
     "download_app_description": "Scan the QR code to download the mobile app and receive free VIP",
     "download_app_description_1": "*Only for new mobile users"
   },
+  "Game": {
+    "label": {
+      "game": "Games"
+    }
+  },
   "Vendor": {
     "mall": "Shop",
     "free": "Free"
