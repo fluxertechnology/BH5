@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-20 -432) translate(20 432)">
+                    <rect width="37" height="37" fill="#FA719A" rx="18.5"/>
+                    <g stroke="#FFF" stroke-linejoin="round" stroke-width="2">
+                        <path d="M0 8.653L20.556 0 11.92 20.556 8.515 12.732z" transform="translate(6.167 10.278)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

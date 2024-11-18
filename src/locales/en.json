@@ -1,16 +1,99 @@
 {
-    "Home": {
-        "title": "B ChiYuan-Gentleman Animation Exchange",
-        "description": "B 2D has the latest and hottest animation and comic content, allowing you to find the latest domestic and foreign animation content at any time. All excellent content is in B 2D."
+  "Home": {
+    "title": "B ChiYuan-Gentleman Animation Exchange",
+    "description": "B 2D has the latest and hottest animation and comic content, allowing you to find the latest domestic and foreign animation content at any time. All excellent content is in B 2D.",
+    "continue_watch": "Continue Watch",
+    "added_this_week": "Latest",
+    "added_this_week_comic": "New Additions This Week Comic",
+    "all_comic": "All Comic",
+    "all_anime": "All Anime",
+    "added_this_week_anime": "New Additions This Week Anime",
+    "popular_animate": "Popular Anime",
+    "popular_comic": "Popular Comic",
+    "ranking": {
+      "comic": "Ranking Comic",
+      "anime": "Ranking Anime"
     },
-    "Navbar": {
-        "home": "Home",
-        "about": "About",
-        "contact": "Contact",
-        "english": "English",
-        "chinese_hant": "Traditional Chinese"
+    "eula_title": "BHub User Service Agreement, Animation Platform Privacy Policy"
+  },
+  "Navbar": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "english": "English",
+    "chinese_hant": "Traditional Chinese"
+  },
+  "Common": {
+    "error": "Something went wrong!"
+  },
+  "Global": {
+    "money": "Diamond",
+    "see_all": "See All",
+    "dollar": "Dollar",
+    "status": {
+      "pending": "Pending",
+      "pass": "Pass",
+      "reject": "Reject",
+      "expired": "Expired"
     },
-    "Common":{
-        "error":"Something went wrong!"
+    "label": {
+      "day": "day",
+      "buy": {
+        "fold": "Off",
+        "discount": "Discount"
+      }
+    },
+    "common": "Episode:",
+    "chapter": " ",
+    "3d": "3D",
+    "word": " ",
+    "all": "All",
+    "free": "Free",
+    "payment": "Paid",
+    "list": "Menu",
+    "clean": "Clear",
+    "setting": "Aa",
+    "total": "Total ",
+    "more": "More",
+    "gold_money": " B Coin",
+    "number_plays": "Play",
+    "refresh": "Reload",
+    "animate": "Anime",
+    "comics": "Comic",
+    "video": "Video",
+    "update_to": "Update To:",
+    "show_less": "Show Less",
+    "show_more": "Show More",
+    "you_also_like": "You May Like",
+    "free_for_a_limited_time": "Free",
+    "start_read": "Read in episode:",
+    "page_amount": "Page",
+    "action": {
+      "turn_pages": "Flip",
+      "turn_scroll": "Scroll",
+      "confirm": "Confirm",
+      "share": "Share",
+      "collect": "Save",
+      "charge_1": "Top Up",
+      "charge": "Top Up >>",
+      "charges": "Top Up",
+      "download": "Download",
+      "always_save": "Download ",
+      "cancel": "Cancel",
+      "download_app": "Download APP",
+      "download_app_description": "Scan to download APP",
+      "download_app_description_1": "Only For New Users On Mobile."
+    },
+    "tip": {
+      "nothing": "Empty (〒︿〒)",
+      "search": "Search"
+    },
+    "not_login": {
+      "tip": {
+        "description_1": "Register now to watch exciting clips",
+        "description_2": "Watch anime videos in one go",
+        "button": "Register now to experience"
+      }
     }
+  }
 }

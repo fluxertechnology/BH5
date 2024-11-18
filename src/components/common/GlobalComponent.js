@@ -3,15 +3,31 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-import { useGlobalContext } from "@/store";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 import { AxiosCenter } from "@/lib/services/axios";
+
+import { getAdsData } from "@/store/actions/adsList";
+import { getConfigData } from "@/store/actions/config";
+import { getNoticeData } from "@/store/actions/noticeList";
+import { initRoutes } from "@/store/actions/historyActions";
 
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (Object.keys(state.adsList).length === 0) {
+      useGlobalDispatch(getAdsData());
+    }
+    if (state.noticeList.length === 0) {
+      useGlobalDispatch(getNoticeData());
+      useGlobalDispatch(getConfigData());
+    }
+    useGlobalDispatch(initRoutes());
+  }, []);
 
   useEffect(() => {
     const quertObj = Object.fromEntries(searchParams.entries());

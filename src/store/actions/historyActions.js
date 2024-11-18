@@ -1,7 +1,7 @@
 // import { push, go, replace } from "connected-react-router";
 import { pageUrlConstants, requestUrlConstants } from "@/lib/constants";
 import { handleChangePage } from "@/lib/services/gtmEventHandle";
-import store from "../../store";
+import store from "@/store";
 import axiosRequest from "@/lib/services/axios";
 const { home } = pageUrlConstants;
 const { postAddRecordMissionList } = requestUrlConstants;

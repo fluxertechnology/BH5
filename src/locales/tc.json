@@ -1,7 +1,20 @@
 {
   "Home": {
     "title": "B次元-紳士動漫交流",
-    "description": "B二次元有最新最火热的动画、漫画内容，让你随时找到国内外最新动漫内容，优直内容都在B二次元。"
+    "description": "B二次元有最新最火热的动画、漫画内容，让你随时找到国内外最新动漫内容，优直内容都在B二次元。",
+    "continue_watch": "继续看下去",
+    "added_this_week": "本周新增",
+    "added_this_week_comic": "本周新增漫画",
+    "all_comic": "所有漫画",
+    "all_anime": "所有动画",
+    "added_this_week_anime": "本周新增动画",
+    "popular_animate": "热门动画",
+    "popular_comic": "热门漫画",
+    "ranking": {
+      "comic": "漫画排行榜",
+      "anime": "动画排行榜"
+    },
+    "eula_title": "B次元用户服务协议、动漫平台隐私政策"
   },
   "Navbar": {
     "home": "首頁",
@@ -12,5 +25,73 @@
   },
   "Common": {
     "error": "出了點問題！"
+  },
+  "Global": {
+    "money": "精钻",
+    "see_all": "看全部",
+    "dollar": "元",
+    "status": {
+      "pending": "待审核",
+      "pass": "通过",
+      "reject": "拒绝",
+      "expired": "已过期"
+    },
+    "label": {
+      "day": "天",
+      "buy": {
+        "fold": "折",
+        "discount": "折扣"
+      }
+    },
+    "common": "共",
+    "chapter": "章",
+    "3d": "3D",
+    "word": "话",
+    "all": "全部",
+    "free": "免费",
+    "payment": "付费",
+    "list": "目录",
+    "clean": "清空",
+    "setting": "Aa 设置",
+    "total": "全",
+    "more": "更多",
+    "gold_money": "金币",
+    "number_plays": "k 播放",
+    "refresh": "换一换",
+    "animate": "动画",
+    "comics": "漫画",
+    "video": "視頻",
+    "update_to": "更新至",
+    "show_less": "显示较少",
+    "show_more": "显示更多",
+    "you_also_like": "你也喜欢",
+    "free_for_a_limited_time": "免费看",
+    "start_read": "开始阅读 第",
+    "page_amount": "页数",
+    "action": {
+      "turn_pages": "翻页",
+      "turn_scroll": "滚动",
+      "confirm": "确定",
+      "share": "分享",
+      "collect": "收藏",
+      "charge_1": "充值",
+      "charge": "前往充值>",
+      "charges": "前往充值",
+      "download": "下载",
+      "always_save": "永久保存 ",
+      "cancel": "取消",
+      "download_app": "APP下载",
+      "download_app_description": "扫码下载手机APP, 领取免费VIP",
+      "download_app_description_1": "*限手机端新用户哦"
+    },
+    "tip": {
+      "nothing": "这裡还什么都没有(〒︿〒)",
+      "search": "浏览"
+    },
+    "not_login": {
+      "description_1": "立即注册，精彩片段马上看",
+      "description_2": "动画视频一次满足",
+      "button": "立即注册体验"
+    }
   }
 }
