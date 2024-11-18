@@ -291,6 +291,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
   const t = useTranslations();
   const { data, type, collectAction, rank, rankStyle, disabledPrice } =
     useContext(Props);
+
   const [likeIconStatus, setLikeIconStatus] = useState(
     Boolean(data.is_collect)
   );

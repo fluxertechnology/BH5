@@ -40,7 +40,6 @@ const ImageCarousel = ({
 
   useEffect(() => {
     setLocalState(getLocalState());
-    console.log(localState, "sdrfs");
   }, [state.adsList[adsKey.key]]);
 
   const [swiper_progress, setSwiperProgress] = useState(0);

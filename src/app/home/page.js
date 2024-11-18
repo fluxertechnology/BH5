@@ -13,9 +13,20 @@ import styled from "styled-components";
 
 import ImageCarousel from "@/components/common/ImageCarousel";
 import SlideCarousel from "@/components/common/SlideCarousel";
+import RefreshBtn from "@/components/index/RefreshBtn";
+import ShowItem from "@/components/index/ShowItem";
+import ComicRankingItem from "@/components/index/ComicRankingItem";
 
 import Image from "next/image";
+
+import mangaIcon from "@public/images/home/manga.svg";
 import newIcon from "@public/images/home/new.svg";
+import AllIcon from "@public/images/home/list.svg";
+import starIcon from "@public/images/home/star.svg";
+import gameIcon from "@public/images/home/game.svg";
+import picIcon from "@public/images/home/pic.svg";
+import videoIcon from "@public/images/home/video.svg";
+import novelIcon from "@public/images/home/novel.svg";
 
 const { getNewAnimeHome, postRefreshAnime, postContinueHistory } =
   requestUrlConstants;
@@ -120,7 +131,7 @@ export default function HomePage() {
                   src={newIcon}
                   width={0}
                   height={0}
-                  alt={t('Home.continue_watch')}
+                  alt={t("Home.continue_watch")}
                 />
                 <span className="home_Main_container_title_text_span">
                   {intl.formatMessage({ id: "HOME.MAIN.CONTINUE_WATCH" })}
@@ -147,12 +158,12 @@ export default function HomePage() {
                 src={newIcon}
                 width={0}
                 height={0}
-                alt={t('Home.added_this_week_comic')}
+                alt={t("Home.added_this_week_comic")}
               />
               <span className="home_Main_container_title_text_span">
-                {t('Home.added_this_week')}
+                {t("Home.added_this_week")}
                 <span className="home_Main_container_title_text_span_marked">
-                  {t('Global.comics')}
+                  {t("Global.comics")}
                 </span>
               </span>
             </p>
@@ -160,7 +171,7 @@ export default function HomePage() {
           <SlideCarousel items={localState.weekComicList} />
         </section>
 
-        {/* <section
+        <section
           className={`home_Main_container home_Main_hot_comic ${
             isMobile ? " g-flex-column-start " : "g-start"
           }  gap-3`}
@@ -171,10 +182,10 @@ export default function HomePage() {
                 <img
                   className="home_Main_container_title_text_img"
                   src={mangaIcon}
-                  alt={t('Home.popular_comic')}
+                  alt={t("Home.popular_comic")}
                 />
                 <span className="home_Main_container_title_text_span">
-                  alt={t('Home.popular_comic')}
+                  alt={t("Home.popular_comic")}
                 </span>
               </p>
               <div
@@ -186,7 +197,7 @@ export default function HomePage() {
                 <RefreshBtn />
               </div>
             </div>
-            <ShowItem list={hot_comic_list} />
+            <ShowItem list={localState.hot_comic_list} />
           </section>
 
           <section
@@ -196,14 +207,13 @@ export default function HomePage() {
           >
             <span className="home_Main_container_ranking_top g-flex-space-between  w-100 align-items-center px-3 py-1 ">
               <p className="home_Main_container_ranking_top_title fw-m">
-                {intl.formatMessage({ id: "HOME.MAIN.RANKING.COMIC" })}
-                {t('Home.ranking.comic')}
+                {t("Home.ranking.comic")}
               </p>
               <p
                 className="home_Main_container_subtitle"
                 onClick={() => toDetailPage("comic_ranking")}
               >
-                {t('Global.see_all')}&gt;
+                {t("Global.see_all")}&gt;
               </p>
             </span>
             <span
@@ -211,7 +221,7 @@ export default function HomePage() {
                 isMobile && "w-100 g-overflow-auto"
               } gap-2`}
             >
-              <ComicRankingItem list={rank_comic_list} />
+              <ComicRankingItem list={localState.rank_comic_list} />
             </span>
           </section>
         </section>
@@ -222,22 +232,22 @@ export default function HomePage() {
               <img
                 className="home_Main_container_title_text_img"
                 src={AllIcon}
-                alt={t('Home.all_comic')}
+                alt={t("Home.all_comic")}
               />
               <span className="home_Main_container_title_text_span">
-                {t('Home.all_comic')}
+                {t("Home.all_comic")}
               </span>
             </p>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("all_comic_list")}
             >
-              {t('Global.see_all')}&gt;
+              {t("Global.see_all")}&gt;
             </p>
           </div>
 
-          <SlideCarousel items={all_comic_list} />
-        </section> */}
+          <SlideCarousel items={localState.all_comic_list} />
+        </section>
       </article>
     </HomeMainPageElement>
   );
