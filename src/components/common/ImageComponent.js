@@ -1,11 +1,12 @@
-import React, { lazy, useState } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
- 
+
 import placeholder_300x300 from "@public/images/imgPlaceholder/300x300.jpg";
 import { colors } from "@/lib/constants";
 import viewIcon from "@public/images/icons/view.svg";
 import { judeTotalViewUnit } from "@/store/actions/utilities";
+import Image from "next/image";
 
 const ImageComponent = ({
   cover = false,
@@ -41,6 +42,17 @@ const ImageComponent = ({
     return false;
   }
 
+  const imageLoader = ({ src }) => {
+    if (src.includes("http")) {
+      return src;
+    }
+    const imgFolderPath = src.split("/").slice(0, -1).join("/");
+    if (src.includes(imgFolderPath)) {
+      return src;
+    }
+    return `${imgFolderPath}${src.startsWith("/") ? src : `/${src}`}`;
+  };
+
   return (
     <ImageComponentElement
       className={className}
@@ -52,26 +64,29 @@ const ImageComponent = ({
       img_border={img_border}
       continueWatch={continueWatch}
     >
-      <img
+      <Image
         className={`img ${src && lazyLoad ? "lazyload" : ""}`}
-        src={src}
-        data-src={src}
-        alt={alt}
+        src={src ?? (placeholderImg || placeholder_300x300.src)}
+        blurDataURL={placeholderImg || placeholder_300x300.src}
+        width={0}
+        height={0}
+        alt={alt ?? "unknown-pic"}
         title={title}
         style={imgStyle}
         onContextMenu={preventMenu}
+        loader={imageLoader}
         onLoad={(e) => {
           if (toFixSize) {
-            // let img = document.createElement("img");
-            // img.src = e.target.src;
-            // img.addEventListener("load", function () {
-            //   setFixHeight((img.height / img.width) * 100);
-            //   img.remove();
-            // });
+            let img = document.createElement("img");
+            img.src = e.target.src;
+            img.addEventListener("load", function () {
+              setFixHeight((img.height / img.width) * 100);
+              img.remove();
+            });
           }
         }}
         onError={(e) => {
-        //   e.target.src = placeholderImg || placeholder_300x300;
+          // e.target.src = placeholderImg || placeholder_300x300.src; TODO(ZY)
         }}
         draggable="false"
         {...props}
@@ -79,7 +94,13 @@ const ImageComponent = ({
       {isFree && <div className="free_tip">{t("Global.free")}</div>}
       {total_view_show && (
         <div className="total_view">
-          <img src={viewIcon} alt="b次元观看数" title="b次元观看数" />
+          <Image
+            src={viewIcon}
+            width={0}
+            height={0}
+            alt="b次元观看数"
+            title="b次元观看数"
+          />
           {judeTotalViewUnit(total_view)}
         </div>
       )}

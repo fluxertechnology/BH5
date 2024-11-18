@@ -4,8 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import Cookies from "js-cookie"; // Make sure to import Cookies
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { main_height } from "@/components/layout/header/TopBarContainer";
-import WavaButton from "@/components/layout/header/WavaButton";
+import { main_height } from "@/components/layout/Header/TopBarContainer";
+import WavaButton from "@/components/layout/Header/WavaButton";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";

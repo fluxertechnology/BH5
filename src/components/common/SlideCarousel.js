@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import CoverCubeItem from "@/components/common/CoverCubeItem";
-// import FeaturedCard from "../../Games/component/FeaturedCard";
-// import PictureCard from "../../component/PictureCard";
+import FeaturedCard from "@/components/games/FeaturedCard";
+import PictureCard from "@/components/common/PictureCard";
 import useMediaQcuery from "@/hooks/useMediaQuery";
 
 import arrowIcon from "@public/images/icons/arrow.svg";
