@@ -179,7 +179,7 @@
       "button": "立即注册体验"
     }
   },
-  "toast": {
+  "Toast": {
     "send_success": "贈送成功~",
     "buy_success_1": "购买成功~",
     "empty": "空空的 (ఠ్ఠ ˓̭ ఠ్ఠ)",
@@ -200,7 +200,7 @@
     "unsuccess_unactivie_code": "你还没输入激活码喔",
     "no_see_opinion_and_pic": "没看到意见和图片 (´･ω･`)"
   },
-  "post": {
+  "Post": {
     "dynamic_news": "动态详情",
     "modal_title": "要储存推文吗",
     "modal_content": "你可以储存这个推荐文，以后可以再次发送。",

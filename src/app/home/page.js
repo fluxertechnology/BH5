@@ -187,7 +187,7 @@ export default function HomePage() {
                   alt={t("Home.popular_comic")}
                 />
                 <span className="home_Main_container_title_text_span">
-                  alt={t("Home.popular_comic")}
+                  {t("Home.popular_comic")}
                 </span>
               </p>
               <div

@@ -38,7 +38,6 @@ const TopBarContainer = ({
       {...props}
     >
       {children}
-      <button onClick={() => (main_height = 123)}>Click me</button>
     </TopBarContainerElement>
   );
 };

@@ -91,7 +91,6 @@ export function scrollPage() {
   toScroll();
 }
 export function clearScrollPage(state=null) {
-  console.log(state,'state');
   let storeData = state??store.getState();
   window.sessionStorage.removeItem(
     "scroll:" + storeData.router.location.pathname
