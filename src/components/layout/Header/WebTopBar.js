@@ -5,11 +5,10 @@ import { useReducer } from "react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { colors, pageUrlConstants } from "@/lib/constants";
+import { main_height } from "@/components/layout/Header/TopBarContainer";
+import WavaButton from "@/components/layout/Header/WavaButton";
+import { colors, pageUrlConstants, padding } from "@/lib/constants";
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
-
-const padding = 20;
-let main_height = global?.window && window.innerWidth > 768 ? 72 : 50;
 
 const TopSearchBar = ({
   isPlaceholder,
@@ -1208,87 +1207,6 @@ const TopsearchBarElement = styled.div`
 `;
 
 /* 
-  Start Wava Button
-  */
-let sec = 750;
-function getOffset(elem) {
-  var docElem,
-    // var docElem, win,
-    box = { top: 0, left: 0 },
-    doc = elem && elem.ownerDocument;
-  docElem = doc.documentElement;
-  if (typeof elem.getBoundingClientRect !== typeof undefined) {
-    box = elem.getBoundingClientRect();
-  }
-  // win = getWindow(doc);
-  return {
-    top: box.top - docElem.clientTop,
-    left: box.left - docElem.clientLeft,
-    // top: box.top + win.pageYOffset - docElem.clientTop,
-    // left: box.left + win.pageXOffset - docElem.clientLeft
-  };
-}
-
-const WavaButton = ({ className = "", type = 0, children }) => {
-  const wavaRef = useRef(null);
-  function WavaEffect(e) {
-    let offset = getOffset(wavaRef.current);
-    // for(let i = 0 ; i < currentRefs.length; i++) {
-    //   offTop = offTop + currentRefs[i].current.offsetTop;
-    // }
-    const wave = document.createElement("div");
-    wave.className = "wava";
-    wave.style.top = e.clientY - offset.top + "px";
-    wave.style.left = e.clientX - offset.left + "px";
-    wavaRef.current.appendChild(wave);
-    setTimeout(() => {
-      wave.remove();
-    }, sec);
-  }
-  return (
-    <WavaButtonElement
-      ref={wavaRef}
-      className={className}
-      type={type}
-      onClick={WavaEffect}
-    >
-      {children}
-    </WavaButtonElement>
-  );
-};
-
-const WavaButtonElement = styled.div`
-  /*  */
-  position: relative;
-  overflow: hidden;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  .wava {
-    pointer-events: none;
-    position: absolute;
-    transform: translate(-50%, -50%) scale(0);
-    width: 100px;
-    height: 100px;
-    background-color: ${({ type }) => (type ? "#fff" : "#000")};
-    border-radius: 50%;
-    opacity: 30%;
-    animation: wava-animation ${sec / 1000}s;
-  }
-
-  @keyframes wava-animation {
-    0% {
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 30%;
-    }
-
-    100% {
-      transform: translate(-50%, -50%) scale(3);
-      opacity: 0%;
-    }
-  }
-`;
-
-/* 
   Start Search Bar
   */
 const Searchbar = ({
@@ -1411,4 +1329,93 @@ const SearchbarElement = styled.div`
     }
   }
 `;
+
+// const TopSearchBarStateToProps = (state, ownProps) => {
+//   let newNotice = 0;
+//   let noticeList = state.noticeList || [];
+//   let noticeListRead = state.noticeListRead || [];
+//   for (let i = 0; i < noticeList.length; i++) {
+//     if (noticeListRead.indexOf(noticeList[i].id) === -1) {
+//       newNotice++;
+//     }
+//   }
+
+//   return {
+//     config: state.config,
+//     user: state.user,
+//     isPlaceholder: true,
+//     location: state.router.location.pathname || "",
+//     newNotice: newNotice,
+//     avatar: state.user.avatar,
+//     userId: state.user.id,
+//     highlightRechargeState: state.config.highlightRechargeState,
+//     videoDataList: state.myWatchHistory["anime_video_list"] || [],
+//     comicDataList: state.myWatchHistory["anime_comic_list"] || [],
+//   };
+// };
+
+// const TopSearchBarDispatchToProps = (dispatch) => {
+//   const intl = useIntl();
+//   return {
+//     clickItem: (routes) => {
+//       dispatch(pushRoutes(routes));
+//     },
+//     clearUserData: () => {
+//       dispatch(userLoginOutAction());
+//       dispatch(clearVipInfoAction());
+//       dispatch(backRoutes());
+//       dispatch(userFBLoginOutAction());
+//       dispatch(initPostData());
+//     },
+//     clickSearch: () => {
+//       dispatch(pushRoutes(home.pages.homeSearch));
+//     },
+//     clickService: () => {
+//       window.open("https://bli2pay.com/8jcng");
+//     },
+//     toPaymentPage: () => {
+//       dispatch(updateRechargeStateAction(true));
+//       dispatch(pushRoutes(profile.pages.profilePayment));
+//     },
+//     clickNew: () => {
+//       dispatch(pushRoutes(notice));
+//     },
+//     clickAvatar: () => {
+//       const userData = store.getState().user;
+//       if (userData.id !== "guest") {
+//         dispatch(pushRoutes(profile.pages.profileMain));
+//       } else {
+//         dispatch(pushRoutes(login));
+//       }
+//     },
+//     clickLogin: () => {
+//       dispatch(pushRoutes(login));
+//     },
+//     clickCollect: () => {
+//       dispatch(
+//         pushRoutes(profile.pages.profileMyCollect.pages.profileMyCollectComic)
+//       );
+//     },
+//     clickSetting: () => {
+//       dispatch(pushRoutes(profile.pages.profileEdit.pages.profileEditInfo));
+//     },
+//     clickVip: () => {
+//       dispatch(
+//         pushRoutes(profile.pages.profileBuyVip.pages.profileBuyVipCommon)
+//       );
+//     },
+//     dailyEvent: () => {
+//       dispatch(dailyLoginAction(intl));
+//     },
+//     postSearchWatchHistoryEvent: (type) => {
+//       dispatch(postSearchWatchHistoryAction(type));
+//     },
+//   };
+// };
+
+// export default connect(
+//   TopSearchBarStateToProps,
+//   TopSearchBarDispatchToProps
+// )(memo(TopSearchBar, areEqual));
+
 export default TopSearchBar;

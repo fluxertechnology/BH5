@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-export let main_height = window.innerWidth > 768 ? 72 : 50;
+export let main_height = typeof window !== "undefined" && window.innerWidth > 768 ? 72 : 50;
 
-export let sub_height = window.innerWidth > 768 ? 42 : 38;
+export let sub_height = typeof window !== "undefined" && window.innerWidth > 768 ? 42 : 38;
 
-export let sub_fontSize = window.innerWidth > 768 ? 20 : 12;
+export let sub_fontSize = typeof window !== "undefined" && window.innerWidth > 768 ? 20 : 12;
 /**
  * @description box
  *
