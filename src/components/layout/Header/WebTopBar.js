@@ -7,6 +7,11 @@ import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
 import WavaButton from "@/components/layout/Header/WavaButton";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from '@mui/lab/TabContext';
+// import TabList from "@mui/lab/TabList";
+// import TabPanel from "@mui/lab/TabPanel";
 import { colors, pageUrlConstants, padding } from "@/lib/constants";
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
 
@@ -226,7 +231,9 @@ const TopSearchBar = ({
                   }
                 >
                   <div className="search_bar_nav_item_cover" />
-                  <img
+                  <Image
+                    width={"22"}
+                    height={"22"}
                     className={"search_bar_nav_item_btn_img"}
                     src={scroll ? navItem.activeImage : navItem.image}
                     alt={navItem.name}
@@ -306,9 +313,11 @@ const TopSearchBar = ({
               </div>
             </div>
 
-            {/* <div className="search_bar_history">
-                <img
-                  src={scroll ? history_dark : history}
+            <div className="search_bar_history">
+                <Image
+                  width={"35"}
+                  height={"35"}
+                  src={scroll ? "/images/header/history_dark.svg" : "/images/header/history.svg"}
                   alt="service"
                   className="search_bar_history_img"
                 />
@@ -332,7 +341,7 @@ const TopSearchBar = ({
                   </TabContext>
                 </div>
               </div>
-  
+  {/* 
               <div className="search_bar_switch">
                 <img
                   src={judgeSwitchLangImg}

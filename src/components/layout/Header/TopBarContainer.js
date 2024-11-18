@@ -31,7 +31,7 @@ const TopBarContainer = ({
             not_fixed={not_fixed}
             show_shadow={show_shadow}
             z_index={z_index}
-            backgroundColor={backgroundColor}
+            background_color={backgroundColor}
         >
             {children}
         </TopBarContainerElement>
@@ -46,7 +46,7 @@ export default TopBarContainer;
 
 const TopBarContainerElement = styled.header`
   /*  */
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ background_color }) => background_color};
   position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};
   top: 0;
   right: 0;
