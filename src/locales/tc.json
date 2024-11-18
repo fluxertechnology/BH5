@@ -102,6 +102,11 @@
     "download_app_description": "扫码下载手机app, 领取免费vip",
     "download_app_description_1": "*限手机端新用户哦"
   },
+  "Game": {
+    "label": {
+      "game": "游戏"
+    }
+  },
   "Vendor": {
     "mall": "商城",
     "free": "免费"
