@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useTranslations } from "next-intl";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import styled from "styled-components";
@@ -11,17 +11,23 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useRouter } from "next/navigation";
 import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
+import {getVendorListAction} from "@/store/actions/pages/vendorMainAction.js"
 
 const VendorMain = () => {
     const t = useTranslations("Vendor");
     const { state } = useGlobalContext();
-    const vendorListData = state.vendorListData;
+    console.log(state,'vendorstate');
+    // const vendorListData = state.vendorListData;
     const { isMobile } = useMediaQuery();
     const router = useRouter();
 
     useEffect(() => {
         useGlobalDispatch(getVendorListAction());
     }, [isMobile]);
+
+    useEffect(()=>{
+
+    },[])
 
     function goToVendor() {
         typeof windows !== 'undefined' && window.open(vendorUrl);
@@ -35,20 +41,16 @@ const VendorMain = () => {
                         title={t("title")}
                     ></TopTitleBar>
                 ) : (
-                    <WebTopBar />
+                    <div>
+
+                    </div>
                 )}
             </TopBarContainer>
-            <ImageCarousel
-                adsKey={adsKeys.shop_top_banner}
-                threeInOneBanner={!isMobile}
-                is_cover
-                size="banner_main"
-            />
             <div className="vendor_container" onClick={goToVendor}>
                 <p className="vendor_container_title"></p>
                 <div className="vendor_container_content">
                     <Grid container direction="row" alignItems="start" spacing={2}>
-                        {vendorListData?.map((data) => (
+                        {state.vendorListData?.list?.map((data) => (
                             <Grid item md={2.4} xs={6}>
                                 <VendorItemCard data={data} />
                             </Grid>
