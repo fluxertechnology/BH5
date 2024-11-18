@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { useEffect } from "react";
 
-export let main_height = typeof window !== "undefined" && window.innerWidth > 768 ? 72 : 50;
+export let main_height = 72;
 
-export let sub_height = typeof window !== "undefined" && window.innerWidth > 768 ? 42 : 38;
+export let sub_height = 42;
 
-export let sub_fontSize = typeof window !== "undefined" && window.innerWidth > 768 ? 20 : 12;
+export let sub_fontSize = 20;
 /**
  * @description TopBarContainer component
  *
@@ -17,13 +18,16 @@ const TopBarContainer = ({
   show_shadow = "true",
   children,
   z_index = 10,
-  backgroundColor = "transparent", 
-  ...props 
+  backgroundColor = "transparent",
+  ...props
 }) => {
   const { isMobile } = useMediaQuery();
-  main_height = !isMobile ? 72 : 50;
-  sub_height = !isMobile ? 42 : 38;
-  sub_fontSize = !isMobile ? 20 : 16;
+
+  useEffect(() => {
+    main_height = !isMobile ? 72 : 50;
+    sub_height = !isMobile ? 42 : 38;
+    sub_fontSize = !isMobile ? 20 : 16;
+  }, []);
 
   return (
     <TopBarContainerElement
@@ -34,6 +38,7 @@ const TopBarContainer = ({
       {...props}
     >
       {children}
+      <button onClick={() => (main_height = 123)}>Click me</button>
     </TopBarContainerElement>
   );
 };
@@ -45,9 +50,8 @@ TopBarContainer.propTypes = {
 export default TopBarContainer;
 
 const TopBarContainerElement = styled.header.withConfig({
-    shouldForwardProp: (prop) =>
-      !["not_fixed", "show_shadow"].includes(prop),
-  })`
+  shouldForwardProp: (prop) => !["not_fixed", "show_shadow"].includes(prop),
+})`
   /*  */
   background-color: ${({ background_color }) => background_color};
   position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};

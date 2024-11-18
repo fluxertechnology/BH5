@@ -606,7 +606,10 @@ const TopSearchBar = ({
 //   TopSearchBarDispatchToProps
 // )(memo(TopSearchBar, areEqual));
 
-const TopsearchBarElement = styled.div`
+const TopsearchBarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["scroll"].includes(prop),
+})`
   /*  */
   padding-right: ${padding}px;
   padding-left: ${padding}px;
@@ -1258,7 +1261,10 @@ const Searchbar = ({
   );
 };
 
-const SearchbarElement = styled.div`
+const SearchbarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["scroll"].includes(prop),
+  })`
   /*  */
   .search {
     padding: 5px;

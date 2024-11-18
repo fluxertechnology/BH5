@@ -179,9 +179,11 @@ export default function HomePage() {
           <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
               <p className="home_Main_container_title_text">
-                <img
+                <Image
                   className="home_Main_container_title_text_img"
                   src={mangaIcon}
+                  width={0}
+                  height={0}
                   alt={t("Home.popular_comic")}
                 />
                 <span className="home_Main_container_title_text_span">
@@ -229,9 +231,11 @@ export default function HomePage() {
         <section className="home_Main_container home_Main_all_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <p className="home_Main_container_title_text">
-              <img
+              <Image
                 className="home_Main_container_title_text_img"
                 src={AllIcon}
+                width={0}
+                height={0}
                 alt={t("Home.all_comic")}
               />
               <span className="home_Main_container_title_text_span">
