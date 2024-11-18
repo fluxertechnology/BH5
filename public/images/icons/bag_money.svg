@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54">
+    <defs>
+        <linearGradient id="c45c05rsla" x1="136.593%" x2="40.703%" y1="67.025%" y2="50%">
+            <stop offset="0%" stop-color="#FA719A"/>
+            <stop offset="51.661%" stop-color="#FA97AB"/>
+            <stop offset="100%" stop-color="#FBC6C0"/>
+        </linearGradient>
+        <linearGradient id="j8lvwssbob" x1="136.593%" x2="40.703%" y1="104.479%" y2="50%">
+            <stop offset="0%" stop-color="#FA719A"/>
+            <stop offset="51.661%" stop-color="#FA97AB"/>
+            <stop offset="100%" stop-color="#FBC6C0"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <path d="M0 0H54V54H0z" transform="translate(-360 -426) translate(360 426)"/>
+                <g>
+                    <path fill="url(#c45c05rsla)" stroke="#000" stroke-width="2" d="M13.656 8.594c-.18-.187-.33-.42-.434-.69L11.68 3.9c-.572-1.483.332-3.176 1.694-3.176h12.361c1.363 0 2.267 1.693 1.696 3.176L25.89 7.904c-.1.262-.245.49-.419.672" transform="translate(-360 -426) translate(360 426) translate(7 6)"/>
+                    <path fill="url(#j8lvwssbob)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23.54 40.631H15.57c-8.969 0-15.89-7.115-14.717-15.13l.501-3.422c1.205-8.23 8.99-14.382 18.2-14.382 9.212 0 16.996 6.153 18.201 14.382l.501 3.422c1.175 8.015-5.748 15.13-14.717 15.13z" transform="translate(-360 -426) translate(360 426) translate(7 6)"/>
+                    <path fill="#000" d="M25.095 25.646h-4.143v-2.14h4.143c.77 0 1.397-.626 1.397-1.395 0-.772-.626-1.396-1.397-1.396h-2.72l2.9-3.8c.468-.614.35-1.49-.264-1.957-.614-.466-1.488-.35-1.955.262l-3.5 4.588-3.5-4.588c-.467-.612-1.342-.728-1.957-.262-.613.466-.73 1.343-.261 1.957l2.898 3.8h-2.72c-.772 0-1.396.624-1.396 1.396 0 .77.624 1.395 1.396 1.395h4.144v2.14h-4.144c-.772 0-1.396.626-1.396 1.396 0 .771.624 1.397 1.396 1.397h4.144v3.82c0 .772.625 1.396 1.396 1.396.77 0 1.396-.624 1.396-1.396v-3.82h4.143c.77 0 1.397-.626 1.397-1.397 0-.77-.626-1.396-1.397-1.396" transform="translate(-360 -426) translate(360 426) translate(7 6)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
