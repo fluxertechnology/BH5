@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, useCallback, memo } from "react";
 import { useTranslations } from "next-intl";
-import { connect, useDispatch } from "react-redux";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 
-import styled from "@emotion/styled/macro";
+import styled from "styled-components";
 import Autolinker from "autolinker";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,30 +16,30 @@ import {
 
 // import { faStar } from "@fortawesome/free-regular-svg-icons";
 
-import ImageComponent from "@/component/ImageComponent";
+import ImageComponent from "@/components/common/ImageComponent";
 
-import vip_icon from "@public/images/post/post/vip_icon.png";
+import vip_icon from "public/images/post/vip_icon.png";
 
-import coinNorIcon from "@public/images/post/post/coin_nor.svg";
-import donateNorIcon from "@public/images/post/post/donate_nor.svg";
+import coinNorIcon from "public/images/post/coin_nor.svg";
+import donateNorIcon from "public/images/post/donate_nor.svg";
 
-import msgNorIcon from "@public/images/post/post/msg_nor.png";
-import msgHoverIcon from "@public/images/post/post/msg_hover.png";
+import msgNorIcon from "public/images/post/msg_nor.png";
+import msgHoverIcon from "public/images/post/msg_hover.png";
 
-import likeNorIcon from "@public/images/post/post/like_nor.png";
-import likeHoverIcon from "@public/images/post/post/like_hover.png";
-import likePressIcon from "@public/images/post/post/like_press.png";
+import likeNorIcon from "public/images/post/like_nor.png";
+import likeHoverIcon from "public/images/post/like_hover.png";
+import likePressIcon from "public/images/post/like_press.png";
 
-import viewNorIcon from "@public/images/post/post/view_nor.png";
-import viewHoverIcon from "@public/images/post/post/view_hover.png";
+import viewNorIcon from "public/images/post/view_nor.png";
+import viewHoverIcon from "public/images/post/view_hover.png";
 
-import femaleIcon from "@public/images/post/icons/female.svg";
-import maleIcon from "@public/images/post/icons/male.svg";
-import optionIcon from "@public/images/post/icons/option.svg";
+import femaleIcon from "public/images/icons/female.svg";
+import maleIcon from "public/images/icons/male.svg";
+import optionIcon from "public/images/icons/option.svg";
 import { padding, colors, pageUrlConstants } from "@/lib/constants/index.js";
 
-import { A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
+import { A11y } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
 import { CSSTransition } from "react-transition-group";
 import { saveAs } from "file-saver";
@@ -63,9 +63,9 @@ import {
     navigatorShare,
 } from "@/store/actions/utilities";
 
-import { ReactComponent as DownloadCircleIcon } from "@public/images/post/icons/download_circle.svg";
-import LinkComponent from "@/component/LinkComponent";
-import IconEventComponent from "@/component/IconEventComponent";
+import downloadCircleIcon from 'public/images/icons/download_circle.svg';
+import LinkComponent from "@/components/common/LinkComponent";
+import IconEventComponent from "@/components/common/IconEventComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 const { post, login } = pageUrlConstants;
@@ -195,15 +195,6 @@ const PostCardItem = ({
     postData,
     index,
     showFollow = true,
-    postCardLikeEvent,
-    postCardAttentionEvent,
-    postCardDonateEvent,
-    postCardBuyMediaEvent,
-    postCardPaydownloadMediaEvent,
-    addMissionRecord,
-    toPostCardDetail,
-    postCardScribeMediaEvent,
-    postAddWatchMountEvent,
 }) => {
     const {
         id,
@@ -230,10 +221,9 @@ const PostCardItem = ({
         post_count = 0,
         vip,
     } = postData;
-    const t = useTranslations('Post');
+    const t = useTranslations();
     const tagListRef = useRef(null);
     const { isMobile } = useMediaQuery();
-    const dispatch = useDispatch();
     const [showMore, setShowMore] = useState(false);
     const [showMediaSlider, setShowMediaSlider] = useState(false);
     const [showOptionBox, setShowOptionBox] = useState(false);
@@ -264,6 +254,79 @@ const PostCardItem = ({
             onClick: () => { },
         },
     ]);
+
+    const postCardLikeEvent = (data) => {
+        if (store.getState().user.id === "guest") {
+            useGlobalDispatch(pushRoutes(pageUrlConstants.login));
+        } else {
+            useGlobalDispatch(postCardLikeEventAction(data));
+        }
+    }
+    const postCardAttentionEvent = (data) => {
+        if (userId === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(postAttentionEventAction(data));
+        }
+    }
+    const postCardDonateEvent = (data, gold, callback, action = 3, pay_type = 1) => {
+        if (userId === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(postPayEventAction(data, gold, callback, action, pay_type));
+        }
+    }
+    const postCardBuyMediaEvent = (data, gold, pay_type = 0, callback, action = 0) => {
+        if (userId === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(postPayEventAction(data, gold, callback, action, pay_type));
+        }
+    }
+    const postCardScribeMediaEvent = (data, type) => {
+        if (userId === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(postScribeEventAction(data, type));
+        }
+    }
+    const postCardPaydownloadMediaEvent = (data, callback, isVideo) => {
+        if (userId === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(
+                // postPayEventAction(data, isVideo ? 3 : 1, callback, isVideo ? 2 : 1)
+                postPayEventAction(data, isVideo ? 3 : 1, callback, 0)
+            );
+        }
+    }
+    const addMissionRecord = () => {
+        //7  保存圖片
+        useGlobalDispatch(addMissionRecordAction(7));
+    }
+    const toPostCardDetail = (dynamicId) => {
+        // if (userId === "guest") {
+        // dispatch(pushRoutes(login));
+        // } else {
+        useGlobalDispatch(
+            pushRoutes({
+                name: post.pages.postMain.pages.postCard.name + dynamicId,
+                path: post.pages.postMain.pages.postCard.path,
+                dynamic: {
+                    dynamicId: dynamicId,
+                },
+            })
+        );
+        // }
+    }
+    const postAddWatchMountEvent = (data) => {
+        if (userId === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(postAddWatchMountEvent(data));
+        }
+    }
+
     useEffect(() => {
         return () => {
             dismissPreventPageScroll();
@@ -399,12 +462,12 @@ const PostCardItem = ({
                 postData.price,
                 postData.pay_type,
                 () => {
-                    callToast(intl.formatMessage({ id: "TOAST.TIP.BUY_SUCCESS" }));
+                    callToast(t('Toast.buy_success'));
                 },
                 0
             );
         } else {
-            dispatch(pushRoutes(login));
+            useGlobalDispatch(pushRoutes(login));
         }
     }
 
@@ -428,7 +491,7 @@ const PostCardItem = ({
             addMissionRecord();
         } catch (err) {
             console.log(err);
-            callToast(intl.formatMessage({ id: "TOAST.TIP.NOTICE_ADMIN" }));
+            callToast(t('Toast.notice_admin'));
         }
     }
     function onScribe(type) {
@@ -443,7 +506,7 @@ const PostCardItem = ({
             clickMediaContent();
             postAddWatchMountEvent(postData);
         } else {
-            dispatch(pushRoutes(login));
+            useGlobalDispatch(pushRoutes(login));
         }
     }
 
@@ -470,9 +533,7 @@ const PostCardItem = ({
                     <div className="float_cover_container">
                         <div className="float_cover_container_title">
                             <p className="float_cover_container_title_text">
-                                {intl.formatMessage({
-                                    id: "POST.THX_SUPPORT",
-                                })}
+                                {t('Post.thx_support')}
                             </p>
                         </div>
                         <div className="float_cover_container_content">
@@ -480,9 +541,7 @@ const PostCardItem = ({
                                 className="float_cover_container_content_input"
                                 type="number"
                                 step="1"
-                                placeholder={intl.formatMessage({
-                                    id: "POST.PLACEHOLDER.DONATE_MONEY",
-                                })}
+                                placeholder={t('Post.placeholder_donate_money')}
                                 value={donateGold}
                                 onChange={(e) => {
                                     setDonateGold(e.target.value);
@@ -497,9 +556,7 @@ const PostCardItem = ({
                                 }}
                             >
                                 <span className="float_cover_container_btn_button_text">
-                                    {intl.formatMessage({
-                                        id: "POST.PLACEHOLDER.DONATE_DIAMOND",
-                                    })}
+                                    {t('Post.placeholder_donate_diamond')}
                                 </span>
                             </div>
                             <div
@@ -509,7 +566,7 @@ const PostCardItem = ({
                                 }}
                             >
                                 <span className="float_cover_container_btn_button_text">
-                                    {intl.formatMessage({ id: "POST.PLACEHOLDER.THINK_AGAIN" })}
+                                    {t('Post.placeholder_think_again')}
                                 </span>
                             </div>
                         </div>
@@ -530,15 +587,12 @@ const PostCardItem = ({
                     >
                         <div className="float_cover_container_title">
                             <p className="float_cover_container_title_text">
-                                {intl.formatMessage({
-                                    id: "POST.WATCH",
-                                })}
+                                {t('Post.watch')}
+
                             </p>
                         </div>
                         <div className="float_cover_container_content">
-                            {intl.formatMessage({
-                                id: "POST.WATCH_FREQUENCY",
-                            })}
+                            {t('Post.watch_frequency')}
                         </div>
                         <div className="float_cover_container_btn">
                             <div
@@ -548,9 +602,7 @@ const PostCardItem = ({
                                 }}
                             >
                                 <span className="float_cover_container_btn_button_text">
-                                    {intl.formatMessage({
-                                        id: "POST.KNOW",
-                                    })}
+                                    {t('Post.know')}
                                 </span>
                             </div>
                         </div>
@@ -576,18 +628,18 @@ const PostCardItem = ({
                             }}
                         >
                             <span className="option_cover_container_item_text">
-                                {intl.formatMessage({ id: "GLOBAL.ACTION.SHARE" })}
+                                {t('Global.action.share')}
                             </span>
                         </div>
                         <div
                             className="option_cover_container_item"
                             onClick={() => {
-                                callToast(intl.formatMessage({ id: "TOAST.TIP.REPORTED" }));
+                                callToast( t('Toast.reported'));
                                 setShowOptionBox(false);
                             }}
                         >
                             <span className="option_cover_container_item_text">
-                                {intl.formatMessage({ id: "TOAST.TIP.REPORT" })}
+                                {t('Toast.report')}
                             </span>
                         </div>
                         <div
@@ -600,8 +652,8 @@ const PostCardItem = ({
                         >
                             <span className="option_cover_container_item_text">
                                 {(is_attention === 1
-                                    ? intl.formatMessage({ id: "POST.ALREADY" })
-                                    : "") + intl.formatMessage({ id: "POST.FOCUS" })}
+                                    ? t('Post.already')
+                                    : "") + t('Post.focus')}
                             </span>
                         </div>
                         <div
@@ -612,7 +664,7 @@ const PostCardItem = ({
                             }}
                         >
                             <span className="option_cover_container_item_text cancel">
-                                {intl.formatMessage({ id: "GLOBAL.ACTION.CANCEL" })}
+                                {t('Global.action.cancel')}
                             </span>
                         </div>
                     </div>
@@ -730,11 +782,11 @@ const PostCardItem = ({
                                 className="media_slider_footer_container_btn"
                                 onClick={downloadPostData}
                             >
-                                <DownloadCircleIcon className="media_slider_footer_container_btn_icon" />
+                                <Image src={downloadCircleIcon} alt="Download Circle Icon" className="media_slider_footer_container_btn_icon" />
                                 <span className="media_slider_footer_container_btn_text">
-                                    {intl.formatMessage({ id: "GLOBAL.ACTION.ALWAYS_SAVE" })}
+                                    {t('Global.action.always_save')}
                                     {thumb[swiperNumber]?.indexOf("mp4") === -1 ? 1 : 3}{" "}
-                                    {intl.formatMessage({ id: "GLOBAL.MONEY" })}
+                                    {t('Global.money')}
                                 </span>
                             </div>
                             <div className="media_slider_footer_container_recharge">
@@ -743,7 +795,7 @@ const PostCardItem = ({
                                     routes={pageUrlConstants.profile.pages.profilePayment}
                                 >
                                     <span className="media_slider_footer_container_recharge_btn_text">
-                                        {intl.formatMessage({ id: "GLOBAL.ACTION.CHARGES" })}
+                                        {t('Global.action.charges')}
                                     </span>
                                     <FontAwesomeIcon
                                         className="media_slider_footer_container_recharge_btn_icon"
@@ -859,10 +911,10 @@ const PostCardItem = ({
                                 }}
                             >
                                 {is_top === 1
-                                    ? intl.formatMessage({ id: "POST.TO_TOP" })
+                                    ? t('Post.to_top')
                                     : (is_attention === 1
-                                        ? intl.formatMessage({ id: "POST.ALREADY" })
-                                        : "") + intl.formatMessage({ id: "POST.FOCUS" })}
+                                        ? t('Post.already')
+                                        : "") + t('Post.focus')}
                             </div>
                         </div>
                     )}
@@ -912,7 +964,7 @@ const PostCardItem = ({
                                         />
                                         <span className="post_card_body_media_cover_container_text">
                                             {price} ｜{" "}
-                                            {intl.formatMessage({ id: "POST.UNLOCK_WATCH" })}
+                                            {t('Post.unlock_watch')}
                                         </span>
                                     </div>
                                 )}
@@ -1030,7 +1082,7 @@ const PostCardItem = ({
                     >
                         <span className="post_card_footer_item_text">
                             {total_comment <= 0
-                                ? intl.formatMessage({ id: "POST.COMMENTS" })
+                                ? t('Post.comments')
                                 : total_comment}
                         </span>
                     </IconEventComponent>
@@ -1059,7 +1111,7 @@ const PostCardItem = ({
                             alt="iconCoin"
                         />
                         <span className="post_card_footer_item_text coin">
-                            {intl.formatMessage({ id: "POST.PLACEHOLDER.DONATE" })}
+                            {t('Post.placeholder_donate')}
                         </span>
                     </IconEventComponent>
                     <IconEventComponent
@@ -1074,7 +1126,7 @@ const PostCardItem = ({
                         <span className="post_card_footer_item_text">
                             {fake_total_view
                                 ? judeTotalViewUnit(fake_total_view)
-                                : intl.formatMessage({ id: "POST.WATCH" })}
+                                : t('Post.watch')}
                         </span>
                     </IconEventComponent>
                     <div
@@ -1116,44 +1168,44 @@ const PostCardItemDispatchToProps = (dispatch) => {
     return {
         postCardLikeEvent: (data) => {
             if (store.getState().user.id === "guest") {
-                dispatch(pushRoutes(pageUrlConstants.login));
+                useGlobalDispatch(pushRoutes(pageUrlConstants.login));
             } else {
-                dispatch(postCardLikeEventAction(data));
+                useGlobalDispatch(postCardLikeEventAction(data));
             }
         },
         postCardAttentionEvent: (data) => {
             if (userId === "guest") {
-                dispatch(pushRoutes(login));
+                useGlobalDispatch(pushRoutes(login));
             } else {
-                dispatch(postAttentionEventAction(data));
+                useGlobalDispatch(postAttentionEventAction(data));
             }
         },
         postCardDonateEvent: (data, gold, callback, action = 3, pay_type = 1) => {
             if (userId === "guest") {
-                dispatch(pushRoutes(login));
+                useGlobalDispatch(pushRoutes(login));
             } else {
-                dispatch(postPayEventAction(data, gold, callback, action, pay_type));
+                useGlobalDispatch(postPayEventAction(data, gold, callback, action, pay_type));
             }
         },
         postCardBuyMediaEvent: (data, gold, pay_type = 0, callback, action = 0) => {
             if (userId === "guest") {
-                dispatch(pushRoutes(login));
+                useGlobalDispatch(pushRoutes(login));
             } else {
-                dispatch(postPayEventAction(data, gold, callback, action, pay_type));
+                useGlobalDispatch(postPayEventAction(data, gold, callback, action, pay_type));
             }
         },
         postCardScribeMediaEvent: (data, type) => {
             if (userId === "guest") {
-                dispatch(pushRoutes(login));
+                useGlobalDispatch(pushRoutes(login));
             } else {
-                dispatch(postScribeEventAction(data, type));
+                useGlobalDispatch(postScribeEventAction(data, type));
             }
         },
         postCardPaydownloadMediaEvent: (data, callback, isVideo) => {
             if (userId === "guest") {
-                dispatch(pushRoutes(login));
+                useGlobalDispatch(pushRoutes(login));
             } else {
-                dispatch(
+                useGlobalDispatch(
                     // postPayEventAction(data, isVideo ? 3 : 1, callback, isVideo ? 2 : 1)
                     postPayEventAction(data, isVideo ? 3 : 1, callback, 0)
                 );
@@ -1161,13 +1213,13 @@ const PostCardItemDispatchToProps = (dispatch) => {
         },
         addMissionRecord: () => {
             //7  保存圖片
-            dispatch(addMissionRecordAction(7));
+            useGlobalDispatch(addMissionRecordAction(7));
         },
         toPostCardDetail: (dynamicId) => {
             // if (userId === "guest") {
-            // dispatch(pushRoutes(login));
+            // useGlobalDispatch(pushRoutes(login));
             // } else {
-            dispatch(
+            useGlobalDispatch(
                 pushRoutes({
                     name: post.pages.postMain.pages.postCard.name + dynamicId,
                     path: post.pages.postMain.pages.postCard.path,
@@ -1180,18 +1232,15 @@ const PostCardItemDispatchToProps = (dispatch) => {
         },
         postAddWatchMountEvent: (data) => {
             if (userId === "guest") {
-                dispatch(pushRoutes(login));
+                useGlobalDispatch(pushRoutes(login));
             } else {
-                dispatch(postAddWatchMountEvent(data));
+                useGlobalDispatch(postAddWatchMountEvent(data));
             }
         },
     };
 };
 
-export default connect(
-    PostCardItemStateToProps,
-    PostCardItemDispatchToProps
-)(memo(PostCardItem, areEqual));
+export default (memo(PostCardItem, areEqual));
 
 export const PostCardItemElement = styled.div`
   /*  */

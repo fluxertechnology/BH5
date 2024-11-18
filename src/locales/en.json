@@ -181,7 +181,7 @@
       }
     }
   },
-  "toast":{
+  "Toast":{
     "send_success": "Donate Success~",
     "buy_success_1": "Purchase Success~",
     "empty": "Empty (ఠ్ఠ ˓̭ ఠ్ఠ)",
@@ -193,16 +193,16 @@
     "report": "Report",
     "congratulations": "Report",
     "reported": "Reported",
-    "success.copy": "Copied",
-    "success.bind": "Connect Success",
-    "success.redemptioned": "Already Check-In",
-    "success.redemption": "Getting B Coin:",
-    "unsuccess.not_support": "Not Supported!",
-    "unsuccess.action.hand.copy": "Copy",
-    "unsuccess.unactivie_code": "Input the Redeem Code.",
+    "success_copy": "Copied",
+    "success_bind": "Connect Success",
+    "success_redemptioned": "Already Check-In",
+    "success_redemption": "Getting B Coin:",
+    "unsuccess_not_support": "Not Supported!",
+    "unsuccess_action_hand_copy": "Copy",
+    "unsuccess_unactivie_code": "Input the Redeem Code.",
     "no_see_opinion_and_pic": "No display comments and images"
   },
-  "post":{
+  "Post":{
     "dynamic_news": "Post Details",
     "modal_title": "Store This Post?",
     "modal_content": "Your Can Save This Post , Then Publish This。",

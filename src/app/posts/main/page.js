@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router";
-import scrollBottomCallEvent from "../../modules/scrollEvent";
+import { usePathname } from 'next/navigation'
+import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 // import PropTypes from "prop-types";
 
 import PostCardItem from "@/components/posts/PostCardItem";
@@ -13,27 +13,64 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import {
     clearScrollPage,
     pushRoutes,
-} from "../../reducers/actions/historyActions";
+} from "@/store/actions/historyActions";
 import { pageUrlConstants, userRank } from "@/lib/constants/index.js";
-import { useDispatch } from "react-redux";
-import LoadingSkeleton from "../component/LoadingSkeleton";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
+// import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
+import {getPostListAction } from '@/store/actions/pages/postsMainNewAction.js'
 
 const { profile } = pageUrlConstants;
 const PostsMainNewPage = ({
-    user,
-    postListData,
-    updatePostListData,
-    initPostListData,
-    floatBtnClick,
-    refreshData,
     showTip,
 }) => {
-    const location = useLocation();
-    const dispatch = useDispatch();
+    const location = usePathname();
     const postDescriptionRef = useRef();
     const [showPostTip, setShowPostTip] = useState(showTip);
     const { size, isMobile } = useMediaQuery();
     const { width } = size;
+    const { state } = useGlobalContext();
+
+    const getLocalState = () => {
+        const breadcrumbsLength = state.breadcrumbs.length;
+        const newRoute = state.router?.location?.pathname;
+        const notPath = state.breadcrumbs[breadcrumbsLength - 1]?.path;
+        const lastPath = state.breadcrumbs[breadcrumbsLength - 2]?.path;
+        const isFirstEnter = state.breadcrumbs.find((data, index) => {
+          if (index < breadcrumbsLength - 1) return data.path === newRoute;
+        });
+        console.log(state,'state.postListData')
+        return {
+          user: state.user,
+          refreshData:
+            notPath === lastPath || !isFirstEnter || breadcrumbsLength <= 1,
+          showTip:
+            state.breadcrumbs[breadcrumbsLength - 2]?.path === "/posts/main/add" &&
+            !state.user.is_creation,
+          postListData: state.postListData,
+        };
+    };
+
+    const [localState, setLocalState] = useState(getLocalState());
+
+    useEffect(() => {
+        setLocalState(getLocalState());
+      }, [state]);
+
+    const updatePostListData = (scrollColdEnd = () => { }) => {
+        useGlobalDispatch(getPostListAction(scrollColdEnd));
+    }
+    const initPostListData = () => {
+        useGlobalDispatch(getPostListAction(() => { }, "", "init"));
+    }
+    const floatBtnClick = () => {
+        let user = state.user;
+        if (user.id === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(pushRoutes(post.pages.postMain.pages.postAdd));
+        }
+    }
+
     useEffect(() => {
         window.addEventListener("scroll", scrollEvent);
         return () => {
@@ -44,17 +81,17 @@ const PostsMainNewPage = ({
 
     useEffect(() => {
         //如果再當前頁面在點一次側欄
-        if (refreshData || postListData.postList.length === 0) {
+        if (typeof window !== "undefined" &&(localState.refreshData || state.postListData.postList?.length === 0)) {
             initPostListData();
-            clearScrollPage();
+            clearScrollPage(state);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location]);
+    }, []);
 
     useEffect(() => {
         //對應的身分組發送貼文完顯示提示
-        if (user.rank === userRank[0] && showTip) {
+        if (state.user.rank === userRank[0] && showTip) {
             setShowPostTip(true);
             if (postDescriptionRef.current)
                 postDescriptionRef.current.style.display = "content";
@@ -91,12 +128,12 @@ const PostsMainNewPage = ({
     return (
         <PostsMainNewPageElement>
             <section className="post_main_container">
-                {postListData.postList.map((data, index) => {
+                {localState.postListData.postList?.map((data, index) => {
                     return (
                         <div key={data.id} className="post_main_item">
-                            <LoadingSkeleton>
+                            {/* <LoadingSkeleton> */}
                                 <PostCardItem postData={data} index={index} />
-                            </LoadingSkeleton>
+                            {/* </LoadingSkeleton> */}
                         </div>
                     );
                 })}
@@ -114,7 +151,7 @@ const PostsMainNewPage = ({
                 className={`create_post_tip  ${showPostTip && " open"}`}
                 ref={postDescriptionRef}
                 onClick={() =>
-                    dispatch(
+                    useGlobalDispatch(
                         pushRoutes(profile.pages.profileBuyVip.pages.profileBuyVipCommon)
                     )
                 }

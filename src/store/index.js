@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import rootReducer from "@/store/reducers";
 
 const GlobalContext = createContext();
@@ -8,6 +9,10 @@ const GlobalContext = createContext();
 let context = null;
 
 export function GlobalProvider({ children }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const quertObj = Object.fromEntries(searchParams.entries());
+  const url = `${pathname}?${searchParams}`;
   const [state, dispatch] = useReducer(rootReducer, {
     adsList: {},
     noticeList: [],
@@ -71,7 +76,17 @@ export function GlobalProvider({ children }) {
     showCoverCenter: {},
     gameListData: {},
     scrollToTopStatus: {},
-    router: {},
+    router: {
+      action: "",
+      location: {
+        hash: url.split("#")[1] || "",
+        key: "",
+        pathname,
+        query: { ...quertObj },
+        search: searchParams.toString(),
+        state: null,
+      },
+    },
   });
 
   // FORTEST: on state change

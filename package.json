@@ -12,11 +12,15 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^6.1.7",
     "@mui/lab": "^6.0.0-beta.15",
     "@mui/material": "^6.1.7",
     "aes-js": "^3.1.2",
+    "autolinker": "^4.0.0",
     "axios": "^1.7.7",
+    "file-saver": "^2.0.5",
     "js-cookie": "^3.0.5",
     "next": "15.0.3",
     "next-intl": "^3.25.0",
@@ -25,6 +29,7 @@
     "react-dom": "^18.0.0",
     "react-toastify": "^10.0.6",
     "react-transition-group": "^4.4.5",
+    "react-waypoint": "^10.3.0",
     "styled-components": "^6.1.13",
     "swiper": "^11.1.14"
   },
