@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 import ParallelCoverCubeItem from "@/components/layout/header/ParallelCoverCubeItem";
-import scrollBottomCallEvent from "@/components/layout/header/scrollEvent";
+import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 
 const ProfileWatchHistoryComic = ({
   getWatchHistory,
