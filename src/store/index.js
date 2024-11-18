@@ -12,7 +12,7 @@ export function GlobalProvider({ children }) {
     adsList: {},
     noticeList: [],
     noticeListRead: [],
-    user: {},
+    user: { id: "guest" },
     config: {},
     breadcrumbs: [],
     areaCode: [],

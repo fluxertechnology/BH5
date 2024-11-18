@@ -6,10 +6,13 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import styled from "styled-components";
-import TopBarContainer from "@/components/layout/Header/TopBarContainer"
-import WebTopBar from "@/components/layout/Header/WebTopBar"
-import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar"
-import { main_height, sub_height } from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
+import WebTopBar from "@/components/layout/Header/WebTopBar";
+import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
+import {
+  main_height,
+  sub_height,
+} from "@/components/layout/Header/TopBarContainer";
 
 const DesktopHeader = ({ locale }) => {
   const t = useTranslations("Navbar");
@@ -23,15 +26,9 @@ const DesktopHeader = ({ locale }) => {
   const { isDesktop, isTablet, isMobile, isTouchDevice } = useMediaQuery();
 
   return (
-    // <StyleSheetManager shouldForwardProp={() => true}>
-      <HomeMainSwitchPageElement>
-        <TopBarContainer>
-          {isDesktop && 
-            <WebTopBar />
-          }
-        </TopBarContainer>
-      </HomeMainSwitchPageElement>
-    // </StyleSheetManager>
+    <HomeMainSwitchPageElement>
+      <TopBarContainer>{isDesktop && <WebTopBar />}</TopBarContainer>
+    </HomeMainSwitchPageElement>
   );
 };
 

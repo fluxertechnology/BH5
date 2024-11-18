@@ -94,7 +94,10 @@ const ComicRankingItem = ({ list }) => {
 };
 
 export default ComicRankingItem;
-const ComicRankingElement = styled.div`
+const ComicRankingElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["index"].includes(prop),
+})`
   /*  */
   width: 100%;
   &:hover {
