@@ -7,39 +7,39 @@ export let sub_height = typeof window !== "undefined" && window.innerWidth > 768
 
 export let sub_fontSize = typeof window !== "undefined" && window.innerWidth > 768 ? 20 : 12;
 /**
- * @description box
+ * @description TopBarContainer component
  *
  * @param {*} { children }
  * @return {*}
  */
 const TopBarContainer = ({
-    not_fixed = false,
-    show_shadow = true,
-    children,
-    z_index = 10,
-    backgroundColor = "transparent",
-
+  not_fixed = "false",
+  show_shadow = "true",
+  children,
+  z_index = 10,
+  backgroundColor = "transparent", 
+  ...props 
 }) => {
-    const { isMobile } = useMediaQuery();
-    main_height = !isMobile ? 72 : 50;
+  const { isMobile } = useMediaQuery();
+  main_height = !isMobile ? 72 : 50;
+  sub_height = !isMobile ? 42 : 38;
+  sub_fontSize = !isMobile ? 20 : 16;
 
-    sub_height = !isMobile ? 42 : 38;
-
-    sub_fontSize = !isMobile ? 20 : 16;
-    return (
-        <TopBarContainerElement
-            not_fixed={not_fixed}
-            show_shadow={show_shadow}
-            z_index={z_index}
-            background_color={backgroundColor}
-        >
-            {children}
-        </TopBarContainerElement>
-    );
+  return (
+    <TopBarContainerElement
+      not_fixed={not_fixed}
+      show_shadow={show_shadow}
+      z_index={z_index}
+      background_color={backgroundColor}
+      {...props}
+    >
+      {children}
+    </TopBarContainerElement>
+  );
 };
 
 TopBarContainer.propTypes = {
-    // location: PropTypes.string.isRequired
+  // Define any PropTypes here if necessary
 };
 
 export default TopBarContainer;
@@ -58,7 +58,8 @@ const TopBarContainerElement = styled.header.withConfig({
   width: 100%;
   margin: auto;
   ${({ show_shadow }) =>
-        show_shadow ? "box-shadow: 0 1px 0px 0 rgb(0 0 0 / 30%);" : ""}
+    show_shadow === "true" ? "box-shadow: 0 1px 0px 0 rgb(0 0 0 / 30%);" : ""}
+
   @media (min-width: 599px) {
     max-width: 100%;
   }
