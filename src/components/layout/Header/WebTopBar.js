@@ -1,7 +1,5 @@
-import { StyleSheetManager } from "styled-components";
 import styled from "styled-components";
 import { usePathname } from "next/navigation";
-import { useReducer } from "react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";

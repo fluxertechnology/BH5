@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import styled from "styled-components";
-import { useState } from "react";
-import { StyleSheetManager } from "styled-components";
 import TopBarContainer from "@/components/layout/Header/TopBarContainer"
 import WebTopBar from "@/components/layout/Header/WebTopBar"
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar"
