@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import styled from "styled-components";
-import TopBarContainer from "@/components/layout/header/TopBarContainer"
-import WebTopBar from "@/components/layout/header/WebTopBar"
-import { bottom_nav_height } from "@/components/layout/header/BottomNavBar"
-import { main_height, sub_height } from "@/components/layout/header/TopBarContainer";
+import TopBarContainer from "@/components/layout/Header/TopBarContainer"
+import WebTopBar from "@/components/layout/Header/WebTopBar"
+import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar"
+import { main_height, sub_height } from "@/components/layout/Header/TopBarContainer";
 
 const DesktopHeader = ({ locale }) => {
   const t = useTranslations("Navbar");
