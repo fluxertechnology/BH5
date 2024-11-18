@@ -52,7 +52,6 @@ const ImageComponent = ({
       img_border={img_border}
       continueWatch={continueWatch}
     >
-      {src}
       <img
         className={`img ${src && lazyLoad ? "lazyload" : ""}`}
         src={src}
