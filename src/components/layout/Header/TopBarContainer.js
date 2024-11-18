@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-export let main_height = window.innerWidth > 768 ? 72 : 50;
-export let sub_height = window.innerWidth > 768 ? 42 : 38;
-export let sub_fontSize = window.innerWidth > 768 ? 20 : 12;
+export let main_height = typeof window !== "undefined" && window.innerWidth > 768 ? 72 : 50;
 
+export let sub_height = typeof window !== "undefined" && window.innerWidth > 768 ? 42 : 38;
+
+export let sub_fontSize = typeof window !== "undefined" && window.innerWidth > 768 ? 20 : 12;
 /**
  * @description TopBarContainer component
  *
@@ -43,9 +44,13 @@ TopBarContainer.propTypes = {
 
 export default TopBarContainer;
 
-const TopBarContainerElement = styled.header`
-  background-color: ${({ background_color }) => background_color}; 
-  position: ${({ not_fixed }) => (not_fixed === "false" ? "fixed" : "absolute")};
+const TopBarContainerElement = styled.header.withConfig({
+    shouldForwardProp: (prop) =>
+      !["not_fixed", "show_shadow"].includes(prop),
+  })`
+  /*  */
+  background-color: ${({ background_color }) => background_color};
+  position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};
   top: 0;
   right: 0;
   left: 0;

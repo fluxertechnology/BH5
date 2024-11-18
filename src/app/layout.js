@@ -1,5 +1,5 @@
-import DesktopHeader from "@/components/layout/Header/DesktopHeader";
-import DesktopFooter from "@/components/layout/Footer/DesktopFooter";
+import DesktopHeader from "@/components/layout/header/DesktopHeader";
+import DesktopFooter from "@/components/layout/footer/DesktopFooter";
 import GlobalComponent from "@/components/common/GlobalComponent";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
