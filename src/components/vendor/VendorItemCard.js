@@ -8,7 +8,7 @@ import { apiUrl, pageUrlConstants,colors } from "@/lib/constants/index.js";
 const { vendor } = pageUrlConstants;
 
 const VendorItemCard = ({ data }) => {
-    const t = useTranslations('vendor');
+    const t = useTranslations('Vendor');
     const { image, price, store_name } = data;
 
     return (
