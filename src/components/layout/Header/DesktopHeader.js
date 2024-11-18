@@ -619,8 +619,11 @@ const pageUrlConstants = {
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
 
 const padding = 20;
-let main_height = global?.window && window.innerWidth > 768 ? 72 : 50;
-let sub_height = global?.window && window.innerWidth > 768 ? 42 : 38;
+
+const isServer = typeof window === "undefined";
+let main_height = isServer ? 72 : (global?.window && window.innerWidth > 768 ? 72 : 50);
+let sub_height = isServer ? 42: (global?.window && window.innerWidth > 768 ? 42 : 38);
+
 const bottom_nav_height = 62;
 
 const DesktopHeader = ({ locale }) => {
