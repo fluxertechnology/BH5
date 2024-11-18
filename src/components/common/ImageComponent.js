@@ -1,7 +1,7 @@
 import React, { lazy, useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
-
+ 
 import placeholder_300x300 from "@public/images/imgPlaceholder/300x300.jpg";
 import { colors } from "@/lib/constants";
 import viewIcon from "@public/images/icons/view.svg";
