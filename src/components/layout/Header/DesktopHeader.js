@@ -13,7 +13,6 @@ import WebTopBar from "@/components/layout/Header/WebTopBar"
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar"
 import { main_height, sub_height } from "@/components/layout/Header/TopBarContainer";
 
-
 const DesktopHeader = ({ locale }) => {
   const t = useTranslations("Navbar");
   const router = useRouter();

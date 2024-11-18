@@ -1,101 +1,102 @@
-"use client"; // This directive marks the file as a Client Component
-
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
-
-import placeholder_300x300 from "public/images/imgPlaceholder/300x300.jpg";
-import { colors } from "@/lib/constants/index.js";
-import viewIcon from "public/images/icons/view.svg";
+ 
+import placeholder_300x300 from "@public/images/imgPlaceholder/300x300.jpg";
+import { colors } from "@/lib/constants";
+import viewIcon from "@public/images/icons/view.svg";
 import { judeTotalViewUnit } from "@/store/actions/utilities";
 
 const ImageComponent = ({
-    cover = false,
-    src,
-    alt,
-    title,
-    height = 100,
-    border_radius = "5px",
-    placeholderImg,
-    is_cover = false,
-    imgStyle = {},
-    toFixSize = false,
-    background_color = "#f3f4f6",
-    className = "",
-    isFree = false,
-    style = {},
-    lazyLoad = true,
-    img_border = false,
-    total_view = 0,
-    total_view_show = false,
-    continueWatch = false,
-    ...props
+  cover = false,
+  src,
+  alt,
+  title,
+  height = 100,
+  border_radius = "5px",
+  placeholderImg = "",
+  is_cover = false,
+  imgStyle = {},
+  toFixSize = false,
+  background_color = "#f3f4f6",
+  className = "",
+  isFree = false,
+  style = {},
+  lazyLoad = true,
+  img_border = false,
+  total_view = 0,
+  total_view_show = false,
+  continueWatch = false,
+  ...props
 }) => {
-    const t = useTranslations('Vendor');
-    const [fixHeight, setFixHeight] = useState(null);
+  const t = useTranslations();
+  const [fixHeight, setFixHeight] = useState(null);
 
-    function preventMenu(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        return false;
-    }
+  function preventMenu(even) {
+    var e = even || window.event;
+    e.preventDefault && e.preventDefault();
+    e.stopPropagation && e.stopPropagation();
+    e.cancelBubble = true;
+    e.returnValue = false;
+    return false;
+  }
 
-    return (
-        <ImageComponentElement
-            className={className}
-            style={style}
-            height={fixHeight || height}
-            border_radius={border_radius}
-            is_cover={is_cover}
-            background_color={background_color}
-            img_border={img_border}
-            continueWatch={continueWatch}
-        >
-            <img
-                className={`img ${src && lazyLoad ? "lazyload" : ""}`}
-                src={!lazyLoad ? src : placeholderImg || placeholder_300x300}
-                data-src={src}
-                alt={alt}
-                title={title}
-                style={imgStyle}
-                onContextMenu={preventMenu}
-                onLoad={(e) => {
-                    if (toFixSize) {
-                        const img = new Image();
-                        img.src = e.target.src;
-                        img.onload = function () {
-                            setFixHeight((img.height / img.width) * 100);
-                        };
-                    }
-                }}
-                onError={(e) => {
-                    e.target.src = placeholderImg || placeholder_300x300;
-                }}
-                draggable="false"
-                {...props}
-            />
-            {cover && <div className="cover" />}
-            {isFree && (
-                <div className="free_tip">
-                    {t("GLOBAL.FREE")}
-                </div>
-            )}
-            {total_view_show && (
-                <div className="total_view">
-                    <img src={viewIcon} alt="View count" title="View count" />
-                    {judeTotalViewUnit(total_view)}
-                </div>
-            )}
-            {continueWatch && (
-                <div className="total_view">{"Watching up to episode " + continueWatch}</div>
-            )}
-        </ImageComponentElement>
-    );
+  return (
+    <ImageComponentElement
+      className={className}
+      style={style}
+      height={fixHeight || height}
+      border_radius={border_radius}
+      is_cover={is_cover}
+      background_color={background_color}
+      img_border={img_border}
+      continueWatch={continueWatch}
+    >
+      {src}
+      <img
+        className={`img ${src && lazyLoad ? "lazyload" : ""}`}
+        src={src}
+        data-src={src}
+        alt={alt}
+        title={title}
+        style={imgStyle}
+        onContextMenu={preventMenu}
+        onLoad={(e) => {
+          if (toFixSize) {
+            // let img = document.createElement("img");
+            // img.src = e.target.src;
+            // img.addEventListener("load", function () {
+            //   setFixHeight((img.height / img.width) * 100);
+            //   img.remove();
+            // });
+          }
+        }}
+        onError={(e) => {
+        //   e.target.src = placeholderImg || placeholder_300x300;
+        }}
+        draggable="false"
+        {...props}
+      />
+      {isFree && <div className="free_tip">{t("Global.free")}</div>}
+      {total_view_show && (
+        <div className="total_view">
+          <img src={viewIcon} alt="b次元观看数" title="b次元观看数" />
+          {judeTotalViewUnit(total_view)}
+        </div>
+      )}
+      {continueWatch && (
+        <div className="total_view">{"观看至第" + continueWatch + "集"}</div>
+      )}
+    </ImageComponentElement>
+  );
 };
 
 export default ImageComponent;
 
-const ImageComponentElement = styled.div`
+const ImageComponentElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["is_cover", "img_border", "continueWatch"].includes(prop),
+})`
   /*  */
   position: relative;
   overflow: hidden;
@@ -117,7 +118,7 @@ const ImageComponentElement = styled.div`
     width: 100%;
     height: 100%;
     vertical-align: middle;
-    object-fit: ${({ is_cover }) => (is_cover ? "cover" : "contain")};
+    object-fit: ${({ is_cover = false }) => (is_cover ? "cover" : "contain")};
     -webkit-touch-callout: none;
   }
 
@@ -128,13 +129,13 @@ const ImageComponentElement = styled.div`
     bottom: 0;
     left: 0;
     background-image: ${({ continueWatch }) =>
-        continueWatch
-            ? `linear-gradient(
+      continueWatch
+        ? `linear-gradient(
       to bottom,
       rgba(83, 76, 242, 0) 29%,
       #534cf2 121%
     )`
-            : `linear-gradient(to Top, #0006 0%, #0000 100%)`};
+        : `linear-gradient(to Top, #0006 0%, #0000 100%)`};
   }
 
   .free_tip {
