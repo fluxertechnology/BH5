@@ -23,7 +23,6 @@ const VendorMain = () => {
     useGlobalDispatch(getVendorListAction());
   }, [isMobile]);
 
-  console.log(adsKeys.shop_top_banner, 'adsKeys.shop_top_banner');
   function goToVendor() {
     typeof windows !== 'undefined' && window.open(vendorUrl);
   }
