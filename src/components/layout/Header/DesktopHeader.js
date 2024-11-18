@@ -23,18 +23,17 @@ const DesktopHeader = ({ locale }) => {
   };
 
   const { isDesktop, isTablet, isMobile, isTouchDevice } = useMediaQuery();
-  const [slide_height, setSlide_height] = useState(0);
 
   return (
-    <StyleSheetManager shouldForwardProp={() => true}>
-      <HomeMainSwitchPageElement slide_height={slide_height}>
+    // <StyleSheetManager shouldForwardProp={() => true}>
+      <HomeMainSwitchPageElement>
         <TopBarContainer>
           {isDesktop && 
             <WebTopBar />
           }
         </TopBarContainer>
       </HomeMainSwitchPageElement>
-    </StyleSheetManager>
+    // </StyleSheetManager>
   );
 };
 

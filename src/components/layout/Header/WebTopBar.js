@@ -10,8 +10,8 @@ import WavaButton from "@/components/layout/Header/WavaButton";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from '@mui/lab/TabContext';
-// import TabList from "@mui/lab/TabList";
-// import TabPanel from "@mui/lab/TabPanel";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 import { colors, pageUrlConstants, padding } from "@/lib/constants";
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
 
@@ -46,12 +46,10 @@ const TopSearchBar = ({
   const [scroll, setScroll] = useState(0);
   // const [questInfoList, setQuestInfoList] = useState([]);
   // const [membershipDate, setMembershipDate] = useState("");
-  // const [tabValue, setTabValue] = React.useState(1);
+  const [tabValue, setTabValue] = useState(1);
   const { state } = useGlobalContext();
   let user = state.user;
   let userId = state.user.id;
-
-  useReducer(() => {}); //state.config.highlightRechargeState
 
   const [navList] = useState(() => [
     {
@@ -192,12 +190,12 @@ const TopSearchBar = ({
   //   clickLogin();
   // }
 
-  // const handleChange = (event, newValue) => {
-  //   setTabValue(newValue);
-  // };
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   return (
-    <StyleSheetManager shouldForwardProp={() => true}>
+    // <StyleSheetManager shouldForwardProp={() => true}>
       <TopsearchBarElement ref={ContainerRef} scroll={scroll}>
         <div className="search_bar">
           <div className="search_bar_item">
@@ -333,10 +331,10 @@ const TopSearchBar = ({
                       </TabList>
                     </Box>
                     <TabPanel value={1}>
-                      <ProfileWatchHistoryComicHandle disabledScrollRefresh />
+                      {/* <ProfileWatchHistoryComicHandle disabledScrollRefresh /> */}
                     </TabPanel>
                     <TabPanel value={0}>
-                      <ProfileWatchHistoryAnimeHandle disabledScrollRefresh />
+                      {/* <ProfileWatchHistoryAnimeHandle disabledScrollRefresh /> */}
                     </TabPanel>
                   </TabContext>
                 </div>
@@ -518,7 +516,7 @@ const TopSearchBar = ({
           {/*</div> */}
         </div>
       </TopsearchBarElement>
-    </StyleSheetManager>
+    // </StyleSheetManager>
   );
 };
 

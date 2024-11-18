@@ -44,7 +44,10 @@ TopBarContainer.propTypes = {
 
 export default TopBarContainer;
 
-const TopBarContainerElement = styled.header`
+const TopBarContainerElement = styled.header.withConfig({
+    shouldForwardProp: (prop) =>
+      !["not_fixed", "show_shadow"].includes(prop),
+  })`
   /*  */
   background-color: ${({ background_color }) => background_color};
   position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};
