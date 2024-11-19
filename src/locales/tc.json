@@ -43,7 +43,15 @@
     "bottom_navigator_dynamic": "动态",
     "bottom_navigator_and_chill": "约p",
     "bottom_navigator_mall": "商城",
-    "bottom_navigator_my": "我的"
+    "bottom_navigator_my": "我的",
+    "bar_play": "秒玩",
+    "bar_people_like": "人喜欢",
+    "bar_recharge_description": "VIP权益介绍 购买后你可以享受",
+    "bar_recharge_description_1": "会员无限观影",
+    "bar_recharge_description_2": "顺畅体验不卡顿",
+    "bar_recharge_button_notlogin": "新会员 VIP首充优惠",
+    "bar_recharge_button": "充值VIP 爽撸不间断",
+    "bar_recharge_button_1": "点我输入 VIP兑换码"
   },
   "Common": {
     "error": "出了點問題！",
@@ -104,7 +112,14 @@
   },
   "Game": {
     "label": {
-      "game": "游戏"
+      "game": "游戏",
+      "featured_game": "精选游戏",
+      "view_all": "查看全部",
+      "view_more": "查看更多",
+      "all_game": "全部游戏",
+      "pc_game": "PC限定",
+      "android_game": "Android限定",
+      "ranks": "排行榜"
     }
   },
   "Vendor": {
@@ -295,7 +310,9 @@
     },
     "buy": {
       "placeholder": {
-        "vip.redemption_code": "请输入兑换码"
+        "vip": {
+          "redemption_code": "请输入兑换码"
+        }
       },
       "respect": "尊敬的",
       "watch": {
@@ -305,8 +322,10 @@
       },
       "label": {
         "will_be": "将于",
-        "maturity": "到期",
-        "maturity.vip": "vip已到期 请及时续费",
+        "maturity": {
+          "": "到期",
+          "vip": "vip已到期 请及时续费"
+        },
         "vip": {
           "redemption_code": "vip会员兑换"
         },
@@ -328,7 +347,7 @@
         "info": {
           "description_1": "无限观影权益内容仅包含动画、漫画、小说、美图、直播、约Ｐ，不包含视频。",
           "description_2": "直播、约Ｐ，不包含视频。",
-          "member.description": "成为会员可享受4大权益，到期手动续费"
+          "member_description": "成为会员可享受4大权益，到期手动续费"
         }
       },
       "vip": {
@@ -398,7 +417,7 @@
     "transfer": {
       "redeem_record": "兑换记录",
       "deduct": "扣除",
-      "exchange.captions": "兑换说明",
+      "exchange_captions": "兑换说明",
       "captions_1": "1.1 精钻可兑换 100 金币",
       "captions_2": " 2.兑换完成会直接加进您的金币中，可用于观看漫画、动画、打赏或购买部分商城商品等",
       "captions_3": "3.精钻一经兑换后不得退还或取消",
@@ -452,7 +471,7 @@
           "gift": "我的礼包",
           "ollect": "我的收藏"
         },
-        "news.discount": "新优惠",
+        "news_discount": "新优惠",
         "history": {
           "buy": "购买纪录",
           "watch": "观看记录"
@@ -467,7 +486,7 @@
         "godd_stuff": "更多好康",
         "call_us": "联系我们"
       },
-      "click.login": "点击登录",
+      "click_login": "点击登录",
       "watch": {
         "mount": {
           "today": "当日观影次数"
@@ -496,13 +515,15 @@
           "award": "每天点击签到奖励获得金币奖励"
         }
       },
-      "invite.friend": "邀请好友",
-      "invite.friend.signin": "邀请好友成功注册",
-      "invite.now": "立即邀请",
-      "task": "任务看板",
-      "task.promote": "推广任务",
-      "task.everyday": "日常任务",
-      "board.description": " 人注册，获得ｖｉｐ奖励",
+      "invite_friend": "邀请好友",
+      "invite_friend_signin": "邀请好友成功注册",
+      "invite_now": "立即邀请",
+      "task": {
+        "": "任务看板",
+        "promote": "推广任务",
+        "everyday": "日常任务"
+      },
+      "board_description": " 人注册，获得ｖｉｐ奖励",
       "vip_day": "vip天數",
       "shop_coupon": "商城優惠卷",
       "personal_avatar": "個人頭像"
@@ -550,7 +571,7 @@
         "history_1": "记录",
         "own_money": "当前拥有精钻",
         "history_clear": "笔笔纪录清晰",
-        "unsuccess.description": "如订单被拒绝，点击已拒绝查看拒绝原因",
+        "unsuccess_description": "如订单被拒绝，点击已拒绝查看拒绝原因",
         "gold": "金币充值",
         "drill": "精钻充值"
       },
@@ -616,7 +637,7 @@
         "step_2_1": "或各类游戏公共频道",
         "step_3": "请好友下载APP注册后，输入你的邀请码即可生效",
         "scan_code": "立即扫码",
-        "save":{
+        "save": {
           "my_invited_code": "保存二维码"
         },
         "write": {
@@ -625,28 +646,77 @@
         "url": "分享推广链接"
       }
     },
-    "with_draw":{
-      "apply":{
+    "with_draw": {
+      "apply": {
         "": "提领金额",
         "all_money": "全部金额"
       },
       "apply_money": "最低提现金额100"
     },
-    "direct_buy_vip":{
-      "continue":{
-        "member":"立即开通VIP会员"
+    "direct_buy_vip": {
+      "continue": {
+        "member": "立即开通VIP会员"
       },
       "pay": "立即支付",
       "pay_type": "支付方式",
       "checked": "已选择",
       "buy_long": "选择购买时长",
       "submit_form": "订单已提交",
-      "modal.description": "支付成功，一般在1－5分钟内生效。如超时未生效，请您再试一次，若仍然未生效，请联系在线客服",
+      "modal_description": "支付成功，一般在1－5分钟内生效。如超时未生效，请您再试一次，若仍然未生效，请联系在线客服",
       "member_permissions": "会员特权",
       "one_month": "一个月vip",
       "third_month": "三个月vip",
       "one_year": "一年vip",
       "choice_buy_long": "已选择"
     }
+  },
+  "Search": {
+    "collect": {
+      "recent": "看看最近收藏了什么"
+    },
+    "you_want": "搜寻",
+    "hot_search": "热搜榜",
+    "search_history": "搜寻历史"
+  },
+  "Login": {
+    "login": "登录",
+    "logout": "登出",
+    "login_now": "登录",
+    "have_good_experiences": "登录即可享有更多极佳体验",
+    "welcome": "欢迎登入B次元",
+    "qq": "QQ登录",
+    "mail": "邮箱登录",
+    "revise": "立即修改",
+    "reset_password": "重置密码",
+    "tip_error": "帐号或密码不正确",
+    "tip_norepeat_password": "两个密码不相同",
+    "tip_error_must": "栏位不可为空",
+    "tip_error_mail": "邮箱格式错误",
+    "tip_error_qq": "QQ格式错误",
+    "tip_error_account": "须至少一个英文字長度8~12码",
+    "tip_error_phone": "手机格式错误",
+    "label_forget_password": "忘记密码?",
+    "label_customer_service": "联系客服",
+    "label_select_login_mode": "或是选择以下方法登录",
+    "label_pass": "略过，体验看看",
+    "label_after_second_sent": "s 再次发送",
+    "label_register": "立即注册",
+    "label_not_have_account": "还没有帐号",
+    "label_go_login": "马上登录",
+    "label_write_verity_code": "请先填写验证码",
+    "label_tip": "※请正确填写QQ号或邮箱，以免找不回帐号",
+    "placeholder_select_code": "请选择国码或地区码",
+    "placeholder_input_letter": "请输入短信验证码",
+    "placeholder_get_letter": "获取验证码",
+    "placeholder_phone": "请输入手机号码(不含国码)",
+    "placeholder_account": "请输入8-12位英数组合帐号",
+    "placeholder_password": "请输入密码",
+    "placeholder_new_password": "请输入新密码",
+    "placeholder_old_password": "请输入旧密码",
+    "placeholder_again_password": "请再次输入新密码",
+    "placeholder_mail": "请输入邮箱",
+    "placeholder_mail_verify": "请输入邮箱验证码",
+    "placeholder_mail_verify_tip": "验证码错误",
+    "placeholder_qq": "请输入QQ帐号"
   }
 }

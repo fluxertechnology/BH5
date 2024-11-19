@@ -43,7 +43,15 @@
     "bottom_navigator_dynamic": "posts",
     "bottom_navigator_and_chill": "dating",
     "bottom_navigator_mall": "shop",
-    "bottom_navigator_my": "profile"
+    "bottom_navigator_my": "profile",
+    "bar_play": "Play",
+    "bar_people_like": "people like",
+    "bar_recharge_description": "VIP Benefits: Enjoy After Purchase",
+    "bar_recharge_description_1": "Unlimited Movie Streaming For Members!",
+    "bar_recharge_description_2": "Smooth Experience",
+    "bar_recharge_button_notlogin": "First Recharge Discount for New Members",
+    "bar_recharge_button": "Recharge for VIP, happy non-stop.",
+    "bar_recharge_button_1": "Enter VIP Code By Clicking Here."
   },
   "Common": {
     "error": "Something went wrong!",
@@ -104,7 +112,14 @@
   },
   "Game": {
     "label": {
-      "game": "Games"
+      "game": "Games",
+      "featured_game": "Featured Games",
+      "view_all": "View All",
+      "view_more": "View More",
+      "all_game": "All Game",
+      "pc_game": "PC Only",
+      "android_game": "Android Only",
+      "ranks": "RANKS"
     }
   },
   "Vendor": {
@@ -181,7 +196,7 @@
       }
     }
   },
-  "Toast":{
+  "Toast": {
     "send_success": "Donate Success~",
     "buy_success_1": "Purchase Success~",
     "empty": "Empty (ఠ్ఠ ˓̭ ఠ్ఠ)",
@@ -202,7 +217,7 @@
     "unsuccess_unactivie_code": "Input the Redeem Code.",
     "no_see_opinion_and_pic": "No display comments and images"
   },
-  "Post":{
+  "Post": {
     "dynamic_news": "Post Details",
     "modal_title": "Store This Post?",
     "modal_content": "Your Can Save This Post , Then Publish This。",
@@ -241,5 +256,467 @@
     "placeholder_donate_diamond": "Donate",
     "placeholder_think_again": "Cancel",
     "thx_support": "Thank you(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
+  },
+  "Profile": {
+    "build": {
+      "input": {
+        "address": "Shipping Address",
+        "receiver": "Receiver profile"
+      },
+      "placeholder": {
+        "postal_code": "Input Postal Code",
+        "complete_address": "Shipping Address",
+        "phone": "Receiver Phone Number.",
+        "receiver_name": "Receiver Name"
+      },
+      "redemption": {
+        "": "Redeem",
+        "redemptioned": "Redeemed",
+        "fast_go": "Redeem Now"
+      },
+      "validity": {
+        "period": "Expiry Date"
+      },
+      "action": {
+        "click": {
+          "copy": "Click to Copy.",
+          "redemption": "Click to Redeem"
+        }
+      },
+      "reduce": "Discount",
+      "gold_money_once": "B coins 1 times",
+      "buy": {
+        "only_mall_consume": "Only for Shopping",
+        "remains": "",
+        "times": "Times Remaining"
+      },
+      "effect": {
+        "unuse": "Not Used",
+        "used": "Used",
+        "uneffect": "Expired",
+        "success": "Success d(`･∀･)b",
+        "unsuccess": "Fail...Try Again_(:3 」∠ )_"
+      },
+      "label": {
+        "confirm_sent": "Sent",
+        "reward": "Reward",
+        "coupon": "Coupon",
+        "my_gift": "Gifts",
+        "card": {
+          "member": "VIP",
+          "and_chill": "Dating Pass",
+          "video": "Video Pass"
+        }
+      }
+    },
+    "buy": {
+      "placeholder": {
+        "vip": {
+          "redemption_code": "Input Redeem Code"
+        }
+      },
+      "respect": "Dear",
+      "watch": {
+        "forever": "Premium VIP (Forever)",
+        "forever_1": "Premium VIP",
+        "limit": "Limited VIP"
+      },
+      "label": {
+        "will_be": "Expiry In:",
+        "maturity": {
+          "": " ",
+          "vip": "VIP Expired"
+        },
+        "vip": {
+          "redemption_code": "Redeem VIP"
+        },
+        "redeem_now": "Redeem Now",
+        "redeem_ing": "Redeeming",
+        "irredeemable": "Not redeem , Insufficient amount",
+        "buy_now": "Top Up",
+        "buy": {
+          "money": "Pay By Diamond",
+          "member": "Activate VIP"
+        },
+        "benefit_introduce": "Benefits",
+        "free": "Unlimited Watching",
+        "watch": {
+          "forever": "Unlimited Watching"
+        },
+        "exclusive": "Priority Customer Service",
+        "premium_icon": "Premium icon",
+        "info": {
+          "description_1": "Unlimited Watching only includes animes, comics, novels, and images.",
+          "description_2": "Except video.",
+          "member_description": "Premium VIP can enjoy 4 benefits."
+        }
+      },
+      "vip": {
+        "and_chill": {
+          "description": "Unlimited dating and VIP benefits"
+        },
+        "label": {
+          "watch": {
+            "forever": "Unlimited Watching",
+            "all_website_free": "Watch all videos for free"
+          },
+          "service": {
+            "priority": "Priority Customer Service",
+            "priority_after_sale": "Quick access after purchase"
+          },
+          "and_chill": {
+            "discount": {
+              "": "Dating discount",
+              "cost": "Discount"
+            }
+          }
+        }
+      },
+      "video": {
+        "card": {
+          "maturity": {
+            "until": "The Video Card Will Be Expiry In: ",
+            "description": " "
+          }
+        },
+        "label": {
+          "watch": {
+            "description": "Unlimited Watching!"
+          }
+        }
+      }
+    },
+    "edit": {
+      "info": {
+        "label": {
+          "editor_data": "Edit",
+          "editor_nick_name": "Edit Nickname",
+          "change_avatars": "Change Avatar",
+          "confirm_use_nick_name": "Confirm Use Nickname",
+          "nick_name": "Nickname",
+          "nick_name_now": "Now Nickname",
+          "nick_name_rules": "Nickname Rules",
+          "nick_name_not_comply_rules": "The Nickname Does Not Comply with the Rules and Restrictions.",
+          "confirm_edit": "Confirm Edit",
+          "tip": "Users Who Have Not Modified Their Nickname Can Change It Once for Free.",
+          "tip_need_pay": "Changing the Nickname Requires 3 Diamonds.",
+          "tip1": "The Nickname is Limited to 7 Chinese Characters or 14 English Characters and Cannot Include Numbers.",
+          "tip2": "Each Account Can Modify for Free Once, and Subsequent Modifications Will Cost 3 Diamonds Each Time.",
+          "tip3": "Nickname Should Not Contain Any Advertising Language, Marketing or Promotion, or Information About Minors. Violators Will Be Banned.",
+          "sex": "Sex",
+          "man": "Male",
+          "male": "Female",
+          "edit_password": "Change Password",
+          "logout": "Logout",
+          "choice_avatar": "Choice Avatar",
+          "unlock_have": "Unlock Have"
+        }
+      }
+    },
+    "transfer": {
+      "redeem_record": "Redeem Record",
+      "deduct": "Deduct",
+      "exchange_captions": "Exchange Instructions",
+      "captions_1": "1.Diamond can be exchanged for 100 B coins.",
+      "captions_2": "2.B coins can be used to pay for comics, animes, donate or shopping, etc.",
+      "captions_3": "3.Diamond cannot be refunded or canceled after exchange.",
+      "redeem": {
+        "": "Redeem",
+        "title": "Redeem Success",
+        "content": "Redeem Successfully Watch Or Continue Redemption",
+        "continue_redeem": "Continue Redeem",
+        "watch_now": "Watch Now"
+      },
+      "feeback": {
+        "label": {
+          "feeback": "Report",
+          "submit": "Submit",
+          "content": "Content",
+          "upload_pic": "Upload Image",
+          "upload_limit": " (MAX: 3 Images)"
+        },
+        "placeholder": {
+          "complaints": "Input Report Message. (MAX: 500)"
+        }
+      },
+      "main": {
+        "vip": {
+          "maturity": "VIP Expired",
+          "maturity1": "VIP Expired"
+        },
+        "label": {
+          "member_benefit_tip": "Member Benefit Reminder",
+          "member_description": "vip is about to expire, renew to continue enjoying member privileges",
+          "member_description_1": "Enjoy for as low as ¥50, if you have already opened vip, please ignore this popup",
+          "continue_buy": "Renew Now",
+          "member": "Member",
+          "infinite": "Unlimited",
+          "go_mall": "Go Shopping",
+          "tip": "Already Check-In Today!",
+          "telegram": "Telegram Channel",
+          "potato": "Potato Channel",
+          "description": "The pressure should be released, click me to make you happy"
+        },
+        "option": {
+          "application": "Other Applications",
+          "official_friend_group": "Offical Channel",
+          "common_problem": "FAQs",
+          "contact_us": "Contact Us",
+          "common_effect": "Common Functions",
+          "feeback": "Report",
+          "own_collect": "My Save",
+          "buy_discount": "First Buy Discount",
+          "own": {
+            "gift": "My Gifts",
+            "collect": "My Save"
+          },
+          "news.discount": "Coupon",
+          "history": {
+            "buy": "Shopping History",
+            "watch": "Watch History"
+          },
+          "news": "Notification",
+          "mall_order": "My Orders",
+          "switch_language": "Switch Language",
+          "task": {
+            "": "Missions",
+            "board": "Missions"
+          },
+          "god_stuff": "More",
+          "call_us": "Customer Service"
+        }
+      },
+      "click_login": "Login",
+      "watch": {
+        "mount": {
+          "today": "Daily Free Times"
+        }
+      },
+      "heap": {
+        "share": {
+          "account": "Share Users"
+        }
+      },
+      "nav": {
+        "my_account": "My Account",
+        "charge": "TOP UP"
+      },
+      "mission": {
+        "label": {
+          "all_permission": "Missions"
+        }
+      }
+    },
+    "permission": {
+      "signin": {
+        "everyday": "Daily Check-In",
+        "now": "Check-In Now",
+        "click": {
+          "award": "Daily Check-In to Earn B Coin"
+        }
+      },
+      "invite_friend": "Invite Friends",
+      "invite_friend_signin": "Invite Friends to Register",
+      "invite_now": "Invite Now",
+      "task": {
+        "": "Missions",
+        "promote": "Promote",
+        "everyday": "Daily Task" 
+      },
+      "board_description": " register, and get reward",
+      "vip_day": "Vip Days",
+      "shop_coupon": "Shop Coupons",
+      "personal_avatar": "Personal Avatar"
+    },
+    "my": {
+      "collect": {
+        "comic": "Comic",
+        "anime": "Anime",
+        "video": "Video",
+        "novel": "Novel",
+        "photo": "Image",
+        "own": {
+          "collect": "My Save"
+        }
+      },
+      "order": {
+        "mall": {
+          "order": "My Orders"
+        },
+        "success": "Completed",
+        "detail": {
+          "": "Order Details",
+          "total": "Amount",
+          "redeem_code": "Redeem Code",
+          "status": "Status",
+          "success": "Done",
+          "received_data": "Receiver Info.",
+          "donate": "Donate to",
+          "received": "Receiver Name:",
+          "area": "Receiver Area:",
+          "address": "Shipping Address:",
+          "post_code": "Postal Code:",
+          "cellphone": "Receiver Phone:",
+          "go": {
+            "now": "Go Now"
+          }
+        }
+      }
+    },
+    "payment": {
+      "own_gold": "B Coin",
+      "": "Diamond",
+      "charge": {
+        "history": "Shopping History",
+        "history_1": "History",
+        "own_money": "Own Diamond",
+        "history_clear": "Detail",
+        "unsuccess_description": "If the order is rejected, click Reject button to check the reason",
+        "gold": "Exchange B Coin",
+        "drill": "Top Up Diamond"
+      },
+      "own_account": "My Account",
+      "description": "100 B coins = 1 CNY(about 0.14 USD), 1 Diamond = 1 CNY(about 0.14 USD). Diamonds can activate the dating and premium VIP. Other items are activated with B coins.",
+      "transfer": {
+        "direct_purchase": "VIP Purchase",
+        "gold": "Transfer Gold",
+        "with_draw": "WithDraw",
+        "with_draw_content": "Get Your Earnings"
+      },
+      "label": {
+        "time": {
+          "": "Date",
+          "order": {
+            "status": "Status"
+          }
+        },
+        "charge": {
+          "mode": "Payment Method",
+          "type": "Payment Type",
+          "amount": "Amount"
+        }
+      }
+    },
+    "purchase": {
+      "comic_h": "Comic",
+      "animate": "Anime",
+      "video": "Video",
+      "novel": "Novel",
+      "meitu": "Image",
+      "and_chill": "Dating"
+    },
+    "setting": {
+      "info": {
+        "": "Settings",
+        "label": {
+          "mail": "Connect Email",
+          "confirm": "Confirm",
+          "about_us": "About Us",
+          "bind": {
+            "invitation": {
+              "code": "Connect Friend's invitation code"
+            }
+          },
+          "body": {
+            "description": "BHub is a great hosting service for hentai porn sites.Including hanimes, hcomics, and pron videos. Come here if you like hentai!"
+          }
+        }
+      }
+    },
+    "share": {
+      "description_1": "【Bhub-Hentai】Online Hanime, Comics, AV, and Porn Topics. Daily update of ACG content. Open Link to download.",
+      "description_2": "，Invitation code： ",
+      "description_3": "，URL：\n",
+      "description_4": "◆Save the QRCode or invitate friends to get rewards",
+      "description_5": "◆If your friend is not connected to your invitation code, please copy the invitation code and send it to your friend",
+      "description_6": "◆Invitation can get VIP rewards, please check the details in the Missions center",
+      "label": {
+        "step": "Share Tips",
+        "step_1": "Click Save QRCode or Share Link",
+        "step_2": " Send images or links to social media",
+        "step_2_1": "or other game channels",
+        "step_3": "It will take effect when the invitee enters your invitation code",
+        "scan_code": "Scan QRCode",
+        "save": {
+          "my_invited_code": "Save QRCode"
+        },
+        "write": {
+          "my_invited_code": "Fill in invitation code"
+        },
+        "url": "Share Link"
+      }
+    },
+    "with_draw": {
+      "apply": {
+        "": "With Draw Money",
+        "all_money": "All Money"
+      },
+      "apply_money": "Minimum Withdrawal Amount 100"
+    },
+    "direct_buy_vip": {
+      "continue": {
+        "member": "Activate VIP"
+      },
+      "pay": "Pay Now",
+      "pay_type": "Payment Method",
+      "checked": "Selected",
+      "buy_long": "Select Purchase Duration",
+      "submit_form": "Order Submitted",
+      "modal_description": "Payment successful, generally effective within 1-5 minutes. If it is not effective after the timeout, please try again. If it is still not effective, please contact online customer service",
+      "member_permissions": "Member Privileges",
+      "one_month": "One Month VIP",
+      "third_month": "Three Months VIP",
+      "one_year": "One Year VIP",
+      "choice_buy_long": "Selected"
+    }
+  },
+  "Search": {
+    "collect": {
+      "recent": "Show Me What I've Recently Bookmarked."
+    },
+    "you_want": "Search Something",
+    "hot_search": "Trending Search",
+    "search_history": "Search History"
+  },
+  "Login": {
+    "login": "Login",
+    "logout": "Logout",
+    "login_now": "Login",
+    "have_good_experiences": "Login To Enjoy More Excellent Experiences.",
+    "welcome": "Welcome To BHub",
+    "qq": "QQ Login",
+    "mail": "Email Login",
+    "revise": "Change",
+    "reset_password": "Reset Password",
+    "tip_error": "Account or Password Incorrect.",
+    "tip_norepeat_password": "Password Not Match",
+    "tip_error_must": "Cannot Be Empty.",
+    "tip_error_mail": "Incorrect Email.",
+    "tip_error_qq": "Incorrect QQ No.",
+    "tip_error_account": "Incorrect Account No.",
+    "tip_error_phone": "Incorrect Phone No.",
+    "forget_password": "Forgot Password?",
+    "customer_service": "Contact CS",
+    "select_login_mode": "Or Login By Other Way",
+    "pass": "SKIP",
+    "after_second_sent": "S Sent Again",
+    "register": "Register",
+    "not_have_account": "No Account?",
+    "go_login": "Login",
+    "write_verity_code": "Write Verity Code Please",
+    "tip": "※ Write Correct QQ or Mail Please",
+    "placeholder_select_code": "Select Country Code",
+    "placeholder_input_letter": "Input SMS Verification Code",
+    "placeholder_get_letter": "Send Verification Code",
+    "placeholder_phone": "Input Phone No. (Without Country Code)",
+    "placeholder_account": "Please Input 8~12 Alphanumeric",
+    "placeholder_password": "Please Input Password",
+    "placeholder_new_password": "New Password",
+    "placeholder_old_password": "Old Password",
+    "placeholder_again_password": "ReType New Password",
+    "placeholder_mail": "Please Input Your Email",
+    "placeholder_mail_verify": "Please Input Your Email Verify",
+    "placeholder_mail_verify_tip": "Verify Code Error",
+    "placeholder_qq": "Please Input QQ No."
   }
 }
