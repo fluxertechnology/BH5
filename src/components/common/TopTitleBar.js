@@ -15,6 +15,8 @@ import {
 
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 
+import { useGlobalContext, useGlobalDispatch } from "@/store";
+
 const TopTitleBar = ({
   title = "",
   iconState,
@@ -22,7 +24,6 @@ const TopTitleBar = ({
   showBack,
   backIndex,
   show_back_color = "#000",
-  backEvent,
   color = "#fff",
   back_color = colors.dark_pink,
   to_absolute = false,
@@ -32,6 +33,21 @@ const TopTitleBar = ({
   not_clear_history = false,
   show_border_bottom = false,
 }) => {
+
+  const backEvent = (backIndex, not_clear_history) => {
+    console.log(backIndex, not_clear_history);
+    if (backIndex) {
+      useGlobalDispatch(
+        pushRoutes({
+          name: pageUrlConstants.home.pages.homeMain.pages.homeVideos.name,
+          path: pageUrlConstants.home.pages.homeMain.pages.homeVideos.path,
+        })
+      );
+    } else {
+      useGlobalDispatch(backRoutes(-1, not_clear_history));
+    }
+  }
+
   return (
     <TopTitleBarElement
       color={color}
@@ -89,48 +105,9 @@ const TopTitleBar = ({
   );
 };
 
-const TopTitleBarStateToProps = (state, ownProps) => {
-  return {
-    title: ownProps.title,
-    iconState: ownProps.iconState,
-    iconCallback: ownProps.iconCallback,
-    showBack: ownProps.showBack,
-    color: ownProps.color,
-    back_color: ownProps.back_color,
-    show_back_color: ownProps.show_back_color,
-    children: ownProps.children,
-    backIndex: ownProps.backIndex,
-  };
-};
 
-const TopTitleBarDispatchToProps = (dispatch) => {
-  return {
-    backEvent: (backIndex, not_clear_history) => {
-      console.log(backIndex, not_clear_history);
-      if (backIndex) {
-        dispatch(
-          pushRoutes({
-            name: pageUrlConstants.home.pages.homeMain.pages.homeVideos.name,
-            path: pageUrlConstants.home.pages.homeMain.pages.homeVideos.path,
-          })
-        );
-      } else {
-        dispatch(backRoutes(-1, not_clear_history));
-      }
-    },
-  };
-};
 
-TopTitleBar.propTypes = {
-  title: PropTypes.string,
-  // iconState: PropTypes.number,
-  iconCallback: PropTypes.func,
-  showBack: PropTypes.bool,
-};
-
-export default compose(
-  connect(TopTitleBarStateToProps, TopTitleBarDispatchToProps)(TopTitleBar)
-);
+export default TopTitleBar;
 
 export const TopTitleBarElement = styled.div`
   /*  */

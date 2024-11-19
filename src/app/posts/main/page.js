@@ -1,339 +1,248 @@
 "use client";
 
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useIntl } from "react-intl";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router";
+import { usePathname } from 'next/navigation'
+import scrollBottomCallEvent from "@/lib/services/scrollEvent";
+// import PropTypes from "prop-types";
 
-// import SwitchRoute from "../component/SwitchRoute";
-
-import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
-import TopTitleBar from "@/components/common/TopTitleBar";
-import WebTopBar from "@/components/layout/Header/WebTopBar";
-import { pushRoutes } from "@/store/actions/historyActions";
-import { pageUrlConstants, applyOriginal,adsKeys } from "@/lib/constants/index.js";
-import ImageCarousel from "@/components/common/ImageCarousel";
+import PostCardItem from "@/components/posts/PostCardItem";
+import paperAddIcon from "@public/images/icons/paper_add.svg";
+import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import TopPressBar from "@/components/common/TopPressBar";
-import AsideGuide from "@/components/posts/AsideGuide.js";
-import AsideRecommend from "@/components/posts/AsideRecommend";
+import {
+    clearScrollPage,
+    pushRoutes,
+} from "@/store/actions/historyActions";
+import { pageUrlConstants, userRank } from "@/lib/constants/index.js";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
+// import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
+import { getPostListAction } from '@/store/actions/pages/postsMainNewAction.js'
 
-import newPostIcon from "public/images/post/newpost_nor.png";
-import followIcon from "public/images/post/follow_nor.png";
-import recommendIcon from "public/images/post/recommend_nor.png";
-import noticeIcon from "public/images/post/notice_nor.png";
+const { profile } = pageUrlConstants;
+const PostsMainNewPage = ({
+    showTip,
+}) => {
+    const location = usePathname();
+    const postDescriptionRef = useRef();
+    const [showPostTip, setShowPostTip] = useState(showTip);
+    const { size, isMobile } = useMediaQuery();
+    const { width } = size;
+    const { state } = useGlobalContext();
 
-import newPostPressIcon from "public/images/post/newpost_press.png";
-import followPressIcon from "public/images/post/follow_press.png";
-import recommendPressIcon from "public/images/post/recommend_press.png";
-import noticePressIcon from "public/images/post/notice_press.png";
+    const getLocalState = () => {
+        const breadcrumbsLength = state.breadcrumbs.length;
+        const newRoute = state.router?.location?.pathname;
+        const notPath = state.breadcrumbs[breadcrumbsLength - 1]?.path;
+        const lastPath = state.breadcrumbs[breadcrumbsLength - 2]?.path;
+        const isFirstEnter = state.breadcrumbs.find((data, index) => {
+            if (index < breadcrumbsLength - 1) return data.path === newRoute;
+        });
+        console.log(state, 'state.postListData')
+        return {
+            user: state.user,
+            refreshData:
+                notPath === lastPath || !isFirstEnter || breadcrumbsLength <= 1,
+            showTip:
+                state.breadcrumbs[breadcrumbsLength - 2]?.path === "/posts/main/add" &&
+                !state.user.is_creation,
+            postListData: state.postListData,
+        };
+    };
 
-import newsIcon from "public/images/header/topbar/news.svg";
-import moneyIcon from "public/images/post/money.svg";
+    const [localState, setLocalState] = useState(getLocalState());
 
-import store from "@/store";
-import { getRecommendList } from "@/store/actions/pages/postMainAction";
+    useEffect(() => {
+        setLocalState(getLocalState());
+    }, [state]);
 
-const { login, post } = pageUrlConstants;
-function PostsMain({
-  user,
-  showTip,
-  routes,
-  clickTabLabel,
-  floatBtnClick,
-  getRecommendList,
-  recommendList,
-}) {
-  const intl = useIntl();
-  const { isMobile } = useMediaQuery();
-  const location = useLocation();
-  const [topAreaShow, setTopAreaShow] = useState();
-  const [recommendOriginalTipShow, setRecommendOriginalTipShow] = useState(
-    location.pathname.split("/")[3] === "recommend"
-  );
-
-  useLayoutEffect(() => {
-    getRecommendList();
-  }, []);
-
-  useEffect(() => {
-    switch (location.pathname.split("/")[3]) {
-      case "dynamic":
-      case "add":
-      case "notice":
-      case "profile":
-      case "original":
-      case "dynamicTag":
-        setTopAreaShow(false);
-        break;
-      case "recommend":
-        setRecommendOriginalTipShow(true);
-        setTopAreaShow(true);
-        break;
-      default:
-        setRecommendOriginalTipShow(false);
-        setTopAreaShow(true);
-        break;
+    const updatePostListData = (scrollColdEnd = () => { }) => {
+        useGlobalDispatch(getPostListAction(scrollColdEnd));
     }
-  }, [location]);
+    const initPostListData = () => {
+        useGlobalDispatch(getPostListAction(() => { }, "", "init"));
+    }
+    const floatBtnClick = () => {
+        let user = state.user;
+        if (user.id === "guest") {
+            useGlobalDispatch(pushRoutes(login));
+        } else {
+            useGlobalDispatch(pushRoutes(post.pages.postMain.pages.postAdd));
+        }
+    }
 
-  let labelList = {
-    new: {
-      name: intl.formatMessage({ id: "POST.NEWS" }),
-      icon: newPostIcon,
-      pressIcon: newPostPressIcon,
-    },
-    track: {
-      name: intl.formatMessage({ id: "POST.FOCUS" }),
-      icon: followIcon,
-      pressIcon: followPressIcon,
-    },
-    recommend: {
-      name: intl.formatMessage({ id: "POST.RECOMMEND" }),
-      icon: recommendIcon,
-      pressIcon: recommendPressIcon,
-    },
-    notice: {
-      name: intl.formatMessage({ id: "POST.NOTICE" }),
-      icon: noticeIcon,
-      pressIcon: noticePressIcon,
-    },
-  };
-  let mobileLabelList = {
-    new: {
-      name: intl.formatMessage({ id: "POST.NEWS" }),
-      icon: newPostIcon,
-      pressIcon: newPostPressIcon,
-    },
-    track: {
-      name: intl.formatMessage({ id: "POST.FOCUS" }),
-      icon: followIcon,
-      pressIcon: followPressIcon,
-    },
-    recommend: {
-      name: intl.formatMessage({ id: "POST.RECOMMEND" }),
-      icon: recommendIcon,
-      pressIcon: recommendPressIcon,
-    },
-  };
+    useEffect(() => {
+        window.addEventListener("scroll", scrollEvent);
+        return () => {
+            window.removeEventListener("scroll", scrollEvent);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location]);
 
-  const goToApplyOriginal = () => {
-    window.open(applyOriginal);
-  };
-  return (
-    <PostsMainElement
-      showRightArea={location.pathname.split("/")[3] !== "original"}
-    >
-      {!isMobile && (
-        <TopBarContainer>
-          <WebTopBar />
-        </TopBarContainer>
-      )}
-      {topAreaShow && ( //PC版留言跟Mobile 評論、發布畫面不同需額外控制
-        <>
-          {isMobile && (
-            <React.Fragment>
-              <TopTitleBar title={intl.formatMessage({ id: "POST.DYNAMIC" })}>
-                <img
-                  src={newsIcon}
-                  alt="newsIcon"
-                  className="top_img"
-                  onClick={() => clickTabLabel("notice")}
-                />
-              </TopTitleBar>
-              {user.is_creation === 0 && (
-                <div
-                  className={`post_apply_original ${
-                    recommendOriginalTipShow && " open"
-                  }`}
-                  onClick={goToApplyOriginal}
-                >
-                  <div className="post_apply_original_left">
-                    <img src={moneyIcon} alt="money" />
-                    轻松赚取高薪！同时看得开心！
-                  </div>
-                  <div className="post_apply_original_right">
-                    申请成为原创主＞
-                  </div>
-                </div>
-              )}
-            </React.Fragment>
-          )}
-          <ImageCarousel
-            adsKey={adsKeys.home}
-            threeInOneBanner={!isMobile}
-            is_cover
-            size="banner_main"
-          />
-          {isMobile && (
-            <TopPressBar labelList={mobileLabelList} callback={clickTabLabel} />
-          )}
-        </>
-      )}
+    useEffect(() => {
+        //如果再當前頁面在點一次側欄
+        if (typeof window !== "undefined" && (localState.refreshData || state.postListData.postList?.length === 0)) {
+            initPostListData();
+            clearScrollPage(state);
+        }
 
-      <div className="layout">
-        {!isMobile && (
-          <aside className="aside_container sticky_left">
-            <AsideGuide
-              showTip={showTip}
-              user={user}
-              labelList={labelList}
-              callback={clickTabLabel}
-              floatBtnClick={floatBtnClick}
-            />
-          </aside>
-        )}
-        <article className="container">
-          {/* <SwitchRoute routes={routes} routesStep={3} /> */}
-        </article>
-        {!isMobile && location.pathname.split("/")[3] !== "original" && (
-          <AsideRecommend recommendList={recommendList} />
-        )}
-      </div>
-    </PostsMainElement>
-  );
-}
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-const PostsMainStateToProps = (state, ownProps) => {
-  const breadcrumbsLength = state.breadcrumbs.length;
-  return {
-    routes: ownProps.routes,
-    recommendList: state.postRecommend,
-    showTip:
-      state.breadcrumbs[breadcrumbsLength - 2]?.path === "/posts/main/add" &&
-      !state.user.is_creation,
-    user: state.user,
-  };
+    useEffect(() => {
+        //對應的身分組發送貼文完顯示提示
+        if (state.user.rank === userRank[0] && showTip) {
+            setShowPostTip(true);
+            if (postDescriptionRef.current)
+                postDescriptionRef.current.style.display = "content";
+            setTimeout(() => {
+                setShowPostTip(false);
+                setTimeout(() => {
+                    if (postDescriptionRef.current)
+                        postDescriptionRef.current.style.display = "none";
+                }, 1550);
+            }, 6000);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showTip]);
+
+    useEffect(() => {
+        //如果沒有這個點選提示後會有一個小BUG 會因為沒有DISPLAY NONE 點不到後面的東西
+        if (showPostTip && showTip && isMobile) {
+            if (postDescriptionRef.current)
+                postDescriptionRef.current.style.display = "flex";
+        } else {
+            if (postDescriptionRef.current)
+                postDescriptionRef.current.style.display = "none";
+        }
+    }, [showPostTip]);
+
+    function scrollEvent() {
+        scrollBottomCallEvent((scrollColdEnd) => {
+            if (!postListData.isDone) {
+                updatePostListData(scrollColdEnd);
+            }
+        });
+    }
+
+    return (
+        <PostsMainNewPageElement>
+            <section className="post_main_container">
+                {localState.postListData.postList?.map((data, index) => {
+                    return (
+                        <div key={data.id} className="post_main_item">
+                            {/* <LoadingSkeleton> */}
+                            <PostCardItem postData={data} index={index} />
+                            {/* </LoadingSkeleton> */}
+                        </div>
+                    );
+                })}
+            </section>
+            <FloatBtn
+                style={{
+                    transform: "translateX(-50%) translateX(" + width * 0.48 + "px)",
+                }}
+                onClick={floatBtnClick}
+            >
+                <img className="float_btn_img" src={paperAddIcon} alt="btnPost" />
+            </FloatBtn>
+
+            <div
+                className={`create_post_tip  ${showPostTip && " open"}`}
+                ref={postDescriptionRef}
+                onClick={() =>
+                    useGlobalDispatch(
+                        pushRoutes(profile.pages.profileBuyVip.pages.profileBuyVipCommon)
+                    )
+                }
+            >
+                免审核！充值并开通VIP即可节省新贴文和评论上架时间，点我前往开通VIP吧！
+            </div>
+        </PostsMainNewPageElement>
+    );
 };
 
-const PostsMainDispatchToProps = (dispatch) => {
-  return {
-    clickTabLabel: (key) => {
-      let upCass = key.slice(0, 1);
-      upCass = upCass.toUpperCase();
-      dispatch(
-        pushRoutes(
-          post.pages.postMain.pages["postMain" + upCass + key.slice(1)]
-        )
-      );
-    },
-    floatBtnClick: () => {
-      let user = store.getState().user;
-      if (user.id === "guest") {
-        dispatch(pushRoutes(login));
-      } else {
-        dispatch(pushRoutes(post.pages.postMain.pages.postAdd));
-      }
-    },
-    getRecommendList: () => {
-      dispatch(getRecommendList());
-    },
-  };
+PostsMainNewPage.propTypes = {
+    // title: PropTypes.string,
+    // content: PropTypes.string,
+    // noticeId: PropTypes.number
 };
 
-export default withRouter(
-  connect(PostsMainStateToProps, PostsMainDispatchToProps)(PostsMain)
-);
+export default PostsMainNewPage;
 
-const PostsMainElement = styled.div`
+export const PostsMainNewPageElement = styled.div`
   /*  */
-  background-color: #f3f4f5;
-  @media (min-width: 899px) {
-    padding-bottom: 0;
-    padding-top: ${main_height}px;
+  @media (max-width: 899px) {
+    background-color: #f3f4f5;
   }
-  .top_img {
-    width: 30px;
-    height: 30px;
-    margin-top: 5px;
-  }
-  .layout {
-    @media (min-width: 899px) {
+  .post_main {
+    &_container {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 0.5em;
-      padding: 0% 5%;
+      flex-direction: column;
+      min-height: 150vh;
     }
-    @media (min-width: 1024px) {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 0.5em;
-      padding: 0% 10%;
-    }
-    @media (min-width: 1440px) {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 0.5em;
-      padding: 0% 10%;
-    }
-  }
 
-  .container {
-    position: relative;
-    width: 100%;
-    @media (min-width: 899px) {
-      min-width: 600px;
-      width: ${({ showRightArea }) => (showRightArea ? "600px" : "1000px")};
-    }
-  }
-
-  .aside_container {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    white-space: nowrap;
-    height: 100%;
-    width: 100%;
-    max-width: 300px;
-    &.sticky {
-      &_left {
-        position: sticky;
-        top: ${main_height}px;
-      }
-    }
-  }
-
-  .post {
-    &_apply_original {
+    &_item {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      padding: 0;
-      background: #fffbeb;
-      opacity: 0;
-      height: 0;
-      transition: 0.5s;
-      @media (min-width: 899px) {
-        display: none;
-      }
+      flex-direction: column;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  .create_post {
+    &_tip {
+      position: fixed;
+      left: 45%;
+      right: 2%;
+      z-index: 999;
+      bottom: calc(${(bottom_nav_height + 10) * 3}px);
+      border-radius: 5px;
+      background: #39b3fd;
+      padding: 8px;
+      color: #fff;
+      white-space: initial;
+      font-size: 12px;
+      opacity: 0%;
+      transition: 1s;
+      cursor: default;
       &.open {
-        opacity: 1;
-        padding: 10px;
-        height: auto;
-        cursor: pointer;
-      }
-      &_left {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 600;
-        font-size: 14px;
-        img {
-          width: 20px;
-          margin-right: 5px;
+        opacity: 100%;
+        &::after {
+          position: absolute;
+          top: 0px;
+          left: 75%;
+          right: 0;
+          bottom: -10px;
+          z-index: -1;
+          clip-path: polygon(50% 100%, 0 0, 100% 0);
+          content: "";
+          background: #39b3fd;
         }
       }
-      &_right {
-        color: #ffb000;
-        font-size: 14px;
-        font-weight: 600;
-      }
     }
+  }
+`;
+
+export const FloatBtn = styled.div`
+  /*  */
+  cursor: pointer;
+  position: fixed;
+  right: 0;
+  bottom: calc(${(bottom_nav_height + 10) * 2}px);
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+  margin: auto;
+  width: 50px;
+  border-radius: 50%;
+  box-shadow: 3px 3px 6px #0006;
+  .float_btn_img {
+    width: 100%;
+    vertical-align: middle;
+  }
+  @media (min-width: 899px) {
+    display: none;
   }
 `;

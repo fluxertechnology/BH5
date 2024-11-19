@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
-import { useLocation } from "react-router";
+import { usePathname } from "next/navigation";
 
 import { colors, profileFeedback,profileService, pageUrlConstants,officialContact,downloadPage,userRank} from "@/lib/constants/index.js";
 import WavaButton from "@/components/layout/Header/WavaButton";
@@ -10,7 +10,7 @@ import postIcon from "public/images/post/post_nor.png";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
 import { Grid } from "@mui/material";
 import LinkComponent from "@/components/common/LinkComponent";
-import { useDispatch } from "react-redux";
+import { useGlobalDispatch } from "@/store";
 import { pushRoutes } from "@/store/actions/historyActions";
 import { nowLang } from "@/i18n/Metronici18n";
 
@@ -19,47 +19,39 @@ const { home, profile } = pageUrlConstants;
 const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
     const t = useTranslations();
     const postDescriptionRef = useRef();
-    const dispatch = useDispatch();
+    const dispatch = useGlobalDispatch;
     const AsideGuidRef = useRef();
-    const location = useLocation();
+    const location = usePathname();
     const [labelListKey] = useState(Object.keys(labelList));
     const [nowKey, setNowKey] = useState(labelListKey[0]);
     const [showPostTip, setShowPostTip] = useState(showTip);
     const [status, setStatus] = useState();
     let urlItems = [
         {
-            text: intl.formatMessage({
-                id: "PROFILE.MAIN.OPTION.COMMON_PROBLEM",
-            }),
+            text: t('Profile.main.option.common_problem'),
             onClick: () => window.open(profileService),
         },
         {
-            text: intl.formatMessage({
-                id: "PROFILE.MAIN.OPTION.CONTACT_US",
-            }),
+            text: t('Profile.main.option.contact_us'),
             onClick: () => window.open("mailto: cs@bbacgn.com"),
         },
         {
-            text: intl.formatMessage({
-                id: "PROFILE.FEEBACK.LABEL.FEEBACK",
-            }),
+            text: t('Profile.feeback.label.feeback'),
             onClick: () => window.open(profileFeedback),
         },
     ];
     let serviceTerms = [
         {
-            text: intl.formatMessage({
-                id: "PC.FOOTER.USER.PRIVACY.POLICY",
-            }),
+            text: t('Profile.feeback.label.feeback'),
+            // text: t('Pc.footer.user.privancy.policy'), todo
             url: {
                 name: home.pages.homeProtocol.pages.homeEULA.name,
                 path: home.pages.homeProtocol.pages.homeEULA.path,
             },
         },
         {
-            text: intl.formatMessage({
-                id: "PC.FOOTER.USER.SERVICES.AGREEMENT",
-            }),
+            text: t('Profile.feeback.label.feeback'),
+            // text: t('Pc.footer.user.services.agreement'), todo
             url: {
                 name: home.pages.homeProtocol.pages.homeTSM.name,
                 path: home.pages.homeProtocol.pages.homeTSM.path,
@@ -68,15 +60,11 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
     ];
     let otherTerms = [
         {
-            text: intl.formatMessage({
-                id: "GLOBAL.ACTION.DOWNLOAD.APP",
-            }),
+            text: t('Global.action.download_app'),
             url: downloadPage[1],
         },
         {
-            text: intl.formatMessage({
-                id: "PROFILE.MAIN.OPTION.OFFICIAL_FRIEND_GROUP",
-            }),
+            text: t('Profile.main.option.official_friend_group'),
             url: officialContact,
         },
     ];
@@ -121,10 +109,10 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
 
     useEffect(() => {
         for (let i = 0; i < labelListKey.length; i++) {
-            if (location.pathname.indexOf(labelListKey[i]) !== -1) {
+            if (location.indexOf(labelListKey[i]) !== -1) {
                 setNowKey(labelListKey[i]);
                 return;
-            } else if (!location.pathname.split("/")[3]) {
+            } else if (!location.split("/")[3]) {
                 setNowKey(labelListKey[0]);
                 return;
             }
@@ -184,7 +172,7 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
                 <div className="wava_button_container" onClick={floatBtnClick}>
                     <WavaButton className="wava_button">
                         <img src={postIcon} alt="Post Icon" />
-                        {intl.formatMessage({ id: "POST.POST_ARTICLE" })}
+                        {t('Post.post_article')}
                     </WavaButton>
                 </div>
             </div>
@@ -197,20 +185,20 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
                         alignItems="center"
                         spacing={0.5}
                     >
-                        {urlItems.map((data) => (
-                            <Grid item key={data.text} onClick={data.onClick}>
+                        {urlItems.map((data,index) => (
+                            <Grid item  key={index} onClick={data.onClick}>
                                 {data.text}
                             </Grid>
                         ))}
-                        {serviceTerms.map((data) => (
-                            <Grid item key={data.text}>
+                        {serviceTerms.map((data,index) => (
+                            <Grid item key={index}>
                                 <LinkComponent routes={data.url} className="link">
                                     {data.text}
                                 </LinkComponent>
                             </Grid>
                         ))}
-                        {otherTerms.map((data) => (
-                            <Grid item key={data.text} onClick={() => window.open(data.url)}>
+                        {otherTerms.map((data,index) => (
+                            <Grid item key={index} onClick={() => window.open(data.url)}>
                                 {data.text}
                             </Grid>
                         ))}

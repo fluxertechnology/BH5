@@ -6,7 +6,7 @@ export default getRequestConfig(async () => {
   const cookieStore = await cookies(); 
   const cookieLocale = cookieStore.get('NEXT_LOCALE')?.value; // Access the cookie value safely
   const locales = ['en', 'tc'];
-  const locale = locales.includes(cookieLocale) ? cookieLocale : 'en'; // Default to 'en'
+  const locale = locales.includes(cookieLocale) ? cookieLocale : 'tc'; // Default to 'en'
 
   return {
     locale,

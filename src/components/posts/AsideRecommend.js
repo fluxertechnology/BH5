@@ -10,81 +10,84 @@ import openVip from "public/json/profile/open_vip.json";
 import moneyIcon from "public/images/post/money.svg";
 
 const AsideRecommend = ({ recommendList }) => {
-    const AsideRecommendRef = useRef();
-    const [stickyHeight, setStickyHeight] = useState(0);
+  const AsideRecommendRef = useRef();
+  const [stickyHeight, setStickyHeight] = useState(0);
 
-    useEffect(() => {
-        if (AsideRecommendRef.current && recommendList.length) {
-            setStickyHeight(
-                window.innerHeight - AsideRecommendRef.current.clientHeight
-            );
+  useEffect(() => {
+    if (AsideRecommendRef.current && recommendList.length) {
+      setStickyHeight(
+        window.innerHeight - AsideRecommendRef.current.clientHeight
+      );
+    }
+  }, [AsideRecommendRef.current?.clientHeight, recommendList.length]);
+
+  const goToApplyOriginal = useCallback(() => {
+    window.open(applyOriginal);
+  }, []);
+
+  return (
+    <AsideRecommendElement ref={AsideRecommendRef} stickyHeight={stickyHeight}>
+      <LinkComponent
+        routes={
+          pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
         }
-    }, [AsideRecommendRef.current?.clientHeight, recommendList.length]);
-
-    const goToApplyOriginal = useCallback(() => {
-        window.open(applyOriginal);
-    }, []);
-
-    return (
-        <AsideRecommendElement ref={AsideRecommendRef} stickyHeight={stickyHeight}>
+      >
+        <Lottie animationData={openVip} loop={true} alt="open vip" />
+      </LinkComponent>
+      <div className="aside_recommend_container">
+        <div className=" title_recommend">推薦原創主</div>
+        {recommendList.map((data) => (
+          <div className="aside_recommend_field fw-s" key={data.uid}>
             <LinkComponent
-                routes={
-                    pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
-                }
+              routes={{
+                name: pageUrlConstants.post.pages.postMain.pages.postProfile
+                  .name,
+                path: pageUrlConstants.post.pages.postMain.pages.postProfile
+                  .path,
+                dynamic: {
+                  profileId: data.uid,
+                },
+              }}
             >
-                <Lottie animationData={openVip} loop={true} alt="open vip" />
+              <img src={data.avatar} alt={data.nick_name} draggable={false} />
             </LinkComponent>
-            <div className="aside_recommend_container">
-                <div className=" title_recommend">推薦原創主</div>
-                {recommendList.map((data) => (
-                    <div className="aside_recommend_field fw-s" key={data.uid}>
-                        <LinkComponent
-                            routes={{
-                                name: pageUrlConstants.post.pages.postMain.pages.postProfile
-                                    .name,
-                                path: pageUrlConstants.post.pages.postMain.pages.postProfile
-                                    .path,
-                                dynamic: {
-                                    profileId: data.uid,
-                                },
-                            }}
-                        >
-                            <img src={data.avatar} alt={data.nick_name} draggable={false} />
-                        </LinkComponent>
-                        {data.nick_name}
-                    </div>
-                ))}
-                <LinkComponent
-                    className="aside_recommend_more"
-                    routes={pageUrlConstants.post.pages.postMain.pages.postMoreOriginal}
-                >
-                    看更多
-                </LinkComponent>
-            </div>
-            <div className="divider">&nbsp;</div>
-            <div className="aside_recommend_container">
-                <div>
-                    <div className="title_apply">申请成为原创主</div>
-                    <div className="title_apply_1">轻松赚取高薪也看得开心</div>
-                    <div onClick={goToApplyOriginal}>
-                        <WavaButton className="aside_recommend_button">
-                            我要申请
-                            <img
-                                src={moneyIcon}
-                                alt={"apply_icon"}
-                                className="aside_recommend_icon"
-                            />
-                        </WavaButton>
-                    </div>
-                </div>
-            </div>
-        </AsideRecommendElement>
-    );
+            {data.nick_name}
+          </div>
+        ))}
+        <LinkComponent
+          className="aside_recommend_more"
+          routes={pageUrlConstants.post.pages.postMain.pages.postMoreOriginal}
+        >
+          看更多
+        </LinkComponent>
+      </div>
+      <div className="divider">&nbsp;</div>
+      <div className="aside_recommend_container">
+        <div>
+          <div className="title_apply">申请成为原创主</div>
+          <div className="title_apply_1">轻松赚取高薪也看得开心</div>
+          <div onClick={goToApplyOriginal}>
+            <WavaButton className="aside_recommend_button">
+              我要申请
+              <img
+                src={moneyIcon}
+                alt={"apply_icon"}
+                className="aside_recommend_icon"
+              />
+            </WavaButton>
+          </div>
+        </div>
+      </div>
+    </AsideRecommendElement>
+  );
 };
 
 export default AsideRecommend;
 
-export const AsideRecommendElement = styled.aside`
+export const AsideRecommendElement = styled.aside.withConfig({
+  shouldForwardProp: (prop) =>
+    !["stickyHeight"].includes(prop),
+})`
   /*  */
   display: flex;
   flex-direction: column;
