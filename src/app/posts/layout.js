@@ -35,6 +35,7 @@ import moneyIcon from "public/images/post/money.svg";
 
 import store from "@/store";
 import { getRecommendList } from "@/store/actions/pages/postMainAction";
+import Image from "next/image";
 
 const { login, post } = pageUrlConstants;
 function PostsMain({ children
@@ -154,8 +155,10 @@ function PostsMain({ children
                     {isMobile && (
                         <React.Fragment>
                             <TopTitleBar title={t('Post.dynamic')}>
-                                <img
+                                <Image
                                     src={newsIcon}
+                                    width={0}
+                                    height={0}
                                     alt="newsIcon"
                                     className="top_img"
                                     onClick={() => clickTabLabel("notice")}
@@ -168,7 +171,7 @@ function PostsMain({ children
                                     onClick={goToApplyOriginal}
                                 >
                                     <div className="post_apply_original_left">
-                                        <img src={moneyIcon} alt="money" />
+                                        <Image src={moneyIcon} width={0} height={0} alt="money" />
                                         轻松赚取高薪！同时看得开心！
                                     </div>
                                     <div className="post_apply_original_right">

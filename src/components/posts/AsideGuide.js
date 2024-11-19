@@ -13,6 +13,7 @@ import LinkComponent from "@/components/common/LinkComponent";
 import { useGlobalDispatch } from "@/store";
 import { pushRoutes } from "@/store/actions/historyActions";
 import { nowLang } from "@/i18n/Metronici18n";
+import Image from "next/image";
 
 const { home, profile } = pageUrlConstants;
 
@@ -139,12 +140,14 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
                             handleChange(labelKey);
                         }}
                     >
-                        <img
+                        <Image
                             src={
                                 labelKey === nowKey || status === labelKey
                                     ? labelList[labelKey].pressIcon
                                     : labelList[labelKey].icon
                             }
+                            width={0}
+                            height={0}
                             alt={labelList[labelKey].name}
                         />
                         <div
@@ -171,7 +174,7 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
                 </div>
                 <div className="wava_button_container" onClick={floatBtnClick}>
                     <WavaButton className="wava_button">
-                        <img src={postIcon} alt="Post Icon" />
+                        <Image src={postIcon} width={0} height={0} alt="Post Icon" />
                         {t('Post.post_article')}
                     </WavaButton>
                 </div>

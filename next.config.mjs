@@ -11,11 +11,28 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
+    loader: "custom",
+    loaderFile: './src/lib/services/imageLoader.js',
     remotePatterns: [
+      // {
+      //   protocol: "https",
+      //   hostname: "ph.bnmnm1.cn",
+      //   pathname: "/**", // You can specify the path pattern if needed
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "front.18acg.life",
+      //   pathname: "/**",
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "ph2koedda-bapi.j23f8keeq.com",
+      //   pathname: "/**",
+      // },
       {
         protocol: "https",
-        hostname: "ph.bnmnm1.cn",
-        pathname: "*", // You can specify the path pattern if needed
+        hostname: "**",
+        pathname: "/**",
       },
     ],
   },

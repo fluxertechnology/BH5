@@ -18,6 +18,7 @@ import { pageUrlConstants, userRank } from "@/lib/constants/index.js";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 // import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
 import { getPostListAction } from '@/store/actions/pages/postsMainNewAction.js'
+import Image from "next/image";
 
 const { profile } = pageUrlConstants;
 const PostsMainNewPage = ({
@@ -137,7 +138,7 @@ const PostsMainNewPage = ({
                 }}
                 onClick={floatBtnClick}
             >
-                <img className="float_btn_img" src={paperAddIcon} alt="btnPost" />
+                <Image className="float_btn_img" src={paperAddIcon} width={0} height={0} alt="btnPost" />
             </FloatBtn>
 
             <div

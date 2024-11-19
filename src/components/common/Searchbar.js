@@ -3,6 +3,7 @@ import searchIcon from "@public/images/topbar/search.svg";
 import searchGrayIcon from "@public/images/topbar/search_gray.svg";
 import { colors } from "@/lib/constants";
 import styled from "styled-components";
+import Image from "next/image";
 
 const Searchbar = ({
   value = "",
@@ -34,8 +35,10 @@ const Searchbar = ({
           )}
         </div>
         <div className="search_icon">
-          <img
+          <Image
             src={scroll ? searchGrayIcon : searchIcon}
+            width={0}
+            height={0}
             className="search_icon_img"
             alt=""
           />

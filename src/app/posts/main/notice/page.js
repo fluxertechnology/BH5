@@ -15,6 +15,7 @@ import ImageComponent from "@/components/common/ImageComponent";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { postGetNotice } from '@/store/actions/pages/postsNoticeAction'
+import Image from "next/image";
 
 const PostsNoticePage = ({
     refreshData,
@@ -105,8 +106,10 @@ const PostsNoticePage = ({
                                         </LinkComponent>
                                     </div>
                                 ) : (
-                                    <img
+                                    <Image
                                         src={data.from_avatar}
+                                        width={0}
+                                        height={0}
                                         alt={data.title}
                                         title={data.title}
                                         draggable={false}
@@ -139,7 +142,7 @@ const PostsNoticePage = ({
                                     (data.content.indexOf("video") > -1 ? (
                                         <video src={data.content} alt="" />
                                     ) : (
-                                        <img src={data.content} alt="" />
+                                        <Image src={data.content} width={0} height={0} alt="" />
                                     ))}
                             </div>
                         </div>
@@ -155,9 +158,11 @@ const PostsNoticePage = ({
                 {localState.postNotice.length === 0 ? (
                     <div className="container_empty">
                         <div className="container_empty_girl">
-                            <img
+                            <Image
                                 className="container_empty_girl_img"
                                 src={girl404}
+                                width={0}
+                                height={0}
                                 alt="404"
                             />
                             <p className="container_empty_girl_text">

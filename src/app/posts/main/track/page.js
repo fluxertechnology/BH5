@@ -16,6 +16,7 @@ import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
 import { getPostListAction } from "@/store/actions/pages/postsMainNewAction";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import Image from "next/image";
 
 const PostsMainTrackPage = ({
     refreshData,
@@ -95,7 +96,7 @@ const PostsMainTrackPage = ({
                 ) : (
                     // Else display the 404 message
                     <div className="container_empty">
-                        <img className="container_empty_girl_img" src={girl404} alt="404" />
+                        <Image className="container_empty_girl_img" src={girl404} width={0} height={0} alt="404" />
                         <p className="container_empty_girl_text">
                             {t('Global.tip.nothing')}
                         </p>

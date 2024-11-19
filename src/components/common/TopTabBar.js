@@ -26,6 +26,7 @@ import ImageComponent from "@/components/common/ImageComponent";
 import LinkComponent from "@/components/common/LinkComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import Image from "next/image";
 
 const GameProps = createContext("");
 const GamePropsProvider = GameProps.Provider;
@@ -228,8 +229,10 @@ const TopTabBar = ({
             </div>
             <div className="top_bar_control">
               {!drawer && (
-                <img
+                <Image
                   src={foldArrowIcon}
+                  width={0}
+                  height={0}
                   className={`${!disabledIndent && "px-indent"} top_bar_arrow ${
                     drawer && "disabled"
                   } `}
@@ -245,8 +248,10 @@ const TopTabBar = ({
                 !drawer && "disabled"
               }`}
             >
-              <img
+              <Image
                 src={foldArrowIcon}
+                width={0}
+                height={0}
                 className={`top_bar_arrow reverse`}
                 onClick={() => setDrawer((pre) => !pre)}
                 alt="arrow"
@@ -287,7 +292,7 @@ const TopTabBar = ({
                   onClick={onClickEvent && onClickEvent}
                   style={{ color: color }}
                 >
-                  <img src={icon} alt={name} />
+                  <Image src={icon} width={0} height={0} alt={name} />
                   {name}
                   {gameFloatStatus && index === 1 && (
                     <div className="float">

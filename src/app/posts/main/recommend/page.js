@@ -25,6 +25,7 @@ import { postGetRecommendOriginal } from "@/store/actions/pages/postsMoreOrigina
 
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import Image from "next/image";
 
 const PostsRecommendFriendRender = ({
   refreshData,
@@ -117,7 +118,7 @@ const PostsRecommendFriendRender = ({
             className="post_main_h5_original_title_right"
             routes={pageUrlConstants.post.pages.postMain.pages.postMoreOriginal}
           >
-            看更多 <img src={moreIcon} alt="more" />
+            看更多 <Image src={moreIcon} width={0} height={0} alt="more" />
           </LinkComponent>
         </div>
         <div className="post_main_h5_original_list">
@@ -161,7 +162,7 @@ const PostsRecommendFriendRender = ({
         })}
         {localState.postListData.list?.length === 0 ? (
           <div className="container_empty">
-            <img className="container_empty_girl_img" src={girl404} alt="404" />
+            <Image className="container_empty_girl_img" src={girl404} width={0} height={0} alt="404" />
             <p className="container_empty_girl_text">
               {t('Global.tip.nothing')}
             </p>

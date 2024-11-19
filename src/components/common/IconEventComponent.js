@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useState, useCallback, useEffect } from "react";
 let effectTime;
 const IconEventComponent = ({
@@ -60,7 +61,15 @@ const IconEventComponent = ({
         handleEvent("nor");
       }}
     >
-      <img src={pic} alt={pic} className={imgClassName} />
+      {pic && (
+        <Image
+          src={pic}
+          alt={pic}
+          width={0}
+          height={0}
+          className={imgClassName}
+        />
+      )}
       {children}
     </div>
   );

@@ -8,6 +8,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Card from "@/components/games/Card";
+import Image from "next/image";
 
 const StyledAccordionSummary = styled((props) => (
   <AccordionSummary {...props} />
@@ -38,9 +39,11 @@ function SimpleAccordion(props) {
   return (
     <AccordionElement>
       <div className="top_container mb-2 cursor">
-        <img
+        <Image
           className="top_container_icon_img"
           src={img}
+          width={0}
+          height={0}
           alt="fireIcon"
           title="fireIcon"
           onClick={onClickImg}

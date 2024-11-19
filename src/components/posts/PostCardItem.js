@@ -67,6 +67,7 @@ import downloadCircleIcon from 'public/images/icons/download_circle.svg';
 import LinkComponent from "@/components/common/LinkComponent";
 import IconEventComponent from "@/components/common/IconEventComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import Image from "next/image";
 
 const { post, login } = pageUrlConstants;
 
@@ -737,10 +738,12 @@ const PostCardItem = ({
                                             </video>
                                         </>
                                     ) : (
-                                        <img
+                                        <Image
                                             style={{ maxWidth: "100%", maxHeight: "100%" }}
                                             className="media_slider_container_box_img"
                                             src={media_value}
+                                            width={0}
+                                            height={0}
                                             // src={url.length>0 ? url[mediaInd] : media_value}
                                             alt={"media" + nick_name + mediaInd}
                                             onTouchEnd={(e) => {
@@ -872,9 +875,11 @@ const PostCardItem = ({
                                 {nick_name}
                             </div>
                             <div className="post_card_header_info_detail_description">
-                                <img
+                                <Image
                                     className="post_card_header_info_detail_description_sex"
                                     src={sex === 1 ? femaleIcon : maleIcon}
+                                    width={0}
+                                    height={0}
                                     alt="sexicon"
                                 />
                                 <span className="post_card_header_info_detail_description_time">
@@ -887,8 +892,10 @@ const PostCardItem = ({
                     {showFollow && (
                         <div className="post_card_header_follow">
                             {vip === 1 ? (
-                                <img
+                                <Image
                                     src={vip_icon}
+                                    width={0}
+                                    height={0}
                                     title="VIP图标"
                                     alt="VIP图标"
                                     className="post_card_header_follow_icon"
@@ -957,9 +964,11 @@ const PostCardItem = ({
                                             }
                                         }}
                                     >
-                                        <img
+                                        <Image
                                             className="post_card_body_media_cover_container_icon"
                                             src={postData.pay_type ? donateNorIcon : coinNorIcon}
+                                            width={0}
+                                            height={0}
                                             alt="iconCoin"
                                         />
                                         <span className="post_card_body_media_cover_container_text">
@@ -1018,13 +1027,15 @@ const PostCardItem = ({
                                         </>
                                     ) : (
                                         <div className="img_container">
-                                            <img
+                                            <Image
                                                 className="img"
                                                 key={"post_media_" + mediaInd}
                                                 src={
                                                     // parseInt(lock_status) ? url[mediaInd] : media_value
                                                     media_value
                                                 }
+                                                width={0}
+                                                height={0}
                                                 alt={"media" + nick_name + mediaInd}
                                                 border_radius={0}
                                                 style={{
@@ -1105,9 +1116,11 @@ const PostCardItem = ({
                             setShowDonate(true);
                         }}
                     >
-                        <img
+                        <Image
                             className="post_card_footer_item_icon"
                             src={donateNorIcon}
+                            width={0}
+                            height={0}
                             alt="iconCoin"
                         />
                         <span className="post_card_footer_item_text coin">
@@ -1133,9 +1146,11 @@ const PostCardItem = ({
                         className="post_card_footer_item post_card_footer_option"
                         onClick={postOptionEvent}
                     >
-                        <img
+                        <Image
                             className="post_card_footer_item_icon"
                             src={optionIcon}
+                            width={0}
+                            height={0}
                             alt="iconOption"
                         />
                         <div className={`more_setting ${showMore && "active"}`}>

@@ -8,6 +8,7 @@ import WavaButton from "@/components/layout/Header/WavaButton";
 
 import openVip from "public/json/profile/open_vip.json";
 import moneyIcon from "public/images/post/money.svg";
+import Image from "next/image";
 
 const AsideRecommend = ({ recommendList }) => {
   const AsideRecommendRef = useRef();
@@ -49,7 +50,7 @@ const AsideRecommend = ({ recommendList }) => {
                 },
               }}
             >
-              <img src={data.avatar} alt={data.nick_name} draggable={false} />
+              <Image src={data.avatar} width={0} height={0} alt={data.nick_name} draggable={false} />
             </LinkComponent>
             {data.nick_name}
           </div>
@@ -69,8 +70,10 @@ const AsideRecommend = ({ recommendList }) => {
           <div onClick={goToApplyOriginal}>
             <WavaButton className="aside_recommend_button">
               我要申请
-              <img
+              <Image
                 src={moneyIcon}
+                width={0}
+                height={0}
                 alt={"apply_icon"}
                 className="aside_recommend_icon"
               />

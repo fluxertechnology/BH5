@@ -21,6 +21,7 @@ import vendorIconSelected from "public/images/header/bottomNav/shop_selected_btn
 import infoIcon from "public/images/header/bottomNav/info_pre_btn.png";
 import infoIconSelected from "public/images/header/bottomNav/info_selected_btn.png";
 import { useGlobalDispatch } from "../../../store";
+import Image from "next/image";
 
 const { home, post, social, vendor, profile } = pageUrlConstants;
 
@@ -108,13 +109,15 @@ const BottomNavBar = ({
                                 currentRefs={[root]}
                             >
                                 <div className="bottom_nav_item_btn_icon">
-                                    <img
+                                    <Image
                                         className={"bottom_nav_item_btn_icon_img"}
                                         src={
                                             location.indexOf(data.path) !== -1
                                                 ? data.activeImage
                                                 : data.image
                                         }
+                                        width={0}
+                                        height={0}
                                         alt="icon"
                                     />
                                     {data.decoration?.show ? (
