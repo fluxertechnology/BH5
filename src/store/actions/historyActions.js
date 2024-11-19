@@ -1,4 +1,6 @@
 // import { push, go, replace } from "connected-react-router";
+import { useRouter } from "next/navigation";
+
 import { pageUrlConstants, requestUrlConstants } from "@/lib/constants";
 import { handleChangePage } from "@/lib/services/gtmEventHandle";
 import store from "@/store";
@@ -15,10 +17,11 @@ let timeClock;
 
 export const pushRoutes = (routes) => {
   return function (dispatch) {
+    const { push } = store.getState().router.useRouter;
     let path = routesPathMaker(routes?.path, routes?.dynamic);
     googleAnalytics(routes);
     scrollPage();
-    dispatch(push(path));
+    push(path);
     dispatch({
       type: "CRUMBS_PUSH",
       data: {
@@ -49,11 +52,13 @@ export const initRoutes = () => (dispatch) => {
  * @return {*}
  */
 export const replaceRoutes = (routes) => {
+  const { replace } = store.getState().router.useRouter;
+
   return function (dispatch) {
     googleAnalytics(routes);
     let path = routesPathMaker(routes?.path, routes?.dynamic);
     scrollPage();
-    dispatch(replace(path));
+    replace(path);
   };
 };
 
@@ -63,11 +68,13 @@ export const replaceRoutes = (routes) => {
  * @return {*}
  */
 export const backRoutes = (number, not_clear_history = false) => {
+  const { push, back } = store.getState().router.useRouter;
   return function (dispatch) {
     scrollPage();
     let breadcrumbs = store.getState().breadcrumbs;
     if (breadcrumbs.length > 1) {
-      dispatch(go(number || -1));
+      // dispatch(go(number || -1));
+      back();
       googleAnalytics(breadcrumbs[breadcrumbs.length - 1]);
       if (!not_clear_history) {
         dispatch({
@@ -76,7 +83,7 @@ export const backRoutes = (number, not_clear_history = false) => {
       }
     } else {
       // 這邊先都回到主頁，有需求降臨再利用　routes tree 判斷
-      dispatch(pushRoutes(home.pages.homeMain));
+      push(home.pages.homeMain);
       googleAnalytics(home.pages.homeMain);
     }
   };
@@ -90,8 +97,8 @@ export function scrollPage() {
   );
   toScroll();
 }
-export function clearScrollPage(state=null) {
-  let storeData = state??store.getState();
+export function clearScrollPage(state = null) {
+  let storeData = state ?? store.getState();
   window.sessionStorage.removeItem(
     "scroll:" + storeData.router.location.pathname
   );
@@ -138,7 +145,7 @@ export function routesPathMaker(path, dynamic) {
 /**
  * @description add mission record
  *
- * @param {integer} missionId 4=點廣告  5點動畫視頻 6點漫畫美圖小說 7  保存圖片 
+ * @param {integer} missionId 4=點廣告  5點動畫視頻 6點漫畫美圖小說 7  保存圖片
  *
  * @return {*}
  */

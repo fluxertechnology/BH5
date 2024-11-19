@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useEffect } from "react";
+import { useGlobalContext } from "@/store";
 
 export let main_height = 72;
 
@@ -22,6 +23,7 @@ const TopBarContainer = ({
   ...props
 }) => {
   const { isMobile } = useMediaQuery();
+  const { state } = useGlobalContext();
 
   useEffect(() => {
     main_height = !isMobile ? 72 : 50;
@@ -38,6 +40,7 @@ const TopBarContainer = ({
       {...props}
     >
       {children}
+      {state.navbar.appendComponent && state.navbar.appendComponent()}
     </TopBarContainerElement>
   );
 };

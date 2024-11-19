@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import rootReducer from "@/store/reducers";
+import { useRouter } from "next/navigation";
 
 const GlobalContext = createContext();
 
@@ -77,7 +78,7 @@ export function GlobalProvider({ children }) {
     gameListData: {},
     scrollToTopStatus: {},
     router: {
-      action: "",
+      action: "", // TODO(ZY): get router action
       location: {
         hash: url.split("#")[1] || "",
         key: "",
@@ -86,6 +87,21 @@ export function GlobalProvider({ children }) {
         search: searchParams.toString(),
         state: null,
       },
+      useRouter: useRouter(),
+    },
+    navbar: {
+      isPlaceholder: false,
+      clickSearch: (e) => e.stopPropagation(),
+      clickAvatar: () => {},
+      clickNew: () => {},
+      newNotice: 0,
+      clickHome: () => {},
+      toPaymentPage: () => {},
+      appendComponent: () => <></>,
+      mainHeight: 72,
+      subHeight: 42,
+      subFontSize: 20,
+      bottomNavHeight: 62,
     },
   });
 

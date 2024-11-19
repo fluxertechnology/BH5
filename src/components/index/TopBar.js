@@ -9,29 +9,23 @@ import ImageComponent from "@/components/common/ImageComponent";
 import avatarPlaceholder from "@public/images/imgPlaceholder/avatar.png";
 
 import { navigatorShare } from "@/store/actions/utilities";
+import { useGlobalContext } from "@/store";
+import Image from "next/image";
 
-const TopBar = ({
-  isPlaceholder = false,
-  clickSearch = (e) => e.stopPropagation(),
-  clickAvatar,
-  clickNew,
-  newNotice,
-  clickHome,
-  avatar,
-  userId,
-  shareMa,
-  highlightRechargeState,
-  toPaymentPage,
-}) => {
+const TopBar = () => {
+  const { state } = useGlobalContext();
+
   const t = useTranslations();
   function handleShare() {
     navigatorShare({
       title: "",
       text:
         t("Profile.share.description_1") +
-        (shareMa ? t("Profile.share.description_2") + shareMa : "") +
+        (state.user.share_ma
+          ? t("Profile.share.description_2") + state.user.share_ma
+          : "") +
         t("Profile.share.description_3"),
-      url: downloadPage[1] + "?utm_source=" + shareMa,
+      url: downloadPage[1] + "?utm_source=" + state.user.share_ma,
     });
   }
   function clickService() {
@@ -46,11 +40,14 @@ const TopBar = ({
             width={0}
             height={0}
             alt="bh5_logo"
-            onClick={clickHome}
+            onClick={state.navbar.clickHome}
           />
         </div>
         <div className="search_bar_main">
-          <Searchbar callback={clickSearch} isPlaceholder={isPlaceholder} />
+          <Searchbar
+            callback={state.navbar.clickSearch}
+            isPlaceholder={state.navbar.isPlaceholder}
+          />
         </div>
         {/* <div className="search_bar_share" onClick={toPaymentPage}>
           <img
@@ -62,14 +59,17 @@ const TopBar = ({
             alt="B次元分享连结"
           />
         </div> */}
-        <div className="search_bar_recharge" onClick={toPaymentPage}>
+        <div
+          className="search_bar_recharge"
+          onClick={state.navbar.toPaymentPage}
+        >
           <Image
             className={
               "search_bar_recharge_img " +
-              (highlightRechargeState ? "" : "active")
+              (state.config.highlightRechargeState ? "" : "active")
             }
             src={
-              highlightRechargeState
+              state.config.highlightRechargeState
                 ? "/images/home/recharge.svg"
                 : "/images/home/recharge_highlight.svg"
             }
@@ -78,11 +78,11 @@ const TopBar = ({
             alt="recharge"
           />
         </div>
-        <div className="search_bar_avatar" onClick={clickAvatar}>
-          {userId !== "guest" ? (
+        <div className="search_bar_avatar" onClick={state.navbar.clickAvatar}>
+          {state.user.id !== "guest" ? (
             <ImageComponent
               is_cover={true}
-              src={avatar}
+              src={state.user.avatar}
               background_color="transparent"
               border_radius="50%"
               placeholderImg={avatarPlaceholder}
