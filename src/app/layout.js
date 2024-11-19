@@ -5,11 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { GlobalProvider } from "@/store";
-<<<<<<< HEAD
-import '@/styles/globals.scss';
-=======
 import { GoogleTagManager } from '@next/third-parties/google'
->>>>>>> c2410e64bb4c4a044e6953c9e6896dbe4ead5159
 
 import "@/styles/globals.scss";
 
