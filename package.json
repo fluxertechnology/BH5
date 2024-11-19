@@ -29,10 +29,12 @@
     "qrcode.react": "^4.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-draggable": "^4.4.6",
     "react-toastify": "^10.0.6",
     "react-transition-group": "^4.4.5",
-    "sass": "^1.81.0",
     "react-waypoint": "^10.3.0",
+    "sass": "^1.81.0",
+    "sharethis-reactjs": "^1.6.0",
     "styled-components": "^6.1.13",
     "swiper": "^11.1.14"
   },

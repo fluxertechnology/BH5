@@ -1242,7 +1242,10 @@ const PostCardItemDispatchToProps = (dispatch) => {
 
 export default (memo(PostCardItem, areEqual));
 
-export const PostCardItemElement = styled.div`
+export const PostCardItemElement = styled.div.withConfig({
+    shouldForwardProp: (prop) =>
+      !["swiperNumber", "is_like"].includes(prop),
+  })`
   /*  */
   width: 100%;
 
