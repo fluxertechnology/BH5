@@ -11,11 +11,18 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ["ph.bnmnm1.cn"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ph.bnmnm1.cn",
+        pathname: "*", // You can specify the path pattern if needed
+      },
+    ],
   },
   sassOptions: {
-    additionalData: `@import "src/styles/global.scss";`,
-    includePaths: [path.join(__dirname, "src", "styles")],
+    silenceDeprecations: ["legacy-js-api"],
+    // additionalData: `@import "src/styles/global.scss";`,
+    // includePaths: [path.join(__dirname, "src", "styles")],
   },
 };
 

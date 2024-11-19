@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { adsKeys, colors, requestUrlConstants } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import {
   getHomeData,
@@ -40,7 +40,7 @@ export default function HomeMainPage() {
   const [photoTabValue, setPhotoTabValue] = useState();
   const { isMobile } = useMediaQuery();
 
-  const getLocalState = () => {
+  const localState = useMemo(() => {
     function fillDataArray(item, length) {
       if (state.homeData?.[item] && state.homeData[item].length) {
         return [...state.homeData[item]];
@@ -70,12 +70,6 @@ export default function HomeMainPage() {
       novel_list: fillDataArray("novel_list"),
       creation_list: fillDataArray("creation_list"),
     };
-  };
-
-  const [localState, setLocalState] = useState(getLocalState());
-
-  useEffect(() => {
-    setLocalState(getLocalState());
   }, [state.homeData]);
 
   useEffect(() => {

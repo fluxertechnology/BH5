@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useMemo } from "react";
 import styled from "styled-components";
 import LinkComponent from "@/components/common/LinkComponent";
 
@@ -30,16 +30,11 @@ const ImageCarousel = ({
 }) => {
   const { state } = useGlobalContext();
 
-  const getLocalState = () => {
+  const localState = useMemo(() => {
     return {
       adsList: state.adsList[adsKey.key] || [],
       placeholder: adsKey.placeholder || "#",
     };
-  };
-  const [localState, setLocalState] = useState(getLocalState());
-
-  useEffect(() => {
-    setLocalState(getLocalState());
   }, [state.adsList[adsKey.key]]);
 
   const [swiper_progress, setSwiperProgress] = useState(0);
@@ -168,8 +163,7 @@ const ImageCarousel = ({
 export default memo(ImageCarousel, areEqual);
 
 export const ImageCarouselElement = styled.div.withConfig({
-  shouldForwardProp: (prop) =>
-    !["swiper_progress"].includes(prop),
+  shouldForwardProp: (prop) => !["swiper_progress"].includes(prop),
 })`
   /*  */
   .swiper-autoplay-progress {

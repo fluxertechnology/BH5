@@ -1,4 +1,3 @@
-
 import adsList from "@/store/reducers/adsList";
 import noticeList from "@/store/reducers/noticeList";
 import noticeListRead from "@/store/reducers/noticeListRead";
@@ -101,6 +100,7 @@ import gameListData from "@/store/reducers/games/gameListData";
 import scrollToTopStatus from "@/store/reducers/scrollToTopStatus";
 
 import routerReducer from "@/store/reducers/routerReducer";
+import navbarReducer from "@/store/reducers/navbarReducer";
 
 const rootReducer = combineReducers({
   adsList,
@@ -168,6 +168,7 @@ const rootReducer = combineReducers({
   scrollToTopStatus,
 
   router: routerReducer,
+  navbar: navbarReducer,
 });
 
 // const clientOnlyRootReducer = combineReducers({

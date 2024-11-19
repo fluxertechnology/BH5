@@ -5,12 +5,6 @@ import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 
-import TopBarContainer, {
-  main_height,
-  sub_height,
-} from "@/components/layout/Header/TopBarContainer";
-import TopBar from "@/components/index/TopBar";
-import WebTopBar from "@/components/layout/Header/WebTopBar";
 import TopTabBar from "@/components/common/TopTabBar";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import FloatAds from "@/components/index/FloatAds";
@@ -35,7 +29,7 @@ const store =
 
 const HomeLayout = ({ children }) => {
   const t = useTranslations();
-  const { state } = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
 
   const shareThisRef = useRef(null);
   const firstChargeRef = createRef(null);
@@ -204,7 +198,9 @@ const HomeLayout = ({ children }) => {
             const shareButtonRef = shareRef.buttons.current;
             if (
               window.scrollY >
-              document.body.clientHeight - window.innerHeight - bottom_nav_height
+              document.body.clientHeight -
+                window.innerHeight -
+                bottom_nav_height
             ) {
               shareButtonRef.style.display = "flex";
               shareButtonRef.style.bottom = `${bottom_nav_height}px`;
@@ -222,28 +218,32 @@ const HomeLayout = ({ children }) => {
     }, [isMobile, window.location.href]);
   }
 
+  const TopTabBarComponent = () => {
+    return (
+      <TopTabBar labelList={labelList} callback={clickTabLabel} indexColumn />
+    );
+  };
+  useEffect(() => {
+    dispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        isPlaceholder: true,
+        clickSearch,
+        clickHome,
+        clickHome,
+        clickAvatar,
+        clickNew,
+        appendComponent: TopTabBarComponent,
+      },
+    });
+  }, []);
+
   return (
-    <HomeLayoutElement>
-      {/* <TopBarContainer>
-        {isMobile ? (
-          <TopBar
-            isPlaceholder={true}
-            newNotice={newNotice}
-            clickSearch={clickSearch}
-            clickHome={clickHome}
-            clickAvatar={clickAvatar}
-            clickNew={clickNew}
-            shareMa={state.user.share_ma}
-            avatar={state.user.avatar}
-            userId={state.user.id}
-            highlightRechargeState={state.config.highlightRechargeState}
-            toPaymentPage={toPaymentPage}
-          />
-        ) : (
-          <WebTopBar />
-        )}
-        <TopTabBar labelList={labelList} callback={clickTabLabel} indexColumn />
-      </TopBarContainer> */}
+    <HomeLayoutElement
+      main_height={state.navbar.mainHeight}
+      sub_height={state.navbar.subHeight}
+      bottom_nav_height={state.navbar.bottomNavHeight}
+    >
       <CSSTransition
         timeout={200}
         in={state.showCoverCenter.homeFloatAds}
@@ -321,7 +321,7 @@ const HomeLayout = ({ children }) => {
         </DraggableComponent> */}
 
       {/* <FirstRecharge ref={firstChargeRef} user={user} times={times} /> */}
-      <div className="container">{children}</div>
+      {children}
       {isMobile && <MobileBottomDownloadAppTip />}
     </HomeLayoutElement>
   );
@@ -329,54 +329,59 @@ const HomeLayout = ({ children }) => {
 
 export default HomeLayout;
 
-const HomeLayoutElement = styled.div`
-  /*  */
-  padding-top: ${main_height + sub_height}px;
-  position: relative;
-  @media (max-width: 899px) {
-    padding-bottom: ${bottom_nav_height}px;
-  }
-  .float_category {
-    position: fixed;
-    overflow: scroll;
-    top: ${main_height + sub_height}px;
-    right: 0;
-    z-index: 10;
-    background-color: #fff;
-    padding: 10px 0;
-    border-radius: 5px;
-  }
-
-  .container {
+const HomeLayoutElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["main_height", "sub_height"].includes(prop),
+})`
+  ${({ main_height, sub_height }) => `
+    /*  */
+    padding-top: ${main_height + sub_height}px;
     position: relative;
-  }
+    @media (max-width: 899px) {
+      padding-bottom: ${bottom_nav_height}px;
+    }
+    .float_category {
+      position: fixed;
+      overflow: scroll;
+      top: ${main_height + sub_height}px;
+      right: 0;
+      z-index: 10;
+      background-color: #fff;
+      padding: 10px 0;
+      border-radius: 5px;
+    }
 
-  .recharge {
-    cursor: pointer;
-    position: relative;
-    &_float_time {
-      position: absolute;
-      bottom: 0;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      color: #fff;
-      padding: 1px 0;
-      &_bg {
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+    .container {
+      position: relative;
+    }
+
+    .recharge {
+      cursor: pointer;
+      position: relative;
+      &_float_time {
         position: absolute;
-        background-color: #010001;
-        opacity: 0.55;
-        z-index: 9;
-      }
-      &_text {
-        z-index: 10;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        color: #fff;
+        padding: 1px 0;
+        &_bg {
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          position: absolute;
+          background-color: #010001;
+          opacity: 0.55;
+          z-index: 9;
+        }
+        &_text {
+          z-index: 10;
+        }
       }
     }
-  }
+  `}
 `;
 
 const MobileBottomDownloadAppTip = () => {
