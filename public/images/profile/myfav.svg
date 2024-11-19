@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="85" height="85" viewBox="0 0 85 85">
+    <defs>
+        <linearGradient id="8jf6mok49a" x1="50%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#FA83B3"/>
+            <stop offset="100%" stop-color="#F24C7C"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-353 -368) translate(353 368)">
+                <circle cx="42.5" cy="42.5" r="42.5" fill="url(#8jf6mok49a)"/>
+                <g>
+                    <path d="M0 0H54V54H0z" transform="translate(15.5 15.5)"/>
+                    <g stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+                        <path d="M40.333 3.586c-4.42-4.42-11.583-4.42-16.003 0l-2.37 2.37-2.372-2.37c-4.419-4.42-11.583-4.42-16.002 0-4.419 4.419-4.419 11.583 0 16.002l2.656 2.657c.008.009.004.024.013.033l15.386 15.384c.088.089.203.128.318.125.116.003.23-.036.319-.125l15.385-15.384c.009-.009.006-.024.013-.033l2.657-2.657c4.419-4.419 4.419-11.583 0-16.002z" transform="translate(15.5 15.5) translate(5 8)"/>
+                        <path d="M10.285 4.282c-1.215.448-2.355 1.16-3.33 2.136-1.353 1.353-2.2 3.021-2.538 4.769" transform="translate(15.5 15.5) translate(5 8)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

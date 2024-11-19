@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200">
+    <defs>
+        <linearGradient id="zart1se57a" x1="39.105%" x2="-2.767%" y1="13.169%" y2="131.793%">
+            <stop offset="0%" stop-color="#BC79F4" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#BC79F4"/>
+        </linearGradient>
+        <linearGradient id="it9p42ncxb" x1="28.8%" x2="-7.505%" y1="37.86%" y2="142.889%">
+            <stop offset="0%" stop-color="#BC79F4" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#2D0075"/>
+            <stop offset="100%" stop-color="#BC79F4"/>
+        </linearGradient>
+        <linearGradient id="hmrngm0sjc" x1="26.038%" x2="67.864%" y1="93.333%" y2="-20.26%">
+            <stop offset="0%" stop-color="#BC79F4" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#BC79F4"/>
+        </linearGradient>
+        <linearGradient id="kpyqa5o7xd" x1="14.463%" x2="80.781%" y1="82.181%" y2="-81.651%">
+            <stop offset="0%" stop-color="#BC79F4" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#2D0075"/>
+        </linearGradient>
+        <linearGradient id="ifu519aq8e" x1="39.049%" x2="-28.593%" y1="13.169%" y2="181.306%">
+            <stop offset="0%" stop-color="#BC79F4" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#BC79F4"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-20 -158) translate(20 158)">
+                <rect width="600" height="200" fill="#EBC0FB" rx="9"/>
+                <g opacity=".406">
+                    <path fill="url(#zart1se57a)" d="M72 55L114 55 42 200 0 200z" transform="translate(188)"/>
+                    <path fill="url(#it9p42ncxb)" d="M114 55L156 55 84 200 42 200z" transform="translate(188)"/>
+                    <path fill="url(#hmrngm0sjc)" d="M275.316 0L307 0 252.684 110 221 110z" transform="translate(188)"/>
+                    <path fill="url(#kpyqa5o7xd)" d="M241.421 0L279 0 214.579 130 177 130z" transform="translate(188)"/>
+                    <path fill="url(#ifu519aq8e)" d="M281.632 30L331 30 246.368 200 197 200z" transform="translate(188)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
