@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { GlobalProvider } from "@/store";
+import '@/styles/globals.scss';
 
 
 export default async function RootLayout({ children }) {

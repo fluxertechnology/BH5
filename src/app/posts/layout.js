@@ -148,11 +148,7 @@ function PostsMain({ children
         <PostsMainElement
             showRightArea={location.split("/")[3] !== "original"}
         >
-            {!isMobile && (
-                <TopBarContainer>
-                    <WebTopBar />
-                </TopBarContainer>
-            )}
+
             {topAreaShow && ( //PC版留言跟Mobile 評論、發布畫面不同需額外控制
                 <>
                     {isMobile && (

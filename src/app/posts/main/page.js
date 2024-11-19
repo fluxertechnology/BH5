@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,useMemo } from "react";
 import styled from "styled-components";
 import { usePathname } from 'next/navigation'
 import scrollBottomCallEvent from "@/lib/services/scrollEvent";
@@ -30,7 +30,7 @@ const PostsMainNewPage = ({
     const { width } = size;
     const { state } = useGlobalContext();
 
-    const getLocalState = () => {
+    const localState = useMemo(() => {
         const breadcrumbsLength = state.breadcrumbs.length;
         const newRoute = state.router?.location?.pathname;
         const notPath = state.breadcrumbs[breadcrumbsLength - 1]?.path;
@@ -38,7 +38,6 @@ const PostsMainNewPage = ({
         const isFirstEnter = state.breadcrumbs.find((data, index) => {
             if (index < breadcrumbsLength - 1) return data.path === newRoute;
         });
-        console.log(state, 'state.postListData')
         return {
             user: state.user,
             refreshData:
@@ -48,13 +47,7 @@ const PostsMainNewPage = ({
                 !state.user.is_creation,
             postListData: state.postListData,
         };
-    };
-
-    const [localState, setLocalState] = useState(getLocalState());
-
-    useEffect(() => {
-        setLocalState(getLocalState());
-    }, [state]);
+    },[state]);
 
     const updatePostListData = (scrollColdEnd = () => { }) => {
         useGlobalDispatch(getPostListAction(scrollColdEnd));

@@ -38,7 +38,7 @@ const PostsMainNewPage = ({
         const isFirstEnter = state.breadcrumbs.find((data, index) => {
             if (index < breadcrumbsLength - 1) return data.path === newRoute;
         });
-        console.log(state, 'state.postListData')
+
         return {
             user: state.user,
             refreshData:
