@@ -1,0 +1,30 @@
+<svg width="55" height="56" viewBox="0 0 55 56" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="50%" y1="49.5%" x2="100%" y2="50.5%" id="uhk9bqc4qa">
+            <stop stop-color="#FF21E1" offset="0%"/>
+            <stop stop-color="#FF0DA2" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="50%" y1="11.917%" x2="100%" y2="88.083%" id="1ehoikxf0b">
+            <stop stop-color="#FF21E1" offset="0%"/>
+            <stop stop-color="#FF0DA2" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="50%" y1="26.132%" x2="100%" y2="73.868%" id="q6esfkabcc">
+            <stop stop-color="#FF21E1" offset="0%"/>
+            <stop stop-color="#FF0DA2" offset="100%"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path d="M0 0h55v55H0z"/>
+        <g transform="translate(0 1)">
+            <g transform="translate(17)" fill="url(#uhk9bqc4qa)">
+                <rect transform="rotate(90 2 15.5)" x="-13" y="14" width="30" height="3" rx="1.5"/>
+                <rect transform="rotate(90 19 15.5)" x="4" y="14" width="30" height="3" rx="1.5"/>
+            </g>
+            <rect stroke="url(#1ehoikxf0b)" stroke-width="2" fill="#FFF" x="1" y="6" width="53" height="46" rx="4"/>
+            <path d="M0 15h55v34a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V15z" fill="url(#q6esfkabcc)"/>
+        </g>
+        <g fill="#FFF">
+            <path d="M27.5 20.5C35.51 20.5 42 26.992 42 35s-6.491 14.5-14.5 14.5C19.492 49.5 13 43.008 13 35s6.492-14.5 14.5-14.5zm9.37 5.278a1.5 1.5 0 0 0-2.092.352L23.91 41.403l-5.684-8.083-.089-.114a1.5 1.5 0 0 0-2.365 1.84l6.905 9.817.09.115a1.5 1.5 0 0 0 2.359-.108l12.095-17 .078-.122a1.5 1.5 0 0 0-.43-1.97z"/>
+        </g>
+    </g>
+</svg>

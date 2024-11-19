@@ -198,7 +198,8 @@
     "unsuccess_not_support": "暂不支援",
     "unsuccess_action_hand_copy": "请手动复制",
     "unsuccess_unactivie_code": "你还没输入激活码喔",
-    "no_see_opinion_and_pic": "没看到意见和图片 (´･ω･`)"
+    "no_see_opinion_and_pic": "没看到意见和图片 (´･ω･`)",
+    "tip_buy_discount_game": "购买游戏即可享有折扣"
   },
   "post": {
     "dynamic_news": "动态详情",
@@ -239,5 +240,413 @@
     "placeholder_donate_diamond": "精钻打赏",
     "placeholder_think_again": "再想一下",
     "thx_support": "感谢支持 (ﾉ◕ヮ◕)ﾉ*:‧ﾟ✧"
+  },
+  "Profile": {
+    "build": {
+      "input": {
+        "address": "输入地址",
+        "reciever": "收货人資訊"
+      },
+      "placeholder": {
+        "postal_code": "请填写邮编",
+        "complete_address": "请填写详细地址",
+        "phone": "请填写手机",
+        "receiver_name": "请填写收货人姓名"
+      },
+      "redemption": {
+        "": "兑换中",
+        "redemptioned": "已兑换",
+        "fast_go": "请尽速前往兑换"
+      },
+      "validity": {
+        "period": "有效期限"
+      },
+      "action": {
+        "click": {
+          "copy": "点击复制",
+          "redemption": "点击兑换"
+        }
+      },
+      "reduce": "立减",
+      "gold_money_once": "金币1次",
+      "buy": {
+        "only_mall_consume": "仅适用于商城消费",
+        "remains": "剩于",
+        "times": "次"
+      },
+      "effect": {
+        "unuse": "未使用",
+        "used": "已使用",
+        "uneffect": "已失效",
+        "success": "完成 d(`･∀･)b",
+        "unsuccess": "  失败...再次兑换_(:3 」∠ )_"
+      },
+      "label": {
+        "confirm_sent": "确认寄出",
+        "reward": "奖品",
+        "coupon": "优惠券",
+        "my_gift": "我的礼包",
+        "card": {
+          "member": "会员卡",
+          "and_chill": "约P卡",
+          "video": "视频卡"
+        }
+      }
+    },
+    "buy": {
+      "placeholder": {
+        "vip.redemption_code": "请输入兑换码"
+      },
+      "respect": "尊敬的",
+      "watch": {
+        "forever": "永久看片vip",
+        "forever_1": "永久贵宾 无限看片",
+        "limit": "限时看片vip"
+      },
+      "label": {
+        "will_be": "将于",
+        "maturity": "到期",
+        "maturity.vip": "vip已到期 请及时续费",
+        "vip": {
+          "redemption_code": "vip会员兑换"
+        },
+        "redeem_now": "立即兑换",
+        "redeem_ing": "兑换中",
+        "irredeemable": "精鑽不足，无法兑换",
+        "buy_now": "立即购买",
+        "buy": {
+          "money": "精钻购买",
+          "member": "购买会员"
+        },
+        "benefit_introduce": "权益介绍",
+        "free": "全站免费",
+        "watch": {
+          "forever": "无限观影"
+        },
+        "exclusive": "专属客服",
+        "premium_icon": "尊享图标",
+        "info": {
+          "description_1": "无限观影权益内容仅包含动画、漫画、小说、美图、直播、约Ｐ，不包含视频。",
+          "description_2": "直播、约Ｐ，不包含视频。",
+          "member.description": "成为会员可享受4大权益，到期手动续费"
+        }
+      },
+      "vip": {
+        "and_chill": {
+          "description": "约P次数无限制，还可享受ＶＩＰ同等权益"
+        },
+        "label": {
+          "watch": {
+            "forever": "无限观影",
+            "all_website_free": "全网视频免费看"
+          },
+          "service": {
+            "priority": {
+              "": "客服优先",
+              "after_sale": "售后急速接入"
+            }
+          },
+          "and_chill": {
+            "discount": {
+              "": "约炮优惠折扣",
+              "cost": "费用折抵"
+            }
+          }
+        },
+        "video": {
+          "card": {
+            "maturity": {
+              "until": "视频卡将于",
+              "description": "视频卡已到期 请及时续费"
+            }
+          },
+          "label": {
+            "watch": {
+              "description": "享有站内视频无限看！不限流量！"
+            }
+          }
+        }
+      }
+    },
+    "edit": {
+      "info": {
+        "label": {
+          "editor_data": "编辑资料",
+          "editor_nick_name": "修改暱称",
+          "change_avatars": "变更头像",
+          "confirm_use_nick_name": "确认使用该暱称",
+          "nick_name": "暱称",
+          "nick_name_now": "当前暱称:",
+          "nick_name_rules": "暱称规则",
+          "nick_name_not_comply_rules": "昵称不符规则限制",
+          "confirm_edit": "确认修改",
+          "tip": "未修改过暱称的用户，可免费更改一次暱称",
+          "tip_need_pay": "更换暱称需花费3精钻",
+          "tip1": "暱称字符限制为7个中文字或14个英文字，不可使用数字",
+          "tip2": "每个帐号可免费修改一次，后续再改每次花费3精钻",
+          "tip3": "暱称请勿携带各种广告用语、引流、未成年等信息，违者封号",
+          "sex": "性别",
+          "man": "男",
+          "male": "女",
+          "edit_password": "修改密码",
+          "logout": "退出登录",
+          "choice_avatar": "选择头像",
+          "unlock_have": "解锁拥有"
+        }
+      }
+    },
+    "transfer": {
+      "redeem_record": "兑换记录",
+      "deduct": "扣除",
+      "exchange.captions": "兑换说明",
+      "captions_1": "1.1 精钻可兑换 100 金币",
+      "captions_2": " 2.兑换完成会直接加进您的金币中，可用于观看漫画、动画、打赏或购买部分商城商品等",
+      "captions_3": "3.精钻一经兑换后不得退还或取消",
+      "redeem": {
+        "": "兑换",
+        "title": "金币兑换成功",
+        "content": "祝您有个愉快的体验",
+        "continue_redeem": "继续兑换",
+        "watch_now": "看片去"
+      }
+    },
+    "feeback": {
+      "label": {
+        "feeback": "意见反馈",
+        "submit": "提交",
+        "content": "内容",
+        "upload_pic": "上传图片",
+        "upload_limit": " (最多上传3张图片)"
+      },
+      "placeholder": {
+        "complaints": "请输入投诉内容，不超过500字。"
+      }
+    },
+    "main": {
+      "vip": {
+        "maturity": "vip到期 请及时续费",
+        "maturity1": "会员到期 请及时续费"
+      },
+      "label": {
+        "member_benefit_tip": "会员权益提醒",
+        "member_description": "vip即将到期，续费继续 享有会员特权",
+        "member_description_1": "最低¥50即可享受,如已开通vip, 请忽略此弹窗提示",
+        "continue_buy": "立即续购",
+        "member": "会员",
+        "infinite": "无限",
+        "go_mall": "前往商城",
+        "tip": "你今天已经签到过啰!",
+        "telegram": "telegram司机群!",
+        "potato": "potato交流群!",
+        "description": "压力就该释放 点我让你撸的爽"
+      },
+      "option": {
+        "application": "应用中心",
+        "official_friend_group": "官方友群",
+        "common_problem": "常见问题",
+        "contact_us": "联络我们",
+        "common_effect": "常用功能",
+        "feeback": "意见反馈 / 支付申诉",
+        "buy_discount": "首购优惠",
+        "own": {
+          "gift": "我的礼包",
+          "ollect": "我的收藏"
+        },
+        "news.discount": "新优惠",
+        "history": {
+          "buy": "购买纪录",
+          "watch": "观看记录"
+        },
+        "news": "消息资讯",
+        "mall_order": "商城订单",
+        "switch_language": "切换语言",
+        "task": {
+          "": "任务中心",
+          "board": "任务看板"
+        },
+        "godd_stuff": "更多好康",
+        "call_us": "联系我们"
+      },
+      "click.login": "点击登录",
+      "watch": {
+        "mount": {
+          "today": "当日观影次数"
+        }
+      },
+      "heap": {
+        "share": {
+          "account": "累积分享用户"
+        }
+      },
+      "nav": {
+        "my_account": "我的帐户",
+        "charge": "我要充值"
+      },
+      "mission": {
+        "label": {
+          "all_permission": "全部任务"
+        }
+      }
+    },
+    "permission": {
+      "signin": {
+        "everyday": "每日签到",
+        "now": "立即签到",
+        "click": {
+          "award": "每天点击签到奖励获得金币奖励"
+        }
+      },
+      "invite.friend": "邀请好友",
+      "invite.friend.signin": "邀请好友成功注册",
+      "invite.now": "立即邀请",
+      "task": "任务看板",
+      "task.promote": "推广任务",
+      "task.everyday": "日常任务",
+      "board.description": " 人注册，获得ｖｉｐ奖励",
+      "vip_day": "vip天數",
+      "shop_coupon": "商城優惠卷",
+      "personal_avatar": "個人頭像"
+    },
+    "my": {
+      "collect": {
+        "comic": "h漫",
+        "anime": "番剧",
+        "video": "视频",
+        "novel": "小说",
+        "photo": "美图",
+        "own": {
+          "collect": "我的收藏"
+        }
+      },
+      "order": {
+        "mall": {
+          "order": "商城订单"
+        },
+        "success": "已完成",
+        "detail": {
+          "": "订单明细",
+          "total": "商品总额",
+          "redeem_code": "兑换码",
+          "status": "订单状态",
+          "success": "已完成",
+          "received_data": "收货人資訊",
+          "donate": "转赠给",
+          "received": "收货人：",
+          "area": "地区：",
+          "address": "地址：",
+          "post_code": "邮编：",
+          "cellphone": "手机：",
+          "go": {
+            "now": "立即前往"
+          }
+        }
+      }
+    },
+    "payment": {
+      "own_gold": "我的金币",
+      "": "我的精钻",
+      "charge": {
+        "history": "充值纪录",
+        "history_1": "记录",
+        "own_money": "当前拥有精钻",
+        "history_clear": "笔笔纪录清晰",
+        "unsuccess.description": "如订单被拒绝，点击已拒绝查看拒绝原因",
+        "gold": "金币充值",
+        "drill": "精钻充值"
+      },
+      "own_account": "我的帐户",
+      "description": "100金币=1元、1精钻=1元，精钻可购买约炮资讯和VIP尊荣会员，其他则用金币购买。如有疑问请与客服联络",
+      "transfer": {
+        "direct_purchase": "VIP直购",
+        "gold": "兑换金币",
+        "with_draw": "申请提现",
+        "with_draw_content": "领取您的收益"
+      },
+      "label": {
+        "time": {
+          "": "时间",
+          "order": {
+            "status": "订单状态"
+          }
+        },
+        "charge": {
+          "mode": "充值方式",
+          "type": "充值类型",
+          "amount": "充值金额"
+        }
+      }
+    },
+    "purchase": {
+      "comic_h": "h漫",
+      "animate": "番剧",
+      "video": "视频",
+      "novel": "小说",
+      "meitu": "美图",
+      "and_chill": "约p"
+    },
+    "setting": {
+      "info": {
+        "": "设置中心",
+        "label": {
+          "mail": "绑定邮箱",
+          "confirm": "确认",
+          "about_us": "关于我们",
+          "bind": {
+            "invitation": {
+              "code": "绑定邀请码"
+            },
+            "body": {
+              "description": "每个人脑海里总有一位女（男）神；每个人电脑里总有一部片子；给你一个女（男）神，给你Ｎ部片子；让你的女（男）神来陪你度过漫漫长路，BHub，海量精品视频，让你懂得更多，懂你更多！"
+            }
+          }
+        }
+      }
+    },
+    "share": {
+      "description_1": "全网福利动漫、视频、老司机话题看个够，次元世界每日爆更，复制链接在浏览器中打开下载",
+      "description_2": "，邀请码： ",
+      "description_3": "，永久下载地址：\n",
+      "description_4": "◆保存二维码或分享推广链接给好友可获取奖励",
+      "description_5": "◆如果推荐的好友没有绑定你的邀请码，请復制邀请码发送给朋友，在我的－右上角设定按钮－绑定邀请码，即可完成绑定关系",
+      "description_6": "◆分享可得vip奖励，详细请至任务中心查看",
+      "label:": {
+        "step": "分享步骤",
+        "step_1": "点击「保存二维码」或「分享推广链接」",
+        "step_2": "  将图片或链接选择渠道发送出去平时常用的社交软件",
+        "step_2_1": "或各类游戏公共频道",
+        "step_3": "请好友下载APP注册后，输入你的邀请码即可生效",
+        "scan_code": "立即扫码",
+        "save":{
+          "my_invited_code": "保存二维码"
+        },
+        "write": {
+          "my_invited_code": "填写我的邀请码"
+        },
+        "url": "分享推广链接"
+      }
+    },
+    "with_draw":{
+      "apply":{
+        "": "提领金额",
+        "all_money": "全部金额"
+      },
+      "apply_money": "最低提现金额100"
+    },
+    "direct_buy_vip":{
+      "continue":{
+        "member":"立即开通VIP会员"
+      },
+      "pay": "立即支付",
+      "pay_type": "支付方式",
+      "checked": "已选择",
+      "buy_long": "选择购买时长",
+      "submit_form": "订单已提交",
+      "modal.description": "支付成功，一般在1－5分钟内生效。如超时未生效，请您再试一次，若仍然未生效，请联系在线客服",
+      "member_permissions": "会员特权",
+      "one_month": "一个月vip",
+      "third_month": "三个月vip",
+      "one_year": "一年vip",
+      "choice_buy_long": "已选择"
+    }
   }
 }
