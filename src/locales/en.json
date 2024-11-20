@@ -718,5 +718,11 @@
     "placeholder_mail_verify": "Please Input Your Email Verify",
     "placeholder_mail_verify_tip": "Verify Code Error",
     "placeholder_qq": "Please Input QQ No."
+  },
+  "Register":{
+    "general": "General Register",
+    "qq": "QQ Register",
+    "email": "Email Register",
+    "phone": "Phone Register"
   }
 }
