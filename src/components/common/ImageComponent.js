@@ -74,7 +74,7 @@ const ImageComponent = ({
         title={title}
         style={imgStyle}
         onContextMenu={preventMenu}
-        loader={imageLoader}
+        // loader={imageLoader}
         onLoad={(e) => {
           if (toFixSize) {
             let img = document.createElement("img");

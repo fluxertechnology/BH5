@@ -470,7 +470,7 @@
             "gift": "My Gifts",
             "collect": "My Save"
           },
-          "news.discount": "Coupon",
+          "news_discount": "Coupon",
           "history": {
             "buy": "Shopping History",
             "watch": "Watch History"
@@ -718,6 +718,12 @@
     "placeholder_mail_verify": "Please Input Your Email Verify",
     "placeholder_mail_verify_tip": "Verify Code Error",
     "placeholder_qq": "Please Input QQ No."
+  },
+  "Register":{
+    "general": "General Register",
+    "qq": "QQ Register",
+    "email": "Email Register",
+    "phone": "Phone Register"
   },
   "Personal": {
     "setting": "Personal Setting"

@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 import { AxiosCenter } from "@/lib/services/axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toastAutoCloseDuring } from "@/lib/constants"
 
 import { getAdsData } from "@/store/actions/adsList";
 import { getConfigData } from "@/store/actions/config";
@@ -37,6 +40,19 @@ export default function GlobalComponent() {
   return (
     <div>
       <AxiosCenter.RenderLoadingElement />
+      <ToastContainer
+        className="toast_container"
+        toastClassName="toast_container_item"
+        position="bottom-center"
+        autoClose={toastAutoCloseDuring}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

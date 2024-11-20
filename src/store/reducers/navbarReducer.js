@@ -19,6 +19,14 @@ const navbarReducer = function (state = {}, action) {
         newNotice: 0,
         clickHome: () => {},
         toPaymentPage: () => {},
+        mainHeight: 72,
+        subHeight: 42,
+        subFontSize: 20,
+        bottomNavHeight: 62,
+        fixed: false,
+        customComponent: () => <></>,
+        prependComponent: () => <></>,
+        appendComponent: () => <></>,
       };
     default:
       return state;

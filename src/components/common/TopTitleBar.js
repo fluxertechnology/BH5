@@ -55,7 +55,7 @@ const TopTitleBar = ({
       title={title}
       show_back_color={show_back_color}
       to_absolute={to_absolute}
-      textAlign={textAlign}
+      text_align={textAlign}
       show_border_bottom={show_border_bottom}
     >
       <div className="container">
@@ -111,8 +111,13 @@ export default TopTitleBar;
 
 export const TopTitleBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
+<<<<<<< HEAD
       !["color","back_color","show_back_color","title","show_border_bottom","to_absolute","textAlign"].includes(prop),
 })`
+=======
+    !["to_absolute", "show_border_bottom"].includes(prop),
+  })`
+>>>>>>> f82cf34d7f71dbf62699286d4e98aa53ca8ba5a5
   /*  */
   position: ${({ to_absolute }) => (to_absolute ? "absolute" : "unset")};
   z-index: 1;
@@ -162,7 +167,7 @@ export const TopTitleBarElement = styled.div.withConfig({
         // max-height: ${({ title }) => (title.length < 10 ? 20 : 16)}px;
 
         word-break: break-all;
-        text-align: ${({ textAlign }) => textAlign};
+        text-align: ${({ text_align }) => text_align};
         letter-spacing: 1px;
         font-weight: 700;
         padding: 1% 5%;

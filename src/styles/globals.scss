@@ -764,3 +764,29 @@ $spacers: (
     transform: scale(1);
   }
 }
+
+/* 彈窗樣式 */
+.Toastify {
+  .toast_container {
+    bottom: 62px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .toast_container_item {
+      position: relative;
+      padding: 6px 10px;
+      min-height: unset;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      border-radius: 100px;
+
+      .Toastify__close-button {
+        display: none;
+      }
+    }
+  }
+}
