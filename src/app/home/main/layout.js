@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 
 import TopTabBar from "@/components/common/TopTabBar";
-import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import FloatAds from "@/components/index/FloatAds";
 import StickyShareButton from "@/components/common/StickyShareButton";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
@@ -201,10 +200,10 @@ const HomeLayout = ({ children }) => {
               window.scrollY >
               document.body.clientHeight -
                 window.innerHeight -
-                bottom_nav_height
+                state.navbar.bottomNavHeight
             ) {
               shareButtonRef.style.display = "flex";
-              shareButtonRef.style.bottom = `${bottom_nav_height}px`;
+              shareButtonRef.style.bottom = `${state.navbar.bottomNavHeight}px`;
               shareButtonRef.style.zIndex = 10;
             } else {
               shareButtonRef.style.display = "none";
@@ -235,6 +234,7 @@ const HomeLayout = ({ children }) => {
         clickAvatar,
         clickNew,
         appendComponent: TopTabBarComponent,
+        customComponent: () => false
       },
     });
   }, []);
@@ -269,8 +269,8 @@ const HomeLayout = ({ children }) => {
         position_style={{
           left: "auto",
           bottom: isMobile
-            ? slide_height + bottom_nav_height + "px"
-            : bottom_nav_height * 3 + "px",
+            ? slide_height + state.navbar.bottomNavHeight + "px"
+            : state.navbar.bottomNavHeight * 3 + "px",
           right: isMobile ? 0 : "85px",
         }}
         direct_route={
@@ -332,9 +332,9 @@ export default HomeLayout;
 
 const HomeLayoutElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["main_height", "sub_height"].includes(prop),
+    !["main_height", "sub_height", "bottom_nav_height"].includes(prop),
 })`
-  ${({ main_height, sub_height }) => `
+  ${({ main_height, sub_height, bottom_nav_height }) => `
     /*  */
     padding-top: ${main_height + sub_height}px;
     position: relative;
@@ -403,7 +403,10 @@ const MobileBottomDownloadAppTip = () => {
   }
 
   return (
-    <MobileBottomDownloadAppTipElement show={show}>
+    <MobileBottomDownloadAppTipElement
+      show={show}
+      bottom_nav_height={state.navbar.bottomNavHeight}
+    >
       <div className="download_bg" />
       <div className="download_container">
         <Image
@@ -433,67 +436,69 @@ const MobileBottomDownloadAppTip = () => {
   );
 };
 const MobileBottomDownloadAppTipElement = styled.div`
-  /*  */
-  bottom: 0;
-  right: 0;
-  left: 0;
-  position: fixed;
-  z-index: 999;
-  height: ${bottom_nav_height + 20}px;
-  display: ${({ show }) => (show ? "auto" : "none")};
-  .download {
-    &_bg {
-      top: 0;
-      bottom: 0;
-      right: -1px;
-      left: 0;
-      background-color: #010001;
-      position: absolute;
-      opacity: 0.8;
-    }
+  ${({ bottom_nav_height }) => `
+    /*  */
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: 999;
+    height: ${bottom_nav_height + 20}px;
+    display: ${({ show }) => (show ? "auto" : "none")};
+    .download {
+      &_bg {
+        top: 0;
+        bottom: 0;
+        right: -1px;
+        left: 0;
+        background-color: #010001;
+        position: absolute;
+        opacity: 0.8;
+      }
 
-    &_container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      white-space: nowrap;
-      height: 100%;
-      gap: 0.5vw;
-      @media (min-width: 599px) {
+      &_container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        white-space: nowrap;
+        height: 100%;
+        gap: 0.5vw;
+        @media (min-width: 599px) {
+          justify-content: center;
+        }
+        &_close {
+          width: 25px;
+        }
+        &_logo {
+          border-radius: 10px;
+          width: 60px;
+        }
+      }
+
+      &_text {
+        display: flex;
+        flex-direction: column;
         justify-content: center;
-      }
-      &_close {
-        width: 25px;
-      }
-      &_logo {
-        border-radius: 10px;
-        width: 60px;
-      }
-    }
 
-    &_text {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      &_top {
-        color: #f24c7c;
-        opacity: 0.9;
-        font-weight: 600;
+        &_top {
+          color: #f24c7c;
+          opacity: 0.9;
+          font-weight: 600;
+        }
+        &_bottom {
+          color: #a8a8a8;
+        }
       }
-      &_bottom {
-        color: #a8a8a8;
+      &_button {
+        flex-shrink: 0;
+        display: inline-block;
+        overflow: hidden;
+        color: #fff;
+        background-color: ${colors.back_dark_pink};
+        border-radius: 50px;
+        padding: 0.6em 1em;
       }
     }
-    &_button {
-      flex-shrink: 0;
-      display: inline-block;
-      overflow: hidden;
-      color: #fff;
-      background-color: ${colors.back_dark_pink};
-      border-radius: 50px;
-      padding: 0.6em 1em;
-    }
-  }
+  `}
 `;

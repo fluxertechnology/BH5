@@ -3,18 +3,18 @@
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import ImageComponent from "@/components/common/ImageComponent";
-import { apiUrl, pageUrlConstants,colors } from "@/lib/constants/index.js";
+import { apiUrl, pageUrlConstants, colors } from "@/lib/constants/index.js";
 
 const { vendor } = pageUrlConstants;
 
 const VendorItemCard = ({ data }) => {
-    const t = useTranslations('Vendor');
-    const { image, price, store_name } = data;
+  const t = useTranslations("Vendor");
+  const { image, price, store_name } = data;
 
-    return (
-        <VendorItemCardElement>
-            {/* Uncomment LinkComponent if routing is needed */}
-            {/* <LinkComponent
+  return (
+    <VendorItemCardElement>
+      {/* Uncomment LinkComponent if routing is needed */}
+      {/* <LinkComponent
                 className="container"
                 routes={{
                     name: vendor.pages.vendorGoods.name + data.title,
@@ -24,63 +24,50 @@ const VendorItemCard = ({ data }) => {
                     },
                 }}
             > */}
-            <ImageComponent
-                src={image}
-                alt={store_name}
-                title={store_name}
-                border_radius={0}
-                background_color="#fff"
-            />
-            <div className="container_body">
-                <div className="container_text">{store_name}</div>
-                <div className="container_price">${Number(price).toFixed(2)}</div>
-            </div>
-            {/* </LinkComponent> */}
-        </VendorItemCardElement>
-    );
+      <ImageComponent
+        src={image}
+        alt={store_name}
+        title={store_name}
+        border_radius={0}
+        background_color="#fff"
+      />
+      <div className="container_body">
+        <div className="container_text">{store_name}</div>
+        <div className="container_price">${Number(price).toFixed(2)}</div>
+      </div>
+      {/* </LinkComponent> */}
+    </VendorItemCardElement>
+  );
 };
 
-export const moneyAndGold = (money, yue, intl) => {
-    if (yue && money) {
-        return (
-            <div className="price">
-                {yue}
-                <span className="price_small">
-                    {" "}
-                    {t('money')}
-                </span>
-                <span> / </span>
-                {money}
-                <span className="price_small">
-                    {" "}
-                    {t('gold_money')}
-                </span>
-            </div>
-        );
-    } else if (yue) {
-        return (
-            <div className="price">
-                {yue}
-                <span className="price_small">
-                    {" "}
-                    {t('gold_money')}
-                </span>
-            </div>
-        );
-    } else if (money) {
-        return (
-            <div className="price">
-                {money}
-                <span className="price_small">
-                    {t('gold_money')}
-                </span>
-            </div>
-        );
-    } else {
-        return (
-            <div className="price"> {t('free')}</div>
-        );
-    }
+export const moneyAndGold = (money, yue, t) => {
+  if (yue && money) {
+    return (
+      <div className="price">
+        {yue}
+        <span className="price_small"> {t("Global.money")}</span>
+        <span> / </span>
+        {money}
+        <span className="price_small"> {t("Global.gold_money")}</span>
+      </div>
+    );
+  } else if (yue) {
+    return (
+      <div className="price">
+        {yue}
+        <span className="price_small"> {t("Global.gold_money")}</span>
+      </div>
+    );
+  } else if (money) {
+    return (
+      <div className="price">
+        {money}
+        <span className="price_small">{t("Global.gold_money")}</span>
+      </div>
+    );
+  } else {
+    return <div className="price"> {t("Global.free")}</div>;
+  }
 };
 
 export default VendorItemCard;

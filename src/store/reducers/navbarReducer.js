@@ -1,9 +1,27 @@
+const defaultState = {
+  isPlaceholder: false,
+  clickSearch: (e) => e.stopPropagation(),
+  clickAvatar: () => {},
+  clickNew: () => {},
+  newNotice: 0,
+  clickHome: () => {},
+  toPaymentPage: () => {},
+  mainHeight: 72,
+  subHeight: 42,
+  subFontSize: 20,
+  bottomNavHeight: 62,
+  fixed: false,
+  customComponent: () => false,
+  prependComponent: () => <></>,
+  appendComponent: () => <></>,
+};
+
 const navbarReducer = function (state = {}, action) {
   switch (action.type) {
     case "INIT_NAVBAR":
       return {
-        ...state,
-        ...action.data,
+        ...defaultState,
+        ...action.data
       };
 
     case "UPDATE_NAVBAR":
@@ -24,7 +42,7 @@ const navbarReducer = function (state = {}, action) {
         subFontSize: 20,
         bottomNavHeight: 62,
         fixed: false,
-        customComponent: () => <></>,
+        customComponent: () => false,
         prependComponent: () => <></>,
         appendComponent: () => <></>,
       };

@@ -25,6 +25,6 @@ export const postSearchWatchHistoryAction = (type) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.log("Error", err);
     });
 };

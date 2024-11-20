@@ -54,7 +54,7 @@ export const postSearchWatchHistory = (type) => {
   formData.append("uid", token);
   if (token) return axiosRequest.post(postSearchHistory, formData);
   return new Promise((resolve, reject) => {
-    reject('[Get Watch History] No user token');
+    reject('[/banime/history/lists]: No user token');
   });
 };
 

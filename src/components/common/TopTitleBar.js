@@ -35,7 +35,6 @@ const TopTitleBar = ({
 }) => {
 
   const backEvent = (backIndex, not_clear_history) => {
-    console.log(backIndex, not_clear_history);
     if (backIndex) {
       useGlobalDispatch(
         pushRoutes({

@@ -30,6 +30,7 @@ const StyleAccordion = styled((props) => (
 function SimpleAccordion(props) {
   const { img, title, description, datas, url } = props;
   const [expanded, setExpanded] = useState(true);
+
   const handleClick = () => {
     setExpanded((pre) => !pre);
   };
@@ -71,16 +72,17 @@ function SimpleAccordion(props) {
           )}
         </StyleAccordion>
       </div>
+
       <Collapse orientation="vertical" in={expanded}>
-        <Grid container direction="row" alignItems="start" spacing={2}>
-          {expanded
-            ? datas.map((data) => (
-                <Grid item md={6} xs={6} key={data.title}>
-                  <Card horizontal data={data} key={data.name} />
-                </Grid>
-              ))
-            : ""}
-        </Grid>
+        {expanded && (
+          <Grid container direction="row" alignItems="start" spacing={2}>
+            {datas.map((data) => (
+              <Grid item md={6} xs={6} key={data.title || data.name}>
+                <Card horizontal data={data} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Collapse>
     </AccordionElement>
   );

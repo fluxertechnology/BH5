@@ -6,10 +6,11 @@ import ImageComponent from "@/components/common/ImageComponent";
 import errorImg from "@public/images/imgPlaceholder/fail404.jpg";
 import { colors } from "@/lib/constants";
 import Image from "next/image";
+import { useGlobalDispatch } from "@/store";
 
 const NovelCard = ({ data, total_view_show }) => {
   const toNovelPage = (data) => {
-    dispatch(
+    useGlobalDispatch(
       checkinPageConditioncheckAction({
         itemId: data.id,
         itemType: 0,
@@ -49,7 +50,13 @@ const NovelCard = ({ data, total_view_show }) => {
           />
         </div>
         <div className="card_heart">
-          <Image  className="card_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
+          <Image
+            className="card_heart_img"
+            src={heartIcon}
+            width={0}
+            height={0}
+            alt="heart"
+          />
           {data.need_jinbi}金币
         </div>
       </div>

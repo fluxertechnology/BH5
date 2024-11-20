@@ -14,12 +14,17 @@ export const getHomeData = () => {
   return function (dispatch) {
     const formData = new FormData();
     formData.append("token", store.getState().user.id);
-    axiosRequest.post(getNewAnimeHome, formData).then((data) => {
-      dispatch({
-        type: "INIT_HOME_DATA",
-        data: data,
+    axiosRequest
+      .post(getNewAnimeHome, formData)
+      .then((data) => {
+        dispatch({
+          type: "INIT_HOME_DATA",
+          data: data,
+        });
+      })
+      .catch((err) => {
+        console.log("Error", "[/mobileapi/anime/newhome]:", err);
       });
-    });
   };
 };
 
@@ -32,18 +37,23 @@ export const getContinueWatchData = () => {
   return function (dispatch) {
     const formData = new FormData();
     formData.append("uid", store.getState().user.id);
-    axiosRequest.post(postContinueHistory, formData).then((data) => {
-      dispatch({
-        type: "UPDATE_HOME_DATA",
-        key: "anime_watch_history",
-        data: data.anime_video_list,
+    axiosRequest
+      .post(postContinueHistory, formData)
+      .then((data) => {
+        dispatch({
+          type: "UPDATE_HOME_DATA",
+          key: "anime_watch_history",
+          data: data.anime_video_list,
+        });
+        dispatch({
+          type: "UPDATE_HOME_DATA",
+          key: "comic_watch_history",
+          data: data.anime_comic_list,
+        });
+      })
+      .catch((err) => {
+        console.log("Error", "[/banime/history/readon]:", err);
       });
-      dispatch({
-        type: "UPDATE_HOME_DATA",
-        key: "comic_watch_history",
-        data: data.anime_comic_list,
-      });
-    });
   };
 };
 
@@ -70,14 +80,19 @@ export const refreshAnimeData = (key) => {
       data.append("limit", 10);
     }
 
-    axiosRequest.post(postRefreshAnime, data).then((data) => {
-      console.log(key, "key");
-      dispatch({
-        type: "UPDATE_HOME_DATA",
-        key,
-        data,
+    axiosRequest
+      .post(postRefreshAnime, data)
+      .then((data) => {
+        console.log(key, "key");
+        dispatch({
+          type: "UPDATE_HOME_DATA",
+          key,
+          data,
+        });
+      })
+      .catch((err) => {
+        console.log("Error", "[/mobileapi/anime/get_list_by_change]:", err);
       });
-    });
   };
 };
 
