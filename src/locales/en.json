@@ -718,5 +718,8 @@
     "placeholder_mail_verify": "Please Input Your Email Verify",
     "placeholder_mail_verify_tip": "Verify Code Error",
     "placeholder_qq": "Please Input QQ No."
+  },
+  "Personal": {
+    "setting": "Personal Setting"
   }
 }

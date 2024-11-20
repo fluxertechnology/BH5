@@ -718,5 +718,8 @@
     "placeholder_mail_verify": "请输入邮箱验证码",
     "placeholder_mail_verify_tip": "验证码错误",
     "placeholder_qq": "请输入QQ帐号"
+  },
+  "Personal": {
+    "setting": "个人设定"
   }
 }

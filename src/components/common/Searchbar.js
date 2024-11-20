@@ -50,7 +50,10 @@ const Searchbar = ({
 
 export default Searchbar;
 
-export const SearchbarElement = styled.div`
+export const SearchbarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["scroll"].includes(prop),
+})`
   /*  */
   .search {
     padding: 5px;

@@ -21,6 +21,7 @@ import {
 } from "@/lib/constants";
 import DraggableComponent from "@/components/index/DraggableComponent";
 import WavaButton from "@/components/layout/Header/WavaButton";
+import { pushRoutes } from "@/store/actions/historyActions";
 
 const { home } = pageUrlConstants;
 const store =

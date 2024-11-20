@@ -2,7 +2,10 @@ import React, { FC, createContext, useContext } from "react";
 
 const I18N_CONFIG_KEY = process.env.REACT_APP_I18N_CONFIG_KEY || "i18nConfig";
 
-const initLang = window.navigator.language.substring(0, 2).toString();
+const isClientSide = typeof window !== "undefined";
+const initLang = isClientSide
+  ? window.navigator.language.substring(0, 2).toString()
+  : "tc";
 type Props = {
   selectedLang: "de" | "en" | "es" | "fr" | "ja" | "tc" | "sc";
 };
@@ -11,7 +14,9 @@ const initialState: Props = {
 };
 
 function getConfig(): Props {
-  const ls = localStorage.getItem(I18N_CONFIG_KEY) || `"${initLang}"`;
+  const ls = isClientSide
+    ? localStorage.getItem(I18N_CONFIG_KEY) || `"${initLang}"`
+    : `"${initLang}"`;
   if (ls) {
     try {
       return JSON.parse(ls) as Props;
@@ -24,6 +29,7 @@ function getConfig(): Props {
 export const nowLang = getConfig().selectedLang || initialState.selectedLang;
 // Side effect
 export function setLanguage(lang: string) {
+  if (!isClientSide) return;
   function judeLang(lang: string) {
     switch (lang) {
       case "tc":
