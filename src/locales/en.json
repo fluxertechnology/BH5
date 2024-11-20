@@ -470,7 +470,7 @@
             "gift": "My Gifts",
             "collect": "My Save"
           },
-          "news.discount": "Coupon",
+          "news_discount": "Coupon",
           "history": {
             "buy": "Shopping History",
             "watch": "Watch History"
