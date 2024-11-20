@@ -101,12 +101,14 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
         }
     }, [showPostTip]);
 
-    useEffect(() => {
-        if (AsideGuidRef.current) {
-            AsideGuidRef.current.style.minHeight =
-                window.innerHeight - main_height - 10 + "px";
-        }
-    }, [window.innerHeight]);
+    if (typeof window !== 'undefined') {
+        useEffect(() => {
+            if (AsideGuidRef.current) {
+                AsideGuidRef.current.style.minHeight =
+                    window.innerHeight - main_height - 10 + "px";
+            }
+        }, [window.innerHeight]);
+    }
 
     useEffect(() => {
         for (let i = 0; i < labelListKey.length; i++) {
