@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import rootReducer from "@/store/reducers";
 import { useRouter } from "next/navigation";
+import { decryptiedData } from "@/lib/services/aes";
 
 const GlobalContext = createContext();
 
@@ -14,6 +15,14 @@ export function GlobalProvider({ children }) {
   const searchParams = useSearchParams();
   const quertObj = Object.fromEntries(searchParams.entries());
   const url = `${pathname}?${searchParams}`;
+
+  let localData = {};
+  if (typeof window !== "undefined") {
+    localData = window.localStorage.getItem("contentData")
+      ? JSON.parse(decryptiedData(window.localStorage.getItem("contentData")))
+      : {};
+  }
+
   const [state, dispatch] = useReducer(rootReducer, {
     adsList: {},
     noticeList: [],
@@ -23,7 +32,19 @@ export function GlobalProvider({ children }) {
     breadcrumbs: [],
     areaCode: [],
     routesGuard: {},
-    outOfQuotaData: {},
+    outOfQuotaData: {
+      show: false,
+      buy_id: 0,
+      buy_type: 0, // 0 小說 1 插圖吧? 2 漫畫 3 動畫 4 影片
+      gold: 0,
+      episode: 0,
+      checkOnPage: false,
+      showBuy: false,
+      closeType: "back", //關閉方式 back hidden
+      unit: "gold",
+      avatarType: "init",
+      callback: () => {},
+    },
     homeData: {},
     homeAnimeData: {},
     homeCategory: [],
@@ -31,52 +52,226 @@ export function GlobalProvider({ children }) {
     homeAnimesContentData: {},
     homeComicViewData: {},
     homeComicContentData: {},
-    homeLeaderBoard: {},
+    homeLeaderBoard: {
+      comic: [],
+      anime: [],
+    },
     homeTagData: {},
     homeCategoryData: {},
     homeCategoryTabList: [],
     homeSearchTabList: {},
     homeSearchResultData: {},
-    homeVideo: {},
-    homeVideoList: {},
+    homeVideo: { nowTab: 0 },
+    homeVideoList: [
+      {
+        cateid: 0,
+        title: "推荐",
+        videolist: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+        sort: 0,
+      },
+    ],
     homeVideoContent: {},
-    homeNovel: {},
+    homeNovel: { nowTab: 0 },
     homeNovelsList: [],
     homeNovelsListData: {},
     homeNovelsContentData: {},
-    homePhoto: {},
+    homePhoto: { nowTab: 9 },
     homePhotosList: [],
     homePhotosListData: {},
     homePhotosContentData: {},
     homeStreamList: [],
     postData: {},
-    postSameTagList: {},
-    postProfile: {},
-    postTags: {},
-    postListData: {},
-    postTrackData: {},
-    postRecommend: [],
-    postRecommendFriendList: {},
+    postSameTagList: { list: [], page: 0, isDone: false },
+    postProfile: {
+      profile: {},
+      postList: [],
+      page: 0,
+      isDone: false,
+    },
+    postTags: { postTags: [], selectTags: [] },
+    postListData: {
+      postList: localData.postListData?.postList ?? [],
+      page: 0,
+      isNew: true,
+      isDone: false,
+    },
+    postTrackData: {
+      postTrack: localData.postTrackData?.postTrack ?? [],
+      page: 0,
+      isNew: true,
+      isDone: false,
+    },
+    postRecommend: localData.postRecommend ?? [],
+    postRecommendFriendList: {
+      ...(localData.postRecommendFriendList ?? {
+        list: [],
+        page: 0,
+        isDone: false,
+      }),
+    },
     postNotice: [],
-    postRecommendList: [],
+    postRecommendList: {
+      list: localData.postRecommendList?.list ?? [],
+      page: 0,
+      isDone: false,
+    },
     socialListData: {},
     socialProfileData: {},
-    vendorCategory: {},
-    vendorListData: {},
-    vendorGameListData: {},
+    vendorCategory: [],
+    vendorListData: { list: [], adverse: [] },
+    vendorGameListData: {
+      vendorList: [],
+      page: 0,
+      isNew: true,
+      isDone: false,
+    },
     vendorData: {},
     vipInfoData: {},
-    myorderData: {},
+    myorderData: { list: [], page: 0, isDone: false },
     myorderDataDetail: {},
-    profileDirectBuy: {},
+    profileDirectBuy: {
+      pay_channel_list: [],
+      item_list: [{ outside_display_name: "", pay_price: 0 }],
+    },
     myWatchHistory: [],
     getTransferMoney: [],
-    profileMission: {},
-    myCollectList: {},
-    myBuyList: {},
-    showCoverCenter: {},
-    gameListData: {},
-    scrollToTopStatus: {},
+    profileMission: {
+      checkin: [
+        {
+          id: 1,
+          name: "連續簽到",
+          category: 1,
+          description: "0-0-0-0-0-0",
+          reward_type: 1,
+          reward_quantity: 1,
+          completion_count: 1,
+          time_limit: 0,
+          create_time: "2023-07-28 18:23:30",
+          is_completion: 0,
+          has_completion_count: 0,
+          signin: [
+            {
+              day: 1,
+              sign: "0",
+              completion: 0,
+              is_show: 0,
+            },
+            {
+              day: 2,
+              sign: "0",
+              completion: 0,
+              is_show: 0,
+            },
+            {
+              day: 3,
+              sign: "0",
+              completion: 0,
+              is_show: 0,
+            },
+            {
+              day: 4,
+              sign: "0",
+              completion: 0,
+              is_show: 0,
+            },
+            {
+              day: 5,
+              sign: "0",
+              completion: 0,
+              is_show: 0,
+            },
+            {
+              day: 6,
+              sign: "0",
+              completion: 0,
+              is_show: 0,
+            },
+          ],
+        },
+      ],
+      weekly: [],
+      newbie: [],
+    },
+    myCollectList: {
+      CAC: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      CAV: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      CV: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      CX: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      CT: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+    },
+    myBuyList: {
+      BAC: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      BAV: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      BV: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      BX: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      BT: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+      BO: {
+        list: [],
+        page: 0,
+        isNew: true,
+        isDone: false,
+      },
+    },
+    showCoverCenter: {
+      mentionAppCover: false,
+      homeFloatAds: false, // 因要求從內存先把狀態改成 false
+      announcementCover: false,
+    },
+    gameListData: { vendorList: [], page: 0, isNew: true, isDone: false },
+    scrollToTopStatus: false,
     router: {
       action: "", // TODO(ZY): get router action
       location: {
@@ -124,6 +319,9 @@ export function useGlobalContext() {
 
 export function useGlobalDispatch(callback) {
   if (!context) useContext(GlobalContext);
+  if (typeof callback !== "function" && !!callback.type) {
+    return context.dispatch(callback);
+  }
   return callback(context.dispatch);
 }
 
