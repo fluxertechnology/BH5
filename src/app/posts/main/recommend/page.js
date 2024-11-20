@@ -104,7 +104,7 @@ const PostsRecommendFriendRender = ({
 
   function scrollEvent() {
     scrollBottomCallEvent((scrollColdEnd) => {
-      if (!postListData.isDone) {
+      if (!localState.postListData.isDone) {
         updatePostListData(scrollColdEnd);
       }
     });

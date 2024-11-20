@@ -267,6 +267,7 @@ export const AsideGuideElement = styled.div`
         width: 25px;
         height: 25px;
         padding: 10px;
+        box-sizing:content-box;
       }
 
       div {
