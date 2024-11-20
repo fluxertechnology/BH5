@@ -111,13 +111,8 @@ export default TopTitleBar;
 
 export const TopTitleBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-<<<<<<< HEAD
       !["color","back_color","show_back_color","title","show_border_bottom","to_absolute","textAlign"].includes(prop),
 })`
-=======
-    !["to_absolute", "show_border_bottom"].includes(prop),
-  })`
->>>>>>> f82cf34d7f71dbf62699286d4e98aa53ca8ba5a5
   /*  */
   position: ${({ to_absolute }) => (to_absolute ? "absolute" : "unset")};
   z-index: 1;
