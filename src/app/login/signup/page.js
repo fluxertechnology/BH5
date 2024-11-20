@@ -13,7 +13,7 @@ import IconInput, { input_margin } from "@/components/login/IconInputComponent";
 import callToast from "@/lib/services/toastCall.js";
 // import { callCaptcha, CALL_CAPTCHA_TYPE } from "../../utils/callCaptcha";
 import WavaButton from "@/components/layout/Header/WavaButton";
-import { signupUser } from "@/store/actions/user";
+import { signupUser } from "@/store/actions/pages/loginSignupAction";
 
 const { qqReg, emailReq, emailVerifyReq, alphanumericReq } = REG_SET;
 
