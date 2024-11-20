@@ -79,15 +79,15 @@ const LoginMainPage = ({
   }
 
   function userLoginCheck(code) {
-    // if (code) {
-    //   userLoginSuccess();
-    // } else {
-    //   setPhoneNumber("");
-    //   setPassword("");
-    //   phoneNemberRef.current.value = "";
-    //   passwordRef.current.value = "";
-    //   phoneNemberRef.current.focus();
-    // }
+    if (code) {
+      userLoginSuccess();
+    } else {
+      setPhoneNumber("");
+      setPassword("");
+      phoneNemberRef.current.value = "";
+      passwordRef.current.value = "";
+      phoneNemberRef.current.focus();
+    }
   }
   const loginOptions = [
     {
