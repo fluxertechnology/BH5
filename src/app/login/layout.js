@@ -7,7 +7,9 @@ import styled from "styled-components";
 
 import ImageComponent from "@/components/common/ImageComponent";
 
-import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer, {
+  main_height,
+} from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import WebTopBar from "@/components/layout/Header/WebTopBar";
@@ -24,30 +26,33 @@ function Login({ children }) {
 
   useEffect(() => {
     dispatch({
-      type: "RESET_NAVBAR",
-    });
-  }, []);
-
-  return (
-    <LoginElement>
-      {/* <TopBarContainer show_shadow={false}>
-        {isMobile ? (
-          <TopTitleBar
-            showBack={true && !blockIn}
-            color="#000"
-            back_color="transparent"
-          />
-        ) : (
-          <React.Fragment>
-            <WebTopBar />
+      type: "UPDATE_NAVBAR",
+      key: "customComponent",
+      data: () => (
+        <>
+          {isMobile ? (
             <TopTitleBar
               showBack={true && !blockIn}
               color="#000"
               back_color="transparent"
             />
-          </React.Fragment>
-        )}
-      </TopBarContainer> */}
+          ) : (
+            <React.Fragment>
+              <WebTopBar />
+              <TopTitleBar
+                showBack={true && !blockIn}
+                color="#000"
+                back_color="transparent"
+              />
+            </React.Fragment>
+          )}
+        </>
+      ),
+    });
+  }, []);
+
+  return (
+    <LoginElement>
       <ImageComponent
         imgStyle={{ objectFit: isMobile ? "cover" : "contain" }}
         height={isMobile ? 60 : 18}

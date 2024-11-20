@@ -23,6 +23,10 @@ const navbarReducer = function (state = {}, action) {
         subHeight: 42,
         subFontSize: 20,
         bottomNavHeight: 62,
+        fixed: false,
+        customComponent: () => <></>,
+        prependComponent: () => <></>,
+        appendComponent: () => <></>,
       };
     default:
       return state;
