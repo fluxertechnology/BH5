@@ -20,19 +20,21 @@ import callToast from "@/lib/services/toastCall.js";
 import { CSSTransition } from "react-transition-group";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import {getPostListAction,postGetProfile } from '@/store/actions/pages/postsProfileAction.js'
+import { getPostListAction, postGetProfile } from '@/store/actions/pages/postsProfileAction.js'
+import { useParams } from 'next/navigation'
 
 const PostsProfilePage = ({
 
 }) => {
 
     const { state } = useGlobalContext();
+    const params = useParams()
 
     const localState = useMemo(() => {
         return {
             user: state.user,
             postProfile: state.postProfile || [],
-            router: state.router.location.pathname.split("/")[4],
+            router: params.id,
         };
     }, [state])
 
@@ -50,7 +52,7 @@ const PostsProfilePage = ({
         is_owner,
         monthly_price,
         yearly_price,
-      } = localState.postProfile.profile;
+    } = localState.postProfile.profile;
 
     const t = useTranslations();
     const { isMobile } = useMediaQuery();
@@ -94,6 +96,19 @@ const PostsProfilePage = ({
             key: "is_subscription",
         },
     ]);
+
+    useLayoutEffect(() => {
+        initPostListAction(nowGuide);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nowGuide, localState.router]);
+
+    useLayoutEffect(() => {
+        if (localState.router) postGetProfileAction(contentGuide[nowGuide].key);
+        return () => {
+            cleanProfile();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [localState.router]);
 
     const postGetProfileAction = () => {
         useGlobalDispatch(postGetProfile());
@@ -157,20 +172,8 @@ const PostsProfilePage = ({
         }
     }
 
-    useLayoutEffect(() => {
-        initPostListAction(nowGuide);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nowGuide, localState.router]);
-
-    useLayoutEffect(() => {
-        if (localState.router) postGetProfileAction(contentGuide[nowGuide].key);
-        return () => {
-            cleanProfile();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [localState.router]);
-
     useEffect(() => {
+        if (typeof window == 'undefined') return;
         window.addEventListener("scroll", scrollEvent);
         return () => {
             window.removeEventListener("scroll", scrollEvent);
@@ -246,6 +249,7 @@ const PostsProfilePage = ({
     }
 
     function handleCopy() {
+        if (typeof window == 'undefined') return;
         navigator.clipboard
             .writeText(window.location.href)
             .then(() => callToast("复制成功(´;ω;`)"))
@@ -420,7 +424,7 @@ const PostsProfilePage = ({
             </PostsProfilePageCover>
             <TopBarContainer not_fixed={!isMobile} z_index={5}>
                 <TopTitleBar
-                    title={nick_name}
+                    title={nick_name ?? 'null'}
                     showBack={true}
                     show_back_color={"#000"}
                     back_color={"#fff"}
@@ -577,7 +581,7 @@ const PostsProfilePage = ({
                         );
                     })}
                 </section>
-                {localState.postProfile.postList?.length === 0 ? (
+                {localState.postProfile?.postList?.length === 0 ? (
                     <div className="container_empty">
                         <div className="container_empty_girl">
                             <img
@@ -1041,7 +1045,10 @@ const PostsProfileInformation = styled.article`
     }
   }
 `;
-const PostsProfileContent = styled.article`
+const PostsProfileContent = styled.article.withConfig({
+    shouldForwardProp: (prop) =>
+        !["transIndex"].includes(prop),
+})`
   /*  */
   margin-top: 0.5em;
   .post_content {

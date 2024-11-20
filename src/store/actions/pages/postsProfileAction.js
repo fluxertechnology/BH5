@@ -21,7 +21,7 @@ export const getPostListAction = (scrollColdEnd, init, type) => {
     let postData = storeData.postProfile;
     let formData = new FormData();
     formData.append("uid", userData.id);
-    formData.append("to_uid", storeData.router.location.pathname.split("/")[4]);
+    formData.append("to_uid", window.location.pathname.split("/")[4]);
     formData.append("page", init ? 1 : postData.page + 1);
     formData.append("limit", postListDataLimit);
     switch (type) {
@@ -59,7 +59,7 @@ export const postGetProfile = () => {
     const formData = new FormData();
     formData.append(
       "profile_id",
-      storeData.router.location.pathname.split("/")[4]
+      window.location.pathname.split("/")[4]
     );
     formData.append("uid", uid);
     axiosRequest
