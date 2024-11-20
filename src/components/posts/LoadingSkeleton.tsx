@@ -9,30 +9,47 @@ type Props = {
   children: ReactNode
 }
 
-const LoadingSkeleton: FC<Props>  = ({
-  height= '100%',
+const LoadingSkeleton: FC<Props> = ({
+  height = '100%',
   children
 }) => {
   const [enter, setEnter] = useState(false);
   const handleWaypointEnter = () => {
     setEnter(true);
+    console.log('Waypoint entered!'); // Debug log
   }
 
   return (
-    <Waypoint
-      onEnter={handleWaypointEnter}
-    >
-      {!enter ? (
-        <LoadingSkeletonElement>
-          <div
-            className="loading-skelton"
-            style={{
-              paddingBottom: height,
-            }}
-          />
-        </LoadingSkeletonElement>
-      ): children
-      }
+    // <Waypoint
+    //   onEnter={handleWaypointEnter}
+    // >
+    //   {!enter ? (
+    //     <LoadingSkeletonElement>
+    //       <div
+    //         className="loading-skelton"
+    //         style={{
+    //           paddingBottom: height,
+    //         }}
+    //       />
+    //     </LoadingSkeletonElement>
+    //   ): (children)
+    //   }
+    // </Waypoint>
+    <Waypoint onEnter={handleWaypointEnter}>
+      <div style={{width:"100%"}}>
+        {!enter ? (
+          <LoadingSkeletonElement>
+            <div
+              className="loading-skeleton"
+              style={{
+                paddingBottom: height,
+              }}
+            />
+          </LoadingSkeletonElement>
+        ) : (
+          children
+        )}
+      </div>
     </Waypoint>
   );
 };
@@ -40,7 +57,7 @@ const LoadingSkeleton: FC<Props>  = ({
 export default LoadingSkeleton;
 
 
-const LoadingSkeletonElement= styled.div`
+const LoadingSkeletonElement = styled.div`
   /*  */
   width: 100%;
 

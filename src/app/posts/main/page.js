@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState,useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import styled from "styled-components";
 import { usePathname } from 'next/navigation'
 import scrollBottomCallEvent from "@/lib/services/scrollEvent";
@@ -16,7 +16,7 @@ import {
 } from "@/store/actions/historyActions";
 import { pageUrlConstants, userRank } from "@/lib/constants/index.js";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-// import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
+import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
 import { getPostListAction } from '@/store/actions/pages/postsMainNewAction.js'
 import Image from "next/image";
 
@@ -48,7 +48,7 @@ const PostsMainNewPage = ({
                 !state.user.is_creation,
             postListData: state.postListData,
         };
-    },[state]);
+    }, [state]);
 
     const updatePostListData = (scrollColdEnd = () => { }) => {
         useGlobalDispatch(getPostListAction(scrollColdEnd));
@@ -113,7 +113,7 @@ const PostsMainNewPage = ({
 
     function scrollEvent() {
         scrollBottomCallEvent((scrollColdEnd) => {
-            if (!postListData.isDone) {
+            if (!state.postListData.isDone) {
                 updatePostListData(scrollColdEnd);
             }
         });
@@ -125,9 +125,9 @@ const PostsMainNewPage = ({
                 {localState.postListData.postList?.map((data, index) => {
                     return (
                         <div key={data.id} className="post_main_item">
-                            {/* <LoadingSkeleton> */}
-                            <PostCardItem postData={data} index={index} />
-                            {/* </LoadingSkeleton> */}
+                            <LoadingSkeleton>
+                                <PostCardItem postData={data} index={index} />
+                            </LoadingSkeleton>
                         </div>
                     );
                 })}
