@@ -42,15 +42,15 @@ const ImageComponent = ({
     return false;
   }
 
-  const imageLoader = ({ src }) => {
+  const imageLoader = ({ src, width, height }) => {
     if (src.includes("http")) {
       return src;
     }
     const imgFolderPath = src.split("/").slice(0, -1).join("/");
     if (src.includes(imgFolderPath)) {
-      return src;
+      return `${src}?w=${width}&h=${height}`;
     }
-    return `${imgFolderPath}${src.startsWith("/") ? src : `/${src}`}`;
+    return `${imgFolderPath}${src.startsWith("/") ? src : `/${src}`}?w=${width}&h=${height}`;
   };
 
   return (

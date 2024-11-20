@@ -5,8 +5,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { GlobalProvider } from "@/store";
+import { GoogleTagManager } from '@next/third-parties/google'
 
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 
 export default async function RootLayout({ children }) {
   const locale = await getLocale();
@@ -27,17 +28,17 @@ export default async function RootLayout({ children }) {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </head>
+
+      <GoogleTagManager gtmId="G-8JGS6Q3L39___" />
       <body>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <GlobalProvider>
-              <DesktopHeader locale={locale} />
-              <div className='min-h-screen'>
-                  {children}
-              </div>
-              <DesktopFooter locale={locale} />
-              <GlobalComponent />
-            </GlobalProvider>
-          </NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <GlobalProvider>
+            <DesktopHeader locale={locale} />
+            <div className="min-h-screen">{children}</div>
+            <DesktopFooter locale={locale} />
+            <GlobalComponent />
+          </GlobalProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

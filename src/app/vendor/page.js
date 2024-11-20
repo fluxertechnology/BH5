@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import styled from "styled-components";
@@ -11,55 +11,55 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useRouter } from "next/navigation";
 import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
-import {getVendorListAction} from "@/store/actions/pages/vendorMainAction.js"
+import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js"
+import ImageCarousel from "@/components/common/ImageCarousel";
 
 const VendorMain = () => {
-    const t = useTranslations("Vendor");
-    const { state } = useGlobalContext();
-    console.log(state,'vendorstate');
-    // const vendorListData = state.vendorListData;
-    const { isMobile } = useMediaQuery();
-    const router = useRouter();
+  const t = useTranslations("Vendor");
+  const { state } = useGlobalContext();
+  const { isMobile } = useMediaQuery();
 
-    useEffect(() => {
-        useGlobalDispatch(getVendorListAction());
-    }, [isMobile]);
+  useEffect(() => {
+    useGlobalDispatch(getVendorListAction());
+  }, [isMobile]);
 
-    useEffect(()=>{
+  function goToVendor() {
+    typeof windows !== 'undefined' && window.open(vendorUrl);
+  }
 
-    },[])
+  return (
+    <VendorMainElement>
+      <TopBarContainer>
+        {isMobile ? (
+          <TopTitleBar
+            title={t("title")}
+          ></TopTitleBar>
+        ) : (
+          <div>
 
-    function goToVendor() {
-        typeof windows !== 'undefined' && window.open(vendorUrl);
-    }
-
-    return (
-        <VendorMainElement>
-            <TopBarContainer>
-                {isMobile ? (
-                    <TopTitleBar
-                        title={t("title")}
-                    ></TopTitleBar>
-                ) : (
-                    <div>
-
-                    </div>
-                )}
-            </TopBarContainer>
-            <div className="vendor_container" onClick={goToVendor}>
-                <p className="vendor_container_title"></p>
-                <div className="vendor_container_content">
-                    <Grid container direction="row" alignItems="start" spacing={2}>
-                        {state.vendorListData?.list?.map((data) => (
-                            <Grid item md={2.4} xs={6}>
-                                <VendorItemCard data={data} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </div>
-            </div>
-        </VendorMainElement>
-    );
+          </div>
+        )}
+      </TopBarContainer>
+      <ImageCarousel
+        adsKey={adsKeys.shop_top_banner}
+        threeInOneBanner={!isMobile}
+        is_cover
+        size="banner_main"
+      />
+      <div className="vendor_container" onClick={goToVendor}>
+        <p className="vendor_container_title"></p>
+        <div className="vendor_container_content">
+          <Grid container direction="row" alignItems="start" spacing={2}>
+            {state.vendorListData?.list?.map((data, index) => (
+              <Grid item md={2.4} xs={6} key={index + 1}>
+                <VendorItemCard data={data} />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      </div>
+    </VendorMainElement>
+  );
 };
 
 export default VendorMain

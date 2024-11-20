@@ -4,6 +4,7 @@ import heartIcon from "@public/images/icons/heart.svg";
 import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import { colors } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
+import Image from "next/image";
 
 const PictureCard = ({ data, total_view_show }) => {
   const toPhotosPage = (data) => {
@@ -39,7 +40,7 @@ const PictureCard = ({ data, total_view_show }) => {
         <div className="card_body">
           <div className="card_body_title">{data.title}</div>
           <div className="card_body_heart">
-            <img className="card_body_heart_img" src={heartIcon} alt="heart" />
+            <Image className="card_body_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
             {data.need_jinbi}金币
           </div>
         </div>

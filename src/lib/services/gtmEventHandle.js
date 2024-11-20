@@ -1,3 +1,5 @@
+"use client";
+
 import { webVersion } from "@/lib/constants";
 import store from "@/store";
 import axiosRequest from "@/lib/services/axios";

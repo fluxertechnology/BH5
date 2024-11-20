@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
@@ -13,10 +12,16 @@ import { getNoticeData } from "@/store/actions/noticeList";
 import { initRoutes } from "@/store/actions/historyActions";
 
 export default function GlobalComponent() {
-  const { state, dispatch } = useGlobalContext();
+  const { state } = useGlobalContext();
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // useEffect(() => {
+  //   document.querySelectorAll("img").forEach((e) => {
+  //     e.src =
+  //       "http://localhost:3001/_next/static/media/300x300.d8626b8b.jpg?w=16&h=16";
+  //     e.srcset =
+  //       "http://localhost:3001/_next/static/media/300x300.d8626b8b.jpg?w=16&h=16";
+  //   });
+  // });
 
   useEffect(() => {
     if (Object.keys(state.adsList).length === 0) {
@@ -28,25 +33,6 @@ export default function GlobalComponent() {
     }
     useGlobalDispatch(initRoutes());
   }, []);
-
-  useEffect(() => {
-    const quertObj = Object.fromEntries(searchParams.entries());
-    const url = `${pathname}?${searchParams}`;
-    dispatch({
-      type: "INIT_ROUTER",
-      data: {
-        action: "", // TODO(ZY): get router action
-        location: {
-          hash: url.split("#")[1] || "",
-          key: "",
-          pathname,
-          query: { ...quertObj },
-          search: searchParams.toString(),
-          state: null,
-        },
-      },
-    });
-  }, [pathname, searchParams]);
 
   return (
     <div>

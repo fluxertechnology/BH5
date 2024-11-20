@@ -30,6 +30,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { moneyAndGold } from "@/components/vendor/VendorItemCard";
 import { useTranslations } from "next-intl";
 import ImageComponent from "@/components/common/ImageComponent";
+import Image from "next/image";
 export const ranks = [
   rank1,
   rank2,
@@ -248,9 +249,11 @@ const Game = ({ gameListData, updateGameListData, resetGameListData }) => {
                         width: isMobile && window.innerWidth / 3.5,
                       }}
                     />
-                    <img
+                    <Image
                       className="container_featured_rankings_item_badge"
                       src={ranks[newIndex]}
+                      width={0}
+                      height={0}
                       alt={`badge${newIndex}`}
                     />
                   </div>
@@ -277,9 +280,11 @@ const Game = ({ gameListData, updateGameListData, resetGameListData }) => {
                         },
                       }}
                     >
-                      <img
+                      <Image
                         className="container_featured_rankings_item_badge  other"
                         src={ranks[index]}
+                        width={0}
+                        height={0}
                         alt={`badge${index}`}
                       />
                       <div className="container_featured_rankings_pic">

@@ -1,25 +1,17 @@
 import styled from "styled-components";
-import { useRouter, usePathname } from "next/navigation";
-import React, { useState, useRef, useEffect } from "react";
-import Cookies from "js-cookie"; // Make sure to import Cookies
+import { usePathname } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
 import WavaButton from "@/components/layout/Header/WavaButton";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
+import TabContext from '@mui/lab/TabContext';
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import ImageComponent from "@/components/common/ImageComponent";
-import ProfileWatchHistoryComic from "@/components/layout/header/profileWatchHistory/profileWatchHistoryComic/ProfileWatchHistoryComic";
 import { colors, pageUrlConstants, padding } from "@/lib/constants";
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
-
-const LanguageList = [
-  { name: "簡體中文", lang: "tc" },
-  { name: "English", lang: "en" },
-];
 
 const TopSearchBar = ({
   isPlaceholder,
@@ -27,7 +19,7 @@ const TopSearchBar = ({
   clickAvatar,
   clickService,
   clickNew,
-  // newNotice,
+  newNotice,
   location = usePathname() || "",
   avatar,
   // user = state.user,
@@ -37,7 +29,7 @@ const TopSearchBar = ({
   clickItem,
   dailyEvent,
   clickLogin,
-  // config,
+  config,
   clearUserData,
   clickCollect,
   clickSetting,
@@ -47,33 +39,15 @@ const TopSearchBar = ({
   comicDataList,
 }) => {
   // const intl = useIntl();
-  const router = useRouter();
-
-  const changeLanguage = (newLocale) => {
-    Cookies.set("NEXT_LOCALE", newLocale, { path: "/" });
-    router.refresh();
-  };
-
-  const lang = Cookies.get("NEXT_LOCALE");
-
+  // const lang = useLang();
   const ContainerRef = useRef();
   const [scroll, setScroll] = useState(0);
-  const [questInfoList, setQuestInfoList] = useState([]);
+  // const [questInfoList, setQuestInfoList] = useState([]);
   // const [membershipDate, setMembershipDate] = useState("");
   const [tabValue, setTabValue] = useState(1);
   const { state } = useGlobalContext();
   let user = state.user;
   let userId = state.user.id;
-  let config = state.config;
-
-  let newNotice = 0;
-  let noticeList = state.noticeList || [];
-  let noticeListRead = state.noticeListRead || [];
-  for (let i = 0; i < noticeList.length; i++) {
-    if (noticeListRead.indexOf(noticeList[i].id) === -1) {
-      newNotice++;
-    }
-  }
 
   const [navList] = useState(() => [
     {
@@ -126,30 +100,44 @@ const TopSearchBar = ({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    let daily = [
-      {
-        icon: "/images/icons/coin.svg",
-        title: "Daily Check-In",
-        content: config.signinbegin + "-" + config.signinend + " B Coin",
-        description: "Daily Check-In to Earn B Coin",
-        button: user.id === "guest" ? "Login" : "Check-In Now",
-        buttonEvent: user.id === "guest" ? toLoginPage : dailyEvent,
-      },
-      {
-        title: "Invite Friends",
-        content:
-          "Invite Code" +
-          " :" +
-          (user.id === "guest" ? "------" : user.share_ma),
-        description: "Get Coin",
-        button: user.id === "guest" ? "Login" : "Copy Link",
-        buttonEvent: user.id === "guest" ? toLoginPage : saveUrl,
-      },
-    ];
-    setQuestInfoList(daily);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config, user]);
+  // useEffect(() => {
+  //   let daily = [
+  //     {
+  //       icon: coin,
+  //       title: intl.formatMessage({ id: "PROFILE.PERMISSION.SIGNIN.EVERYDAY" }),
+  //       content:
+  //         config.signinbegin +
+  //         "-" +
+  //         config.signinend +
+  //         intl.formatMessage({ id: "GLOBAL.GOLD_MONEY" }),
+  //       description: intl.formatMessage({
+  //         id: "PROFILE.PERMISSION.SIGNIN.CLICK.AWARD",
+  //       }),
+  //       button: intl.formatMessage({
+  //         id: user.id === "guest" ? "LOGIN" : "PROFILE.PERMISSION.SIGNIN.NOW",
+  //       }),
+  //       buttonEvent: user.id === "guest" ? toLoginPage : dailyEvent,
+  //     },
+  //     {
+  //       title: intl.formatMessage({ id: "PROFILE.PERMISSION.INVITE.FRIEND" }),
+  //       content:
+  //         intl.formatMessage({
+  //           id: "TOP.NAVIGATOR.FLOAT.INVITE.DESCRIPTION1",
+  //         }) +
+  //         " :" +
+  //         (user.id === "guest" ? "------" : user.share_ma),
+  //       description: intl.formatMessage({
+  //         id: "TOP.NAVIGATOR.FLOAT.INVITE.DESCRIPTION",
+  //       }),
+  //       button: intl.formatMessage({
+  //         id: user.id === "guest" ? "LOGIN" : "TOP.NAVIGATOR.FLOAT.INVITE",
+  //       }),
+  //       buttonEvent: user.id === "guest" ? toLoginPage : saveUrl,
+  //     },
+  //   ];
+  //   setQuestInfoList(daily);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [config, user]);
 
   // useEffect(() => {
   //   const variable =
@@ -166,35 +154,35 @@ const TopSearchBar = ({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [tabValue]);
 
-  const judgeSwitchLangImg = scroll
-    ? lang === "tc"
-      ? "/images/header/switch_lang_dark.svg"
-      : "/images/header/switch_lang_en_dark.svg"
-    : lang === "tc"
-    ? "/images/header/switch_lang.svg"
-    : "/images/header/switch_lang_en.svg";
+  // const judgeSwitchLangImg = scroll
+  //   ? lang === "zh"
+  //     ? switch_lang_dark
+  //     : switch_lang_en_dark
+  //   : lang === "zh"
+  //   ? switch_lang
+  //   : switch_lang_en;
 
-  async function saveUrl() {
-    // navigatorShare({
-    //   title: "",
-    //   text:
-    //     intl.formatMessage({ id: "PROFILE.SHARE.DESCRIPTION_1" }) +
-    //     (user.share_ma
-    //       ? intl.formatMessage({ id: "PROFILE.SHARE.DESCRIPTION_2" }) +
-    //         user.share_ma
-    //       : "") +
-    //     intl.formatMessage({ id: "PROFILE.SHARE.DESCRIPTION_3" }),
-    //   url: downloadPage[1] + "?utm_source=" + user.share_ma,
-    // });
-    navigator.clipboard
-      .writeText(downloadPage[1] + "?utm_source=" + user.share_ma)
-      .then(() => {
-        callToast("复制成功");
-      })
-      .catch((err) => {
-        callToast("复制失敗");
-      });
-  }
+  // async function saveUrl() {
+  //   // navigatorShare({
+  //   //   title: "",
+  //   //   text:
+  //   //     intl.formatMessage({ id: "PROFILE.SHARE.DESCRIPTION_1" }) +
+  //   //     (user.share_ma
+  //   //       ? intl.formatMessage({ id: "PROFILE.SHARE.DESCRIPTION_2" }) +
+  //   //         user.share_ma
+  //   //       : "") +
+  //   //     intl.formatMessage({ id: "PROFILE.SHARE.DESCRIPTION_3" }),
+  //   //   url: downloadPage[1] + "?utm_source=" + user.share_ma,
+  //   // });
+  //   navigator.clipboard
+  //     .writeText(downloadPage[1] + "?utm_source=" + user.share_ma)
+  //     .then(() => {
+  //       callToast("复制成功");
+  //     })
+  //     .catch((err) => {
+  //       callToast("复制失敗");
+  //     });
+  // }
 
   // function toLoginPage() {
   //   clickLogin();
@@ -205,351 +193,328 @@ const TopSearchBar = ({
   };
 
   return (
-    <TopsearchBarElement ref={ContainerRef} scroll={scroll}>
-      <div className="search_bar">
-        <div className="search_bar_item">
-          <Image
-            width={110}
-            height={32}
-            src={
-              scroll ? "/images/footer/logo_p.svg" : "/images/header/logo_w.svg"
-            }
-            alt="B次元 LOGO"
-            className="logo cursor-pointer"
-            onClick={() => clickItem(navList[0])}
-          />
-          {navList.map((navItem) => (
-            <div
-              className="search_bar_nav cursor-pointer"
-              key={navItem.name}
-              style={{
-                animation: scroll ? "1s recharge-move 2" : "",
-              }}
-              onClick={(e) => {
-                clickItem(navItem);
-              }}
-            >
-              <WavaButton
-                className={
-                  "search_bar_nav_item_btn " +
-                  (location.indexOf(navItem.path) !== -1 ? "active" : "")
-                }
-              >
-                <div className="search_bar_nav_item_cover" />
-                <Image
-                  width={"22"}
-                  height={"22"}
-                  className={"search_bar_nav_item_btn_img"}
-                  src={scroll ? navItem.activeImage : navItem.image}
-                  alt={navItem.name}
-                />
-                <div className="search_bar_nav_item_btn_title_text">
-                  {navItem.cname}
-                </div>
-              </WavaButton>
-            </div>
-          ))}
-        </div>
-        <div className="search_bar_item" />
-        <div className="search_bar_main cursor-pointer">
-          <Searchbar
-            callback={clickSearch}
-            isPlaceholder={isPlaceholder}
-            scroll={scroll}
-          />
-        </div>
-        <div className="search_bar_item">
-          <div className="search_bar_recharge">
+    // <StyleSheetManager shouldForwardProp={() => true}>
+      <TopsearchBarElement ref={ContainerRef} scroll={scroll}>
+        <div className="search_bar">
+          <div className="search_bar_item">
             <Image
-              width={35}
-              height={35}
-              className={
-                "search_bar_recharge_img " +
-                (highlightRechargeState ? "" : "active")
-              }
-              onClick={toPaymentPage}
+              width={110}
+              height={32}
               src={
-                !highlightRechargeState
-                  ? "/images/header/recharge_highlight.svg"
-                  : scroll
-                  ? "/images/header/recharge_highlight_dark.svg"
-                  : "/images/header/recharge.svg"
+                scroll
+                  ? "/images/footer/logo_p.svg"
+                  : "/images/header/logo_w.svg"
               }
-              alt="recharge"
+              alt="B次元 LOGO"
+              className="logo cursor-pointer"
+              onClick={() => clickItem(navList[0])}
             />
-            <div className="search_bar_recharge_float">
-              <div>VIP Benefits: Enjoy After Purchase</div>
-              <div className="search_bar_recharge_float_description">
-                <span>
-                  <Image
-                    width={"30"}
-                    height={"32"}
-                    src={"/images/header/free-nor.svg"}
-                    alt="free"
-                  />
-                  Unlimited Movie Streaming For Members!
-                </span>
-                <span>
-                  <Image
-                    width={"32"}
-                    height={"32"}
-                    src={"/images/header/fast-nor.svg"}
-                    alt="fast"
-                  />
-                  Smooth Experience
-                </span>
-              </div>
+            {navList.map((navItem) => (
               <div
-                className={"search_bar_recharge_button"}
-                onClick={toPaymentPage}
+                className="search_bar_nav cursor-pointer"
+                key={navItem.name}
+                style={{
+                  animation: scroll ? "1s recharge-move 2" : "",
+                }}
+                onClick={(e) => {
+                  clickItem(navItem);
+                }}
               >
-                <WavaButton>
-                  {userId === "guest"
-                    ? "First Recharge Discount for New Members"
-                    : "Recharge for VIP, happy non-stop."}
+                <WavaButton
+                  className={
+                    "search_bar_nav_item_btn " +
+                    (location.indexOf(navItem.path) !== -1 ? "active" : "")
+                  }
+                >
+                  <div className="search_bar_nav_item_cover" />
+                  <Image
+                    width={"22"}
+                    height={"22"}
+                    className={"search_bar_nav_item_btn_img"}
+                    src={scroll ? navItem.activeImage : navItem.image}
+                    alt={navItem.name}
+                  />
+                  <div className="search_bar_nav_item_btn_title_text">
+                    {navItem.cname}
+                  </div>
                 </WavaButton>
               </div>
-              <div
-                className={"search_bar_recharge_button_light"}
-                onClick={clickVip}
-              >
-                <WavaButton>Enter VIP Code By Clicking Here.</WavaButton>
-              </div>
-            </div>
+            ))}
           </div>
-
-          <div className="search_bar_history">
-            <Image
-              width={"35"}
-              height={"35"}
-              src={
-                scroll
-                  ? "/images/header/history_dark.svg"
-                  : "/images/header/history.svg"
-              }
-              alt="service"
-              className="search_bar_history_img"
-            />
-            <div className="search_bar_history_cover">
-              <TabContext value={tabValue}>
-                <Box className="search_bar_history_tab_container">
-                  <TabList
-                    onChange={handleChange}
-                    aria-label="lab API tabs example"
-                  >
-                    <Tab label="H漫" value={1} />
-                    <Tab label="番剧" value={0} />
-                  </TabList>
-                </Box>
-                <TabPanel value={1}>
-                  <ProfileWatchHistoryComic disabledScrollRefresh />
-                </TabPanel>
-                <TabPanel value={0}>
-                  {/* <ProfileWatchHistoryAnimeHandle disabledScrollRefresh /> */}
-                </TabPanel>
-              </TabContext>
-            </div>
-          </div>
-
-          <div className="search_bar_switch">
-            <Image
-              width={"35"}
-              height={"35"}
-              src={judgeSwitchLangImg}
-              alt="switch"
-              className="search_bar_switch_img"
-            />
-            <div className="search_bar_switch_cover">
-              <div className="search_bar_switch_cover_content">
-                {LanguageList.map((list) => (
-                  <div
-                    key={list.name}
-                    className="cursor-pointer"
-                    onClick={() => changeLanguage(list.lang)}
-                  >
-                    {list.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="search_bar_task ">
-            <Image
-              width={"30"}
-              height={"30"}
-              src={
-                scroll
-                  ? "/images/header/task_dark.svg"
-                  : "/images/header/task.svg"
-              }
-              alt="task"
-              className="search_bar_float_img"
-            />
-
-            <div className={`search_bar_float`}>
-              {questInfoList?.map((daliy, index) => (
-                <React.Fragment key={index}>
-                  <ol>
-                    <li className="search_bar_float_title">{daliy.title}</li>
-                    <li>{daliy.description}</li>
-                    <li
-                      className={`search_bar_float_content ${!index && "gold"}`}
-                    >
-                      {!index && (
-                        <img
-                          src={daliy.icon}
-                          alt="coin"
-                          className="search_bar_float_img"
-                        />
-                      )}
-
-                      {daliy.content}
-                    </li>
-                    <li>
-                      <div
-                        className="search_bar_float_button"
-                        onClick={daliy.buttonEvent}
-                      >
-                        {daliy.button}
-                      </div>
-                    </li>
-                  </ol>
-                  <ol style={{ display: index && "none" }}>
-                    <div className="divider" />
-                  </ol>
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-
-          <div className="search_bar_service" onClick={clickService}>
-            <Image
-              width={"42"}
-              height={"42"}
-              src={
-                scroll
-                  ? "/images/header/service_dark.svg"
-                  : "/images/header/service.svg"
-              }
-              alt="service"
-              className="search_bar_service_img"
+          <div className="search_bar_item" />
+          <div className="search_bar_main cursor-pointer">
+            <Searchbar
+              callback={clickSearch}
+              isPlaceholder={isPlaceholder}
+              scroll={scroll}
             />
           </div>
-
-          <div className="search_bar_news" onClick={clickNew}>
-            <Image
-              width={"30"}
-              height={"30"}
-              src={
-                scroll
-                  ? "/images/header/news_dark.svg"
-                  : "/images/header/news.svg"
-              }
-              alt="news"
-              className="search_bar_news_img"
-            />
-            {newNotice ? (
-              <span className="search_bar_news_number">{newNotice}</span>
-            ) : (
-              ""
-            )}
-          </div>
-
-          <div className="search_bar_avatar_container">
-            <div className="search_bar_avatar" onClick={clickAvatar}>
-              {userId !== "guest" ? (
-                <ImageComponent
-                  is_cover={true}
-                  src={avatar}
-                  background_color="transparent"
-                  border_radius="50%"
-                  placeholderImg={"/images/imgPlaceholder/avatar.png"}
-                />
-              ) : (
-                <div className="search_bar_avatar_login">
-                  Login
+          <div className="search_bar_item">
+            <div className="search_bar_recharge">
+              <Image
+                width={35}
+                height={35}
+                className={
+                  "search_bar_recharge_img " +
+                  (highlightRechargeState ? "" : "active")
+                }
+                onClick={toPaymentPage}
+                src={
+                  !highlightRechargeState
+                    ? "/images/header/recharge_highlight.svg"
+                    : scroll
+                    ? "/images/header/recharge_highlight_dark.svg"
+                    : "/images/header/recharge.svg"
+                }
+                alt="recharge"
+              />
+              <div className="search_bar_recharge_float">
+                <div>VIP Benefits: Enjoy After Purchase</div>
+                <div className="search_bar_recharge_float_description">
+                  <span>
+                    <Image
+                      width={"30"}
+                      height={"32"}
+                      src={"/images/header/free-nor.svg"}
+                      alt="free"
+                    />
+                    Unlimited Movie Streaming For Members!
+                  </span>
+                  <span>
+                    <Image
+                      width={"32"}
+                      height={"32"}
+                      src={"/images/header/fast-nor.svg"}
+                      alt="fast"
+                    />
+                    Smooth Experience
+                  </span>
                 </div>
-              )}
+                <div
+                  className={"search_bar_recharge_button"}
+                  onClick={toPaymentPage}
+                >
+                  <WavaButton>
+                    {userId === "guest"
+                      ? "First Recharge Discount for New Members"
+                      : "Recharge for VIP, happy non-stop."}
+                  </WavaButton>
+                </div>
+                <div
+                  className={"search_bar_recharge_button_light"}
+                  onClick={clickVip}
+                >
+                  <WavaButton>Enter VIP Code By Clicking Here.</WavaButton>
+                </div>
+              </div>
             </div>
-            {/* <div className="search_bar_avatar_cover">
-              {userId === "guest" ? (
-                <>
-                  <div className="search_bar_avatar_cover_user_info vertical">
-                    <div>
-                      {intl.formatMessage({
-                        id: "LOGIN.HAVE_GOOD_EXPERIENCES",
-                      })}
-                    </div>
-                  </div>
-                  <div onClick={clickAvatar}>
-                    <WavaButton className="search_bar_avatar_button_login">
-                      {intl.formatMessage({ id: "LOGIN.NOW" })}
-                    </WavaButton>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="search_bar_avatar_cover_user_info">
-                    <div className="search_bar_avatar_cover_user_info_avatar">
-                      <ImageComponent
-                        is_cover={true}
-                        src={avatar}
-                        background_color="transparent"
-                        border_radius="50%"
-                        placeholderImg={avatarPlaceholder}
-                      />
-                    </div>
-                    <div className="search_bar_avatar_cover_user_info_item">
-                      <div className="search_bar_avatar_cover_user_info_item_name">
-                        {user.nick_name}
-                      </div>
-                      <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
-                        {user.time === "-1" || Date.now() < user.time * 1000 ? (
-                          <img
-                            className="search_bar_avatar_cover_user_info_crown"
-                            src={crownIcon}
-                            alt="crown"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {membershipDate}
-                      </div>
-                    </div>
-                    <div
-                      className="search_bar_avatar_cover_user_info_setting cursor"
-                      onClick={clickSetting}
-                    >
-                      {intl.formatMessage({
-                        id: "PERSONAL.SETTING",
-                      })}
+
+            <div className="search_bar_history">
+                <Image
+                  width={"35"}
+                  height={"35"}
+                  src={scroll ? "/images/header/history_dark.svg" : "/images/header/history.svg"}
+                  alt="service"
+                  className="search_bar_history_img"
+                />
+                <div className="search_bar_history_cover">
+                  <TabContext value={tabValue}>
+                    <Box className="search_bar_history_tab_container">
+                      <TabList
+                        onChange={handleChange}
+                        aria-label="lab API tabs example"
                       >
+                        <Tab label="H漫" value={1} />
+                        <Tab label="番剧" value={0} />
+                      </TabList>
+                    </Box>
+                    <TabPanel value={1}>
+                      {/* <ProfileWatchHistoryComicHandle disabledScrollRefresh /> */}
+                    </TabPanel>
+                    <TabPanel value={0}>
+                      {/* <ProfileWatchHistoryAnimeHandle disabledScrollRefresh /> */}
+                    </TabPanel>
+                  </TabContext>
+                </div>
+              </div>
+  {/* 
+              <div className="search_bar_switch">
+                <img
+                  src={judgeSwitchLangImg}
+                  alt="switch"
+                  className="search_bar_switch_img"
+                />
+                <div className="search_bar_switch_cover">
+                  <div className="search_bar_switch_cover_content">
+                    {LanguageList.map((list) => (
+                      <div
+                        key={list.name}
+                        className="cursor"
+                        onClick={() => setLanguage(list.lang)}
+                      >
+                        {list.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="search_bar_task ">
+                <img
+                  src={scroll ? task_dark : task}
+                  alt="task"
+                  className="search_bar_float_img"
+                />
+  
+                <div className={`search_bar_float`}>
+                  {questInfoList?.map((daliy, index) => (
+                    <React.Fragment key={index}>
+                      <ol>
+                        <li className="search_bar_float_title">{daliy.title}</li>
+                        <li>{daliy.description}</li>
+                        <li
+                          className={`search_bar_float_content ${!index && "gold"}`}
+                        >
+                          {!index && (
+                            <img
+                              src={daliy.icon}
+                              alt="coin"
+                              className="search_bar_float_img"
+                            />
+                          )}
+  
+                          {daliy.content}
+                        </li>
+                        <li>
+                          <div
+                            className="search_bar_float_button"
+                            onClick={daliy.buttonEvent}
+                          >
+                            {daliy.button}
+                          </div>
+                        </li>
+                      </ol>
+                      <ol style={{ display: index && "none" }}>
+                        <div className="divider" />
+                      </ol>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+              <div className="search_bar_service" onClick={clickService}>
+                <img
+                  src={scroll ? service_dark : service}
+                  alt="service"
+                  className="search_bar_service_img"
+                />
+              </div>
+  
+              <div className="search_bar_news" onClick={clickNew}>
+                <img
+                  src={scroll ? newsDarkIcon : newsIcon}
+                  alt="news"
+                  className="search_bar_news_img"
+                />
+                {newNotice ? (
+                  <span className="search_bar_news_number">{newNotice}</span>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="search_bar_avatar_container">
+                <div className="search_bar_avatar" onClick={clickAvatar}>
+                  {userId !== "guest" ? (
+                    <ImageComponent
+                      is_cover={true}
+                      src={avatar}
+                      background_color="transparent"
+                      border_radius="50%"
+                      placeholderImg={avatarPlaceholder}
+                    />
+                  ) : (
+                    <div className="search_bar_avatar_login">
+                      {intl.formatMessage({ id: "LOGIN" })}
                     </div>
-                  </div>
-                  <div onClick={clickCollect}>
-                    <WavaButton className="search_bar_avatar_button_t ">
-                      {intl.formatMessage({
-                        id: "SEARCH.COLLECT.RECENT",
-                      })}
-                    </WavaButton>
-                  </div>
-                  <div onClick={clearUserData}>
-                    <WavaButton className="search_bar_avatar_button_b">
-                      {intl.formatMessage({
-                        id: "LOGOUT",
-                      })}
-                    </WavaButton>
-                  </div>
-                </>
-              )}
-            </div> */}
+                  )}
+                </div>
+                <div className="search_bar_avatar_cover">
+                  {userId === "guest" ? (
+                    <>
+                      <div className="search_bar_avatar_cover_user_info vertical">
+                        <div>
+                          {intl.formatMessage({
+                            id: "LOGIN.HAVE_GOOD_EXPERIENCES",
+                          })}
+                        </div>
+                      </div>
+                      <div onClick={clickAvatar}>
+                        <WavaButton className="search_bar_avatar_button_login">
+                          {intl.formatMessage({ id: "LOGIN.NOW" })}
+                        </WavaButton>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="search_bar_avatar_cover_user_info">
+                        <div className="search_bar_avatar_cover_user_info_avatar">
+                          <ImageComponent
+                            is_cover={true}
+                            src={avatar}
+                            background_color="transparent"
+                            border_radius="50%"
+                            placeholderImg={avatarPlaceholder}
+                          />
+                        </div>
+                        <div className="search_bar_avatar_cover_user_info_item">
+                          <div className="search_bar_avatar_cover_user_info_item_name">
+                            {user.nick_name}
+                          </div>
+                          <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
+                            {user.time === "-1" || Date.now() < user.time * 1000 ? (
+                              <img
+                                className="search_bar_avatar_cover_user_info_crown"
+                                src={crownIcon}
+                                alt="crown"
+                              />
+                            ) : (
+                              ""
+                            )}
+                            {membershipDate}
+                          </div>
+                        </div>
+                        <div
+                          className="search_bar_avatar_cover_user_info_setting cursor"
+                          onClick={clickSetting}
+                        >
+                          {intl.formatMessage({
+                            id: "PERSONAL.SETTING",
+                          })}
+                          >
+                        </div>
+                      </div>
+                      <div onClick={clickCollect}>
+                        <WavaButton className="search_bar_avatar_button_t ">
+                          {intl.formatMessage({
+                            id: "SEARCH.COLLECT.RECENT",
+                          })}
+                        </WavaButton>
+                      </div>
+                      <div onClick={clearUserData}>
+                        <WavaButton className="search_bar_avatar_button_b">
+                          {intl.formatMessage({
+                            id: "LOGOUT",
+                          })}
+                        </WavaButton>
+                      </div>
+                    </>
+                  )}
+                </div> */}
           </div>
+          {/*</div>*/}
+          {/* <QrCode scroll={scroll} /> */}
+          {/*</div> */}
         </div>
-        {/* <QrCode scroll={scroll} /> */}
-        {/*</div> */}
-      </div>
-    </TopsearchBarElement>
+      </TopsearchBarElement>
+    // </StyleSheetManager>
   );
 };
 
@@ -641,7 +606,10 @@ const TopSearchBar = ({
 //   TopSearchBarDispatchToProps
 // )(memo(TopSearchBar, areEqual));
 
-const TopsearchBarElement = styled.div`
+const TopsearchBarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["scroll"].includes(prop),
+})`
   /*  */
   padding-right: ${padding}px;
   padding-left: ${padding}px;
@@ -1293,7 +1261,10 @@ const Searchbar = ({
   );
 };
 
-const SearchbarElement = styled.div`
+const SearchbarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["scroll"].includes(prop),
+  })`
   /*  */
   .search {
     padding: 5px;

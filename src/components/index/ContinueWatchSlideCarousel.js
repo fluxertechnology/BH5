@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CoverCubeItem from "../../component/CoverCubeItem";
 import arrowIcon from "../../../assets/icons/arrow.svg";
 import useMediaSetting from "../../../reackHook/useMediaSetting";
+import Image from "next/image";
 const ContinueWatchSlideCarousel = ({
   itemsAnime,
   itemsComic,
@@ -129,9 +130,11 @@ const ContinueWatchSlideCarousel = ({
       {!isMobile &&
         itemsAnime.length + itemsComic.length > 6 &&
         imgButtonItems.map((item, index) => (
-          <img
+          <Image
             key={index}
             src={arrowIcon}
+            width={0}
+            height={0}
             className="cursor"
             alt="arrowIcon"
             style={item.style}

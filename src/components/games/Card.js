@@ -9,13 +9,14 @@ import { colors } from "@/lib/constants";
 import { moneyAndGold } from "@/components/vendor/VendorItemCard";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ImageComponent from "@/components/common/ImageComponent";
+import { useTranslations } from "next-intl";
+
 const areEqual = (pre, next) => {
   return JSON.stringify(pre) === JSON.stringify(next);
 };
 function ImgMediaCard(props) {
   const { isMobile } = useMediaQuery();
   const [fixHeight, setFixHeight] = React.useState(null);
-  const intl = useIntl();
   const {
     data,
     className,
@@ -28,7 +29,7 @@ function ImgMediaCard(props) {
   //   if (data.length >= 15) return data.substr(0, 15) + "...";
   //   return data;
   // }
-
+  const t = useTranslations();
   return (
     <CardElement
       goldFrame={goldFrame}
@@ -78,7 +79,7 @@ function ImgMediaCard(props) {
           </Typography>
           {data.title && !disabledPrice ? (
             <div className="content_tip">
-              {moneyAndGold(data.mone, data.yue, intl)}
+              {moneyAndGold(data.mone, data.yue, t)}
             </div>
           ) : (
             ""

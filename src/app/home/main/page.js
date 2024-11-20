@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { adsKeys, colors, requestUrlConstants } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import {
   getHomeData,
@@ -31,7 +31,7 @@ import novelIcon from "@public/images/home/novel.svg";
 const { getNewAnimeHome, postRefreshAnime, postContinueHistory } =
   requestUrlConstants;
 
-export default function HomePage() {
+export default function HomeMainPage() {
   const t = useTranslations();
 
   const { state } = useGlobalContext();
@@ -40,7 +40,7 @@ export default function HomePage() {
   const [photoTabValue, setPhotoTabValue] = useState();
   const { isMobile } = useMediaQuery();
 
-  const getLocalState = () => {
+  const localState = useMemo(() => {
     function fillDataArray(item, length) {
       if (state.homeData?.[item] && state.homeData[item].length) {
         return [...state.homeData[item]];
@@ -70,12 +70,6 @@ export default function HomePage() {
       novel_list: fillDataArray("novel_list"),
       creation_list: fillDataArray("creation_list"),
     };
-  };
-
-  const [localState, setLocalState] = useState(getLocalState());
-
-  useEffect(() => {
-    setLocalState(getLocalState());
   }, [state.homeData]);
 
   useEffect(() => {
@@ -179,13 +173,15 @@ export default function HomePage() {
           <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
               <p className="home_Main_container_title_text">
-                <img
+                <Image
                   className="home_Main_container_title_text_img"
                   src={mangaIcon}
+                  width={0}
+                  height={0}
                   alt={t("Home.popular_comic")}
                 />
                 <span className="home_Main_container_title_text_span">
-                  alt={t("Home.popular_comic")}
+                  {t("Home.popular_comic")}
                 </span>
               </p>
               <div
@@ -229,9 +225,11 @@ export default function HomePage() {
         <section className="home_Main_container home_Main_all_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <p className="home_Main_container_title_text">
-              <img
+              <Image
                 className="home_Main_container_title_text_img"
                 src={AllIcon}
+                width={0}
+                height={0}
                 alt={t("Home.all_comic")}
               />
               <span className="home_Main_container_title_text_span">

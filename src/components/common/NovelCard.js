@@ -5,6 +5,8 @@ import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import ImageComponent from "@/components/common/ImageComponent";
 import errorImg from "@public/images/imgPlaceholder/fail404.jpg";
 import { colors } from "@/lib/constants";
+import Image from "next/image";
+
 const NovelCard = ({ data, total_view_show }) => {
   const toNovelPage = (data) => {
     dispatch(
@@ -47,7 +49,7 @@ const NovelCard = ({ data, total_view_show }) => {
           />
         </div>
         <div className="card_heart">
-          <img className="card_heart_img" src={heartIcon} alt="heart" />
+          <Image  className="card_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
           {data.need_jinbi}金币
         </div>
       </div>

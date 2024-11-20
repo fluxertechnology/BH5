@@ -17,10 +17,12 @@ export const postGetNotice = () => {
     const formData = new FormData();
     formData.append("uid", storeData.user.id);
     axiosRequest.post(postGetPostNoticeUrl, formData).then((data) => {
-      dispatch({
-        type: "INIT_POSTNOTICE",
-        data: data.length > 0 ? data : [],
-      });
+      if (Array.isArray(data)){
+        dispatch({
+          type: "INIT_POSTNOTICE",
+          data: data.length > 0 ? data : [],
+        });
+      }
     });
   };
 };

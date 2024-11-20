@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { apiUrl } from "@/lib/constants";
 import callToast from "@/lib/services/toastCall";
+import Image from "next/image";
 
 const loading = "/images/shared/axiosLoading.svg";
 // import { nowLang } from "../i18n/Metronici18n";
@@ -103,8 +104,10 @@ class AxiosCenter {
           transition: ".3s cubic-bezier(.20,-0.7,.80, 1.7)",
         }}
       >
-        <img
+        <Image
           src={loading}
+          width={0}
+          height={0}
           style={{
             width: "100%",
             height: "100%",

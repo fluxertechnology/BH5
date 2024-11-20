@@ -5,6 +5,7 @@ import { Links } from "@/components/common/CoverCubeItem";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { ranks } from "@/components/games/GameRender";
 import ImageComponent from "@/components/common/ImageComponent";
+import Image from "next/image";
 
 const comicRankingProps = createContext("");
 const Provider = comicRankingProps.Provider;
@@ -31,9 +32,11 @@ const ComicRankingItem = ({ list }) => {
                   <Provider value={{ data: item, type }}>
                     <Links contextProps={comicRankingProps}>
                       <section className="comic_ranking_h5">
-                        <img
+                        <Image
                           className="comic_ranking_h5_badge"
                           src={ranks[index]}
+                          width={0}
+                          height={0}
                           alt={`badge${index}`}
                         />
                         <div className="comic_ranking_h5_img">
@@ -94,7 +97,10 @@ const ComicRankingItem = ({ list }) => {
 };
 
 export default ComicRankingItem;
-const ComicRankingElement = styled.div`
+const ComicRankingElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["index"].includes(prop),
+})`
   /*  */
   width: 100%;
   &:hover {
