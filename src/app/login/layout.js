@@ -11,20 +11,26 @@ import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarC
 import TopTitleBar from "@/components/common/TopTitleBar";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import WebTopBar from "@/components/layout/Header/WebTopBar";
-import React from "react";
+import React, { useEffect } from "react";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 // import { bottom_nav_height } from "../component/BottomNavBar";
 
 function Login({ children }) {
   const t = useTranslations();
   const { isMobile } = useMediaQuery();
-  const { state } = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
   const blockIn = state.routesGuard.blockIn;
   const banner = state?.adsList?.register_banner?.[0]?.img || null;
 
+  useEffect(() => {
+    dispatch({
+      type: "RESET_NAVBAR",
+    });
+  }, []);
+
   return (
     <LoginElement>
-      <TopBarContainer show_shadow={false}>
+      {/* <TopBarContainer show_shadow={false}>
         {isMobile ? (
           <TopTitleBar
             showBack={true && !blockIn}
@@ -41,7 +47,7 @@ function Login({ children }) {
             />
           </React.Fragment>
         )}
-      </TopBarContainer>
+      </TopBarContainer> */}
       <ImageComponent
         imgStyle={{ objectFit: isMobile ? "cover" : "contain" }}
         height={isMobile ? 60 : 18}
@@ -78,7 +84,7 @@ const LoginElement = styled.div`
   /*  */
   padding-bottom: 5%;
   position: relative;
-  z-index: 12;
+  // z-index: 1;
   overflow: hidden;
   height: 100%;
   height: calc(var(--vh, 1vh) * 100);
