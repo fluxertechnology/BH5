@@ -8,7 +8,7 @@ import { useGlobalContext } from "@/store";
 import { useEffect } from "react";
 import ProtocolComponent from "@/components/home/protocol/ProtocolComponent"
 
-const HomeEULARender = () => {
+const HomeTSMRender = () => {
   const t = useTranslations();
   const { dispatch } = useGlobalContext();
 
@@ -16,18 +16,18 @@ const HomeEULARender = () => {
     dispatch({type: "RESET_NAVBAR"});
   }, []);
   return (
-    <HomeEULAPageElement>
+    <HomeTSMPageElement>
       <div className="EULA_title">
         {t("Home.eula_title")}
       </div>
       <ProtocolComponent />
-    </HomeEULAPageElement>
+    </HomeTSMPageElement>
   );
 };
 
-export default HomeEULARender;
+export default HomeTSMRender;
 
-const HomeEULAPageElement = styled.div`
+const HomeTSMPageElement = styled.div`
   /*  */
   padding-top: ${main_height}px;
   display: flex;

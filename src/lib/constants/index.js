@@ -699,7 +699,7 @@ export const pageUrlConstants = {
           },
           homeTSM: {
             name: "客戶服務協議˙",
-            path: "/home/protocol/TSM",
+            path: "/home/protocol/tsm",
             bottomNav: true,
           },
         },
