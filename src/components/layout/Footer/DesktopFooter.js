@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import LinkComponent from "@/components/common/LinkComponent";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Make sure to import Cookies
@@ -97,9 +97,9 @@ const DesktopFooter = ({ locale }) => {
                 key={index}
                 className="cursor-pointer mt-3 link"
               >
-                <Link href={item.url} key={index}>
+                <LinkComponent routes={item.url} key={index}>
                   {item.text}
-                </Link>
+                </LinkComponent>
               </Grid2>
             ))}
           </Grid2>

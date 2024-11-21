@@ -694,7 +694,7 @@ export const pageUrlConstants = {
         pages: {
           homeEULA: {
             name: "客戶服務協議及隱私權˙",
-            path: "/home/protocol/EULA",
+            path: "/home/protocol/eula",
             bottomNav: true,
           },
           homeTSM: {

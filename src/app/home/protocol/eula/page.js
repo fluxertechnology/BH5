@@ -6,13 +6,20 @@ import { colors } from "@/lib/constants";
 import { main_height } from "@/components/layout/Header/TopBarContainer"
 import { preZhBlock } from "@/app/home/protocol/eula/font/zh";
 import { preEnBlock } from "@/app/home/protocol/eula/font/en";
+import { useGlobalContext } from "@/store";
+import { useEffect } from "react";
 import Cookies from "js-cookie"; // Make sure to import Cookies
 const HomeEULARender = () => {
   const t = useTranslations();
+  const { dispatch } = useGlobalContext();
   function getNowText() {
     if (Cookies.get("NEXT_LOCALE") === "en") return preEnBlock;
     return preZhBlock;
   }
+
+  useEffect(() => {
+    dispatch({type: "RESET_NAVBAR"});
+  }, []);
   return (
     <HomeEULAPageElement>
       <div className="EULA_title">
