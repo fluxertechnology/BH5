@@ -30,22 +30,24 @@ function Login({ children }) {
       key: "customComponent",
       data: () => (
         <>
-          {isMobile ? (
-            <TopTitleBar
-              showBack={true && !blockIn}
-              color="#000"
-              back_color="transparent"
-            />
-          ) : (
-            <React.Fragment>
-              <WebTopBar />
-              <TopTitleBar
-                showBack={true && !blockIn}
-                color="#000"
-                back_color="transparent"
-              />
-            </React.Fragment>
-          )}
+          <TopBarContainer show_shadow={false}>
+            {isMobile ? (
+                <TopTitleBar
+                  showBack={true && !blockIn}
+                  color="#000"
+                  back_color="transparent"
+                />
+              ) : (
+                <React.Fragment>
+                  <WebTopBar />
+                  <TopTitleBar
+                    showBack={true && !blockIn}
+                    color="#000"
+                    back_color="transparent"
+                  />
+                </React.Fragment>
+              )}
+          </TopBarContainer>
         </>
       ),
     });

@@ -9,7 +9,8 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import Cookies from "js-cookie"; // Make sure to import Cookies
 import store from "@/store";
 import Searchbar from "@/components/common/Searchbar";
 import {
@@ -74,14 +75,14 @@ const QrCode = ({ scroll }) => {
           height={0}
           alt={"download"}
         />
-        {t('Global.action.download_app')}
+        {t("Global.action.download_app")}
         <div className="qrcode_float">
           <div className="qrcode_float_left">
             <div className="qrcode_float_left_top">
-              {t('Global.action.download_app_description')}
+              {t("Global.action.download_app_description")}
             </div>
             <div className="qrcode_float_left_bottom">
-              {t('Global.action.download_app_description_1')}
+              {t("Global.action.download_app_description_1")}
             </div>
           </div>
 
@@ -97,8 +98,7 @@ const QrCode = ({ scroll }) => {
   );
 };
 const QrCodeElement = styled.div.withConfig({
-  shouldForwardProp: (prop) =>
-    !["scroll"].includes(prop),
+  shouldForwardProp: (prop) => !["scroll"].includes(prop),
 })`
   /*  */
   display: flex;
@@ -163,13 +163,21 @@ const QrCodeElement = styled.div.withConfig({
 `;
 
 const LanguageList = [
-  { name: "簡體中文", lang: "zh" },
+  { name: "簡體中文", lang: "tc" },
   { name: "English", lang: "en" },
 ];
 
 const TopSearchBar = ({ isPlaceholder = true }) => {
   const t = useTranslations();
-  const lang = useLang();
+  const router = useRouter();
+
+  const changeLanguage = (newLocale) => {
+    Cookies.set("NEXT_LOCALE", newLocale, { path: "/" });
+    router.refresh();
+  };
+  const lang = Cookies.get("NEXT_LOCALE");
+  
+  // const lang = useLang();
   const ContainerRef = useRef();
   const [scroll, setScroll] = useState(false);
   const [questInfoList, setQuestInfoList] = useState([]);
@@ -194,14 +202,14 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const [navList] = useState(() => [
     {
-      cname: t('Navbar.bottom_navigator_index'),
+      cname: t("Navbar.bottom_navigator_index"),
       name: home.pages.homeMain.name,
       path: home.pages.homeMain.path,
       image: "/images/header/home.svg",
       activeImage: "/images/header/home_selected_btn.png",
     },
     {
-      cname: t('Navbar.bottom_navigator_dynamic'),
+      cname: t("Navbar.bottom_navigator_dynamic"),
       name: post.pages.postMain.name,
       path: post.pages.postMain.path,
       image: "/images/header/feed.svg",
@@ -215,7 +223,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     //   activeImage: socialIconSelected,
     // },
     {
-      cname: t('Navbar.bottom_navigator_mall'),
+      cname: t("Navbar.bottom_navigator_mall"),
       name: vendor.name,
       path: vendor.path,
       image: "/images/header/vendor.svg",
@@ -223,7 +231,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     },
   ]);
 
-  useEffect(() => {
+
+  if(typeof window !== 'undefined') {
     const onScroll = () => {
       let { scrollY } = window;
       setScroll(Boolean(scrollY));
@@ -240,8 +249,27 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       }
     };
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }
+  // useEffect(() => {
+  //   const onScroll = () => {
+  //     let { scrollY } = window;
+  //     setScroll(Boolean(scrollY));
+  //     console.log("set scroll", scroll, Boolean(scrollY));
+  //     let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
+  //     if (TargetStyle) {
+  //       TargetStyle.transition = "0.2s";
+  //       if (scrollY) {
+  //         TargetStyle.backgroundColor = "#fff";
+  //         TargetStyle.borderBottom = "0.5px grey dotted";
+  //       } else {
+  //         TargetStyle.backgroundColor = colors.dark_pink;
+  //         TargetStyle.borderBottom = "none";
+  //       }
+  //     }
+  //   };
+  //   window.addEventListener("scroll", onScroll);
+  //   return () => window.removeEventListener("scroll", onScroll);
+  // }, []);
 
   useEffect(() => {
     let daily = [
@@ -293,10 +321,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   }, [tabValue]);
 
   const judgeSwitchLangImg = scroll
-    ? lang === "zh"
-      ? '/images/header/topbar/switch_lang_dark.svg"'
+    ? lang === "tc"
+      ? '/images/header/topbar/switch_lang_dark.svg'
       : '/images/header/topbar/switch_lang_en_dark.svg'
-    : lang === "zh"
+    : lang === "tc"
     ? '/images/header/topbar/switch_lang.svg'
     : '/images/header/topbar/switch_lang_en.svg';
 
@@ -370,10 +398,14 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     );
   };
   const clickSetting = () => {
-    useGlobalDispatch(pushRoutes(profile.pages.profileEdit.pages.profileEditInfo));
+    useGlobalDispatch(
+      pushRoutes(profile.pages.profileEdit.pages.profileEditInfo)
+    );
   };
   const clickVip = () => {
-    useGlobalDispatch(pushRoutes(profile.pages.profileBuyVip.pages.profileBuyVipCommon));
+    useGlobalDispatch(
+      pushRoutes(profile.pages.profileBuyVip.pages.profileBuyVipCommon)
+    );
   };
   const dailyEvent = () => {
     useGlobalDispatch(dailyLoginAction(intl));
@@ -552,7 +584,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   <div
                     key={list.name}
                     className="cursor"
-                    onClick={() => setLanguage(list.lang)}
+                    onClick={() => changeLanguage(list.lang)}
                   >
                     {list.name}
                   </div>
@@ -573,7 +605,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               className="search_bar_float_img"
             />
 
-            <div className={`search_bar_float`}>
+            <div className={`search_bar_float search_bar_task_float`}>
               {questInfoList?.map((daliy, index) => (
                 <React.Fragment key={index}>
                   <ol>
@@ -611,14 +643,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             </div>
           </div>
           <div className="search_bar_service" onClick={clickService}>
-            <Image
-              src={
-                scroll
-                  ? "/images/header/topbar/service_dark.svg"
-                  : "/images/header/topbar/service.svg"
-              }
-              width={0}
-              height={0}
+            <img
+              src={scroll ? '/images/header/topbar/service_dark.svg' : '/images/header/topbar/service.svg'}
               alt="service"
               className="search_bar_service_img"
             />
@@ -662,13 +688,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               {state.user.id === "guest" ? (
                 <>
                   <div className="search_bar_avatar_cover_user_info vertical">
-                    <div>
-                      {t('Login.have_good_experiences')}
-                    </div>
+                    <div>{t("Login.have_good_experiences")}</div>
                   </div>
                   <div onClick={clickAvatar}>
                     <WavaButton className="search_bar_avatar_button_login">
-                      {t('Login.login_now')}
+                      {t("Login.login_now")}
                     </WavaButton>
                   </div>
                 </>
@@ -708,18 +732,18 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                       className="search_bar_avatar_cover_user_info_setting cursor"
                       onClick={clickSetting}
                     >
-                      {t('Personal.setting')}
+                      {t("Personal.setting")}
                       &gt;
                     </div>
                   </div>
                   <div onClick={clickCollect}>
                     <WavaButton className="search_bar_avatar_button_t ">
-                      {t('Search.collect.recent')}
+                      {t("Search.collect.recent")}
                     </WavaButton>
                   </div>
                   <div onClick={clearUserData}>
                     <WavaButton className="search_bar_avatar_button_b">
-                      {t('Login.logout')}
+                      {t("Login.logout")}
                     </WavaButton>
                   </div>
                 </>
@@ -735,9 +759,9 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 };
 
 const TopsearchBarElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["scroll","main_height"].includes(prop),
+  shouldForwardProp: (prop) => !["scroll", "main_height"].includes(prop),
 })`
-  ${({ main_height }) => `
+  ${({ main_height, scroll }) => `
     /*  */
     padding-right: ${padding}px;
     padding-left: ${padding}px;
@@ -765,11 +789,12 @@ const TopsearchBarElement = styled.div.withConfig({
       position: relative;
       white-space: nowrap;
       font-size: 14px;
-      color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
+      color: ${scroll ? colors.text_grey : "#fff"};
       &_float {
         position: absolute;
         z-index: 999;
         visibility: hidden;
+        top: 41px !important;
       }
       li {
         margin: 5px;
@@ -844,7 +869,7 @@ const TopsearchBarElement = styled.div.withConfig({
                 font-size: 14px;
                 color: #fff;
                 font-weight: 600;
-                color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
+                color: ${scroll ? colors.text_grey : "#fff"};
               }
             }
 
@@ -1057,6 +1082,7 @@ const TopsearchBarElement = styled.div.withConfig({
         &_img {
           cursor: pointer;
           width: 35px;
+          margin-bottom: 4px;
         }
         &_cover {
           z-index: 999;
@@ -1124,6 +1150,7 @@ const TopsearchBarElement = styled.div.withConfig({
         &_img {
           width: 30px;
           height: 30px;
+          margin-bottom: 4px;
 
           &.active {
             animation: 1s recharge-move infinite;
@@ -1179,6 +1206,7 @@ const TopsearchBarElement = styled.div.withConfig({
 
         &:hover {
           .search_bar_recharge_float {
+            min-width: 468.34px;
             background-color: #fff;
             padding: 15px 35px;
             font-size: 12px;
@@ -1251,8 +1279,8 @@ const TopsearchBarElement = styled.div.withConfig({
           line-height: 14px;
           text-align: center;
           padding: 1%;
-          color: ${({ scroll }) => (scroll ? "#fff" : colors.dark_pink)};
-          background-color: ${({ scroll }) => (scroll ? "red" : "#fff")};
+          color: ${scroll ? "#fff" : colors.dark_pink};
+          background-color: ${scroll ? "red" : "#fff"};
           border-radius: 50%;
         }
       }
@@ -1335,12 +1363,12 @@ const TopsearchBarElement = styled.div.withConfig({
         width: 35px;
       }
       .search_bar_avatar_login {
-        background-color: ${({ scroll }) => scroll && "#1a2950"};
-        color: ${({ scroll }) => scroll && "#fff"};
+        background-color: ${scroll && "#1a2950"};
+        color: ${scroll && "#fff"};
         font-size: 16px;
       }
     }
-  `
-}`;
+  `}
+`;
 
 export default memo(TopSearchBar, areEqual);

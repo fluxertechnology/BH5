@@ -16,6 +16,7 @@ import callToast from "@/lib/services/toastCall.js";
 // import iconTwitter from "../../assets/login/icon-twitter.svg";
 import { userLoginAction, userFBLoginOutAction } from "@/store/actions/user";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { pushRoutes } from "@/store/actions/historyActions";
 // import { bottom_footer_height } from "../component/PCFooter";
 
 const { home, login } = pageUrlConstants;
@@ -25,13 +26,17 @@ const LoginMainPage = ({
   // userLogin,
   userFBLogin,
   userLoginSuccess,
-  toSignup,
+  // toSignup,
   blockIn,
   clickSkipBtn,
 }) => {
   const t = useTranslations();
   const { state } = useGlobalContext();
   const customerService = state.config.group_cs;
+
+  const toSignup = () => {
+    useGlobalDispatch(pushRoutes(login.pages.signup));
+  };
 
   const phoneNemberRef = useRef(null);
   const passwordRef = useRef(null);
@@ -69,8 +74,6 @@ const LoginMainPage = ({
         ));
       }
     } else {
-      console.log("fire");
-      
       callToast(t("Login.tip_error"));
     }
   }
