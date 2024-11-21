@@ -9,7 +9,8 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import Cookies from "js-cookie"; // Make sure to import Cookies
 import store from "@/store";
 import Searchbar from "@/components/common/Searchbar";
 import {
@@ -162,13 +163,21 @@ const QrCodeElement = styled.div.withConfig({
 `;
 
 const LanguageList = [
-  { name: "簡體中文", lang: "zh" },
+  { name: "簡體中文", lang: "tc" },
   { name: "English", lang: "en" },
 ];
 
 const TopSearchBar = ({ isPlaceholder = true }) => {
   const t = useTranslations();
-  const lang = useLang();
+  const router = useRouter();
+
+  const changeLanguage = (newLocale) => {
+    Cookies.set("NEXT_LOCALE", newLocale, { path: "/" });
+    router.refresh();
+  };
+  const lang = Cookies.get("NEXT_LOCALE");
+  
+  // const lang = useLang();
   const ContainerRef = useRef();
   const [scroll, setScroll] = useState(false);
   const [questInfoList, setQuestInfoList] = useState([]);
@@ -313,12 +322,12 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   }, [tabValue]);
 
   const judgeSwitchLangImg = scroll
-    ? lang === "zh"
+    ? lang === "tc"
       ? '/images/header/topbar/switch_lang_dark.svg"'
-      : "/images/header/topbar/switch_lang_en_dark.svg"
-    : lang === "zh"
-    ? "/images/header/topbar/switch_lang.svg"
-    : "/images/header/topbar/switch_lang_en.svg";
+      : '/images/header/topbar/switch_lang_en_dark.svg'
+    : lang === "tc"
+    ? '/images/header/topbar/switch_lang.svg'
+    : '/images/header/topbar/switch_lang_en.svg';
 
   async function saveUrl() {
     // navigatorShare({
@@ -576,7 +585,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   <div
                     key={list.name}
                     className="cursor"
-                    onClick={() => setLanguage(list.lang)}
+                    onClick={() => changeLanguage(list.lang)}
                   >
                     {list.name}
                   </div>
@@ -1195,6 +1204,7 @@ const TopsearchBarElement = styled.div.withConfig({
 
         &:hover {
           .search_bar_recharge_float {
+            min-width: 468.34px;
             background-color: #fff;
             padding: 15px 35px;
             font-size: 12px;
