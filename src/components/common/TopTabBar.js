@@ -146,7 +146,7 @@ const TopTabBar = ({
   useEffect(() => {
     var url = pathname;
     var lastIndex = url.lastIndexOf("/");
-    var lastParam = url.substring(lastIndex + 1);
+    var lastParam = decodeURIComponent(url.substring(lastIndex + 1));
     switch (lastParam) {
       case t("Navbar.top_navigator_kcomics"):
         setNowKey("k-comics");
@@ -337,7 +337,7 @@ const TopTabBar = ({
 };
 
 const FeatureGameItem = () => {
-  const intl = useIntl();
+  const t = useTranslations();
   const { picurl, title, total_like, id } = useContext(GameProps);
   return (
     <FeatureGameItemElement>

@@ -48,7 +48,7 @@ const useMediaQuery = () => {
     };
   }, []);
 
-  return { isDesktop, isTablet, isMobile, isTouchDevice, size };
+  return { isDesktop, isTablet, isMobile, isTouchDevice, size, isClient };
 };
 
 export default useMediaQuery;

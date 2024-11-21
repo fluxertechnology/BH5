@@ -1,7 +1,8 @@
 import axiosRequest from "@/lib/services/axios";
 import { requestUrlConstants, checkIsMobile } from "@/lib/constants";
 import store from "@/store";
-// import {getVendorGameListAction} from "@/store/reducers/cruds/vendor/vendorCRUD";
+import { getVendorGameListAction as getVendorGameListActionFunc } from "@/store/reducers/cruds/vendor/vendorCRUD";
+
 const {
   postVendeorAdvertiseUrl,
   postVendeorListUrlPC,
@@ -51,13 +52,13 @@ export const getVendorGameListAction = (
     if (typeof category_id !== "number") {
       formData.append("category_id", category_id);
     }
-    // utilities.getVendorGameListAction(type, category_id).then((data) => {
-    //   dispatch({
-    //     type: "UPDATE_VENDORGAMELISTDATA",
-    //     category_id,
-    //     data,
-    //   });
-    //   scrollColdEnd();
-    // });
+    getVendorGameListActionFunc(type, category_id).then((data) => {
+      dispatch({
+        type: "UPDATE_VENDORGAMELISTDATA",
+        category_id,
+        data,
+      });
+      scrollColdEnd();
+    });
   };
 };

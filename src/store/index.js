@@ -297,7 +297,7 @@ export function GlobalProvider({ children }) {
       subFontSize: 20,
       fixed: false,
       bottomNavHeight: 62,
-      customComponent: () => null,
+      customComponent: () => false,
       prependComponent: () => <></>,
       appendComponent: () => <></>,
     },

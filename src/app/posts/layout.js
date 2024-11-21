@@ -42,7 +42,7 @@ function PostsMain({ children
 }) {
     const t = useTranslations();
     const { isMobile } = useMediaQuery();
-    const { state } = useGlobalContext();
+    const { state, dispatch } = useGlobalContext();
     const location = usePathname();
     const [topAreaShow, setTopAreaShow] = useState();
     const [recommendOriginalTipShow, setRecommendOriginalTipShow] = useState(
@@ -145,6 +145,11 @@ function PostsMain({ children
     const goToApplyOriginal = () => {
         window.open(applyOriginal);
     };
+
+    useEffect(() => {
+        dispatch({type: "RESET_NAVBAR"});
+    }, []);
+
     return (
         <PostsMainElement
             showRightArea={location.split("/")[3] !== "original"}

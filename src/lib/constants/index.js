@@ -649,7 +649,7 @@ export const pageUrlConstants = {
           },
           homeAnime: {
             name: "主頁動畫",
-            path: "/home/main/anime",
+            path: "/home/main",
             bottomNav: true,
           },
           homeNovels: {

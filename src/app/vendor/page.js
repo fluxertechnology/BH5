@@ -16,7 +16,7 @@ import ImageCarousel from "@/components/common/ImageCarousel";
 
 const VendorMain = () => {
   const t = useTranslations("Vendor");
-  const { state } = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
   const { isMobile } = useMediaQuery();
 
   useEffect(() => {
@@ -26,6 +26,10 @@ const VendorMain = () => {
   function goToVendor() {
     typeof windows !== 'undefined' && window.open(vendorUrl);
   }
+
+  useEffect(() => {
+    dispatch({type: "RESET_NAVBAR"});
+}, []);
 
   return (
     <VendorMainElement>

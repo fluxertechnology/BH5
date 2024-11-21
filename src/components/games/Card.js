@@ -90,7 +90,9 @@ function ImgMediaCard(props) {
   );
 }
 export default React.memo(ImgMediaCard, areEqual);
-export const CardElement = styled.div`
+export const CardElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["goldFrame"].includes(prop),
+})`
   /*  */
   .box_effect {
     &:hover {

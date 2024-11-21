@@ -11,8 +11,8 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    // loader: "custom",
-    // loaderFile: './src/lib/services/imageLoader.js',
+    loader: "custom",
+    loaderFile: './src/lib/services/imageLoader.js',
     remotePatterns: [
       // {
       //   protocol: "https",

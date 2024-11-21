@@ -35,7 +35,6 @@ const TopTitleBar = ({
 }) => {
 
   const backEvent = (backIndex, not_clear_history) => {
-    console.log(backIndex, not_clear_history);
     if (backIndex) {
       useGlobalDispatch(
         pushRoutes({
@@ -111,8 +110,8 @@ export default TopTitleBar;
 
 export const TopTitleBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["to_absolute", "show_border_bottom"].includes(prop),
-  })`
+      !["color","back_color","show_back_color","title","show_border_bottom","to_absolute","textAlign"].includes(prop),
+})`
   /*  */
   position: ${({ to_absolute }) => (to_absolute ? "absolute" : "unset")};
   z-index: 1;

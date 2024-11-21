@@ -19,14 +19,19 @@ export const getNovelsDataAction = (id, scrollColdEnd) => {
     formData.append("limit", homeNovelsListDataLimit);
     formData.append("cateid", id);
     if (user.id !== "guest") formData.append("uid", user.id);
-    axiosRequest.post(postGetNovelsData, formData).then((data) => {
-      dispatch({
-        type: "UPDATE_NOVELSLISTDATA",
-        id,
-        data,
-      });
+    axiosRequest
+      .post(postGetNovelsData, formData)
+      .then((data) => {
+        dispatch({
+          type: "UPDATE_NOVELSLISTDATA",
+          id,
+          data,
+        });
 
-      scrollColdEnd(false);
-    });
+        scrollColdEnd(false);
+      })
+      .catch((err) => {
+        console.log("Error", "[/banime/novel/lists]:", err);
+      });
   };
 };

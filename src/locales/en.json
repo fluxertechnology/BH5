@@ -521,7 +521,7 @@
       "task": {
         "": "Missions",
         "promote": "Promote",
-        "everyday": "Daily Task" 
+        "everyday": "Daily Task"
       },
       "board_description": " register, and get reward",
       "vip_day": "Vip Days",
@@ -719,7 +719,7 @@
     "placeholder_mail_verify_tip": "Verify Code Error",
     "placeholder_qq": "Please Input QQ No."
   },
-  "Register":{
+  "Register": {
     "general": "General Register",
     "qq": "QQ Register",
     "email": "Email Register",
@@ -727,5 +727,19 @@
   },
   "Personal": {
     "setting": "Personal Setting"
+  },
+  "Leaderboard": {
+    "": "Rank",
+    "tab": {
+      "h_comic": "Comic Rank",
+      "h_animate": "Anime Rank"
+    }
+  },
+  "Stream": {
+    "tip": {
+      "start": "Come on",
+      "thire_soft_name": " Meita ",
+      "end": "Chat with the streamer"
+    }
   }
 }

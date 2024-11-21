@@ -721,5 +721,19 @@
   },
   "Personal": {
     "setting": "个人设定"
+  },
+  "Leaderboard": {
+    "": "排行榜",
+    "tab": {
+      "h_comic": "H漫榜",
+      "h_animate": "番剧榜"
+    }
+  },
+  "Stream": {
+    "tip": {
+      "start": "快来",
+      "thire_soft_name": "妹塔直播",
+      "end": "和美女主播们开聊啦"
+    }
   }
 }

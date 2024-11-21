@@ -95,7 +95,7 @@ const CoverCubeItem = ({
 export default CoverCubeItem;
 
 export const CoverCubeItemElement = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['rankStyle','floatCardWidth','externalControlPosition','isVideo','continueWatch'].includes(prop) ,
+    shouldForwardProp: (prop) => !['rankStyle','floatCardWidth','externalControlPosition','isVideo','continueWatch','type'].includes(prop) ,
   })`
   /*  */
   position: ${({ externalControlPosition }) =>

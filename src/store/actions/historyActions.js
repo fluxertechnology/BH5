@@ -1,6 +1,4 @@
 // import { push, go, replace } from "connected-react-router";
-import { useRouter } from "next/navigation";
-
 import { pageUrlConstants, requestUrlConstants } from "@/lib/constants";
 import { handleChangePage } from "@/lib/services/gtmEventHandle";
 import store from "@/store";
@@ -83,7 +81,7 @@ export const backRoutes = (number, not_clear_history = false) => {
       }
     } else {
       // 這邊先都回到主頁，有需求降臨再利用　routes tree 判斷
-      push(home.pages.homeMain);
+      push(home.pages.homeMain.path);
       googleAnalytics(home.pages.homeMain);
     }
   };
