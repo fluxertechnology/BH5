@@ -53,6 +53,12 @@
     "bar_recharge_button": "充值VIP 爽撸不间断",
     "bar_recharge_button_1": "点我输入 VIP兑换码"
   },
+  "Footer":{
+    "user":{
+      "services_agreement": "用户服务协议",
+      "privacy_policy": "隐私政策"
+    }
+  },
   "Common": {
     "error": "出了點問題！",
     "money": "精钻",
