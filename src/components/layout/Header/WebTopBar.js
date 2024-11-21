@@ -606,7 +606,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               className="search_bar_float_img"
             />
 
-            <div className={`search_bar_float`}>
+            <div className={`search_bar_float search_bar_task_float`}>
               {questInfoList?.map((daliy, index) => (
                 <React.Fragment key={index}>
                   <ol>
@@ -795,6 +795,7 @@ const TopsearchBarElement = styled.div.withConfig({
         position: absolute;
         z-index: 999;
         visibility: hidden;
+        top: 41px !important;
       }
       li {
         margin: 5px;
@@ -1082,6 +1083,7 @@ const TopsearchBarElement = styled.div.withConfig({
         &_img {
           cursor: pointer;
           width: 35px;
+          margin-bottom: 4px;
         }
         &_cover {
           z-index: 999;
@@ -1149,6 +1151,7 @@ const TopsearchBarElement = styled.div.withConfig({
         &_img {
           width: 30px;
           height: 30px;
+          margin-bottom: 4px;
 
           &.active {
             animation: 1s recharge-move infinite;
