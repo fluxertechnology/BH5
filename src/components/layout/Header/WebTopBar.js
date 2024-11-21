@@ -419,6 +419,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     useGlobalDispatch(postSearchWatchHistoryAction(type));
   };
 
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    setIsLogin(state.user.id !== "guest");
+  }, [state.user.id]);
+
   return (
     <TopsearchBarElement
       main_height={state.navbar.mainHeight}
@@ -527,7 +532,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               >
                 <WavaButton>
                   {t(
-                    state.user.id === "guest"
+                    isLogin
                       ? "Navbar.bar_recharge_button_notlogin"
                       : "Navbar.bar_recharge_button"
                   )}
@@ -679,7 +684,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
-              {state.user.id !== "guest" ? (
+              {isLogin ? (
                 <ImageComponent
                   is_cover={true}
                   src={state.user.avatar}
@@ -694,7 +699,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               )}
             </div>
             <div className="search_bar_avatar_cover">
-              {state.user.id === "guest" ? (
+              {!isLogin ? (
                 <>
                   <div className="search_bar_avatar_cover_user_info vertical">
                     <div>{t("Login.have_good_experiences")}</div>

@@ -2,9 +2,9 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 
-import redoIcon from "@public/images/icons/redo.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "@/lib/constants";
-import Image from "next/image";
 
 const RefreshBtn = () => {
   const t = useTranslations();
@@ -14,12 +14,9 @@ const RefreshBtn = () => {
         <p className="refresh_btn_text">
           {t("Global.refresh")}
           <span className="refresh_btn_text_icon">
-            <Image
+            <FontAwesomeIcon
               className="refresh_btn_text_icon_img"
-              src={redoIcon}
-              alt="refresh"
-              width={0}
-              height={0}
+              icon={faRedo}
             />
           </span>
         </p>

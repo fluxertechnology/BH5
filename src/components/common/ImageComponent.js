@@ -50,7 +50,9 @@ const ImageComponent = ({
     if (src.includes(imgFolderPath)) {
       return `${src}?w=${width}&h=${height}`;
     }
-    return `${imgFolderPath}${src.startsWith("/") ? src : `/${src}`}?w=${width}&h=${height}`;
+    return `${imgFolderPath}${
+      src.startsWith("/") ? src : `/${src}`
+    }?w=${width}&h=${height}`;
   };
 
   return (
@@ -64,33 +66,34 @@ const ImageComponent = ({
       img_border={img_border}
       continueWatch={continueWatch}
     >
-      <Image
-        className={`img ${src && lazyLoad ? "lazyload" : ""}`}
-        src={src ?? (placeholderImg || placeholder_300x300.src)}
-        blurDataURL={placeholderImg || placeholder_300x300.src}
-        width={0}
-        height={0}
-        alt={alt ?? "unknown-pic"}
-        title={title}
-        style={imgStyle}
-        onContextMenu={preventMenu}
-        // loader={imageLoader}
-        onLoad={(e) => {
-          if (toFixSize) {
-            let img = document.createElement("img");
-            img.src = e.target.src;
-            img.addEventListener("load", function () {
-              setFixHeight((img.height / img.width) * 100);
-              img.remove();
-            });
-          }
-        }}
-        onError={(e) => {
-          // e.target.src = placeholderImg || placeholder_300x300.src; TODO(ZY)
-        }}
-        draggable="false"
-        {...props}
-      />
+        <Image
+          className={`img ${src && lazyLoad ? "lazyload" : ""}`}
+          src={src || placeholderImg || placeholder_300x300.src}
+          blurDataURL={placeholderImg || placeholder_300x300.src}
+          width={0}
+          height={0}
+          alt={alt ?? "unknown-pic"}
+          title={title}
+          style={imgStyle}
+          onContextMenu={preventMenu}
+          loader={imageLoader}
+          onLoad={(e) => {
+            if (toFixSize) {
+              let img = document.createElement("img");
+              img.src = e.target.src;
+              img.addEventListener("load", function () {
+                setFixHeight((img.height / img.width) * 100);
+                img.remove();
+              });
+            }
+          }}
+          onError={(e) => {
+            // e.target.src = placeholderImg || placeholder_300x300.src; TODO(ZY)
+          }}
+          draggable="false"
+          {...props}
+        />
+
       {isFree && <div className="free_tip">{t("Global.free")}</div>}
       {total_view_show && (
         <div className="total_view">

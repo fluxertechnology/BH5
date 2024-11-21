@@ -162,20 +162,20 @@
       "label": {
         "mall": "Shop",
         "do_task": "Solve Mission",
-        "hot":{
+        "hot": {
           "commodity": "Popular"
         }
       },
       "sheet": {
         "label": {
           "settle": "Payment",
-          "choice":{
+          "choice": {
             "coupon": "Select Coupon"
           },
           "gold_money_once": "B coin 1 time",
           "payment": "Payment method",
-          "buy":{
-            "discount":{
+          "buy": {
+            "discount": {
               "game": "Get discounts on game"
             },
             "money": "Top Up Diamond",
@@ -191,7 +191,7 @@
           "description_3": "If you have any questions, contact customer service"
         },
         "placeholder": {
-          "receiver":{
+          "receiver": {
             "name": "Input Receiver Info."
           },
           "area": "Input Receiver Area",
@@ -502,65 +502,65 @@
         "content": "Redeem Successfully Watch Or Continue Redemption",
         "continue_redeem": "Continue Redeem",
         "watch_now": "Watch Now"
+      }
+    },
+    "feeback": {
+      "label": {
+        "feeback": "Report",
+        "submit": "Submit",
+        "content": "Content",
+        "upload_pic": "Upload Image",
+        "upload_limit": " (MAX: 3 Images)"
       },
-      "feeback": {
-        "label": {
-          "feeback": "Report",
-          "submit": "Submit",
-          "content": "Content",
-          "upload_pic": "Upload Image",
-          "upload_limit": " (MAX: 3 Images)"
-        },
-        "placeholder": {
-          "complaints": "Input Report Message. (MAX: 500)"
-        }
+      "placeholder": {
+        "complaints": "Input Report Message. (MAX: 500)"
+      }
+    },
+    "main": {
+      "vip": {
+        "maturity": "VIP Expired",
+        "maturity1": "VIP Expired"
       },
-      "main": {
-        "vip": {
-          "maturity": "VIP Expired",
-          "maturity1": "VIP Expired"
+      "label": {
+        "member_benefit_tip": "Member Benefit Reminder",
+        "member_description": "vip is about to expire, renew to continue enjoying member privileges",
+        "member_description_1": "Enjoy for as low as ¥50, if you have already opened vip, please ignore this popup",
+        "continue_buy": "Renew Now",
+        "member": "Member",
+        "infinite": "Unlimited",
+        "go_mall": "Go Shopping",
+        "tip": "Already Check-In Today!",
+        "telegram": "Telegram Channel",
+        "potato": "Potato Channel",
+        "description": "The pressure should be released, click me to make you happy"
+      },
+      "option": {
+        "application": "Other Applications",
+        "official_friend_group": "Offical Channel",
+        "common_problem": "FAQs",
+        "contact_us": "Contact Us",
+        "common_effect": "Common Functions",
+        "feeback": "Report",
+        "own_collect": "My Save",
+        "buy_discount": "First Buy Discount",
+        "own": {
+          "gift": "My Gifts",
+          "collect": "My Save"
         },
-        "label": {
-          "member_benefit_tip": "Member Benefit Reminder",
-          "member_description": "vip is about to expire, renew to continue enjoying member privileges",
-          "member_description_1": "Enjoy for as low as ¥50, if you have already opened vip, please ignore this popup",
-          "continue_buy": "Renew Now",
-          "member": "Member",
-          "infinite": "Unlimited",
-          "go_mall": "Go Shopping",
-          "tip": "Already Check-In Today!",
-          "telegram": "Telegram Channel",
-          "potato": "Potato Channel",
-          "description": "The pressure should be released, click me to make you happy"
+        "news_discount": "Coupon",
+        "history": {
+          "buy": "Shopping History",
+          "watch": "Watch History"
         },
-        "option": {
-          "application": "Other Applications",
-          "official_friend_group": "Offical Channel",
-          "common_problem": "FAQs",
-          "contact_us": "Contact Us",
-          "common_effect": "Common Functions",
-          "feeback": "Report",
-          "own_collect": "My Save",
-          "buy_discount": "First Buy Discount",
-          "own": {
-            "gift": "My Gifts",
-            "collect": "My Save"
-          },
-          "news_discount": "Coupon",
-          "history": {
-            "buy": "Shopping History",
-            "watch": "Watch History"
-          },
-          "news": "Notification",
-          "mall_order": "My Orders",
-          "switch_language": "Switch Language",
-          "task": {
-            "": "Missions",
-            "board": "Missions"
-          },
-          "god_stuff": "More",
-          "call_us": "Customer Service"
-        }
+        "news": "Notification",
+        "mall_order": "My Orders",
+        "switch_language": "Switch Language",
+        "task": {
+          "": "Missions",
+          "board": "Missions"
+        },
+        "god_stuff": "More",
+        "call_us": "Customer Service"
       },
       "click_login": "Login",
       "watch": {

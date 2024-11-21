@@ -26,7 +26,8 @@ export const signupUser = (data, callback) => {
       .then((data) => {
         callback(true);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log("Error", err);
         callback(false);
       });
   };
