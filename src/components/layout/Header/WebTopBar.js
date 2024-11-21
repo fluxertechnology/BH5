@@ -176,7 +176,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     router.refresh();
   };
   const lang = Cookies.get("NEXT_LOCALE");
-  
+
   // const lang = useLang();
   const ContainerRef = useRef();
   const [scroll, setScroll] = useState(false);
@@ -231,25 +231,30 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     },
   ]);
 
-
-  if(typeof window !== 'undefined') {
-    const onScroll = () => {
-      let { scrollY } = window;
-      setScroll(Boolean(scrollY));
-      let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
-      if (TargetStyle) {
-        TargetStyle.transition = "0.2s";
-        if (scrollY) {
-          TargetStyle.backgroundColor = "#fff";
-          TargetStyle.borderBottom = "0.5px grey dotted";
-        } else {
-          TargetStyle.backgroundColor = colors.dark_pink;
-          TargetStyle.borderBottom = "none";
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const onScroll = () => {
+        let { scrollY } = window;
+        setScroll(Boolean(scrollY));
+        let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
+        if (TargetStyle) {
+          TargetStyle.transition = "0.2s";
+          if (scrollY) {
+            TargetStyle.backgroundColor = "#fff";
+            TargetStyle.borderBottom = "0.5px grey dotted";
+          } else {
+            TargetStyle.backgroundColor = colors.dark_pink;
+            TargetStyle.borderBottom = "none";
+          }
         }
-      }
-    };
-    window.addEventListener("scroll", onScroll);
-  }
+      };
+      window.addEventListener("scroll", onScroll);
+      return function cleanup() {
+        window.removeEventListener("scroll", onScroll);
+      };
+    }
+  });
+
   // useEffect(() => {
   //   const onScroll = () => {
   //     let { scrollY } = window;
@@ -322,11 +327,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const judgeSwitchLangImg = scroll
     ? lang === "tc"
-      ? '/images/header/topbar/switch_lang_dark.svg'
-      : '/images/header/topbar/switch_lang_en_dark.svg'
+      ? "/images/header/topbar/switch_lang_dark.svg"
+      : "/images/header/topbar/switch_lang_en_dark.svg"
     : lang === "tc"
-    ? '/images/header/topbar/switch_lang.svg'
-    : '/images/header/topbar/switch_lang_en.svg';
+    ? "/images/header/topbar/switch_lang.svg"
+    : "/images/header/topbar/switch_lang_en.svg";
 
   async function saveUrl() {
     // navigatorShare({
@@ -644,7 +649,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <div className="search_bar_service" onClick={clickService}>
             <img
-              src={scroll ? '/images/header/topbar/service_dark.svg' : '/images/header/topbar/service.svg'}
+              src={
+                scroll
+                  ? "/images/header/topbar/service_dark.svg"
+                  : "/images/header/topbar/service.svg"
+              }
               alt="service"
               className="search_bar_service_img"
             />

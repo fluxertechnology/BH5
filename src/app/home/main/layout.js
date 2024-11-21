@@ -412,16 +412,16 @@ const MobileBottomDownloadAppTip = () => {
       <div className="download_container">
         <Image
           src="/images/shared/close.png"
-          width={0}
-          height={0}
+          width={25}
+          height={25}
           alt="BH5 close"
           className="download_container_close"
           onClick={handleClose}
         />
         <Image
           src="/images/shared/bh5.jpg"
-          width={0}
-          height={0}
+          width={60}
+          height={60}
           alt="BH5 Logo"
           className="download_container_logo"
         />
@@ -439,7 +439,7 @@ const MobileBottomDownloadAppTip = () => {
 const MobileBottomDownloadAppTipElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["show", "bottom_nav_height" ].includes(prop),
 })`
-  ${({ bottom_nav_height }) => `
+  ${({ bottom_nav_height, show }) => `
     /*  */
     bottom: 0;
     right: 0;
@@ -447,7 +447,7 @@ const MobileBottomDownloadAppTipElement = styled.div.withConfig({
     position: fixed;
     z-index: 999;
     height: ${bottom_nav_height + 20}px;
-    display: ${({ show }) => (show ? "auto" : "none")};
+    display: ${show ? "auto" : "none"};
     .download {
       &_bg {
         top: 0;

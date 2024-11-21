@@ -9,6 +9,7 @@ import styled from "styled-components";
 import Grid2 from "@mui/material/Grid2";
 import { useState } from 'react';
 import { QRCodeCanvas as QRCode } from "qrcode.react";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 import { colors, downloadPage, officialContact, profileService, profileFeedback, pageUrlConstants } from "@/lib/constants";
 const { home } = pageUrlConstants;
@@ -22,6 +23,7 @@ const DesktopFooter = ({ locale }) => {
   //     console.log(newLocale, 'Locale changed'); // Log the new locale
   //     router.push(`/${newLocale}`); // Navigate to the new locale route
   // };
+  const { isMobile } = useMediaQuery();
 
   let urlItems = [
     {
@@ -55,6 +57,8 @@ const DesktopFooter = ({ locale }) => {
       },
     },
   ];
+
+  if(isMobile) return<></>
 
   return (
     <PCFooterElement className={"PCFooterElement"}>
