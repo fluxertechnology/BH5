@@ -459,7 +459,9 @@ export const TopTabBarElement = styled.div`
   }
 `;
 
-export const H5TopTabBarElement = styled.div`
+export const H5TopTabBarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["type", "drawer", "sub_height", "main_height"].includes(prop),
+}) `
   /*  */
   display: flex;
   background-color: #fff;

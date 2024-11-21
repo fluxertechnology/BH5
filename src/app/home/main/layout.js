@@ -386,6 +386,7 @@ const HomeLayoutElement = styled.div.withConfig({
 `;
 
 const MobileBottomDownloadAppTip = () => {
+  const { state } = useGlobalContext();
   const [show, setShow] = useState(false);
   useEffect(() => {
     var ua = navigator.userAgent;
@@ -435,7 +436,9 @@ const MobileBottomDownloadAppTip = () => {
     </MobileBottomDownloadAppTipElement>
   );
 };
-const MobileBottomDownloadAppTipElement = styled.div`
+const MobileBottomDownloadAppTipElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["show", "bottom_nav_height" ].includes(prop),
+})`
   ${({ bottom_nav_height }) => `
     /*  */
     bottom: 0;

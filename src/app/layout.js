@@ -1,5 +1,6 @@
 import DesktopHeader from "@/components/layout/Header/DesktopHeader";
 import DesktopFooter from "@/components/layout/Footer/DesktopFooter";
+import MobileHeader from "@/components/layout/Header/MobileHeader";
 import GlobalComponent from "@/components/common/GlobalComponent";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
@@ -34,6 +35,7 @@ export default async function RootLayout({ children }) {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <GlobalProvider>
             <DesktopHeader locale={locale} />
+            <MobileHeader locale={locale} />
             <div className="min-h-screen">{children}</div>
             <DesktopFooter locale={locale} />
             <GlobalComponent />
