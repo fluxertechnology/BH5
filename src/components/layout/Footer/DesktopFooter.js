@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import LinkComponent from "@/components/common/LinkComponent";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Make sure to import Cookies
@@ -15,7 +15,7 @@ import { colors, downloadPage, officialContact, profileService, profileFeedback,
 const { home } = pageUrlConstants;
 
 const DesktopFooter = ({ locale }) => {
-  // const t = useTranslations('Footer');
+  const t = useTranslations();
   // const router = useRouter();
 
   // const changeLanguage = (newLocale) => {
@@ -27,30 +27,29 @@ const DesktopFooter = ({ locale }) => {
 
   let urlItems = [
     {
-      // text: t('faq'),
-      text: "FAQs",
+      text: t('Profile.main.option.common_problem'),
       onClick: () => window.open(profileService),
     },
     {
-      text: "Contact Us",
+      text: t('Profile.main.option.contact_us'),
       onClick: () => window.open("mailto: cs@bbacgn.com"),
     },
     {
-      text: "Report",
+      text: t('Profile.main.option.feeback'),
       onClick: () => window.open(profileFeedback),
     },
   ];
 
   let serviceTerms = [
     {
-      text: "Privacy Policy",
+      text: t('Footer.user.privacy_policy'),
       url: {
         name: home.pages.homeProtocol.pages.homeEULA.name,
         path: home.pages.homeProtocol.pages.homeEULA.path,
       },
     },
     {
-      text: "EULA",
+      text: t('Footer.user.services_agreement'),
       url: {
         name: home.pages.homeProtocol.pages.homeTSM.name,
         path: home.pages.homeProtocol.pages.homeTSM.path,
@@ -98,9 +97,9 @@ const DesktopFooter = ({ locale }) => {
                 key={index}
                 className="cursor-pointer mt-3 link"
               >
-                <Link href={item.url} key={index}>
+                <LinkComponent routes={item.url} key={index}>
                   {item.text}
-                </Link>
+                </LinkComponent>
               </Grid2>
             ))}
           </Grid2>
@@ -230,6 +229,7 @@ QRCode Start
 let timer;
 let touchduration = 500;
 const QrCode = () => {
+  const t = useTranslations();
   const [isHover, setIsHover] = useState(false);
   // const intl = useIntl();
   function qrcodeStart(e) {
@@ -269,12 +269,12 @@ const QrCode = () => {
           />
         </div>
         <div className="pt-1 qrcode_text">
-          Download APP
+          {t("Global.action.download_app")}
         </div>
         <div className="qrcode_float">
           <ol>
             <li>
-              Scan to download APP
+            {t("Global.action.download_app_description")}
             </li>
             <li>
               <QRCode
@@ -342,7 +342,7 @@ const QrCodeElement = styled.div`
 Friend Social Start
 */
 const FriendSocial = () => {
-  // const intl = useIntl();
+  const t = useTranslations();
   const [isHover, setIsHover] = useState(false);
   function onClick() {
     window.open(officialContact);
@@ -367,10 +367,7 @@ const FriendSocial = () => {
         alt={"friend_socrial"}
       />
       <div className="pt-1 ">
-        {/* {intl.formatMessage({
-          id: "PROFILE.MAIN.OPTION.OFFICIAL_FRIEND_GROUP",
-        })} */}
-        Official Channel
+        {t('Profile.main.option.official_friend_group')}
       </div>
     </FriendSocialElement>
   );
