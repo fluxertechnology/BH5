@@ -323,7 +323,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const judgeSwitchLangImg = scroll
     ? lang === "tc"
-      ? '/images/header/topbar/switch_lang_dark.svg"'
+      ? '/images/header/topbar/switch_lang_dark.svg'
       : '/images/header/topbar/switch_lang_en_dark.svg'
     : lang === "tc"
     ? '/images/header/topbar/switch_lang.svg'
@@ -645,7 +645,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <div className="search_bar_service" onClick={clickService}>
             <img
-              src="/images/header/topbar/service.svg"
+              src={scroll ? '/images/header/topbar/service_dark.svg' : '/images/header/topbar/service.svg'}
               alt="service"
               className="search_bar_service_img"
             />
