@@ -124,7 +124,83 @@
   },
   "Vendor": {
     "mall": "Shop",
-    "free": "Free"
+    "free": "Free",
+    "category": {
+      "hot": {
+        "commodity": "Popular"
+      }
+    },
+    "goods": {
+      "action": {
+        "now": {
+          "go": "Go Now",
+          "buy": "Buy Now",
+          "received": "Get Now"
+        }
+      },
+      "label": {
+        "redemption_code": "Redeem Code",
+        "pick_code": "Redeem Code",
+        "product": {
+          "description": "Description"
+        },
+        "like": {
+          "": "Like",
+          "people": "Like"
+        }
+      }
+    },
+    "item": {
+      "label": {
+        "unit": {
+          "remain_amount": "Remain",
+          "piece": "sku"
+        }
+      }
+    },
+    "main": {
+      "label": {
+        "mall": "Shop",
+        "do_task": "Solve Mission",
+        "hot":{
+          "commodity": "Popular"
+        }
+      },
+      "sheet": {
+        "label": {
+          "settle": "Payment",
+          "choice":{
+            "coupon": "Select Coupon"
+          },
+          "gold_money_once": "B coin 1 time",
+          "payment": "Payment method",
+          "buy":{
+            "discount":{
+              "game": "Get discounts on game"
+            },
+            "money": "Top Up Diamond",
+            "gold_money": "Top Up B Coins",
+            "confirm": "Confirm "
+          },
+          "coupon": "Coupon",
+          "received_data": "Receiver info.",
+          "give_away_phone": "Enter the mobile to transfer",
+          "specifications": "Spec.",
+          "description_1": "Only for shopping",
+          "description_2": "When shopping completed, go to Profile to check the order",
+          "description_3": "If you have any questions, contact customer service"
+        },
+        "placeholder": {
+          "receiver":{
+            "name": "Input Receiver Info."
+          },
+          "area": "Input Receiver Area",
+          "complete_address": "Input Receiver Address",
+          "postal_code": "Input Your Email",
+          "phone": "Input Phone No."
+        }
+      }
+    }
   },
   "Global": {
     "money": "Diamond",

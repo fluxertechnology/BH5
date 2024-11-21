@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import styled from "styled-components";
@@ -13,6 +13,7 @@ import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarC
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js"
 import ImageCarousel from "@/components/common/ImageCarousel";
+import TopTitleBar from "@/components/common/TopTitleBar";
 
 const VendorMain = () => {
   const t = useTranslations("Vendor");
@@ -24,7 +25,7 @@ const VendorMain = () => {
   }, [isMobile]);
 
   function goToVendor() {
-    typeof windows !== 'undefined' && window.open(vendorUrl);
+    window.open(vendorUrl);
   }
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const VendorMain = () => {
       <TopBarContainer>
         {isMobile ? (
           <TopTitleBar
-            title={t("title")}
+            title={t("mall")}
           ></TopTitleBar>
         ) : (
           <div>
