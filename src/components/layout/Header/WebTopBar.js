@@ -236,7 +236,6 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     const onScroll = () => {
       let { scrollY } = window;
       setScroll(Boolean(scrollY));
-      console.log("set scroll", scroll, Boolean(scrollY));
       let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
       if (TargetStyle) {
         TargetStyle.transition = "0.2s";
