@@ -202,14 +202,14 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const [navList] = useState(() => [
     {
-      cname: t("Navbar.bottom_navigator_index"),
+      intlKey: "Navbar.bottom_navigator_index",
       name: home.pages.homeMain.name,
       path: home.pages.homeMain.path,
       image: "/images/header/home.svg",
       activeImage: "/images/header/home_selected_btn.png",
     },
     {
-      cname: t("Navbar.bottom_navigator_dynamic"),
+      intlKey: "Navbar.bottom_navigator_dynamic",
       name: post.pages.postMain.name,
       path: post.pages.postMain.path,
       image: "/images/header/feed.svg",
@@ -223,7 +223,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     //   activeImage: socialIconSelected,
     // },
     {
-      cname: t("Navbar.bottom_navigator_mall"),
+      intlKey: "Navbar.bottom_navigator_mall",
       name: vendor.name,
       path: vendor.path,
       image: "/images/header/vendor.svg",
@@ -465,7 +465,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   alt={navItem.name}
                 />
                 <div className="search_bar_nav_item_btn_title_text">
-                  {navItem.cname}
+                  {t(navItem.intlKey)}
                 </div>
               </WavaButton>
             </div>
