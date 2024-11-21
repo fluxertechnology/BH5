@@ -15,7 +15,7 @@ const TopPressBar = ({ labelList, callback }) => {
     const [nowKey, setNowKey] = useState(labelListKey[0]);
     useEffect(() => {
         for (let i = 0; i < labelListKey.length; i++) {
-            if (location.pathname.indexOf(labelListKey[i]) !== -1) {
+            if (location.indexOf(labelListKey[i]) !== -1) {
                 setNowKey(labelListKey[i]);
                 return;
             }
