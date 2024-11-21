@@ -59,7 +59,10 @@ export function GlobalProvider({ children }) {
     homeTagData: {},
     homeCategoryData: {},
     homeCategoryTabList: [],
-    homeSearchTabList: {},
+    homeSearchTabList: {
+      hotTab: [],
+      historyTab: [],
+    },
     homeSearchResultData: {},
     homeVideo: { nowTab: 0 },
     homeVideoList: [

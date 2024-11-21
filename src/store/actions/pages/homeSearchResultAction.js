@@ -12,7 +12,7 @@ export const updateSearchResultAction = (search, kind, callback) => {
     if(!homeSearchResultData[search] || !homeSearchResultData[search][kind].isEnd) {
 
       let formData = new FormData();
-      formData.append("keyword", search);
+      formData.append("keyword", decodeURIComponent(search));
       formData.append("type", kind);
       formData.append("limit", 15);
       formData.append("page", homeSearchResultData[search] ? (homeSearchResultData[search][kind].page + 1) : 1);
@@ -44,7 +44,7 @@ export const addHistoryTabAcion = (tab) => {
 
     tablist = JSON.parse(tablist);
 
-    if(tablist.indexOf(tab) === -1) {
+    if(!!tab && tablist.indexOf(tab) === -1) {
       tablist.push(tab);
     }
 

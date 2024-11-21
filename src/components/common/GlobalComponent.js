@@ -7,15 +7,16 @@ import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { AxiosCenter } from "@/lib/services/axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toastAutoCloseDuring } from "@/lib/constants"
+import { toastAutoCloseDuring } from "@/lib/constants";
 
 import { getAdsData } from "@/store/actions/adsList";
 import { getConfigData } from "@/store/actions/config";
 import { getNoticeData } from "@/store/actions/noticeList";
 import { initRoutes } from "@/store/actions/historyActions";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function GlobalComponent() {
-  const { state } = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
 
   // useEffect(() => {
   //   document.querySelectorAll("img").forEach((e) => {
@@ -36,6 +37,30 @@ export default function GlobalComponent() {
     }
     useGlobalDispatch(initRoutes());
   }, []);
+
+  const router = useRouter();
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const quertObj = Object.fromEntries(searchParams.entries());
+    const url = `${pathname}?${searchParams}`;
+    dispatch({
+      type: "INIT_ROUTER",
+      data: {
+        action: "", // TODO(ZY): get router action
+        location: {
+          hash: url.split("#")[1] || "",
+          key: "",
+          pathname,
+          query: { ...quertObj },
+          search: searchParams.toString(),
+          state: null,
+        },
+        useRouter: router,
+      },
+    });
+  }, [pathname, searchParams]);
 
   return (
     <div>
