@@ -9,7 +9,6 @@ export const postSearchWatchHistoryAction = (type) => (dispatch) => {
   return utilitiesRequest
     .postSearchWatchHistory(type)
     .then((data) => {
-      console.log(data, "data");
       if (data) {
         if (type) {
           dispatch({

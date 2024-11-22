@@ -176,7 +176,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     router.refresh();
   };
   const lang = Cookies.get("NEXT_LOCALE");
-  
+
   // const lang = useLang();
   const ContainerRef = useRef();
   const [scroll, setScroll] = useState(false);
@@ -202,14 +202,14 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const [navList] = useState(() => [
     {
-      cname: t("Navbar.bottom_navigator_index"),
+      intlKey: "Navbar.bottom_navigator_index",
       name: home.pages.homeMain.name,
       path: home.pages.homeMain.path,
       image: "/images/header/home.svg",
       activeImage: "/images/header/home_selected_btn.png",
     },
     {
-      cname: t("Navbar.bottom_navigator_dynamic"),
+      intlKey: "Navbar.bottom_navigator_dynamic",
       name: post.pages.postMain.name,
       path: post.pages.postMain.path,
       image: "/images/header/feed.svg",
@@ -223,7 +223,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     //   activeImage: socialIconSelected,
     // },
     {
-      cname: t("Navbar.bottom_navigator_mall"),
+      intlKey: "Navbar.bottom_navigator_mall",
       name: vendor.name,
       path: vendor.path,
       image: "/images/header/vendor.svg",
@@ -231,25 +231,30 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     },
   ]);
 
-
-  if(typeof window !== 'undefined') {
-    const onScroll = () => {
-      let { scrollY } = window;
-      setScroll(Boolean(scrollY));
-      let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
-      if (TargetStyle) {
-        TargetStyle.transition = "0.2s";
-        if (scrollY) {
-          TargetStyle.backgroundColor = "#fff";
-          TargetStyle.borderBottom = "0.5px grey dotted";
-        } else {
-          TargetStyle.backgroundColor = colors.dark_pink;
-          TargetStyle.borderBottom = "none";
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const onScroll = () => {
+        let { scrollY } = window;
+        setScroll(Boolean(scrollY));
+        let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
+        if (TargetStyle) {
+          TargetStyle.transition = "0.2s";
+          if (scrollY) {
+            TargetStyle.backgroundColor = "#fff";
+            TargetStyle.borderBottom = "0.5px grey dotted";
+          } else {
+            TargetStyle.backgroundColor = colors.dark_pink;
+            TargetStyle.borderBottom = "none";
+          }
         }
-      }
-    };
-    window.addEventListener("scroll", onScroll);
-  }
+      };
+      window.addEventListener("scroll", onScroll);
+      return function cleanup() {
+        window.removeEventListener("scroll", onScroll);
+      };
+    }
+  });
+
   // useEffect(() => {
   //   const onScroll = () => {
   //     let { scrollY } = window;
@@ -322,11 +327,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const judgeSwitchLangImg = scroll
     ? lang === "tc"
-      ? '/images/header/topbar/switch_lang_dark.svg'
-      : '/images/header/topbar/switch_lang_en_dark.svg'
+      ? "/images/header/topbar/switch_lang_dark.svg"
+      : "/images/header/topbar/switch_lang_en_dark.svg"
     : lang === "tc"
-    ? '/images/header/topbar/switch_lang.svg'
-    : '/images/header/topbar/switch_lang_en.svg';
+    ? "/images/header/topbar/switch_lang.svg"
+    : "/images/header/topbar/switch_lang_en.svg";
 
   async function saveUrl() {
     // navigatorShare({
@@ -414,6 +419,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     useGlobalDispatch(postSearchWatchHistoryAction(type));
   };
 
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    setIsLogin(state.user.id !== "guest");
+  }, [state.user.id]);
+
   return (
     <TopsearchBarElement
       main_height={state.navbar.mainHeight}
@@ -460,7 +470,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   alt={navItem.name}
                 />
                 <div className="search_bar_nav_item_btn_title_text">
-                  {navItem.cname}
+                  {t(navItem.intlKey)}
                 </div>
               </WavaButton>
             </div>
@@ -522,7 +532,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               >
                 <WavaButton>
                   {t(
-                    state.user.id === "guest"
+                    isLogin
                       ? "Navbar.bar_recharge_button_notlogin"
                       : "Navbar.bar_recharge_button"
                   )}
@@ -644,7 +654,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <div className="search_bar_service" onClick={clickService}>
             <img
-              src={scroll ? '/images/header/topbar/service_dark.svg' : '/images/header/topbar/service.svg'}
+              src={
+                scroll
+                  ? "/images/header/topbar/service_dark.svg"
+                  : "/images/header/topbar/service.svg"
+              }
               alt="service"
               className="search_bar_service_img"
             />
@@ -670,7 +684,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
-              {state.user.id !== "guest" ? (
+              {isLogin ? (
                 <ImageComponent
                   is_cover={true}
                   src={state.user.avatar}
@@ -685,7 +699,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               )}
             </div>
             <div className="search_bar_avatar_cover">
-              {state.user.id === "guest" ? (
+              {!isLogin ? (
                 <>
                   <div className="search_bar_avatar_cover_user_info vertical">
                     <div>{t("Login.have_good_experiences")}</div>

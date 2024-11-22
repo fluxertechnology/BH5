@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
@@ -8,35 +8,27 @@ import { padding, pageUrlConstants, REG_SET } from "@/lib/constants";
 
 import IconInput, { input_margin } from "@/components/login/IconInputComponent";
 
-// import lockIcon from "../../assets/icons/lock.png";
-
 import LinkComponent from "@/components/common/LinkComponent";
 import callToast from "@/lib/services/toastCall.js";
-// import iconGoogle from "../../assets/login/icon-google.svg";
-// import iconTwitter from "../../assets/login/icon-twitter.svg";
-import { userLoginAction, userFBLoginOutAction } from "@/store/actions/user";
+import {
+  userLoginAction,
+  userFBLoginAction,
+  userFBLoginOutAction,
+} from "@/store/actions/user";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { pushRoutes } from "@/store/actions/historyActions";
-// import { bottom_footer_height } from "../component/PCFooter";
+import {
+  backRoutes,
+  pushRoutes,
+  replaceRoutes,
+} from "@/store/actions/historyActions";
+import Image from "next/image";
 
-const { home, login } = pageUrlConstants;
+const { login } = pageUrlConstants;
 const { alphanumericReq } = REG_SET;
 
-const LoginMainPage = ({
-  // userLogin,
-  userFBLogin,
-  userLoginSuccess,
-  // toSignup,
-  blockIn,
-  clickSkipBtn,
-}) => {
+const LoginMainPage = () => {
   const t = useTranslations();
   const { state } = useGlobalContext();
-  const customerService = state.config.group_cs;
-
-  const toSignup = () => {
-    useGlobalDispatch(pushRoutes(login.pages.signup));
-  };
 
   const phoneNemberRef = useRef(null);
   const passwordRef = useRef(null);
@@ -65,13 +57,15 @@ const LoginMainPage = ({
   function userSumbit() {
     if (phoneNumber && password) {
       if (alphanumericReq.test(phoneNumber)) {
-        useGlobalDispatch(userLoginAction(
-          {
-            username: phoneNumber,
-            passwd: password,
-          },
-          userLoginCheck
-        ));
+        useGlobalDispatch(
+          userLoginAction(
+            {
+              username: phoneNumber,
+              passwd: password,
+            },
+            userLoginCheck
+          )
+        );
       }
     } else {
       callToast(t("Login.tip_error"));
@@ -106,11 +100,11 @@ const LoginMainPage = ({
   const OtherLoginType = [
     // {
     //   type: "twitter",
-    //   icon: iconTwitter,
+    //   icon: '/images/login/icon-twitter.svg',
     // },
     // {
     //   type: "google",
-    //   icon: iconGoogle,
+    //   icon: '/images/login/icon-google.svg',
     // },
   ];
   const responseFacebook = useCallback((props) => {
@@ -119,6 +113,28 @@ const LoginMainPage = ({
       userFBLogin(props, userLoginCheck);
     }
   }, []);
+
+  const userLogin = (data, callback) => {
+    useGlobalDispatch(userLoginAction(data, callback));
+  };
+  const userFBLogin = (props, callback) => {
+    useGlobalDispatch(userFBLoginAction(props, callback));
+  };
+  const userLoginSuccess = () => {
+    const breadcrumbsData = [...state.breadcrumbs];
+    breadcrumbsData.reverse();
+    for (let i = 0; i < breadcrumbsData.length; i++) {
+      if (breadcrumbsData[i].path.indexOf("login") === -1) {
+        useGlobalDispatch(replaceRoutes(breadcrumbsData[i]));
+        return;
+      }
+    }
+    useGlobalDispatch(backRoutes());
+  };
+  const toSignup = () => {
+    useGlobalDispatch(pushRoutes(login.pages.signup));
+  };
+
   return (
     <LoginMainPageElement>
       <form className="input_content">
@@ -154,7 +170,7 @@ const LoginMainPage = ({
           <LinkComponent
             className="input_content_help_link"
             routes={{
-              linkurl: customerService,
+              linkurl: state.config.group_cs,
             }}
           >
             {t("Login.customer_service")}
@@ -186,10 +202,12 @@ const LoginMainPage = ({
                     }}
                   >
                     <div className="other_container_buttons_btn_content_link_icon">
-                      <img
+                      <Image
+                        width={40}
+                        height={40}
                         className="other_container_buttons_btn_content_link_icon_img"
                         src={option.icon}
-                        alt={option.title}
+                        alt={option.type}
                       />
                     </div>
                   </LinkComponent>
@@ -240,10 +258,10 @@ const LoginMainPage = ({
 };
 
 // LoginMainPage.propTypes = {
-  // newNotice: PropTypes.number.isRequired,
-  // clickSerch: PropTypes.func.isRequired,
-  // clickAvatar: PropTypes.func.isRequired,
-  // clickNew: PropTypes.func.isRequired,
+// newNotice: PropTypes.number.isRequired,
+// clickSerch: PropTypes.func.isRequired,
+// clickAvatar: PropTypes.func.isRequired,
+// clickNew: PropTypes.func.isRequired,
 // };
 
 export default LoginMainPage;

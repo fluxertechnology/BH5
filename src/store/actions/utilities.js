@@ -17,6 +17,7 @@ import { getContinueWatchData } from "@/store/actions/pages/homeMainAction";
 
 const { login, home } = pageUrlConstants;
 
+import { useGlobalDispatch } from "@/store";
 export const postAddWatchHistory = (id, episode, watchSecond) => {
   //新增觀看紀錄
   return () => utilitiesRequest.postAddWatchHistory(id, episode, watchSecond);
@@ -31,7 +32,7 @@ export const postSearchWatchHistory = ({ type }) => {
  *
  *
  * @export
-* @param {*} type 0 小說 1 美圖 2 漫畫 3 動畫 4 影片
+ * @param {*} type 0 小說 1 美圖 2 漫畫 3 動畫 4 影片
  * @param {*} id
  * @return {*}
  */
@@ -126,7 +127,7 @@ export const checkinPageConditioncheckAction =
       if (checkOnPage) {
         dispatch(blockStateAction(true));
       }
-      dispatch(pushRoutes(login));
+      useGlobalDispatch(pushRoutes(login));
     } else {
       // 差距在 500 豪秒以內就不重覆扣除
       let nowTime = Date.now();
@@ -141,22 +142,21 @@ export const checkinPageConditioncheckAction =
                 id: itemId,
                 data,
               });
-              const location = router.location.pathname.split("/");
               if (data.status === 0) {
                 dispatch(
                   setOutOfQuotaDataAction({
                     buy_id: itemId,
                     buy_type: itemType,
                     episode: episode,
-                    gold: homeVideoContent[location[3]].need_jinbi,
+                    gold: data.video.need_jinbi,
                     checkOnPage: true,
                     show: false,
                   })
                 );
-                dispatch(buyContentAction());
+                useGlobalDispatch(buyContentAction());
               } else {
                 if (!homeVideoContent[itemId]?.recommend) {
-                  dispatch(getVideoContentRecommendAction(itemId));
+                  useGlobalDispatch(getVideoContentRecommendAction(itemId));
                 }
                 window.sessionStorage.setItem("saveTime", nowTime);
               }
@@ -208,12 +208,12 @@ export const checkinPageConditioncheckAction =
                       breadcrumbs[breadcrumbs.length - 1].path.split("/")
                         .length !== 4
                     ) {
-                      dispatch(replaceRoutes(comicPath));
+                      useGlobalDispatch(replaceRoutes(comicPath));
                     } else {
-                      dispatch(pushRoutes(comicPath));
+                      useGlobalDispatch(pushRoutes(comicPath));
                     }
                   } else {
-                    dispatch(
+                    useGlobalDispatch(
                       pushRoutes({
                         name:
                           home.pages.homeAnimesSwitch.pages.homeAnimesContent
@@ -231,10 +231,10 @@ export const checkinPageConditioncheckAction =
                     );
                   }
                 } else {
-                  await dispatch(
+                  await useGlobalDispatch(
                     postAddWatchHistory(itemId, episode, animeLastWatchTime)
                   );
-                  dispatch(getContinueWatchData());
+                  useGlobalDispatch(getContinueWatchData());
                 }
                 window.sessionStorage.setItem("saveTime", nowTime);
               }
@@ -260,7 +260,7 @@ export const checkinPageConditioncheckAction =
                 );
               } else {
                 if (!checkOnPage) {
-                  dispatch(
+                  useGlobalDispatch(
                     pushRoutes({
                       name:
                         home.pages.homePhotosContent.name +
@@ -296,11 +296,11 @@ export const checkinPageConditioncheckAction =
                 );
               } else {
                 if (!checkOnPage) {
-                  dispatch(
+                  useGlobalDispatch(
                     pushRoutes({
                       name:
                         home.pages.homeNovelsContent.name +
-                        homeNovelsContentData[itemId].title,
+                        data.novel.title,
                       path: home.pages.homeNovelsContent.path,
                       dynamic: {
                         novelId: itemId,
@@ -319,7 +319,9 @@ export const checkinPageConditioncheckAction =
                 // 在這邊儲存扣除時間點
                 window.sessionStorage.setItem("saveTime", nowTime);
                 if (!checkOnPage) {
-                  dispatch(pushRoutes(getPagePath(itemType, itemId, episode)));
+                  useGlobalDispatch(
+                    pushRoutes(getPagePath(itemType, itemId, episode))
+                  );
                 }
               } else {
                 utilitiesRequest
@@ -327,9 +329,9 @@ export const checkinPageConditioncheckAction =
                   .then(() => {
                     // 在這邊儲存扣除時間點
                     window.sessionStorage.setItem("saveTime", nowTime);
-                    dispatch(updateUserDataAction());
+                    useGlobalDispatch(updateUserDataAction());
                     if (!checkOnPage) {
-                      dispatch(
+                      useGlobalDispatch(
                         pushRoutes(getPagePath(itemType, itemId, episode))
                       );
                     }
@@ -350,7 +352,7 @@ export const checkinPageConditioncheckAction =
         }
       } else {
         if (!checkOnPage)
-          dispatch(pushRoutes(getPagePath(itemType, itemId, episode)));
+          useGlobalDispatch(pushRoutes(getPagePath(itemType, itemId, episode)));
       }
     }
   };

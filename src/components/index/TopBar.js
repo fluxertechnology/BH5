@@ -36,7 +36,7 @@ const TopBar = () => {
       <div className="search_bar">
         <div className="search_bar_logo ">
           <Image
-            src="/images/topbar/logo_w.png"
+            src="/images/topbar/logo_w.svg"
             width={0}
             height={0}
             alt="bh5_logo"

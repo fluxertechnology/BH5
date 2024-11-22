@@ -1,8 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
-import CoverCubeItem from "../../component/CoverCubeItem";
-import arrowIcon from "../../../assets/icons/arrow.svg";
-import useMediaSetting from "../../../reackHook/useMediaSetting";
+import CoverCubeItem from "@/components/common/CoverCubeItem";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import Image from "next/image";
 const ContinueWatchSlideCarousel = ({
   itemsAnime,
@@ -13,7 +12,7 @@ const ContinueWatchSlideCarousel = ({
 }) => {
   const containerRef = useRef(null);
   const pageRef = useRef(0);
-  const { isMobile } = useMediaSetting();
+  const { isMobile } = useMediaQuery();
   const animationRef = useRef(null);
   const isVideo = ["animated", "video"].includes(type);
   function onClickEvent(status, e) {
@@ -90,8 +89,6 @@ const ContinueWatchSlideCarousel = ({
   }
   return (
     <SlideCarouselElement
-      type={type}
-      isMobile={isMobile}
       flexPercentage={judgePercentage()}
     >
       <div style={{ overflowX: "clip" }}>
@@ -132,7 +129,7 @@ const ContinueWatchSlideCarousel = ({
         imgButtonItems.map((item, index) => (
           <Image
             key={index}
-            src={arrowIcon}
+            src="/images/icons/arrow.svg"
             width={0}
             height={0}
             className="cursor"
@@ -146,7 +143,10 @@ const ContinueWatchSlideCarousel = ({
 };
 
 export default ContinueWatchSlideCarousel;
-const SlideCarouselElement = styled.div`
+const SlideCarouselElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["flexPercentage"].includes(prop),
+})`
   /*  */
   position: relative;
   align-self: center;

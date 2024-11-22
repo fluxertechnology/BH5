@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 
@@ -14,6 +14,14 @@ import { getConfigData } from "@/store/actions/config";
 import { getNoticeData } from "@/store/actions/noticeList";
 import { initRoutes } from "@/store/actions/historyActions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useSaveStateData from "@/hooks/useSaveStateData";
+import { CSSTransition } from "react-transition-group";
+import OutOfQuotaPortal from "@/components/common/OutOfQuotaPortal";
+import MinorsProhibitedDialog from "@/components/common/MinorsProhibitedDialog";
+import AnnouncementCover from "@/components/common/AnnouncementCover";
+import MentionAppCover from "@/components/common/MentionAppCover";
+
+import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
@@ -60,11 +68,41 @@ export default function GlobalComponent() {
         useRouter: router,
       },
     });
+
+    if (typeof window !== "undefined") {
+      useSaveStateData(state);
+    }
   }, [pathname, searchParams]);
 
+  const closeMentionAppCover = () => {
+    useGlobalDispatch(toggleMentionAppCoverAction(false));
+  };
+  const nodeRef = useRef(null);
+  const quotaRef = useRef(null);
   return (
     <div>
+      <MinorsProhibitedDialog />
       <AxiosCenter.RenderLoadingElement />
+      <CSSTransition
+        timeout={200}
+        in={state.showCoverCenter.announcementCover && isMobile} // 因要求從內存先把狀態改成 false
+        classNames="CSSTransition_opacity"
+        unmountOnExit
+        key="CSSTransition_announcementCover"
+        nodeRef={nodeRef}
+      >
+        <AnnouncementCover />
+      </CSSTransition>
+      <CSSTransition
+        timeout={200}
+        in={state.showCoverCenter.mentionAppCover}
+        classNames="CSSTransition_opacity"
+        unmountOnExit
+        key="CSSTransition_mentionAppCover"
+        nodeRef={nodeRef}
+      >
+        <MentionAppCover closeMentionAppCover={closeMentionAppCover} />
+      </CSSTransition>
       <ToastContainer
         className="toast_container"
         toastClassName="toast_container_item"
@@ -78,6 +116,16 @@ export default function GlobalComponent() {
         draggable
         pauseOnHover
       />
+      <CSSTransition
+        timeout={200}
+        in={state.outOfQuotaData.show}
+        classNames="CSSTransition_opacity"
+        unmountOnExit
+        key="CSSTransition_OutOfQuotaPortal"
+        nodeRef={quotaRef}
+      >
+        <OutOfQuotaPortal />
+      </CSSTransition>
     </div>
   );
 }

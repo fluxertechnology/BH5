@@ -71,15 +71,19 @@ const HomeLayout = ({ children }) => {
 
   let labelList = {
     anime: {
+      intlKey: "Navbar.top_navigator_animate_comic",
       name: t("Navbar.top_navigator_animate_comic"),
     },
     videos: {
+      intlKey: "Navbar.top_navigator_video",
       name: t("Navbar.top_navigator_video"),
     },
     photos: {
+      intlKey: "Navbar.top_navigator_meitu",
       name: t("Navbar.top_navigator_meitu"),
     },
     novels: {
+      intlKey: "Navbar.top_navigator_novel",
       name: t("Navbar.top_navigator_novel"),
     },
     // streams: {
@@ -87,19 +91,24 @@ const HomeLayout = ({ children }) => {
     // },
     // doujin 韓漫
     "k-comics": {
+      intlKey: "Navbar.top_navigator_kcomics",
       name: t("Navbar.top_navigator_kcomics"),
     },
     // doujin 同人
     doujin: {
+      intlKey: "Navbar.top_navigator_doujin",
       name: t("Navbar.top_navigator_doujin"),
     },
     "3D": {
+      intlKey: "Navbar.top_navigator_3d",
       name: t("Navbar.top_navigator_3d"),
     },
     ranking: {
+      intlKey: "Navbar.top_navigator_ranking",
       name: t("Navbar.top_navigator_ranking"),
     },
     free: {
+      intlKey: "Navbar.top_navigator_free_watch",
       name: t("Navbar.top_navigator_free_watch"),
     },
   };
@@ -386,6 +395,7 @@ const HomeLayoutElement = styled.div.withConfig({
 `;
 
 const MobileBottomDownloadAppTip = () => {
+  const { state } = useGlobalContext();
   const [show, setShow] = useState(false);
   useEffect(() => {
     var ua = navigator.userAgent;
@@ -411,16 +421,16 @@ const MobileBottomDownloadAppTip = () => {
       <div className="download_container">
         <Image
           src="/images/shared/close.png"
-          width={0}
-          height={0}
+          width={25}
+          height={25}
           alt="BH5 close"
           className="download_container_close"
           onClick={handleClose}
         />
         <Image
           src="/images/shared/bh5.jpg"
-          width={0}
-          height={0}
+          width={60}
+          height={60}
           alt="BH5 Logo"
           className="download_container_logo"
         />
@@ -435,8 +445,10 @@ const MobileBottomDownloadAppTip = () => {
     </MobileBottomDownloadAppTipElement>
   );
 };
-const MobileBottomDownloadAppTipElement = styled.div`
-  ${({ bottom_nav_height }) => `
+const MobileBottomDownloadAppTipElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["show", "bottom_nav_height" ].includes(prop),
+})`
+  ${({ bottom_nav_height, show }) => `
     /*  */
     bottom: 0;
     right: 0;
@@ -444,7 +456,7 @@ const MobileBottomDownloadAppTipElement = styled.div`
     position: fixed;
     z-index: 999;
     height: ${bottom_nav_height + 20}px;
-    display: ${({ show }) => (show ? "auto" : "none")};
+    display: ${show ? "auto" : "none"};
     .download {
       &_bg {
         top: 0;

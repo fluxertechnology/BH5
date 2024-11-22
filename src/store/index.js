@@ -23,7 +23,7 @@ export function GlobalProvider({ children }) {
       : {};
   }
 
-  const [state, dispatch] = useReducer(rootReducer, {
+  const defaultState = {
     adsList: {},
     noticeList: [],
     noticeListRead: [],
@@ -304,6 +304,58 @@ export function GlobalProvider({ children }) {
       prependComponent: () => <></>,
       appendComponent: () => <></>,
     },
+  };
+
+  let toInitData = {};
+  if (typeof window !== "undefined") {
+    let nowTime = Date.now();
+    let lastTime = parseInt(window.localStorage.getItem("lastTime"));
+
+    // 相關儲存資料請在 index.js 設定
+    let userDate = window.localStorage.getItem("userData")
+      ? JSON.parse(decryptiedData(window.localStorage.getItem("userData")))
+      : {};
+    let systemData = window.localStorage.getItem("systemData")
+      ? JSON.parse(decryptiedData(window.localStorage.getItem("systemData")))
+      : {};
+    let catchData = window.localStorage.getItem("catchData")
+      ? JSON.parse(decryptiedData(window.localStorage.getItem("catchData")))
+      : {};
+    let contentData = window.localStorage.getItem("contentData")
+      ? JSON.parse(decryptiedData(window.localStorage.getItem("contentData")))
+      : {};
+
+    toInitData = {
+      ...userDate,
+    };
+
+    if (nowTime < lastTime + 1000 * 60 * 60) {
+      toInitData = {
+        ...toInitData,
+        ...systemData,
+      };
+    }
+
+    if (nowTime < lastTime + 1000 * 60 * 10) {
+      if (process.env.NODE_ENV !== "development") {
+        toInitData = {
+          ...toInitData,
+          ...catchData,
+          ...contentData,
+        };
+      } else {
+        toInitData = {
+          ...toInitData,
+          ...catchData,
+          ...contentData,
+        };
+      }
+    }
+  }
+
+  const [state, dispatch] = useReducer(rootReducer, {
+    ...defaultState,
+    ...toInitData,
   });
 
   // FORTEST: on state change
@@ -339,3 +391,100 @@ const Store = {
 };
 
 export default Store;
+
+function saveUserDate(storeData) {
+  window.localStorage.setItem(
+    "userData",
+    encryptionData(
+      JSON.stringify({
+        user: storeData.user,
+        vipInfoData: storeData.vipInfoData,
+      })
+    )
+  );
+}
+
+function saveSystem(storeData) {
+  window.localStorage.setItem(
+    "systemData",
+    encryptionData(
+      JSON.stringify({
+        config: storeData.config,
+        areaCode: storeData.areaCode,
+        homeCategory: storeData.homeCategory,
+        myWatchHistory: storeData.myWatchHistory,
+        homeTagData: storeData.homeTagData,
+        noticeListRead: storeData.noticeListRead,
+        homeCategoryTabList: storeData.homeCategoryTabList,
+        homeStreamList: storeData.homeStreamList,
+        vendorCategory: storeData.vendorCategory,
+      })
+    )
+  );
+}
+
+function saveCatchData(storeData) {
+  window.localStorage.setItem(
+    "catchData",
+    encryptionData(
+      JSON.stringify({
+        adsList: storeData.adsList,
+        noticeList: storeData.noticeList,
+        homeSearchTabList: storeData.homeSearchTabList,
+        showCoverCenter: {
+          ...storeData.showCoverCenter,
+          homeFloatAds: false, // 因要求從內存先把狀態改成 false
+        },
+      })
+    )
+  );
+}
+
+function saveContentData(storeData) {
+  window.localStorage.setItem(
+    "contentData",
+    encryptionData(
+      JSON.stringify({
+        homeData: storeData.homeData,
+        homeAnimeData: storeData.homeAnimeData,
+        homeTagData: storeData.homeTagData,
+        homeCategoryData: storeData.homeCategoryData,
+        homeComicViewData: storeData.homeComicViewData,
+        homeComicContentData: storeData.homeComicContentData,
+        homeAnimesViewData: storeData.homeAnimesViewData,
+        homeAnimesContentData: storeData.homeAnimesContentData,
+        homeSearchResultData: storeData.homeSearchResultData,
+        homeVideo: storeData.homeVideo,
+        homeLeaderBoard: storeData.homeLeaderBoard,
+        homeVideoList: storeData.homeVideoList,
+        homeVideoContent: storeData.homeVideoContent,
+        homeNovelsList: storeData.homeNovelsList,
+        homeNovelsListData: storeData.homeNovelsListData,
+        homeNovelsContentData: storeData.homeNovelsContentData,
+        homePhotosList: storeData.homePhotosList,
+        homePhotosListData: storeData.homePhotosListData,
+        homePhotosContentData: storeData.homePhotosContentData,
+        postData: storeData.postData,
+        postSameTagList: storeData.postSameTagList,
+        postProfile: storeData.postProfile,
+        postTags: storeData.postTags,
+        postListData: storeData.postListData,
+        postTrackData: storeData.postTrackData,
+        postRecommend: storeData.postRecommend,
+        postRecommendList: storeData.postRecommendList,
+        postRecommendFriendList: storeData.postRecommendFriendList,
+        postNotice: storeData.postNotice,
+        socialListData: storeData.socialListData,
+        socialProfileData: storeData.socialProfileData,
+        vendorData: storeData.vendorData,
+        vendorListData: storeData.vendorListData,
+        vendorGameListData: storeData.vendorGameListData,
+        myCollectList: storeData.myCollectList,
+        myBuyList: storeData.myBuyList,
+        transferMoney: storeData.getTransferMoney,
+        profileDirectBuy: storeData.profileDirectBuy,
+        profileMission: storeData.profileMission,
+      })
+    )
+  );
+}

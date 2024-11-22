@@ -20,6 +20,7 @@ const paddingNumber = (number, length) => {
 };
 
 const LeaderBoardCard = ({ id, index, isComic, data }) => {
+  console.log(data,'data')
   const t = useTranslations();
   const { state } = useGlobalContext();
 

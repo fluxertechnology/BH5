@@ -765,6 +765,18 @@ $spacers: (
   }
 }
 
+/* 滾輪樣式 */
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
 /* 彈窗樣式 */
 .Toastify {
   .toast_container {
@@ -789,4 +801,12 @@ $spacers: (
       }
     }
   }
+}
+
+.st-btn img{
+  margin: auto !important;
+}
+
+.container{
+  max-width: unset;
 }

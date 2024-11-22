@@ -8,11 +8,13 @@ import { useGlobalContext } from "@/store";
 
 const DesktopHeader = () => {
   const { state } = useGlobalContext();
-  const { isDesktop } = useMediaQuery();
+  const { isMobile, isDesktop } = useMediaQuery();
 
+  if(isMobile) return<></>
+  
   return (
     <TopBarContainer>
-      {isDesktop && (state.navbar.customComponent() || <WebTopBar />)}
+      {state.navbar.customComponent() || <WebTopBar />}
     </TopBarContainer>
   );
 };

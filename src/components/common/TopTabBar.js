@@ -270,7 +270,7 @@ const TopTabBar = ({
                 <AntTab
                   length={labelListKey.length}
                   value={labelKey}
-                  label={labelList[labelKey].name}
+                  label={labelList[labelKey].intlKey ? t(labelList[labelKey].intlKey) : labelList[labelKey].name}
                   key={labelKey}
                   onClick={() => {
                     onClickTab(labelKey);
@@ -459,7 +459,9 @@ export const TopTabBarElement = styled.div`
   }
 `;
 
-export const H5TopTabBarElement = styled.div`
+export const H5TopTabBarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["type", "drawer", "sub_height", "main_height"].includes(prop),
+}) `
   /*  */
   display: flex;
   background-color: #fff;
