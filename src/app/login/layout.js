@@ -13,6 +13,7 @@ import TopBarContainer, {
 import TopTitleBar from "@/components/common/TopTitleBar";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import WebTopBar from "@/components/layout/Header/WebTopBar";
+import TopBar from "@/components/index/TopBar";
 import React, { useEffect } from "react";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 // import { bottom_nav_height } from "../component/BottomNavBar";
@@ -33,11 +34,14 @@ function Login({ children }) {
           <>
             <TopBarContainer show_shadow={false}>
               {isMobile ? (
-                  <TopTitleBar
-                    showBack={true && !blockIn}
-                    color="#000"
-                    back_color="transparent"
-                  />
+                  <React.Fragment>
+                    <TopBar />
+                    <TopTitleBar
+                      showBack={true && !blockIn}
+                      color="#000"
+                      back_color="transparent"
+                    />
+                  </React.Fragment>
                 ) : (
                   <React.Fragment>
                     <WebTopBar />
@@ -53,7 +57,7 @@ function Login({ children }) {
         ),
       }
     });
-  }, []);
+  }, [isMobile]);
 
   return (
     <LoginElement>
