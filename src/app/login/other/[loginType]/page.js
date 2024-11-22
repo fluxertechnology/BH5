@@ -252,7 +252,7 @@ const LoginMainOtherPage = () => {
                         height={40}
                         className="other_container_buttons_btn_content_link_icon_img"
                         src={option.icon}
-                        alt={"option.title"}
+                        alt={option.type}
                       />
                     </div>
                   </LinkComponent>
