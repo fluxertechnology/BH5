@@ -44,6 +44,7 @@
     "bottom_navigator_and_chill": "Dating",
     "bottom_navigator_mall": "Shop",
     "bottom_navigator_my": "Profile",
+    "bottom_download_own": "B Coin",
     "bar_play": "Play",
     "bar_people_like": "people like",
     "bar_recharge_description": "VIP Benefits: Enjoy After Purchase",
@@ -822,6 +823,35 @@
       "start": "Come on",
       "thire_soft_name": " Meita ",
       "end": "Chat with the streamer"
+    }
+  },
+  "Report": {
+    "label": {
+      "report": {
+        "success": "Report Success.",
+        "thanks": "Thanks Report.",
+        "fast_process": "We Will Contact You.",
+        "problem": "Report An Issue.",
+        "problem_other": "Others"
+      }
+    }
+  },
+  "Ply": {
+    "label": {
+      "watch": {
+        "continue": "Stay Tuned"
+      },
+      "report": "Report"
+    }
+  },
+  "Minors": {
+    "prohibited": {
+      "dialog": {
+        "title": "Dear BHub user",
+        "content": "The information and links on BHub contain restricted content. Only those over the age of 18 who agree to enter.",
+        "reject": "Browse first",
+        "agree": "Sign up/Log in to view for free"
+      }
     }
   }
 }

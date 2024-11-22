@@ -5,6 +5,7 @@ const homeLeaderBoard = (state = {
   switch (action.type) {
     case "INIT_HOMELEADERBOARD":
 
+    console.log(action.data,'comic data')
       state[action.key] = [...action.data]
       
       return state;

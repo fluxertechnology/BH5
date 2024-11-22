@@ -23,7 +23,7 @@ const HomeLeaderboardComic = () => {
       {state.homeLeaderBoard.comic.map((data, index) => {
         return (
           <LeaderBoardCard
-            key={data.id}
+            key={`${data.id}-${index}`}
             id={data.id}
             isComic={true}
             data={data}

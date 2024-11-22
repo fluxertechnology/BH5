@@ -1,6 +1,7 @@
 "use client";
 
 export default function imageLoader({ src, height, width, quality }) {
+  // return 'https://picsum.photos/50';
   if (src.includes("http")) {
     return src;
   }

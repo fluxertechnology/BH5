@@ -28,7 +28,7 @@ const homeVideoContent = function (state = {}, action) {
 
     case "TOGGLE_VIDEOCONTENTCOLLECT":
       if (state[action.id])
-        state[action.id].is_collect = !state[action.id].is_collect;
+        state[action.id].is_collect = action.is_collect;
 
       return {
         ...state,

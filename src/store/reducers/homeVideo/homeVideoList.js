@@ -73,9 +73,9 @@ const homeVideoList = function (
     case "TOGGLE_VIDEOLISTCOLLECT":
       if (state[action.nowTab]) {
         const findData = state[action.nowTab].videolist.find(
-          (data) => data.id === action.id
+          (data) => data.id == action.id
         );
-        findData.is_collect = Number(!findData.is_collect);
+        findData.is_collect = action.is_collect;
       }
       return {
         ...state,
