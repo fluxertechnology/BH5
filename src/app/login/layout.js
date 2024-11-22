@@ -26,30 +26,32 @@ function Login({ children }) {
 
   useEffect(() => {
     dispatch({
-      type: "UPDATE_NAVBAR",
+      type: "INIT_NAVBAR",
       key: "customComponent",
-      data: () => (
-        <>
-          <TopBarContainer show_shadow={false}>
-            {isMobile ? (
-                <TopTitleBar
-                  showBack={true && !blockIn}
-                  color="#000"
-                  back_color="transparent"
-                />
-              ) : (
-                <React.Fragment>
-                  <WebTopBar />
+      data: {
+        customComponent: () => (
+          <>
+            <TopBarContainer show_shadow={false}>
+              {isMobile ? (
                   <TopTitleBar
                     showBack={true && !blockIn}
                     color="#000"
                     back_color="transparent"
                   />
-                </React.Fragment>
-              )}
-          </TopBarContainer>
-        </>
-      ),
+                ) : (
+                  <React.Fragment>
+                    <WebTopBar />
+                    <TopTitleBar
+                      showBack={true && !blockIn}
+                      color="#000"
+                      back_color="transparent"
+                    />
+                  </React.Fragment>
+                )}
+            </TopBarContainer>
+          </>
+        ),
+      }
     });
   }, []);
 
