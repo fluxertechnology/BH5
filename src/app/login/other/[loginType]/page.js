@@ -15,6 +15,11 @@ import {
   userFBLoginOutAction,
 } from "@/store/actions/user";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import {
+  backRoutes,
+  pushRoutes,
+  replaceRoutes,
+} from "@/store/actions/historyActions";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
