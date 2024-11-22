@@ -34,7 +34,7 @@ const IconInput = React.forwardRef(
     }
     return (
       <IconInputElement className={className} have_icon={icon}>
-        {icon && <Image width={0} height={0} className="icon" src={icon} alt="icon" />}
+        {icon && <Image width={33} height={33} className="icon" src={icon} alt="icon" />}
         <input
           required={required}
           ref={ref}
@@ -83,8 +83,9 @@ export const IconInputElement = styled.label.withConfig({
     font-size: 14px;
   }
   .icon {
-    height: 30px;
-    width: 30px;
+    height: 33px;
+    width: 33px;
+    object-fit: contain;
     vertical-align: middle;
     padding-left: ${({ have_icon }) => have_icon && "0.2em"};
   }

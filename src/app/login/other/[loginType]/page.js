@@ -3,7 +3,6 @@ import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 // import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-
 import { padding, pageUrlConstants, REG_SET } from "@/lib/constants";
 
 import IconInput, { input_margin } from "@/components/login/IconInputComponent";
@@ -16,31 +15,46 @@ import {
   userFBLoginOutAction,
 } from "@/store/actions/user";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import {
-  backRoutes,
-  pushRoutes,
-  replaceRoutes,
-} from "@/store/actions/historyActions";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
-const { login } = pageUrlConstants;
-const { alphanumericReq } = REG_SET;
+const { home, login } = pageUrlConstants;
 
-const LoginMainPage = () => {
+const { qqReg, emailReq, alphanumericReq } = REG_SET;
+
+const LoginMainOtherPage = () => {
   const t = useTranslations();
   const { state } = useGlobalContext();
+  const blockIn = state.routesGuard.blockIn;
+  const type = useParams().loginType;
 
   const phoneNemberRef = useRef(null);
   const passwordRef = useRef(null);
-
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
   useEffect(() => {
     useGlobalDispatch(userFBLoginOutAction());
   }, []);
-  function phoneNumberEvent(e) {
+
+  const [accountId, setAccountId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginOptions = [
+    {
+      type: "phone",
+      icon: "/images/login/icon-phone.svg",
+    },
+    {
+      type: "email",
+      icon: "/images/login/icon-mail.svg",
+    },
+    {
+      type: "qq",
+      icon: "/images/login/icon-qq.svg",
+    },
+  ];
+
+  function accountIdEvent(e) {
     var key = window.event ? e.keyCode : e.which;
-    setPhoneNumber(e.target.value);
+    setAccountId(e.target.value);
     if (key === 13) {
       passwordRef.current.focus();
     }
@@ -55,12 +69,12 @@ const LoginMainPage = () => {
   }
 
   function userSumbit() {
-    if (phoneNumber && password) {
-      if (alphanumericReq.test(phoneNumber)) {
+    if (accountId && password) {
+      if (judeType(type, "reg").test(accountId)) {
         useGlobalDispatch(
           userLoginAction(
             {
-              username: phoneNumber,
+              username: accountId,
               passwd: password,
             },
             userLoginCheck
@@ -76,47 +90,64 @@ const LoginMainPage = () => {
     if (code) {
       userLoginSuccess();
     } else {
-      setPhoneNumber("");
+      setAccountId("");
       setPassword("");
       phoneNemberRef.current.value = "";
       passwordRef.current.value = "";
       phoneNemberRef.current.focus();
     }
   }
-  const loginOptions = [
-    {
-      type: "phone",
-      icon: "/images/login/icon-phone.svg",
-    },
-    {
-      type: "email",
-      icon: "/images/login/icon-mail.svg",
-    },
-    {
-      type: "qq",
-      icon: "/images/login/icon-qq.svg",
-    },
-  ];
-  const OtherLoginType = [
-    // {
-    //   type: "twitter",
-    //   icon: '/images/login/icon-twitter.svg',
-    // },
-    // {
-    //   type: "google",
-    //   icon: '/images/login/icon-google.svg',
-    // },
-  ];
-  const responseFacebook = useCallback((props) => {
-    const { accessToken } = props;
-    if (accessToken) {
-      userFBLogin(props, userLoginCheck);
+  function judeType(type, format) {
+    if (format === "icon") {
+      switch (type) {
+        case "email":
+          return "/images/icons/mail.png";
+        case "qq":
+          return "/images/icons/qq.png";
+        default:
+          return "/images/icons/phone.png";
+      }
+    } else if (format === "placeholder") {
+      let nowFormatId = "";
+      switch (type) {
+        case "email":
+          nowFormatId = "Login.placeholder_mail";
+          break;
+        case "qq":
+          nowFormatId = "Login.placeholder_qq";
+          break;
+        default:
+          nowFormatId = "Login.placeholder_phone";
+          break;
+      }
+      return t(nowFormatId);
+    } else if (format === "regErrStr") {
+      let nowFormatId = "";
+      switch (type) {
+        case "email":
+          nowFormatId = "Login.tip_error_mail";
+          break;
+        case "qq":
+          nowFormatId = "Login.tip_error_qq";
+          break;
+        default:
+          nowFormatId = "Login.tip_error_phone";
+          break;
+      }
+      return t(nowFormatId);
+    } else if (format === "reg") {
+      switch (type) {
+        case "email":
+          return emailReq;
+        case "qq":
+          return qqReg;
+        default:
+          return /s*/;
+        // return alphanumericReq;
+      }
     }
-  }, []);
+  }
 
-  const userLogin = (data, callback) => {
-    useGlobalDispatch(userLoginAction(data, callback));
-  };
   const userFBLogin = (props, callback) => {
     useGlobalDispatch(userFBLoginAction(props, callback));
   };
@@ -131,28 +162,42 @@ const LoginMainPage = () => {
     }
     useGlobalDispatch(backRoutes());
   };
+
   const toSignup = () => {
     useGlobalDispatch(pushRoutes(login.pages.signup));
   };
 
+  const clickSkipBtn = () => {
+    useGlobalDispatch(blockStateAction(false));
+  };
+
+  const responseFacebook = useCallback((props) => {
+    const { accessToken } = props;
+    if (accessToken) {
+      userFBLogin(props, userLoginCheck);
+    }
+  }, []);
+
   return (
-    <LoginMainPageElement>
+    <LoginMainOtherElement>
       <form className="input_content">
         <div className="input_content_box">
           <IconInput
             ref={phoneNemberRef}
-            inputType="account"
-            value={phoneNumber}
-            callback={phoneNumberEvent}
-            placeholder={t("Login.placeholder_account")}
+            icon={judeType(type, "icon")}
+            inputType={type === "email" ? "email" : "tel"}
+            value={accountId}
+            callback={accountIdEvent}
+            placeholder={judeType(type, "placeholder")}
             enterKeyHint="next"
-            reg={alphanumericReq}
-            regErrStr={t("Login.tip_error_account")}
+            reg={judeType(type, "reg")}
+            regErrStr={judeType(type, "regErrStr")}
           />
         </div>
         <div className="input_content_box">
           <IconInput
             ref={passwordRef}
+            icon={"/images/icons/lock.png"}
             inputType="password"
             value={password}
             callback={passwordEvent}
@@ -207,7 +252,7 @@ const LoginMainPage = () => {
                         height={40}
                         className="other_container_buttons_btn_content_link_icon_img"
                         src={option.icon}
-                        alt={option.title}
+                        alt={"option.title"}
                       />
                     </div>
                   </LinkComponent>
@@ -233,7 +278,7 @@ const LoginMainPage = () => {
                       <div className="other_container_buttons_btn_content_link_icon">
                         <img
                           className="other_container_buttons_btn_content_link_icon_img"
-                          src={"/images/login/icon-fb.svg"}
+                          src={iconFb}
                           alt={"Fb Login"}
                         />
                       </div>
@@ -249,24 +294,34 @@ const LoginMainPage = () => {
             {t("Login.not_have_account")}
           </span>
         </div>
+
         <div className="button_container_btn" onClick={toSignup}>
           {t("Login.register")}
         </div>
       </div>
-    </LoginMainPageElement>
+      {blockIn ? (
+        <div className="skip_box" onClick={clickSkipBtn}>
+          <LinkComponent className="skip_box_text" routes={home.pages.homeMain}>
+            {t("Login.pass")}
+          </LinkComponent>
+        </div>
+      ) : (
+        ""
+      )}
+    </LoginMainOtherElement>
   );
 };
 
-// LoginMainPage.propTypes = {
-// newNotice: PropTypes.number.isRequired,
-// clickSerch: PropTypes.func.isRequired,
-// clickAvatar: PropTypes.func.isRequired,
-// clickNew: PropTypes.func.isRequired,
+export default LoginMainOtherPage;
+
+// LoginMainOtherPage.propTypes = {
+  // newNotice: PropTypes.number.isRequired,
+  // clickSerch: PropTypes.func.isRequired,
+  // clickAvatar: PropTypes.func.isRequired,
+  // clickNew: PropTypes.func.isRequired,
 // };
 
-export default LoginMainPage;
-
-export const LoginMainPageElement = styled.div`
+export const LoginMainOtherElement = styled.div`
   /*  */
   padding: ${padding}px;
   min-height: 100vh;
@@ -277,7 +332,7 @@ export const LoginMainPageElement = styled.div`
       margin-bottom: ${input_margin}px;
       height: 40px;
       @media (min-width: 599px) {
-        min-height: 60px;
+        height: 60px;
       }
     }
 
@@ -364,6 +419,22 @@ export const LoginMainPageElement = styled.div`
           right: -22px;
         }
       }
+    }
+  }
+
+  .skip_box {
+    position: fixed;
+    right: 0;
+    bottom: 5vh;
+    left: 0;
+    text-align: center;
+
+    &_text {
+      cursor: pointer;
+      display: inline-block;
+      padding: 10px;
+      text-decoration: none;
+      color: #f24c7c;
     }
   }
 
