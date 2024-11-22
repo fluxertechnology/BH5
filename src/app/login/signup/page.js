@@ -1,34 +1,31 @@
-'use client';
+"use client";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect } from "react";
-// import { useIntl } from "react-intl";
 import styled from "styled-components";
-import { colors, padding, REG_SET } from "@/lib/constants";
+import { colors, padding, REG_SET, pageUrlConstants } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-
-// import PropTypes from "prop-types";
 
 import IconInput, { input_margin } from "@/components/login/IconInputComponent";
 
 import callToast from "@/lib/services/toastCall.js";
-// import { callCaptcha, CALL_CAPTCHA_TYPE } from "../../utils/callCaptcha";
+import { callCaptcha, CALL_CAPTCHA_TYPE } from "@/lib/services/callCaptcha";
 import WavaButton from "@/components/layout/Header/WavaButton";
 import { signupUser } from "@/store/actions/pages/loginSignupAction";
+import { userLoginAction } from "@/store/actions/user";
+import { backRoutes, replaceRoutes } from "@/store/actions/historyActions";
+import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
+import { utmTrack, checkDataExpired } from "@/store/actions/utilities";
+import { handleRegisterAccount } from "@/lib/services/gtmEventHandle";
+
+import gt4 from "@/lib/services/gt4";
 
 const { qqReg, emailReq, emailVerifyReq, alphanumericReq } = REG_SET;
 
+const { home } = pageUrlConstants;
+
 let captcha = {};
 let interval = "";
-const LoginSignupPage = ({
-  // userSignup,
-  signupUserSuccess,
-  // showSignupType,
-  // defaultSignType,
-  getEmailVerify,
-  emailCodeVerify,
-  checkEmailUnique,
-}) => {
-//   const intl = useIntl();
+const LoginSignupPage = () => {
   const t = useTranslations();
 
   const { state } = useGlobalContext();
@@ -109,18 +106,18 @@ const LoginSignupPage = ({
       case 0:
         if (qqAcc && password) {
           if (qqReg.test(qqAcc)) {
-            // callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (validate) => {
-            //   useGlobalDispatch(signupUser(
-            //     {
-            //       qq: qqAcc,
-            //       name: qqAcc,
-            //       password: password,
-            //       reg_type: ["qq", "mobile", "email"][loginType],
-            //       ...validate,
-            //     },
-            //     signupCheck
-            //   ));
-            // });
+            callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (validate) => {
+              userSignup(
+                {
+                  qq: qqAcc,
+                  name: qqAcc,
+                  password: password,
+                  reg_type: ["qq", "mobile", "email"][loginType],
+                  ...validate,
+                },
+                signupCheck
+              );
+            });
           }
         } else {
           callToast(t("Login.tip_error_must"));
@@ -130,17 +127,17 @@ const LoginSignupPage = ({
       case 1:
         if (account && password) {
           if (alphanumericReq.test(account)) {
-            // callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (validate) => {
-            //   useGlobalDispatch(signupUser(
-            //     {
-            //       name: account,
-            //       password: password,
-            //       reg_type: ["qq", "email", "mobile", "fast"][3],
-            //       ...validate,
-            //     },
-            //     signupCheck
-            //   ));
-            // });
+            callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (validate) => {
+              userSignup(
+                {
+                  name: account,
+                  password: password,
+                  reg_type: ["qq", "email", "mobile", "fast"][3],
+                  ...validate,
+                },
+                signupCheck
+              );
+            });
           }
         } else {
           callToast(t("Login.tip_error_must"));
@@ -149,10 +146,10 @@ const LoginSignupPage = ({
       case 2:
         if (email && password) {
           if (emailReq.test(email)) {
-            // callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (validate) => {
-            //   checkEmailUnique(email, (request) => request && setLoginType(3));
-            //   captcha = validate;
-            // });
+            callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (validate) => {
+              checkEmailUnique(email, (request) => request && setLoginType(3));
+              captcha = validate;
+            });
           }
         } else {
           callToast(t("Login.tip_error_must"));
@@ -162,7 +159,7 @@ const LoginSignupPage = ({
         if (emailVerify && password && emailVerifyReq.test(emailVerify)) {
           emailCodeVerify({ email, code: emailVerify }, (callback) => {
             if (callback) {
-              useGlobalDispatch(signupUser(
+              userSignup(
                 {
                   email,
                   name: email,
@@ -171,7 +168,7 @@ const LoginSignupPage = ({
                   ...captcha,
                 },
                 signupCheck
-              ));
+              );
             }
           });
         }
@@ -203,15 +200,91 @@ const LoginSignupPage = ({
 
   function getEmailVerifyCode() {
     if (verifyTimer === 0) {
-    //   callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (result) => {
-    //     setVerifyTimer(60);
-    //     getEmailVerify({
-    //       ...result,
-    //       email,
-    //     });
-    //   });
+      callCaptcha(CALL_CAPTCHA_TYPE.REGISTER, (result) => {
+        setVerifyTimer(60);
+        getEmailVerify({
+          ...result,
+          email,
+        });
+      });
     }
   }
+
+  const userSignup = (data, callback) => {
+    const utm_source = localStorage.getItem("origin");
+    let shareMa = undefined;
+    let utc_data = localStorage.getItem("utmMark")
+      ? JSON.parse(localStorage.getItem("utmMark"))
+      : "";
+    if (utc_data && utc_data.shareMa) {
+      shareMa = utc_data.shareMa;
+    }
+    useGlobalDispatch(
+      signupUser(
+        {
+          ...data,
+          deviceModel: "H5",
+          type: "H5",
+          share_ma: shareMa,
+          utm_source: utm_source,
+          dianka: undefined,
+          // 下面是要判斷用來 CTA 的先不處理
+          // share_ma:
+          // utm_source: null
+        },
+        (check) => {
+          if (check) {
+            useGlobalDispatch(
+              userLoginAction(
+                {
+                  username: data.name,
+                  passwd: data.password,
+                  deviceModel: "h5",
+                },
+                callback
+              )
+            );
+            useGlobalDispatch(replaceRoutes(home.pages.homeMain));
+            handleRegisterAccount();
+            useGlobalDispatch(toggleMentionAppCoverAction(true));
+            if (
+              !checkDataExpired("urlParameterTimestamp", 1000 * 60 * 60 * 24)
+            ) {
+              utmTrack();
+            }
+          } else {
+            callback(check);
+          }
+        }
+      )
+    );
+  };
+  const signupUserSuccess = () => {
+    const breadcrumbsData = [state.breadcrumbs];
+    breadcrumbsData.reverse();
+    for (let i = 0; i < breadcrumbsData.length; i++) {
+      if (breadcrumbsData[i].path.indexOf("login") === -1) {
+        useGlobalDispatch(replaceRoutes(breadcrumbsData[i]));
+        return;
+      }
+    }
+    useGlobalDispatch(backRoutes(-2));
+  };
+  const getEmailVerify = (email) => {
+    useGlobalDispatch(getEmailVerifyCode(email));
+  };
+  const emailCodeVerify = (data, callback) => {
+    useGlobalDispatch(postVerifyEmailCodeAction(data, callback));
+  };
+  const checkEmailUnique = (email, callback) => {
+    useGlobalDispatch(postCheckUserEmailAction(email, callback));
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      gt4();
+    }
+  }, []);
   return (
     <LoginSignupPageElement>
       <div id="aaaa" />
@@ -310,10 +383,8 @@ const LoginSignupPage = ({
                   }`}
                 >
                   {verifyTimer > 0
-                    ? verifyTimer +
-                      t("Login.after_second_sent")
-                    : t("Login.placeholder_get_letter")
-                    }
+                    ? verifyTimer + t("Login.after_second_sent")
+                    : t("Login.placeholder_get_letter")}
                 </WavaButton>
               </div>
             </div>
@@ -345,19 +416,11 @@ const LoginSignupPage = ({
         >
           {loginType !== 3 || emailVerify !== ""
             ? t("Login.register")
-            : t("Login.write_verity_code")
-          }
+            : t("Login.write_verity_code")}
         </p>
       </div>
     </LoginSignupPageElement>
   );
-};
-
-LoginSignupPage.propTypes = {
-  // newNotice: PropTypes.number.isRequired,
-  // clickSerch: PropTypes.func.isRequired,
-  // clickAvatar: PropTypes.func.isRequired,
-  // clickNew: PropTypes.func.isRequired,
 };
 
 export default LoginSignupPage;

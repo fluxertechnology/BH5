@@ -501,14 +501,14 @@
       "exchange_captions": "Exchange Instructions",
       "captions_1": "1.Diamond can be exchanged for 100 B coins.",
       "captions_2": "2.B coins can be used to pay for comics, animes, donate or shopping, etc.",
-      "captions_3": "3.Diamond cannot be refunded or canceled after exchange."
-    },
-    "redeem": {
-      "": "Redeem",
-      "title": "Redeem Success",
-      "content": "Redeem Successfully Watch Or Continue Redemption",
-      "continue_redeem": "Continue Redeem",
-      "watch_now": "Watch Now"
+      "captions_3": "3.Diamond cannot be refunded or canceled after exchange.",
+      "redeem": {
+        "": "Redeem",
+        "title": "Redeem Success",
+        "content": "Redeem Successfully Watch Or Continue Redemption",
+        "continue_redeem": "Continue Redeem",
+        "watch_now": "Watch Now"
+      }
     },
     "feeback": {
       "label": {
@@ -567,26 +567,26 @@
         },
         "god_stuff": "More",
         "call_us": "Customer Service"
-      }
-    },
-    "click_login": "Login",
-    "watch": {
-      "mount": {
-        "today": "Daily Free Times"
-      }
-    },
-    "heap": {
-      "share": {
-        "account": "Share Users"
-      }
-    },
-    "nav": {
-      "my_account": "My Account",
-      "charge": "TOP UP"
-    },
-    "mission": {
-      "label": {
-        "all_permission": "Missions"
+      },
+      "click_login": "Login",
+      "watch": {
+        "mount": {
+          "today": "Daily Free Times"
+        }
+      },
+      "heap": {
+        "share": {
+          "account": "Share Users"
+        }
+      },
+      "nav": {
+        "my_account": "My Account",
+        "charge": "TOP UP"
+      },
+      "mission": {
+        "label": {
+          "all_permission": "Missions"
+        }
       }
     },
     "permission": {

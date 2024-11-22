@@ -14,6 +14,7 @@ import { getConfigData } from "@/store/actions/config";
 import { getNoticeData } from "@/store/actions/noticeList";
 import { initRoutes } from "@/store/actions/historyActions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useSaveStateData from "@/hooks/useSaveStateData";
 
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
@@ -60,6 +61,10 @@ export default function GlobalComponent() {
         useRouter: router,
       },
     });
+
+    if (typeof window !== "undefined") {
+      useSaveStateData(state);
+    }
   }, [pathname, searchParams]);
 
   return (

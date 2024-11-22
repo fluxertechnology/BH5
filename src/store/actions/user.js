@@ -14,34 +14,37 @@ const { home } = pageUrlConstants;
 export const userLoginAction =
   (params, callback = () => {}) =>
   (dispatch) => {
-    return utilitiesRequest.getLoginAction(params).then((data) => {
-      if (data.id) {
-        window.localStorage.setItem(
-          "catchHash",
-          encryptionData(JSON.stringify(params))
-        );
-        dispatch({
-          type: "INIT_USER",
-          data: {
-            ...data,
-            new_coupon_notification: data.new_coupon_notification,
-            is_video_card_opened: data.is_video_card_opened,
-          },
-        });
-        dispatch(updateRechargeStateAction(false));
-        dispatch(
+    return utilitiesRequest
+      .getLoginAction(params)
+      .then((data) => {
+        if (data.id) {
+          window.localStorage.setItem(
+            "catchHash",
+            encryptionData(JSON.stringify(params))
+          );
+          dispatch({
+            type: "INIT_USER",
+            data: {
+              ...data,
+              new_coupon_notification: data.new_coupon_notification,
+              is_video_card_opened: data.is_video_card_opened,
+            },
+          });
+          dispatch(updateRechargeStateAction(false));
           updateUserDataAction((check) => {
             callback(check);
             if (check) {
-              dispatch(setVipInfoAction());
+              setVipInfoAction()(dispatch)
             }
-          }, data.id)
-        );
-        // dispatch(replaceRoutes(home.pages.homeMain));
-      } else {
-        callback(false);
-      }
-    });
+          }, data.id)(dispatch);
+          dispatch(replaceRoutes(home.pages.homeMain));
+        } else {
+          callback(false);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", "[/login/login/veify]:", err);
+      });
   };
 
 export const userFBLoginAction =
@@ -85,7 +88,8 @@ export const updateUserDataAction =
         });
         callback(true);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         callback(false);
       });
   };
