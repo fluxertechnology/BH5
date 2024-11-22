@@ -105,6 +105,9 @@ const LoginElement = styled.div`
     position: relative;
     max-width: unset;
   }
+  @media (max-width: 899px) {
+    padding-top: ${main_height}px;
+  }
 `;
 
 export default Login;
