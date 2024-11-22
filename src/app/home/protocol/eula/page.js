@@ -52,5 +52,9 @@ const HomeEULAPageElement = styled.div`
     max-height: 70vh;
     max-width: 70vw;
     min-width: 1792px;
+    @media (max-width: 899px) {
+      min-width: 100%;
+      max-width: unset;
+    }
   }
 `;
