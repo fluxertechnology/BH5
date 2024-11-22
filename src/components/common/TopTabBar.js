@@ -270,7 +270,7 @@ const TopTabBar = ({
                 <AntTab
                   length={labelListKey.length}
                   value={labelKey}
-                  label={labelList[labelKey].name}
+                  label={labelList[labelKey].intlKey ? t(labelList[labelKey].intlKey) : labelList[labelKey].name}
                   key={labelKey}
                   onClick={() => {
                     onClickTab(labelKey);

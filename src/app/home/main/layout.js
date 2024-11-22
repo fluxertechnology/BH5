@@ -71,15 +71,19 @@ const HomeLayout = ({ children }) => {
 
   let labelList = {
     anime: {
+      intlKey: "Navbar.top_navigator_animate_comic",
       name: t("Navbar.top_navigator_animate_comic"),
     },
     videos: {
+      intlKey: "Navbar.top_navigator_video",
       name: t("Navbar.top_navigator_video"),
     },
     photos: {
+      intlKey: "Navbar.top_navigator_meitu",
       name: t("Navbar.top_navigator_meitu"),
     },
     novels: {
+      intlKey: "Navbar.top_navigator_novel",
       name: t("Navbar.top_navigator_novel"),
     },
     // streams: {
@@ -87,19 +91,24 @@ const HomeLayout = ({ children }) => {
     // },
     // doujin 韓漫
     "k-comics": {
+      intlKey: "Navbar.top_navigator_kcomics",
       name: t("Navbar.top_navigator_kcomics"),
     },
     // doujin 同人
     doujin: {
+      intlKey: "Navbar.top_navigator_doujin",
       name: t("Navbar.top_navigator_doujin"),
     },
     "3D": {
+      intlKey: "Navbar.top_navigator_3d",
       name: t("Navbar.top_navigator_3d"),
     },
     ranking: {
+      intlKey: "Navbar.top_navigator_ranking",
       name: t("Navbar.top_navigator_ranking"),
     },
     free: {
+      intlKey: "Navbar.top_navigator_free_watch",
       name: t("Navbar.top_navigator_free_watch"),
     },
   };
