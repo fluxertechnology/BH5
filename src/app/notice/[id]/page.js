@@ -20,10 +20,8 @@ const NoticeContentPage = () => {
     
     if(state.noticeList[i].id === noticeId) {
       data = state.noticeList[i];
-      console.log("in if");
       break;
     }else{
-      console.log("in else");
     }
   }
 
