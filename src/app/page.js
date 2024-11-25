@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { adsKeys, colors, requestUrlConstants } from "@/lib/constants";
+import { adsKeys, colors, pageUrlConstants } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { useEffect, useMemo, useState } from "react";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -16,13 +16,13 @@ import SlideCarousel from "@/components/common/SlideCarousel";
 import RefreshBtn from "@/components/index/RefreshBtn";
 import ShowItem from "@/components/index/ShowItem";
 import ComicRankingItem from "@/components/index/ComicRankingItem";
-
+import TopTabBar from "@/components/common/TopTabBar";
+import { pushRoutes } from "@/store/actions/historyActions";
 import Image from "next/image";
 
 import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCarousel";
 
-const { getNewAnimeHome, postRefreshAnime, postContinueHistory } =
-  requestUrlConstants;
+const { home } = pageUrlConstants;
 
 export default function HomeMainPage() {
   const t = useTranslations();
@@ -144,11 +144,100 @@ export default function HomeMainPage() {
     useGlobalDispatch(pushRoutes({ path: url, dynamic: category }));
   };
 
+  let labelList = {
+    anime: {
+      intlKey: "Navbar.top_navigator_animate_comic",
+      name: t("Navbar.top_navigator_animate_comic"),
+    },
+    videos: {
+      intlKey: "Navbar.top_navigator_video",
+      name: t("Navbar.top_navigator_video"),
+    },
+    photos: {
+      intlKey: "Navbar.top_navigator_meitu",
+      name: t("Navbar.top_navigator_meitu"),
+    },
+    novels: {
+      intlKey: "Navbar.top_navigator_novel",
+      name: t("Navbar.top_navigator_novel"),
+    },
+    // streams: {
+    //   name: t('Navbar.top_navigator_stream')
+    // },
+    // doujin 韓漫
+    "k-comics": {
+      intlKey: "Navbar.top_navigator_kcomics",
+      name: t("Navbar.top_navigator_kcomics"),
+    },
+    // doujin 同人
+    doujin: {
+      intlKey: "Navbar.top_navigator_doujin",
+      name: t("Navbar.top_navigator_doujin"),
+    },
+    "3D": {
+      intlKey: "Navbar.top_navigator_3d",
+      name: t("Navbar.top_navigator_3d"),
+    },
+    ranking: {
+      intlKey: "Navbar.top_navigator_ranking",
+      name: t("Navbar.top_navigator_ranking"),
+    },
+    free: {
+      intlKey: "Navbar.top_navigator_free_watch",
+      name: t("Navbar.top_navigator_free_watch"),
+    },
+  };
+  labelList = isMobile
+    ? {
+        ...labelList,
+        comic: {
+          name: t("Global.comics"),
+        },
+        animes: {
+          name: t("Global.animate"),
+        },
+        games: {
+          name: t("Game.label.game"),
+        },
+      }
+    : labelList;
+
+  const clickTabLabel = (key, dynamic) => {
+    console.log(key, "key");
+    if (key === "ranking") {
+      useGlobalDispatch(
+        pushRoutes(home.pages.homeLeaderboard.pages.homeLeaderboardComic)
+      );
+    } else if (key === "games") {
+      useGlobalDispatch(pushRoutes(home.pages.homeGame));
+    } else {
+      let upCass = key.slice(0, 1);
+      upCass = upCass.toUpperCase();
+      useGlobalDispatch(
+        pushRoutes({
+          name: home.pages.homeMain.pages["home" + upCass + key.slice(1)].name,
+          path: home.pages.homeMain.pages["home" + upCass + key.slice(1)].path,
+          dynamic: {
+            tab: dynamic,
+          },
+        })
+      );
+    }
+    // useGlobalDispatch(pushRoutes(home.pages.homeMain.pages["home" + upCass + key.slice(1) + (key === "videos" ? "Select" : "")])); 經討論 暫時拔掉影片過度頁
+  };
+
+  const TopTabBarComponent = () => {
+    return (
+      <TopTabBar labelList={labelList} callback={clickTabLabel} indexColumn />
+    );
+  };
   useEffect(() => {
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       data: {
-        customComponent: () => null,
+        isPlaceholder: true,
+        appendComponent: TopTabBarComponent,
+        customComponent: () => false,
       },
     });
   }, []);
