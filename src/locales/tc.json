@@ -552,7 +552,7 @@
         "buy_discount": "首购优惠",
         "own": {
           "gift": "我的礼包",
-          "ollect": "我的收藏"
+          "collect": "我的收藏"
         },
         "news_discount": "新优惠",
         "history": {
@@ -845,6 +845,20 @@
         "content": "本站资讯以及连结含有青少年不宜限制级内容，限18岁以上及愿意接受者方可进入，未满18岁请自行离开。",
         "reject": "先逛逛",
         "agree": "注册/登陆免费看"
+      }
+    }
+  },
+  "First": {
+    "recharge": {
+      "cover": {
+        "exclusive": "专属您的首购优惠！",
+        "discount": "首充折扣最高",
+        "save": "省 ",
+        "flash_sale": "限时促销",
+        "to_buy": "前往购买",
+        "hour": "时",
+        "min": "分",
+        "sec": "秒"
       }
     }
   }

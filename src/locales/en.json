@@ -566,7 +566,7 @@
           "": "Missions",
           "board": "Missions"
         },
-        "god_stuff": "More",
+        "godd_stuff": "More",
         "call_us": "Customer Service"
       },
       "click_login": "Login",
@@ -851,6 +851,20 @@
         "content": "The information and links on BHub contain restricted content. Only those over the age of 18 who agree to enter.",
         "reject": "Browse first",
         "agree": "Sign up/Log in to view for free"
+      }
+    }
+  },
+  "First": {
+    "recharge": {
+      "cover": {
+        "exclusive": "Exclusive Offers",
+        "discount": "On Sale",
+        "save": "Save",
+        "flash_sale": "Flash Sale",
+        "to_buy": "To Buy",
+        "hour": "hr",
+        "min": "min",
+        "sec": "sec"
       }
     }
   }
