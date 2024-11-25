@@ -504,7 +504,7 @@ export const H5TopTabBarElement = styled.div.withConfig({
     }
     &_arrow {
       align-self: center;
-      width: 20px !important;
+      width: 36px !important;
       height: 20px !important;
       &.disabled {
         display: none;
