@@ -343,7 +343,7 @@
     "build": {
       "input": {
         "address": "输入地址",
-        "reciever": "收货人資訊"
+        "receiver": "收货人資訊"
       },
       "placeholder": {
         "postal_code": "请填写邮编",
