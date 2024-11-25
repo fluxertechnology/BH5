@@ -139,18 +139,29 @@ const HomeComicListContent = () => {
   const collectEvent = (id) => {
     useGlobalDispatch(collectComicAnimeContentAction(id));
   };
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        customComponent: () => (
+            <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
+              <TopTitleBar
+                showBack={true}
+                show_back_color="#ffffff"
+                color={"#000"}
+                back_color={"transparent"}
+              />
+            </TopBarContainer>
+        ),
+      },
+    });
+  }, []);
+
   return (
     <HomeComicListContentElement
       bottom_nav_height={state.navbar.bottomNavHeight}
     >
-      <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
-        <TopTitleBar
-          showBack={true}
-          show_back_color="#ffffff"
-          color={"#000"}
-          back_color={"transparent"}
-        />
-      </TopBarContainer>
       <CSSTransition
         timeout={200}
         in={showMore}
