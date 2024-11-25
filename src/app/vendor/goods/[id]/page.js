@@ -348,6 +348,9 @@ const VendorGoodsElement = styled.div`
         }
       }
     }
+    .container_body_content {
+      overflow-x:auto;
+    }
   }
 
   .footer {
