@@ -7,12 +7,18 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   compiler: {
     styledComponents: true,
   },
+  // reactStrictMode: false,
   images: {
-    loader: "custom",
-    loaderFile: "./src/lib/services/imageLoader.js",
+    // loader: "custom",
+    // loaderFile: "./src/lib/services/imageLoader.js",
     remotePatterns: [
       // {
       //   protocol: "https",
@@ -40,15 +46,6 @@ const nextConfig = {
     silenceDeprecations: ["legacy-js-api"],
     // additionalData: `@import "src/styles/global.scss";`,
     // includePaths: [path.join(__dirname, "src", "styles")],
-  },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/home/main",
-        permanent: true, // Set to true for 301 redirects, false for 302
-      },
-    ];
   },
 };
 

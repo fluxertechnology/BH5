@@ -10,13 +10,15 @@ function saveUserDate(storeData) {
       })
     )
   );
-  window.localStorage.setItem(
-    "userDataOriginal",
-    JSON.stringify({
-      user: storeData.user,
-      vipInfoData: storeData.vipInfoData,
-    })
-  );
+  if (process.env.NODE_ENV === "development") {
+    window.localStorage.setItem(
+      "userDataOriginal",
+      JSON.stringify({
+        user: storeData.user,
+        vipInfoData: storeData.vipInfoData,
+      })
+    );
+  }
 }
 
 function saveSystem(storeData) {

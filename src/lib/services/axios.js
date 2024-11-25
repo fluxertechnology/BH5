@@ -120,6 +120,7 @@ class AxiosCenter {
   }
 
   _showLoading() {
+    if (typeof window === 'undefined') return;
     this.loadingQueue.push("true");
     let axiosLoading = document.getElementById("axiosLoading");
     if (axiosLoading) {
@@ -129,6 +130,8 @@ class AxiosCenter {
   }
 
   _hideLoading() {
+    if (typeof window === 'undefined') return;
+
     this.loadingQueue.splice(0, 1);
     if (this.loadingQueue.length === 0) {
       let axiosLoading = document.getElementById("axiosLoading");

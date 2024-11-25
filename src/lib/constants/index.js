@@ -640,16 +640,16 @@ export const pageUrlConstants = {
       },
       homeMain: {
         name: "主頁",
-        path: "/home/main",
+        path: "/",
         pages: {
           home: {
             name: "預設主頁",
-            path: "/home/main",
+            path: "/",
             bottomNav: true,
           },
           homeAnime: {
             name: "主頁動畫",
-            path: "/home/main",
+            path: "/home/main/anime",
             bottomNav: true,
           },
           homeNovels: {

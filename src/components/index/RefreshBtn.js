@@ -16,6 +16,7 @@ const RefreshBtn = () => {
           <span className="refresh_btn_text_icon">
             <FontAwesomeIcon
               className="refresh_btn_text_icon_img"
+              style={{ width: '20px' }}
               icon={faRedo}
             />
           </span>

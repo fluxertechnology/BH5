@@ -57,11 +57,13 @@ const HomeComicListContent = () => {
     : {};
 
   x.current++;
-  if (comicId && !comicData.id) {
-    useGlobalDispatch(
-      getComicAnimeContentAction(comicId, 1, "INIT_COMICCONTENT")
-    );
-  }
+  useEffect(() => {
+    if (comicId && !comicData.id) {
+      useGlobalDispatch(
+        getComicAnimeContentAction(comicId, 1, "INIT_COMICCONTENT")
+      );
+    }
+  }, []);
 
   function clickPageEvent(number) {
     if (!checkLock(number)) {
