@@ -97,6 +97,62 @@ export default function HomeMainPage() {
     localState.photo_category_list.length,
   ]);
 
+  const refreshData = (key) => {
+    useGlobalDispatch(refreshAnimeData(key));
+  };
+  const toDetailPage = (type) => {
+    let url = "";
+    let category = "";
+    switch (type) {
+      case "comic_ranking":
+        url = home.pages.homeLeaderboard.pages.homeLeaderboardComic.path;
+        break;
+      case "all_comic_list":
+        url = home.pages.homeMain.pages.homeCategory.path;
+        category = {
+          tab: t("Global.comics"),
+        };
+        break;
+      case "anime_ranking":
+        url = home.pages.homeLeaderboard.pages.homeLeaderboardAnime.path;
+        break;
+      case "all_anime_list":
+        url = home.pages.homeMain.pages.homeCategory.path;
+        category = {
+          tab: t("Global.animate"),
+        };
+        break;
+      case "feature_game":
+        url = home.pages.homeGame.path;
+        break;
+      case "video":
+        url = home.pages.homeMain.pages.homeVideos.path;
+        break;
+      case "photo":
+        url = home.pages.homeMain.pages.homePhotos.path;
+        break;
+      case "novel_list":
+        url = home.pages.homeMain.pages.homeNovels.path;
+        break;
+      // case "recommend_original":
+      //   url = home.pages.homeLeaderboard;
+      //   break;
+      //   ;
+      default:
+        break;
+    }
+    useGlobalDispatch(pushRoutes({ path: url, dynamic: category }));
+  };
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        customComponent: () => null,
+      },
+    });
+  }, []);
+
   return (
     <HomeMainPageElement>
       <ImageCarousel
