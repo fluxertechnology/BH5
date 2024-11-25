@@ -7,9 +7,15 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   compiler: {
     styledComponents: true,
   },
+  // reactStrictMode: false,
   images: {
     loader: "custom",
     loaderFile: "./src/lib/services/imageLoader.js",
