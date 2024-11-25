@@ -23,6 +23,7 @@
     "autolinker": "^4.0.0",
     "axios": "^1.7.7",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "jszip": "^3.10.1",
     "lottie-react": "^2.4.0",
