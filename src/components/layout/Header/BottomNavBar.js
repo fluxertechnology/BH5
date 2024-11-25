@@ -82,7 +82,7 @@ const BottomNavBar = () => {
   };
 
   return (
-    <BottomNavBarElement ref={root} show_bottom_nav={isMobile}>
+    <BottomNavBarElement ref={root} show_bottom_nav={isMobile} className={"BottomNavBarElement"}>
       <div className="bottom_nav">
         {navList.map((data) => {
           return (

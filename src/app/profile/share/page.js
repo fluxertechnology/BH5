@@ -59,9 +59,14 @@ function ProfileShare () {
   }, [isMobile]);
 
   useEffect(() => {
-    let Element = document.getElementsByClassName("PCFooterElement");
-    Element[0].style.setProperty("display", "none");
-  }, [])
+    if (!isMobile) {
+      let Element = document.getElementsByClassName("PCFooterElement");
+      Element[0].style.setProperty("display", "none");
+    }else{
+      let Element = document.getElementsByClassName("BottomNavBarElement");
+      Element[0].style.setProperty("display", "none");
+    }
+  }, [isMobile])
 
   async function saveUrl() {
     // html2canvas(document.getElementById("root"), {
