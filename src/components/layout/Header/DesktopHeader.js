@@ -10,12 +10,16 @@ const DesktopHeader = () => {
   const { state } = useGlobalContext();
   const { isMobile, isDesktop } = useMediaQuery();
 
-  if(isMobile) return<></>
-  
+  if (isMobile) return <></>;
+
   return (
-    <TopBarContainer>
-      {state.navbar.customComponent() || <WebTopBar />}
-    </TopBarContainer>
+    <>
+      {state.navbar.customComponent() || (
+        <TopBarContainer>
+          <WebTopBar />
+        </TopBarContainer>
+      )}
+    </>
   );
 };
 

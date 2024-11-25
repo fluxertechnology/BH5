@@ -9,13 +9,17 @@ import { useGlobalContext } from "@/store";
 const MobileHeader = () => {
   const { state } = useGlobalContext();
   const { isMobile } = useMediaQuery();
-  
-  if(!isMobile) return<></>
+
+  if (!isMobile) return <></>;
 
   return (
-    <TopBarContainer>
-      {state.navbar.customComponent() || <TopBar />}
-    </TopBarContainer>
+    <>
+      {state.navbar.customComponent() || (
+        <TopBarContainer>
+          <WebTopBar />
+        </TopBarContainer>
+      )}
+    </>
   );
 };
 

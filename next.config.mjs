@@ -17,8 +17,8 @@ const nextConfig = {
   },
   // reactStrictMode: false,
   images: {
-    loader: "custom",
-    loaderFile: "./src/lib/services/imageLoader.js",
+    // loader: "custom",
+    // loaderFile: "./src/lib/services/imageLoader.js",
     remotePatterns: [
       // {
       //   protocol: "https",
@@ -46,15 +46,6 @@ const nextConfig = {
     silenceDeprecations: ["legacy-js-api"],
     // additionalData: `@import "src/styles/global.scss";`,
     // includePaths: [path.join(__dirname, "src", "styles")],
-  },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/home/main",
-        permanent: true, // Set to true for 301 redirects, false for 302
-      },
-    ];
   },
 };
 
