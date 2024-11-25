@@ -16,7 +16,7 @@ const MobileHeader = () => {
     <>
       {state.navbar.customComponent() || (
         <TopBarContainer>
-          <WebTopBar />
+          <TopBar />
         </TopBarContainer>
       )}
     </>
