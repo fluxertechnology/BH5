@@ -221,6 +221,12 @@ const ProfileMain = ({ children }) => {
     useGlobalDispatch(pushRoutes(pageUrlConstants.profile.pages.profileShare));
   };
 
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {},
+    });
+  }, []);
   return (
     <ProfileMainElement main_height={state.navbar.mainHeight}>
       <FirstRecharge ref={firstChargeRef} user={state.user} times={times} />

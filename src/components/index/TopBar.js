@@ -9,8 +9,11 @@ import ImageComponent from "@/components/common/ImageComponent";
 import avatarPlaceholder from "@public/images/imgPlaceholder/avatar.png";
 
 import { navigatorShare } from "@/store/actions/utilities";
-import { useGlobalContext } from "@/store";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 import Image from "next/image";
+import { pushRoutes } from "@/store/actions/historyActions";
+import { pageUrlConstants } from "@/lib/constants";
+const { home, profile, notice, login } = pageUrlConstants;
 
 const TopBar = () => {
   const { state } = useGlobalContext();
@@ -31,6 +34,25 @@ const TopBar = () => {
   function clickService() {
     window.open("https://bli2pay.com/8jcng");
   }
+
+  const clickAvatar = () => {
+    // console.log("這邊要判斷登入狀態");
+    const userData = state.user;
+    if (userData.id !== "guest") {
+      useGlobalDispatch(pushRoutes(profile.pages.profileMain));
+    } else {
+      useGlobalDispatch(pushRoutes(login));
+    }
+  };
+  const clickSearch = () => {
+    useGlobalDispatch(pushRoutes(home.pages.homeSearch));
+  };
+  const clickHome = () => {
+    useGlobalDispatch(pushRoutes(home.pages.homeMain));
+  };
+  const clickNew = () => {
+    useGlobalDispatch(pushRoutes(notice));
+  };
   return (
     <TopBarElement>
       <div className="search_bar">
@@ -40,12 +62,12 @@ const TopBar = () => {
             width={0}
             height={0}
             alt="bh5_logo"
-            onClick={state.navbar.clickHome}
+            onClick={clickHome}
           />
         </div>
         <div className="search_bar_main">
           <Searchbar
-            callback={state.navbar.clickSearch}
+            callback={clickSearch}
             isPlaceholder={state.navbar.isPlaceholder}
           />
         </div>
@@ -78,7 +100,7 @@ const TopBar = () => {
             alt="recharge"
           />
         </div>
-        <div className="search_bar_avatar" onClick={state.navbar.clickAvatar}>
+        <div className="search_bar_avatar" onClick={clickAvatar}>
           {state.user.id !== "guest" ? (
             <ImageComponent
               is_cover={true}

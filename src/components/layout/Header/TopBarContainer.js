@@ -33,7 +33,7 @@ const TopBarContainer = ({
 
   return (
     <TopBarContainerElement
-      not_fixed={not_fixed}
+      not_fixed={!state.navbar.fixed}
       show_shadow={show_shadow}
       z_index={z_index}
       background_color={backgroundColor}

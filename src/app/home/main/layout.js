@@ -143,24 +143,6 @@ const HomeLayout = ({ children }) => {
     return newNotice;
   }, [state.noticeList, state.noticeListRead]);
 
-  const clickAvatar = () => {
-    // console.log("這邊要判斷登入狀態");
-    const userData = state.user;
-    if (userData.id !== "guest") {
-      useGlobalDispatch(pushRoutes(profile));
-    } else {
-      useGlobalDispatch(pushRoutes(login));
-    }
-  };
-  const clickSearch = () => {
-    useGlobalDispatch(pushRoutes(home.pages.homeSearch));
-  };
-  const clickHome = () => {
-    useGlobalDispatch(pushRoutes(home.pages.homeMain));
-  };
-  const clickNew = () => {
-    useGlobalDispatch(pushRoutes(notice));
-  };
   const clickTabLabel = (key, dynamic) => {
     console.log(key, "key");
     if (key === "ranking") {
@@ -233,17 +215,12 @@ const HomeLayout = ({ children }) => {
     );
   };
   useEffect(() => {
-    dispatch({
+    useGlobalDispatch({
       type: "INIT_NAVBAR",
       data: {
         isPlaceholder: true,
-        clickSearch,
-        clickHome,
-        clickHome,
-        clickAvatar,
-        clickNew,
         appendComponent: TopTabBarComponent,
-        customComponent: () => false
+        customComponent: () => false,
       },
     });
   }, []);
@@ -446,7 +423,7 @@ const MobileBottomDownloadAppTip = () => {
   );
 };
 const MobileBottomDownloadAppTipElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["show", "bottom_nav_height" ].includes(prop),
+  shouldForwardProp: (prop) => !["show", "bottom_nav_height"].includes(prop),
 })`
   ${({ bottom_nav_height, show }) => `
     /*  */
