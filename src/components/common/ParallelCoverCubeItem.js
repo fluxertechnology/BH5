@@ -1,5 +1,3 @@
-import { useIntl } from "react-intl";
-
 import styled from "styled-components";
 import LinkComponent from "@/components/common/LinkComponent";
 import ImageComponent from "@/components/common/ImageComponent";

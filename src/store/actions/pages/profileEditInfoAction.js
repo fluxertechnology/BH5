@@ -1,7 +1,7 @@
 import { requestUrlConstants } from "@/lib/constants";
 import axiosRequest from "@/lib/services/axios";
 import { updateUserDataAction } from "@/store/actions/user";
-import store from "@/store";
+import store, { useGlobalDispatch } from "@/store";
 
 const { postUpdateUserAvatarUrl, postUpdateUserDataUrl, postGetAvatarListUrl } =
   requestUrlConstants;
@@ -37,7 +37,7 @@ export const editUserDataAction = (data) => {
     }
 
     axiosRequest.post(postUpdateUserDataUrl, formData).then((data) => {
-      dispatch(updateUserDataAction());
+      useGlobalDispatch(updateUserDataAction());
     });
   };
 };

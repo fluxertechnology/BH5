@@ -861,5 +861,88 @@
         "sec": "秒"
       }
     }
+  },
+  "Social": {
+    "detail": {
+      "info": {
+        "label": {
+          "subscribe_service": "开通服务",
+          "and_chill": {
+            "description_1": "约P服务仅供拥有权益",
+            "description_2": "的用户开放"
+          },
+          "buy": {
+            "now": "立即购买"
+          },
+          "reject": "不用了，谢谢",
+          "data": "资料",
+          "introduction": "简介",
+          "release_time": "發佈时间",
+          "personal_information": "个人信息",
+          "age": "年龄：",
+          "figure": "身材：",
+          "position": "位置：",
+          "contact_details": "联系方式",
+          "contact_details_unlock": "解锁联系方式",
+          "unlocked_now": "立即解锁取得",
+          "unlocked": "已解锁",
+          "phone": "phone",
+          "wechat": "wechat",
+          "qq": "QQ",
+          "tudou": "tudou",
+          "line": "line",
+          "like": "喜欢",
+          "official": "官方群"
+        }
+      }
+    },
+    "list": {
+      "info": {
+        "label": {
+          "popular": {
+            "recommend": "人气推荐"
+          },
+          "official": {
+            "certification": "官方认证"
+          },
+          "select": {
+            "city": "选择城市"
+          },
+          "position": {
+            "now": "当前位置"
+          },
+          "confirm": "确认",
+          "and_chill": "约P",
+          "settled": "交友介绍",
+          "description_1": "经纪、马夫、车夫欢迎洽询",
+          "description_2": "Telegram：Ro-商务合作@j80640",
+          "ads": {
+            "title": "茫茫人海中遇见1%的心动",
+            "description": "高端绅士与气质甜心配对的交友",
+            "privacy": "隐私",
+            "safe": "安全",
+            "badge": "高品质",
+            "join": {
+              "make_friends": "開始交友",
+              "continue": " B次元会员快速参加！",
+              "description_1": "官方人工严格过滤把控聲音、照片认证核实",
+              "honey": "个人甜心",
+              "us": " 经纪入驻"
+            }
+          }
+        }
+      }
+    },
+    "selection": {
+      "local": {
+        "label": {
+          "city": {
+            "switch": "切换城市",
+            "popular": "热门城市"
+          },
+          "all": "全部"
+        }
+      }
+    }
   }
 }

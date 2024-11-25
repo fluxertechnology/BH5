@@ -297,7 +297,7 @@ export const pageUrlConstants = {
           },
           profileEditNickName: {
             name: "編輯資料暱稱",
-            path: "/profile/edit_nick_name",
+            path: "/profile/edit/nick_name",
             login: true,
           },
         },

@@ -867,5 +867,88 @@
         "sec": "sec"
       }
     }
+  },
+  "Social": {
+    "detail": {
+      "info": {
+        "label": {
+          "subscribe_service": "Activate",
+          "and_chill": {
+            "description_1": "Dating is only available",
+            "description_2": "the authorized user."
+          },
+          "buy": {
+            "now": "Go Shopping"
+          },
+          "reject": "No. Thanks.",
+          "data": "Information",
+          "introduction": "Detail",
+          "release_time": "Post Time",
+          "personal_information": "Profile",
+          "age": "Age:",
+          "figure": "Age:",
+          "position": "Location:",
+          "contact_details": "Contact Info",
+          "contact_details_unlock": "Unlock Contact",
+          "unlocked_now": "Unlock Now",
+          "unlocked": "Unlocked",
+          "phone": "phone",
+          "wechat": "wechat",
+          "qq": "QQ",
+          "tudou": "Potato",
+          "line": "Line",
+          "like": "Like",
+          "official": "Official Channel"
+        }
+      }
+    },
+    "list": {
+      "info": {
+        "label": {
+          "popular": {
+            "recommend": "Popular"
+          },
+          "official": {
+            "certification": "Featured"
+          },
+          "select": {
+            "city": "Select City"
+          },
+          "position": {
+            "now": "Your Location"
+          },
+          "confirm": "Confirm",
+          "and_chill": "Dating",
+          "settled": "Join",
+          "description_1": "Contact",
+          "description_2": "Telegram：@j80640",
+          "ads": {
+            "title": "Match. Chat. Meet. Find your dream lover.",
+            "description": "Go beyond your social circle and connect with people near and far.",
+            "privacy": "Privacy",
+            "safe": "Safe",
+            "badge": "High QC",
+            "join": {
+              "make_friends": "Start Make Friends",
+              "continue": " BHub Member Fast Continue",
+              "description_1": "官方人工严格过滤把控聲音、照片认证核实",
+              "honey": "Own Honey",
+              "us": " 经纪入驻"
+            }
+          }
+        }
+      }
+    },
+    "selection": {
+      "local": {
+        "label": {
+          "city": {
+            "switch": "Change City",
+            "popular": "Featured City"
+          },
+          "all": "All"
+        }
+      }
+    }
   }
 }
