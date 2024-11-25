@@ -44,6 +44,7 @@
     "bottom_navigator_and_chill": "约p",
     "bottom_navigator_mall": "商城",
     "bottom_navigator_my": "我的",
+    "bottom_download_own": "当前拥有",
     "bar_play": "秒玩",
     "bar_people_like": "人喜欢",
     "bar_recharge_description": "VIP权益介绍 购买后你可以享受",
@@ -53,8 +54,8 @@
     "bar_recharge_button": "充值VIP 爽撸不间断",
     "bar_recharge_button_1": "点我输入 VIP兑换码"
   },
-  "Footer":{
-    "user":{
+  "Footer": {
+    "user": {
       "services_agreement": "用户服务协议",
       "privacy_policy": "隐私政策"
     }
@@ -168,20 +169,20 @@
       "label": {
         "mall": "商城",
         "do_task": "做任务",
-        "hot":{
+        "hot": {
           "commodity": "热销商品"
         }
       },
       "sheet": {
         "label": {
           "settle": "结账",
-          "choice":{
+          "choice": {
             "coupon": "选择优惠券"
           },
           "gold_money_once": "金币1次",
           "payment": "支付方式",
-          "buy":{
-            "discount":{
+          "buy": {
+            "discount": {
               "game": "购买游戏即可享有折扣"
             },
             "money": "精钻购买",
@@ -197,7 +198,7 @@
           "description_3": "再请点选右上标誌联系客服， 谢谢。"
         },
         "placeholder": {
-          "reciever":{
+          "reciever": {
             "name": "请填写收货人姓名"
           },
           "area": "请填写所在地区",
@@ -816,6 +817,35 @@
       "start": "快来",
       "thire_soft_name": "妹塔直播",
       "end": "和美女主播们开聊啦"
+    }
+  },
+  "Report": {
+    "label": {
+      "report": {
+        "success": "回报成功",
+        "thanks": "感谢您的回报，",
+        "fast_process": "我们将尽快处理！！",
+        "problem": "回报问题",
+        "problem_other": "其他原因"
+      }
+    }
+  },
+  "Ply": {
+    "label": {
+      "watch": {
+        "continue": "继续观看"
+      },
+      "report": "回报"
+    }
+  },
+  "Minors": {
+    "prohibited": {
+      "dialog": {
+        "title": "亲爱的用户",
+        "content": "本站资讯以及连结含有青少年不宜限制级内容，限18岁以上及愿意接受者方可进入，未满18岁请自行离开。",
+        "reject": "先逛逛",
+        "agree": "注册/登陆免费看"
+      }
     }
   }
 }

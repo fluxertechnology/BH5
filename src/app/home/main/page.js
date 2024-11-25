@@ -19,14 +19,7 @@ import ComicRankingItem from "@/components/index/ComicRankingItem";
 
 import Image from "next/image";
 
-import mangaIcon from "@public/images/home/manga.svg";
-import newIcon from "@public/images/home/new.svg";
-import AllIcon from "@public/images/home/list.svg";
-import starIcon from "@public/images/home/star.svg";
-import gameIcon from "@public/images/home/game.svg";
-import picIcon from "@public/images/home/pic.svg";
-import videoIcon from "@public/images/home/video.svg";
-import novelIcon from "@public/images/home/novel.svg";
+import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCarousel";
 
 const { getNewAnimeHome, postRefreshAnime, postContinueHistory } =
   requestUrlConstants;
@@ -75,7 +68,7 @@ export default function HomeMainPage() {
   useEffect(() => {
     if (!localState.video_category_list.length)
       useGlobalDispatch(getHomeData());
-    else useGlobalDispatch(getContinueWatchData());
+    useGlobalDispatch(getContinueWatchData());
   }, [isMobile]);
 
   const handleVideoIndexChange = (event, newValue) => {
@@ -122,13 +115,13 @@ export default function HomeMainPage() {
               <p className="home_Main_container_title_text">
                 <Image
                   className="home_Main_container_title_text_img"
-                  src={newIcon}
+                  src="/images/home/new.svg"
                   width={0}
                   height={0}
                   alt={t("Home.continue_watch")}
                 />
                 <span className="home_Main_container_title_text_span">
-                  {intl.formatMessage({ id: "HOME.MAIN.CONTINUE_WATCH" })}
+                  {t("Home.continue_watch")}
                 </span>
               </p>
             </div>
@@ -149,7 +142,7 @@ export default function HomeMainPage() {
             <p className="home_Main_container_title_text">
               <Image
                 className="home_Main_container_title_text_img"
-                src={newIcon}
+                src="/images/home/new.svg"
                 width={0}
                 height={0}
                 alt={t("Home.added_this_week_comic")}
@@ -175,7 +168,7 @@ export default function HomeMainPage() {
               <p className="home_Main_container_title_text">
                 <Image
                   className="home_Main_container_title_text_img"
-                  src={mangaIcon}
+                  src="/images/home/manga.svg"
                   width={0}
                   height={0}
                   alt={t("Home.popular_comic")}
@@ -227,7 +220,7 @@ export default function HomeMainPage() {
             <p className="home_Main_container_title_text">
               <Image
                 className="home_Main_container_title_text_img"
-                src={AllIcon}
+                src="/images/home/list.svg"
                 width={0}
                 height={0}
                 alt={t("Home.all_comic")}
