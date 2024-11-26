@@ -96,7 +96,7 @@ const BottomNavBar = () => {
               <WavaButton
                 className={
                   "bottom_nav_item_btn " +
-                  (location.indexOf(data.path) !== -1 ? "active" : "")
+                  (location == data.path ? "active" : "")
                 }
                 currentRefs={[root]}
               >
@@ -104,7 +104,7 @@ const BottomNavBar = () => {
                   <Image
                     className={"bottom_nav_item_btn_icon_img"}
                     src={
-                      location.indexOf(data.path) !== -1
+                      location == data.path
                         ? data.activeImage
                         : data.image
                     }
