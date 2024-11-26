@@ -1,11 +1,11 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 
-import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import {
   apiUrl,
@@ -33,7 +33,6 @@ import {
 } from "@/store/actions/pages/profileMissionAction";
 const { profile } = pageUrlConstants;
 
-
 const moneyIcon = "/images/icons/money.svg";
 const successIcon = "/images/icons/success.svg";
 const giftIcon = "/images/profile/icon_my_gift.svg";
@@ -57,6 +56,7 @@ const completeIcon = "/images/profile/mission/complete.png";
 const ProfileMissionLayout = ({ children, backRoutesAction }) => {
   const t = useTranslations();
   const { isMobile } = useMediaQuery();
+  const nodeRef = useRef(null);
   if (!isMobile)
     return (
       <ProfileMissionLayoutElement>
@@ -66,6 +66,7 @@ const ProfileMissionLayout = ({ children, backRoutesAction }) => {
           classNames="CSSTransition_opacity"
           unmountOnExit
           key="CSSTransition_showCover"
+          nodeRef={nodeRef}
         >
           <div className="float_cover" onClick={backRoutesAction}>
             <div
@@ -152,45 +153,47 @@ function ProfileMission() {
   const t = useTranslations();
   const lang = Cookies.get("NEXT_LOCALE");
   const { isMobile } = useMediaQuery();
-  const { state, dispatch } = useGlobalContext();
+  const { state } = useGlobalContext();
   const user = state.user;
   const data = { ...state.profileMission } || {};
   const config = state.config;
 
   const dailyEvent = () => {
     useGlobalDispatch(dailyLoginAction(t));
-  }
+  };
 
   const goSharef = () => {
-    useGlobalDispatch(pushRoutes(pageUrlConstants.profile.pages.profileInviteMission));
-  }
+    useGlobalDispatch(
+      pushRoutes(pageUrlConstants.profile.pages.profileInviteMission)
+    );
+  };
 
   const goHomeGame = () => {
     useGlobalDispatch(pushRoutes(pageUrlConstants.home.pages.homeGame));
-  }
+  };
 
   const getMissionList = () => {
     useGlobalDispatch(getMissionListAction());
-  }
+  };
 
   const postAddCheckIn = (index, callback) => {
     useGlobalDispatch(postAddCheckInAction(index, callback));
-  }
+  };
 
-  const postGetReward = (missionId,name, callback) => {
-    useGlobalDispatch(postGetRewardAction(missionId,name, callback));
-  }
+  const postGetReward = (missionId, name, callback) => {
+    useGlobalDispatch(postGetRewardAction(missionId, name, callback));
+  };
 
   const backRoutesAction = () => {
     useGlobalDispatch(pushRoutes(profile));
-  }
+  };
 
   const [floatStatus, setFloatStatus] = useState({
     show: false,
     amount: 0,
     type: 0,
   });
-  
+
   const { checkin, weekly, newbie } = data;
   const directList = [
     {
@@ -260,18 +263,24 @@ function ProfileMission() {
                 `?uid=${user.id}&ctype=1&content-language=${lang}`
             );
           case 1:
-            return dispatch(pushRoutes(pageUrlConstants.home.pages.homeGame));
+            return useGlobalDispatch(
+              pushRoutes(pageUrlConstants.home.pages.homeGame)
+            );
           case 3:
           case 4:
-            return dispatch(pushRoutes(pageUrlConstants.home.pages.homeMain));
+            return useGlobalDispatch(
+              pushRoutes(pageUrlConstants.home.pages.homeMain)
+            );
           case 5:
           case 6:
           case 7:
           case 10:
-            return dispatch(pushRoutes(pageUrlConstants.post.pages.postMain));
+            return useGlobalDispatch(
+              pushRoutes(pageUrlConstants.post.pages.postMain)
+            );
           case 8:
           case 9:
-            return dispatch(
+            return useGlobalDispatch(
               pushRoutes(
                 pageUrlConstants.post.pages.postMain.pages.postMainRecommend
               )
@@ -283,19 +292,19 @@ function ProfileMission() {
         switch (index) {
           case 0:
           case 1:
-            return dispatch(
+            return useGlobalDispatch(
               pushRoutes(pageUrlConstants.profile.pages.profileEdit)
             );
           case 2:
-            return dispatch(
+            return useGlobalDispatch(
               pushRoutes(pageUrlConstants.home.pages.homeMain.pages.homeVideos)
             );
           case 3:
-            return dispatch(
+            return useGlobalDispatch(
               pushRoutes(pageUrlConstants.profile.pages.profilePayment)
             );
           case 4:
-            return dispatch(
+            return useGlobalDispatch(
               pushRoutes(
                 pageUrlConstants.profile.pages.profileSet.pages.profileSetEmail
               )
@@ -316,7 +325,7 @@ function ProfileMission() {
   ];
 
   useEffect(() => {
-    dispatch({
+    useGlobalDispatch({
       type: "INIT_NAVBAR",
       key: "customComponent",
       data: {
@@ -335,19 +344,21 @@ function ProfileMission() {
             )}
           </>
         ),
-      }
+      },
     });
   }, [isMobile]);
 
+  const nodeRef = useRef(null);
   return (
     <ProfileMissionLayout backRoutesAction={backRoutesAction}>
-      <ProfileMissionElement>
+      <ProfileMissionElement main_height={state.navbar.mainHeight}>
         <CSSTransition
           timeout={200}
           in={floatStatus.show}
           classNames="CSSTransition_opacity"
           unmountOnExit
           key="CSSTransition_show_donate"
+          nodeRef={nodeRef}
         >
           <div className="float_cover">
             <div className="float_cover_container">
@@ -357,9 +368,7 @@ function ProfileMission() {
                 获得
                 <label className="content_money">
                   {floatStatus.amount}
-                  {floatStatus.type &&
-                    t(judgeRewardType(floatStatus.type))
-                }
+                  {floatStatus.type && t(judgeRewardType(floatStatus.type))}
                 </label>
               </div>
               <WavaButton className="button">
@@ -452,10 +461,14 @@ function ProfileMission() {
           <section className="banner_card g-flex-column p-3 gap-2">
             <div className="banner_card_subtitle">日常任务</div>
             <div className="g-flex-column  gap-3">
-              {console.log(weekly, "weekly")}
               {weekly.map((item, index) => {
                 return (
-                  <WeekList index={index} onClick={onClickEvent} {...item} key={index} />
+                  <WeekList
+                    index={index}
+                    onClick={onClickEvent}
+                    {...item}
+                    key={index}
+                  />
                 );
               })}
             </div>
@@ -467,7 +480,12 @@ function ProfileMission() {
             <div className="g-flex-space-between  flex-wrap gap-2">
               {newbie.map((item, index) => {
                 return (
-                  <NewBieList index={index} onClick={onClickEvent} {...item} key={index} />
+                  <NewBieList
+                    index={index}
+                    onClick={onClickEvent}
+                    {...item}
+                    key={index}
+                  />
                 );
               })}
             </div>
@@ -476,159 +494,163 @@ function ProfileMission() {
       </ProfileMissionElement>
     </ProfileMissionLayout>
   );
-};
+}
 
 export default ProfileMission;
 
-export const ProfileMissionElement = styled.div`
-  /*  */
-  background-color: ${colors.back_grey};
-  height: 100%;
-  min-height: 100vh;
-  .profile_mission_section {
-    max-width: 20vw;
-    padding: 2px 0.6em;
-    @media (max-width: 899px) {
-      padding: 2px 0.8em;
-      max-width: 100%;
+export const ProfileMissionElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+})`
+  ${({ main_height }) => `
+    /*  */
+    background-color: ${colors.back_grey};
+    height: 100%;
+    min-height: 100vh;
+    .profile_mission_section {
+      max-width: 20vw;
+      padding: 2px 0.6em;
+      @media (max-width: 899px) {
+        padding: 2px 0.8em;
+        max-width: 100%;
+      }
+      .banner {
+        &_card {
+          background: #fff;
+          border-radius: 0.5em;
+          height: 100%;
+          margin-bottom: 0.5em;
+
+          &.banner {
+            margin-bottom: -100px;
+          }
+          &_title {
+            font-weight: 900;
+            font-size: 1.2rem;
+            span {
+              color: ${colors.text_light_grey};
+              font-size: 0.8rem;
+              font-weight: 500;
+            }
+          }
+          &_subtitle {
+            font-weight: 900;
+            font-size: 1rem;
+          }
+        }
+      }
+      &.banner {
+        padding-top: ${main_height / 2}px;
+        margin-bottom: 100px;
+        background: ${colors.dark_pink};
+        @media (max-width: 899px) {
+          padding-top: ${main_height}px;
+        }
+      }
     }
+
     .banner {
       &_card {
-        background: #fff;
-        border-radius: 0.5em;
-        height: 100%;
-        margin-bottom: 0.5em;
-
-        &.banner {
-          margin-bottom: -100px;
+        &_items {
+          flex-wrap: wrap;
         }
-        &_title {
+        &_item {
+          cursor: default;
+          position: relative;
+          padding: 0.5em 0;
+          flex: 0 1 22%;
+          background: ${colors.grey};
+          border-radius: 0.5em;
+          font-size: 0.8rem;
+          color: ${colors.text_light_grey};
+          &.final {
+            color: #fff;
+            flex: 0 1 46%;
+            background-image: linear-gradient(150deg, #db9c2b 20%, #ffe57f 84%);
+            span {
+              color: #fff;
+            }
+          }
+          &.dark {
+            cursor: pointer;
+            background-image: linear-gradient(
+              337deg,
+              #fa719a 0%,
+              #fa97ab 50%,
+              #fbc6c0 100%
+            );
+            color: #fff;
+            span {
+              color: #fff;
+            }
+          }
+          span {
+            color: black;
+            font-weight: bolder;
+          }
+          label {
+            font-size: 0.6rem;
+          }
+          &_gift {
+            position: absolute;
+            top: -10;
+            right: 0;
+            bottom: 0;
+          }
+        }
+      }
+    }
+
+    .float_cover {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 11;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+      background-color: #000c;
+      &_container {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 10px;
+        box-sizing: border-box;
+        width: 300px;
+        background-color: #fff;
+        border-radius: 5px;
+        @media (max-width: 899px) {
+          gap: 0.8rem;
+        }
+        .title {
           font-weight: 900;
           font-size: 1.2rem;
-          span {
-            color: ${colors.text_light_grey};
-            font-size: 0.8rem;
-            font-weight: 500;
+        }
+        .content {
+          color: ${colors.text_light_grey};
+          &_money {
+            color: ${colors.back_dark_pink};
           }
         }
-        &_subtitle {
-          font-weight: 900;
-          font-size: 1rem;
-        }
-      }
-    }
-    &.banner {
-      padding-top: ${main_height / 2}px;
-      margin-bottom: 100px;
-      background: ${colors.dark_pink};
-      @media (max-width: 899px) {
-        padding-top: ${main_height}px;
-      }
-    }
-  }
-
-  .banner {
-    &_card {
-      &_items {
-        flex-wrap: wrap;
-      }
-      &_item {
-        cursor: default;
-        position: relative;
-        padding: 0.5em 0;
-        flex: 0 1 22%;
-        background: ${colors.grey};
-        border-radius: 0.5em;
-        font-size: 0.8rem;
-        color: ${colors.text_light_grey};
-        &.final {
-          color: #fff;
-          flex: 0 1 46%;
-          background-image: linear-gradient(150deg, #db9c2b 20%, #ffe57f 84%);
-          span {
-            color: #fff;
-          }
-        }
-        &.dark {
+        .button {
           cursor: pointer;
-          background-image: linear-gradient(
-            337deg,
-            #fa719a 0%,
-            #fa97ab 50%,
-            #fbc6c0 100%
-          );
+          padding: 10px 0;
+          margin: auto;
+          margin-top: 5px;
+          width: 80%;
+          text-align: center;
+          text-decoration: none;
           color: #fff;
-          span {
-            color: #fff;
-          }
-        }
-        span {
-          color: black;
-          font-weight: bolder;
-        }
-        label {
-          font-size: 0.6rem;
-        }
-        &_gift {
-          position: absolute;
-          top: -10;
-          right: 0;
-          bottom: 0;
+          background-color: ${colors.dark_pink};
+          border-radius: 30px;
         }
       }
     }
-  }
-
-  .float_cover {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 11;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    background-color: #000c;
-    &_container {
-      display: flex;
-      gap: 0.5rem;
-      flex-direction: column;
-      align-items: center;
-      padding: 15px 10px;
-      box-sizing: border-box;
-      width: 300px;
-      background-color: #fff;
-      border-radius: 5px;
-      @media (max-width: 899px) {
-        gap: 0.8rem;
-      }
-      .title {
-        font-weight: 900;
-        font-size: 1.2rem;
-      }
-      .content {
-        color: ${colors.text_light_grey};
-        &_money {
-          color: ${colors.back_dark_pink};
-        }
-      }
-      .button {
-        cursor: pointer;
-        padding: 10px 0;
-        margin: auto;
-        margin-top: 5px;
-        width: 80%;
-        text-align: center;
-        text-decoration: none;
-        color: #fff;
-        background-color: ${colors.dark_pink};
-        border-radius: 30px;
-      }
-    }
-  }
+  `}
 `;
 
 const Card = ({ title, subTitle, value, index, onClick }) => {
@@ -770,7 +792,13 @@ const WeekList = ({
   };
   return (
     <WeekListElement>
-      <Image src={weekListIcons[index]} alt="" width={30} height={30} className="mr-3" />
+      <Image
+        src={weekListIcons[index]}
+        alt=""
+        width={30}
+        height={30}
+        className="mr-3"
+      />
       <section className="g-flex-column align-items-start week_list_content ">
         <div className="week_list_name">
           {name + judgeCompletionName(has_completion_count, completion_count)}
