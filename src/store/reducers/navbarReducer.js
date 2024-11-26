@@ -28,6 +28,22 @@ const navbarReducer = function (state = {}, action) {
       state[action.key] = action.data;
       return state;
 
+    case "SWITCH_NAVBAR":
+      if (action.data.isMobile) {
+        return {
+          ...state,
+          mainHeight: 50,
+          subHeight: 38,
+          subFontSize: 16,
+        };
+      }
+      return {
+        ...state,
+        mainHeight: 72,
+        subHeight: 42,
+        subFontSize: 20,
+      };
+
     case "RESET_NAVBAR":
       return {
         isPlaceholder: false,

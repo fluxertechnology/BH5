@@ -20,7 +20,7 @@ import OutOfQuotaPortal from "@/components/common/OutOfQuotaPortal";
 import MinorsProhibitedDialog from "@/components/common/MinorsProhibitedDialog";
 import AnnouncementCover from "@/components/common/AnnouncementCover";
 import MentionAppCover from "@/components/common/MentionAppCover";
-
+import useMediaQuery from "@/hooks/useMediaQuery";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 
 export default function GlobalComponent() {
@@ -47,6 +47,7 @@ export default function GlobalComponent() {
   }, []);
 
   const router = useRouter();
+  const { isMobile } = useMediaQuery();
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -73,6 +74,15 @@ export default function GlobalComponent() {
       useSaveStateData(state);
     }
   }, [pathname, searchParams]);
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "SWITCH_NAVBAR",
+      data: {
+        isMobile,
+      },
+    });
+  }, [isMobile]);
 
   const closeMentionAppCover = () => {
     useGlobalDispatch(toggleMentionAppCoverAction(false));

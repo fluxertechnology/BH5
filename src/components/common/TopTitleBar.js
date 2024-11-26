@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
 
-import { main_height } from "@/components/layout/Header/TopBarContainer";
 import { colors, padding, pageUrlConstants } from "@/lib/constants";
 
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -15,7 +14,7 @@ import {
 
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 
-import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { useGlobalDispatch, useGlobalContext } from "@/store";
 
 const TopTitleBar = ({
   title = "",
@@ -33,7 +32,7 @@ const TopTitleBar = ({
   not_clear_history = false,
   show_border_bottom = false,
 }) => {
-
+  const { state } = useGlobalContext();
   const backEvent = (backIndex, not_clear_history) => {
     if (backIndex) {
       useGlobalDispatch(
@@ -45,7 +44,7 @@ const TopTitleBar = ({
     } else {
       useGlobalDispatch(backRoutes(-1, not_clear_history));
     }
-  }
+  };
 
   return (
     <TopTitleBarElement
@@ -56,6 +55,7 @@ const TopTitleBar = ({
       to_absolute={to_absolute}
       text_align={textAlign}
       show_border_bottom={show_border_bottom}
+      main_height={state.navbar.mainHeight}
     >
       <div className="container">
         {showBack ? (
@@ -104,18 +104,25 @@ const TopTitleBar = ({
   );
 };
 
-
-
 export default TopTitleBar;
 
 export const TopTitleBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-      !["color","back_color","show_back_color","title","show_border_bottom","to_absolute","textAlign"].includes(prop),
+    ![
+      "color",
+      "back_color",
+      "show_back_color",
+      "title",
+      "show_border_bottom",
+      "to_absolute",
+      "textAlign",
+      "main_height",
+    ].includes(prop),
 })`
   /*  */
   position: ${({ to_absolute }) => (to_absolute ? "absolute" : "unset")};
   z-index: 1;
-  height: ${main_height}px;
+  height: ${({ main_height }) => main_height}px;
   color: ${({ color }) => color};
   background-color: ${({ back_color }) => back_color};
   padding: 0 5px;
