@@ -1,0 +1,55 @@
+$main_height: 50px;
+$padding: 20px;
+
+$colors: (
+  dark_pink: #fa719a,
+  light_pink: #fcdce5,
+  back_dark_pink: #f24c7c,
+  text_grey: #646464,
+  text_light_grey: #a8a8a8,
+  back_grey: #f4f4f4,
+  light_star: #fde17b
+);
+
+.myorder_container {
+  min-height: calc(var(--vh, 1vh) * 100 - $main_height);
+  background-color: map-get($colors, back_grey);
+
+  &_item {
+    cursor: pointer;
+    display: flex;
+    padding: $padding;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #000;
+    background-color: #fff;
+
+    &_cover {
+      flex-shrink: 0;
+      width: 100px;
+    }
+
+    &_info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      margin-left: 10px;
+
+      &_title {
+        font-weight: 900;
+      }
+
+      &_price {
+        color: map-get($colors, dark_pink);
+      }
+
+      &_state {
+        color: #39b3fd;
+
+        &.done {
+          color: map-get($colors, text_grey);
+        }
+      }
+    }
+  }
+}
