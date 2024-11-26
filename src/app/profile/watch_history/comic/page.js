@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
@@ -9,9 +9,9 @@ import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 import { postSearchWatchHistoryAction } from "@/store/actions/pages/profileWatchHistory";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 
-const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
+const ProfileWatchHistoryComic = ({ disabledScrollRefresh }) => {
   const { state } = useGlobalContext();
-  useEffect(() => getWatchHistory(0), []);
+  useEffect(() => getWatchHistory(1), []);
 
   useEffect(() => {
     if (!disabledScrollRefresh) {
@@ -24,7 +24,7 @@ const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
 
   function scrollEvent() {
     scrollBottomCallEvent((scrollColdEnd) => {
-      getWatchHistory(0, scrollColdEnd);
+      getWatchHistory(1, scrollColdEnd);
     });
   }
 
@@ -34,14 +34,13 @@ const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
   return (
     <ProfileWatchHistoryElement>
       <div className="profile_history_container">
-        <Grid container direction="row" alignItems="start" spacing={2}>
-          {state.myWatchHistory?.anime_video_list?.map((data, index) => (
+        <Grid container direction="row" alignItems="start">
+          {state.myWatchHistory?.anime_comic_list?.map((data, index) => (
             <Grid item md={12} xs={12} key={data.id}>
               <ParallelCoverCubeItem
                 data={data}
-                isVideo
                 disabledBottomBorder={
-                  index === state.myWatchHistory.anime_video_list.length - 1
+                  index === state.myWatchHistory.anime_comic_list.length - 1
                 }
               />
             </Grid>
@@ -52,7 +51,7 @@ const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
   );
 };
 
-export default ProfileWatchHistoryAnime;
+export default ProfileWatchHistoryComic;
 
 export const ProfileWatchHistoryElement = styled.div`
   /*  */
@@ -62,5 +61,12 @@ export const ProfileWatchHistoryElement = styled.div`
   }
   .profile_history_container {
     position: relative;
+  }
+  .list_item {
+    &:last-of-type {
+      &::after {
+        content: none;
+      }
+    }
   }
 `;

@@ -9,7 +9,7 @@ const ParallelCoverCubeItem = ({
   isVideo,
   disabledBottomBorder = false,
 }) => {
-  const t = useTranslations;
+  const t = useTranslations();
   const { id, img, title, description, process, total_episode, create_time } =
     data;
   return (
@@ -89,7 +89,10 @@ const ParallelCoverCubeItem = ({
 
 export default ParallelCoverCubeItem;
 
-export const ParallelCoverCubeIElement = styled.div`
+export const ParallelCoverCubeIElement = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !["disabledBottomBorder"].includes(prop),
+})`
   /*  */
   &:hover {
     .list_item {
