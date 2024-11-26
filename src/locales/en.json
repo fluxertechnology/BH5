@@ -563,7 +563,7 @@
         "mall_order": "My Orders",
         "switch_language": "Switch Language",
         "task": {
-          "label": "Missions",
+          "": "Missions",
           "board": "Missions"
         },
         "godd_stuff": "More",

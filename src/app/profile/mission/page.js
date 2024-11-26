@@ -325,7 +325,7 @@ function ProfileMission() {
             {isMobile ? (
               <TopBarContainer show_shadow={false}>
                 <TopTitleBar
-                  title={t("Profile.main.option.task.label")}
+                  title={t("Profile.main.option.task.")}
                   show_back_color="#ffffff"
                   showBack={true}
                 />
