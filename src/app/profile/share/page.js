@@ -61,10 +61,27 @@ function ProfileShare () {
   useEffect(() => {
     if (!isMobile) {
       let Element = document.getElementsByClassName("PCFooterElement");
-      Element[0].style.setProperty("display", "none");
+      if(Element.length){
+        Element[0].style.setProperty("display", "none");
+      }
     }else{
       let Element = document.getElementsByClassName("BottomNavBarElement");
-      Element[0].style.setProperty("display", "none");
+      if(Element.length){
+        Element[0].style.setProperty("display", "none");
+      }
+    }
+    return () => {
+      if (!isMobile) {
+        let Element = document.getElementsByClassName("PCFooterElement");
+        if(Element.length){
+          Element[0].style.setProperty("display", "block");
+        }
+      }else{
+        let Element = document.getElementsByClassName("BottomNavBarElement");
+        if(Element.length){
+          Element[0].style.setProperty("display", "block");
+        }
+      }
     }
   }, [isMobile])
 
