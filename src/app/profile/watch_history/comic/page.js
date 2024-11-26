@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
@@ -7,7 +9,7 @@ import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 import { postSearchWatchHistoryAction } from "@/store/actions/pages/profileWatchHistory";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 
-const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
+const ProfileWatchHistoryComic = ({ disabledScrollRefresh }) => {
   const { state } = useGlobalContext();
   useEffect(() => getWatchHistory(1), []);
 
@@ -49,7 +51,7 @@ const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
   );
 };
 
-export default ProfileWatchHistoryAnime;
+export default ProfileWatchHistoryComic;
 
 export const ProfileWatchHistoryElement = styled.div`
   /*  */
