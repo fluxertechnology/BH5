@@ -563,7 +563,7 @@
         "mall_order": "商城订单",
         "switch_language": "切换语言",
         "task": {
-          "": "任务中心",
+          "label": "任务中心",
           "board": "任务看板"
         },
         "godd_stuff": "更多好康",

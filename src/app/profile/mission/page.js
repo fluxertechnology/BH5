@@ -315,6 +315,30 @@ function ProfileMission() {
     () => window.open(vendorUrl),
   ];
 
+  useEffect(() => {
+    dispatch({
+      type: "INIT_NAVBAR",
+      key: "customComponent",
+      data: {
+        customComponent: () => (
+          <>
+            {isMobile ? (
+              <TopBarContainer show_shadow={false}>
+                <TopTitleBar
+                  title={t("Profile.main.option.task.label")}
+                  show_back_color="#ffffff"
+                  showBack={true}
+                />
+              </TopBarContainer>
+            ) : (
+              ""
+            )}
+          </>
+        ),
+      }
+    });
+  }, [isMobile]);
+
   return (
     <ProfileMissionLayout backRoutesAction={backRoutesAction}>
       <ProfileMissionElement>
@@ -344,17 +368,6 @@ function ProfileMission() {
             </div>
           </div>
         </CSSTransition>
-        {isMobile ? (
-          <TopBarContainer show_shadow={false}>
-            <TopTitleBar
-              title={t("Profile.main.option.task")}
-              show_back_color="#ffffff"
-              showBack={true}
-            />
-          </TopBarContainer>
-        ) : (
-          ""
-        )}
         <article className="profile_mission_section banner">
           <section className="banner_card banner g-flex-column p-3 gap-2">
             <section className="banner_card_title">
