@@ -33,8 +33,8 @@ import { userFBLoginOutAction, userLoginOutAction } from "@/store/actions/user";
 import { clearVipInfoAction } from "@/store/actions/pages/profileBuyVipCommonAction";
 import { initPostData } from "@/store/actions/pages/postMainAction";
 import { postSearchWatchHistoryAction } from "@/store/actions/pages/profileWatchHistory";
-// import ProfileWatchHistoryAnimeHandle from "@/page";
-// import ProfileWatchHistoryComicHandle from "../../profileWatchHistory/profileWatchHistoryComic/ProfileWatchHistoryComicHandle";
+import ProfileWatchHistoryAnimeHandle from "@/app/profile/watch_history/anime/page";
+import ProfileWatchHistoryComicHandle from "@/app/profile/watch_history/comic/page";
 
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
 const areEqual = (pre, next) => {
@@ -571,10 +571,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   </TabList>
                 </Box>
                 <TabPanel value={1}>
-                  {/* <ProfileWatchHistoryComicHandle disabledScrollRefresh /> */}
+                  <ProfileWatchHistoryComicHandle disabledScrollRefresh />
                 </TabPanel>
                 <TabPanel value={0}>
-                  {/* <ProfileWatchHistoryAnimeHandle disabledScrollRefresh /> */}
+                  <ProfileWatchHistoryAnimeHandle disabledScrollRefresh />
                 </TabPanel>
               </TabContext>
             </div>
