@@ -29,22 +29,31 @@ const VendorMain = () => {
   }
 
   useEffect(() => {
-    dispatch({type: "RESET_NAVBAR"});
-}, []);
+    dispatch({
+      type: "INIT_NAVBAR",
+      key: "customComponent",
+      data: {
+        customComponent: () => (
+          <>
+            <TopBarContainer>
+              {isMobile ? (
+                <TopTitleBar
+                  title={t("mall")}
+                ></TopTitleBar>
+              ) : (
+                <div>
+
+                </div>
+              )}
+            </TopBarContainer>
+          </>
+        ),
+      }
+    });
+}, [isMobile]);
 
   return (
     <VendorMainElement>
-      <TopBarContainer>
-        {isMobile ? (
-          <TopTitleBar
-            title={t("mall")}
-          ></TopTitleBar>
-        ) : (
-          <div>
-
-          </div>
-        )}
-      </TopBarContainer>
       <ImageCarousel
         adsKey={adsKeys.shop_top_banner}
         threeInOneBanner={!isMobile}

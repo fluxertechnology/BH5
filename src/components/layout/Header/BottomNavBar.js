@@ -84,7 +84,7 @@ const BottomNavBar = () => {
   return (
     <BottomNavBarElement ref={root} show_bottom_nav={isMobile} className={"BottomNavBarElement"}>
       <div className="bottom_nav">
-        {navList.map((data) => {
+        {navList.map((data, index) => {
           return (
             <div
               className="bottom_nav_item"
@@ -96,7 +96,7 @@ const BottomNavBar = () => {
               <WavaButton
                 className={
                   "bottom_nav_item_btn " +
-                  (location == data.path ? "active" : "")
+                  (index == 1 ? location.indexOf(data.path) !== -1 ? "active" : "" : location == data.path ? "active" : "")
                 }
                 currentRefs={[root]}
               >
@@ -104,9 +104,7 @@ const BottomNavBar = () => {
                   <Image
                     className={"bottom_nav_item_btn_icon_img"}
                     src={
-                      location == data.path
-                        ? data.activeImage
-                        : data.image
+                      index == 1 ? location.indexOf(data.path) !== -1 ? data.activeImage : data.image : location == data.path ? data.activeImage : data.image
                     }
                     width={30}
                     height={30}

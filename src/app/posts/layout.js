@@ -147,8 +147,29 @@ function PostsMain({ children
     };
 
     useEffect(() => {
-        dispatch({type: "RESET_NAVBAR"});
-    }, []);
+        dispatch({
+          type: "INIT_NAVBAR",
+          key: "customComponent",
+          data: {
+            customComponent: () => (
+              <>
+                {isMobile && (
+                    <TopTitleBar title={t('Post.dynamic')}>
+                        <Image
+                            src={newsIcon}
+                            width={0}
+                            height={0}
+                            alt="newsIcon"
+                            className="top_img"
+                            onClick={() => clickTabLabel("notice")}
+                        />
+                    </TopTitleBar>
+                )}
+              </>
+            ),
+          }
+        });
+    }, [isMobile]);
 
     return (
         <PostsMainElement
@@ -159,16 +180,6 @@ function PostsMain({ children
                 <>
                     {isMobile && (
                         <React.Fragment>
-                            <TopTitleBar title={t('Post.dynamic')}>
-                                <Image
-                                    src={newsIcon}
-                                    width={0}
-                                    height={0}
-                                    alt="newsIcon"
-                                    className="top_img"
-                                    onClick={() => clickTabLabel("notice")}
-                                />
-                            </TopTitleBar>
                             {state.user.is_creation === 0 && (
                                 <div
                                     className={`post_apply_original ${recommendOriginalTipShow && " open"
