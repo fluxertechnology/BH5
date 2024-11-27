@@ -13,6 +13,7 @@ import { QRCodeCanvas as QRCode } from "qrcode.react";
 import { navigatorShare } from "@/store/actions/utilities";
 import { useGlobalContext } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import Image from "next/image";
 
 const shareBackImg = "/images/profile/share.jpg";
 
@@ -206,7 +207,9 @@ function ProfileShare () {
           </div>
         </div>
         <div ref={arrowRef} className="arrow_down" onClick={scrollDown}>
-          <img
+          <Image
+            width={60}
+            height={60}
             className="arrow_down_img"
             src={"/images/icons/arrow_down.svg"}
             alt="arrow down"
@@ -258,7 +261,9 @@ function ProfileShare () {
                   <div className="teach_container_shareflow_list_item_body_icon">
                     {socialIconList.map((url, index) => {
                       return (
-                        <img
+                        <Image
+                          width={60}
+                          height={60}
                           className="teach_container_shareflow_list_item_body_icon_img"
                           src={url}
                           alt="social"
@@ -273,7 +278,9 @@ function ProfileShare () {
                   <div className="teach_container_shareflow_list_item_body_icon">
                     {gameIconList.map((url, index) => {
                       return (
-                        <img
+                        <Image
+                          width={60}
+                          height={60}
                           className="teach_container_shareflow_list_item_body_icon_img"
                           src={url}
                           alt="social"
@@ -300,7 +307,7 @@ function ProfileShare () {
           </div>
         </div>
       </div>
-      <img className="background_image" src={shareBackImg} alt="background" />
+      <Image width={750} height={1192} className="background_image" src={shareBackImg} alt="background" />
     </ProfileShareElement>
   );
 };
