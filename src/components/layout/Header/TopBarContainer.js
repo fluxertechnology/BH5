@@ -15,7 +15,7 @@ export let sub_fontSize = 20;
  * @return {*}
  */
 const TopBarContainer = ({
-  not_fixed = "false",
+  not_fixed = null,
   show_shadow = "true",
   children,
   z_index = 10,
@@ -33,7 +33,7 @@ const TopBarContainer = ({
 
   return (
     <TopBarContainerElement
-      not_fixed={!state.navbar.fixed}
+      not_fixed={not_fixed === null ? !state.navbar.fixed : not_fixed}
       show_shadow={show_shadow}
       z_index={z_index}
       background_color={backgroundColor}

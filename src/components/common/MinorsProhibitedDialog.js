@@ -10,6 +10,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { colors, pageUrlConstants } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
 import { useGlobalDispatch } from "@/store";
+import Image from "next/image";
 
 const { login } = pageUrlConstants;
 
@@ -65,7 +66,7 @@ const MuiDialog = styled((props) => <Dialog {...props} />)(({}) => ({
     backdropFilter: "blur(6px)",
   },
 }));
-const Icon = styled((props) => <img {...props} />)(({}) => ({
+const Icon = styled((props) => <Image width={160} height={160} {...props} />)(({}) => ({
   alignSelf: "center",
   width: "120px",
 }));

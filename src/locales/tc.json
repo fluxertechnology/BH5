@@ -272,9 +272,11 @@
       "search": "浏览"
     },
     "not_login": {
-      "description_1": "立即注册，精彩片段马上看",
-      "description_2": "动画视频一次满足",
-      "button": "立即注册体验"
+      "tip": {
+        "description_1": "立即注册，精彩片段马上看",
+        "description_2": "动画视频一次满足",
+        "button": "立即注册体验"
+      }
     }
   },
   "Toast": {
