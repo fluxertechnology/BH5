@@ -22,10 +22,12 @@ import AnnouncementCover from "@/components/common/AnnouncementCover";
 import MentionAppCover from "@/components/common/MentionAppCover";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
+import useHTMLEvent from "@/hooks/useHTMLEvent";
 
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
 
+  const { onScrollBottom } = useHTMLEvent();
   // useEffect(() => {
   //   document.querySelectorAll("img").forEach((e) => {
   //     e.src =
@@ -44,6 +46,7 @@ export default function GlobalComponent() {
       useGlobalDispatch(getConfigData());
     }
     useGlobalDispatch(initRoutes());
+    onScrollBottom();
   }, []);
 
   const router = useRouter();

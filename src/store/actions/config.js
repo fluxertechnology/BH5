@@ -1,6 +1,7 @@
 import axiosRequest from "@/lib/services/axios";
 import { requestUrlConstants } from "@/lib/constants";
 const { getQuestInfo } = requestUrlConstants;
+import store from "@/store";
 
 /**
  * @description get server data
@@ -26,10 +27,12 @@ export const updateRechargeStateAction = (state) => {
 };
 
 export const updateScrollToTopStateAction = (boolean) => {
+  const state = store.getState();
+  if (state.scrollToTopStatus === boolean) return () => {};
   return function (dispatch) {
     dispatch({
       type: "UPDATE_SCROLLTOTOP",
-      status:boolean,
+      status: boolean,
     });
   };
 };
