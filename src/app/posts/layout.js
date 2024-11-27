@@ -36,6 +36,7 @@ import moneyIcon from "public/images/post/money.svg";
 import store from "@/store";
 import { getRecommendList } from "@/store/actions/pages/postMainAction";
 import Image from "next/image";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 const { login, post } = pageUrlConstants;
 function PostsMain({ children
@@ -147,8 +148,29 @@ function PostsMain({ children
     };
 
     useEffect(() => {
-        dispatch({type: "RESET_NAVBAR"});
-    }, []);
+        dispatch({
+          type: "INIT_NAVBAR",
+          key: "customComponent",
+          data: {
+            customComponent: () => (
+              <>
+                {isMobile && (
+                    <TopTitleBar title={t('Post.dynamic')}>
+                        <Image
+                            src={newsIcon}
+                            width={0}
+                            height={0}
+                            alt="newsIcon"
+                            className="top_img"
+                            onClick={() => clickTabLabel("notice")}
+                        />
+                    </TopTitleBar>
+                )}
+              </>
+            ),
+          }
+        });
+    }, [isMobile]);
 
     return (
         <PostsMainElement
@@ -159,16 +181,6 @@ function PostsMain({ children
                 <>
                     {isMobile && (
                         <React.Fragment>
-                            <TopTitleBar title={t('Post.dynamic')}>
-                                <Image
-                                    src={newsIcon}
-                                    width={0}
-                                    height={0}
-                                    alt="newsIcon"
-                                    className="top_img"
-                                    onClick={() => clickTabLabel("notice")}
-                                />
-                            </TopTitleBar>
                             {state.user.is_creation === 0 && (
                                 <div
                                     className={`post_apply_original ${recommendOriginalTipShow && " open"
@@ -210,6 +222,7 @@ function PostsMain({ children
                         />
                     </aside>
                 )}
+                <ScrollToTop />
                 <article className="container">
                     {/* <SwitchRoute routes={routes} routesStep={3} /> */}
                     {children}

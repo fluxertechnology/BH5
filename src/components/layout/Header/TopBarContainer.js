@@ -29,7 +29,7 @@ const TopBarContainer = ({
     main_height = !isMobile ? 72 : 50;
     sub_height = !isMobile ? 42 : 38;
     sub_fontSize = !isMobile ? 20 : 16;
-  }, []);
+  }, [isMobile]);
 
   return (
     <TopBarContainerElement

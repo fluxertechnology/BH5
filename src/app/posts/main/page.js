@@ -28,7 +28,7 @@ const PostsMainNewPage = ({
     const postDescriptionRef = useRef();
     const [showPostTip, setShowPostTip] = useState(showTip);
     const { size, isMobile } = useMediaQuery();
-    const { width } = size;
+    const width = size[0];
     const { state } = useGlobalContext();
 
     const localState = useMemo(() => {
