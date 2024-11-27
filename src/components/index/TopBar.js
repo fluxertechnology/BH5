@@ -54,7 +54,7 @@ const TopBar = () => {
     useGlobalDispatch(pushRoutes(notice));
   };
   return (
-    <TopBarElement>
+    <TopBarElement main_height={state.navbar.mainHeight}>
       <div className="search_bar">
         <div className="search_bar_logo ">
           <Image
@@ -140,132 +140,136 @@ const TopBar = () => {
 
 export default TopBar;
 
-export const TopBarElement = styled.div`
-  /*  */
-  padding: 0 5%;
-  height: ${main_height}px;
-  background-color: ${colors.dark_pink};
+export const TopBarElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["scroll", "main_height"].includes(prop),
+})`
+  ${({ main_height }) => `
+    /*  */
+    padding: 0 5%;
+    height: ${main_height}px;
+    background-color: ${colors.dark_pink};
 
-  .search_bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    height: 100%;
-
-    &_news,
-    &_share,
-    &_recharge {
+    .search_bar {
       display: flex;
       justify-content: center;
       align-items: center;
-    }
+      align-self: center;
+      height: 100%;
 
-    &_avatar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      width: ${main_height * 0.65}px;
-      height: ${main_height * 0.65}px;
-      font-size: 14px;
-      color: ${colors.dark_pink};
-      border-radius: 50%;
-      font-weight: 900;
-      text-shadow: 0.2px 0.2px ${colors.dark_pink};
-
-      &_login {
+      &_news,
+      &_share,
+      &_recharge {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        height: 100%;
-        background-color: #fffa;
       }
-    }
-    &_logo {
-      flex: 30%;
-      img {
-        width: 90px;
+
+      &_avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        width: ${main_height * 0.65}px;
+        height: ${main_height * 0.65}px;
+        font-size: 14px;
+        color: ${colors.dark_pink};
+        border-radius: 50%;
+        font-weight: 900;
+        text-shadow: 0.2px 0.2px ${colors.dark_pink};
+
+        &_login {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          background-color: #fffa;
+        }
       }
-    }
-    &_main {
-      flex-grow: 1;
-      margin: 0 10px;
-    }
+      &_logo {
+        flex: 30%;
+        img {
+          width: 90px;
+        }
+      }
+      &_main {
+        flex-grow: 1;
+        margin: 0 10px;
+      }
 
-    &_share_icon {
-      color: #fff;
-      font-size: 30px;
-      padding-bottom: 0.1em;
-    }
+      &_share_icon {
+        color: #fff;
+        font-size: 30px;
+        padding-bottom: 0.1em;
+      }
 
-    &_recharge {
-      margin-right: 10px;
+      &_recharge {
+        margin-right: 10px;
 
-      &_img {
-        width: 30px;
-        height: 30px;
+        &_img {
+          width: 30px;
+          height: 30px;
 
-        &.active {
-          animation: 1s recharge-move infinite;
+          &.active {
+            animation: 1s recharge-move infinite;
 
-          @keyframes recharge-move {
-            0% {
-              transform: rotate(0) translateX(0) translateY(5px);
-            }
+            @keyframes recharge-move {
+              0% {
+                transform: rotate(0) translateX(0) translateY(5px);
+              }
 
-            10% {
-              transform: rotate(20deg) translateX(5px) translateY(-5px);
-            }
+              10% {
+                transform: rotate(20deg) translateX(5px) translateY(-5px);
+              }
 
-            20% {
-              transform: rotate(0deg) translateX(0) translateY(5px);
-            }
+              20% {
+                transform: rotate(0deg) translateX(0) translateY(5px);
+              }
 
-            30% {
-              transform: rotate(-20deg) translateX(-5px) translateY(-5px);
-            }
+              30% {
+                transform: rotate(-20deg) translateX(-5px) translateY(-5px);
+              }
 
-            40% {
-              transform: rotate(0deg) translateX(0) translateY(5px);
-            }
+              40% {
+                transform: rotate(0deg) translateX(0) translateY(5px);
+              }
 
-            50% {
-              transform: rotate(0deg) translateX(0) translateY(0);
+              50% {
+                transform: rotate(0deg) translateX(0) translateY(0);
+              }
             }
           }
         }
       }
-    }
 
-    &_news {
-      position: relative;
+      &_news {
+        position: relative;
 
-      &_img {
-        width: 20px;
-        height: 20px;
-        vertical-align: middle;
-        color: #fff;
+        &_img {
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+          color: #fff;
+        }
+
+        &_number {
+          position: absolute;
+          top: -4px;
+          right: -4px;
+          width: 14px;
+          height: 14px;
+          font-size: 12px;
+          line-height: 14px;
+          text-align: center;
+          color: ${colors.dark_pink};
+          background-color: #fff;
+          border-radius: 50%;
+        }
       }
-
-      &_number {
-        position: absolute;
-        top: -4px;
-        right: -4px;
-        width: 14px;
-        height: 14px;
-        font-size: 12px;
-        line-height: 14px;
-        text-align: center;
-        color: ${colors.dark_pink};
-        background-color: #fff;
-        border-radius: 50%;
-      }
     }
-  }
-  .search_bar_service_icon {
-    width: 40px;
-    margin-right: 6px;
-  }
+    .search_bar_service_icon {
+      width: 40px;
+      margin-right: 6px;
+    }
+  `}
 `;

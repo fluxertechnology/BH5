@@ -19,9 +19,13 @@ const defaultState = {
 const navbarReducer = function (state = {}, action) {
   switch (action.type) {
     case "INIT_NAVBAR":
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       return {
         ...defaultState,
-        ...action.data
+        mainHeight: isMobile ? 50 : 72,
+        subHeight: isMobile ? 38 : 42,
+        subFontSize: isMobile ? 16 : 20,
+        ...action.data,
       };
 
     case "UPDATE_NAVBAR":
