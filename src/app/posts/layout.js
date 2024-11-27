@@ -36,6 +36,7 @@ import moneyIcon from "public/images/post/money.svg";
 import store from "@/store";
 import { getRecommendList } from "@/store/actions/pages/postMainAction";
 import Image from "next/image";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 const { login, post } = pageUrlConstants;
 function PostsMain({ children
@@ -221,6 +222,7 @@ function PostsMain({ children
                         />
                     </aside>
                 )}
+                <ScrollToTop />
                 <article className="container">
                     {/* <SwitchRoute routes={routes} routesStep={3} /> */}
                     {children}
