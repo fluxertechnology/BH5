@@ -154,7 +154,8 @@ function PostsMain({ children
           data: {
             customComponent: () => (
               <>
-                {isMobile && (
+              <TopBarContainer>
+                {isMobile ? (
                     <TopTitleBar title={t('Post.dynamic')}>
                         <Image
                             src={newsIcon}
@@ -165,7 +166,10 @@ function PostsMain({ children
                             onClick={() => clickTabLabel("notice")}
                         />
                     </TopTitleBar>
+                ) : (
+                    <WebTopBar />
                 )}
+                </TopBarContainer>
               </>
             ),
           }

@@ -653,7 +653,9 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             </div>
           </div>
           <div className="search_bar_service" onClick={clickService}>
-            <img
+            <Image
+              width={42}
+              height={42}
               src={
                 scroll
                   ? "/images/header/topbar/service_dark.svg"

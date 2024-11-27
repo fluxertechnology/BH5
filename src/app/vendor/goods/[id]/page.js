@@ -16,21 +16,24 @@ import {
 } from "@/lib/constants/index.js";
 import { moneyAndGold } from "@/components/vendor/VendorItemCard";
 
-import likeIcon from "@public/images/icons/heart.svg";
-import unLikeIcon from "@public/images/icons/empty_heart.svg";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 
-import buyIcon from "@public/images/vendor/buy.svg";
 // import sendGiftIcon from "../../assets/vendor/send_gift.svg";
 import LinkComponent from "@/components/common/LinkComponent";
 import store from "@/store";
 import axiosRequest from "@/lib/services/axios";
 
-import copyIcon from "@public/images/vendor/copy.jpg";
 import callToast from "@/lib/services/toastCall.js";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { useParams } from "next/navigation";
-import {getVendorGoodsAction,likeVendorGoodsAction} from 'src/store/actions/pages/vendorGoodsAction.js'
+import {getVendorGoodsAction,likeVendorGoodsAction} from 'src/store/actions/pages/vendorGoodsAction.js';
+import Image from "next/image";
+import useMediaQuery from "@/hooks/useMediaQuery";
+
+const likeIcon = "/images/icons/heart.svg";
+const unLikeIcon = "/images/icons/empty_heart.svg";
+const buyIcon = "/images/vendor/buy.svg";
+const copyIcon = "/images/vendor/copy.jpg";
 
 function VendorGoods({
 }) {
@@ -39,6 +42,7 @@ function VendorGoods({
   const t = useTranslations();
   const [justBuy, setJustBuy] = useState(false);
   const params = useParams();
+  const { isMobile } = useMediaQuery();
 
   const localState = useMemo(() => {
 
@@ -114,6 +118,33 @@ function VendorGoods({
     });
   }, []);
 
+  useEffect(() => {
+    if (!isMobile) {
+      let Element = document.getElementsByClassName("PCFooterElement");
+      if(Element.length){
+        Element[0].style.setProperty("display", "none");
+      }
+    }else{
+      let Element = document.getElementsByClassName("BottomNavBarElement");
+      if(Element.length){
+        Element[0].style.setProperty("display", "none");
+      }
+    }
+    return () => {
+      if (!isMobile) {
+        let Element = document.getElementsByClassName("PCFooterElement");
+        if(Element.length){
+          Element[0].style.setProperty("display", "block");
+        }
+      }else{
+        let Element = document.getElementsByClassName("BottomNavBarElement");
+        if(Element.length){
+          Element[0].style.setProperty("display", "block");
+        }
+      }
+    }
+  }, [isMobile])
+
   return (
     <VendorGoodsElement>
       <TopBarContainer not_fixed={true} show_shadow={false}>
@@ -159,7 +190,9 @@ function VendorGoods({
               onClick={clickLikeEvent}
             >
               <div className="container_header_info_like_icon">
-                <img
+                <Image
+                  width={35}
+                  height={35}
                   className="container_header_info_like_icon_img"
                   src={localState.goodsData.is_like === 0 ? unLikeIcon : likeIcon}
                   alt="like"
@@ -199,7 +232,9 @@ function VendorGoods({
         {justBuy ? (
           <>
             <div className="footer_extract">
-              <img
+              <Image
+                width={35}
+                height={35}
                 className="footer_extract_icon"
                 src={copyIcon}
                 alt="copyIcon"
@@ -232,7 +267,7 @@ function VendorGoods({
               buyGoodsEvent(0);
             }}
           >
-            <img className="footer_btn_img" src={buyIcon} alt="buyIcon" />
+            <Image width={35} height={35} className="footer_btn_img" src={buyIcon} alt="buyIcon" />
             {t('Vendor.goods.action.now.buy')}
           </span>
         ) : localState.goodsData.item_type === "dianka" ? (

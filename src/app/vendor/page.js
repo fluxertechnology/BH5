@@ -14,6 +14,7 @@ import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js"
 import ImageCarousel from "@/components/common/ImageCarousel";
 import TopTitleBar from "@/components/common/TopTitleBar";
+import WebTopBar from "@/components/layout/Header/WebTopBar";
 
 const VendorMain = () => {
   const t = useTranslations("Vendor");
@@ -41,9 +42,7 @@ const VendorMain = () => {
                   title={t("mall")}
                 ></TopTitleBar>
               ) : (
-                <div>
-
-                </div>
+                <WebTopBar />
               )}
             </TopBarContainer>
           </>

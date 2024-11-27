@@ -9,11 +9,6 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useTranslations } from "next-intl";
 import ImageComponent from "@/components/common/ImageComponent";
 import WavaButton from "@/components/layout/Header/WavaButton";
-import vip_icon from "public/images/post/vip_icon.png";
-import male_icon from "public/images/icons/male.svg";
-import female_icon from "public/images/icons/female.svg";
-import more_icon from "public/images/icons/more_icon.png";
-import girl404 from "public/images/imgPlaceholder/girl404.png";
 import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 import PostCardItem from "@/components/posts/PostCardItem";
 import callToast from "@/lib/services/toastCall.js";
@@ -22,6 +17,13 @@ import { CSSTransition } from "react-transition-group";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { getPostListAction, postGetProfile } from '@/store/actions/pages/postsProfileAction.js'
 import { useParams } from 'next/navigation'
+import Image from "next/image";
+
+const vip_icon = "/images/post/vip_icon.png";
+const male_icon = "/images/icons/male.svg";
+const female_icon = "/images/icons/female.svg";
+const more_icon = "/images/icons/more_icon.png";
+const girl404 = "/images/imgPlaceholder/girl404.png";
 
 const PostsProfilePage = ({
 
@@ -422,7 +424,7 @@ const PostsProfilePage = ({
                     </div>
                 </CSSTransition>
             </PostsProfilePageCover>
-            <TopBarContainer not_fixed={!isMobile} z_index={5}>
+            <TopBarContainer not_fixed={!isMobile} z_index={5} main_height={main_height}>
                 <TopTitleBar
                     title={nick_name ?? 'null'}
                     showBack={true}
@@ -430,7 +432,9 @@ const PostsProfilePage = ({
                     back_color={"#fff"}
                     color={"#000"}
                 >
-                    <img
+                    <Image
+                        width={30}
+                        height={31}
                         src={more_icon}
                         alt="more"
                         className="more"
@@ -462,7 +466,9 @@ const PostsProfilePage = ({
                             lazyLoad={false}
                         />
                         {avatar && (
-                            <img
+                            <Image
+                                width={25}
+                                height={25}
                                 src={sex === 1 ? female_icon : male_icon}
                                 title={nick_name}
                                 alt="sexicon"
@@ -475,7 +481,7 @@ const PostsProfilePage = ({
                             <span>{nick_name}</span>
                             <span className="post_information_content_top_icon">
                                 {vip === 1 ? (
-                                    <img src={vip_icon} title="VIP图标" alt="VIP图标" />
+                                    <Image width={120} height={50} src={vip_icon} title="VIP图标" alt="VIP图标" />
                                 ) : (
                                     ""
                                 )}
@@ -584,7 +590,9 @@ const PostsProfilePage = ({
                 {localState.postProfile?.postList?.length === 0 ? (
                     <div className="container_empty">
                         <div className="container_empty_girl">
-                            <img
+                            <Image
+                                width={233}
+                                height={375}
                                 className="container_empty_girl_img"
                                 src={girl404}
                                 alt="404"
