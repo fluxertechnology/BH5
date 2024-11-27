@@ -5,7 +5,7 @@ import LinkComponent from "@/components/common/LinkComponent";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Autoplay } from "swiper/modules";
-import "swiper/css";
+import "swiper/css/bundle";
 
 import { handleAdClick } from "@/lib/services/gtmEventHandle";
 import useMediaQuery from "@/hooks/useMediaQuery";

@@ -765,6 +765,25 @@ $spacers: (
   }
 }
 
+/* 路由前進時的入場/離場動畫 */
+.swiper-pagination-right .swiper-pagination-bullets {
+  text-align: right;
+}
+
+.swiper-pagination-right .swiper-pagination-bullet-active {
+  background-color: #f24c7c;
+  box-shadow: 1px 1px 2px rgb(0 0 0 / 90%);
+}
+
+.swiper-pagination-center .swiper-pagination-bullets {
+  text-align: center;
+}
+
+.swiper-pagination-center .swiper-pagination-bullet-active {
+  background-color: #f24c7c;
+  box-shadow: 1px 1px 2px rgb(0 0 0 / 90%);
+}
+
 /* 滾輪樣式 */
 
 ::-webkit-scrollbar {

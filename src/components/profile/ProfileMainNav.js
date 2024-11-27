@@ -122,6 +122,8 @@ export const ProfileMainNavElement = styled.div.withConfig({
 
             &_text {
             font-weight: 1000;
+            display: flex;
+            align-items: center;
             }
         }
 

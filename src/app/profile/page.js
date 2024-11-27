@@ -24,6 +24,7 @@ import { toScroll, pushRoutes } from "@/store/actions/historyActions";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { updateUserDataAction } from "@/store/actions/user";
 import { dailyLoginAction } from "@/store/actions/pages/profileMainAction";
+import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 
 const number = 6 * 60 * 60;
 const ProfileMain = ({ children }) => {
@@ -64,7 +65,7 @@ const ProfileMain = ({ children }) => {
   const [mentionAppValue, setMentionAppValue] = useState(true);
   const firstChargeRef = createRef(null);
   const { size, isMobile } = useMediaQuery();
-  const { width } = size;
+  const width  = size[0];  
 
   useEffect(() => {
     if (state.user.id !== "guest") {
@@ -227,6 +228,41 @@ const ProfileMain = ({ children }) => {
       data: {},
     });
   }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      let Element = document.getElementsByTagName("header");
+      if(Element.length){
+        Element[0].style.setProperty("display", "none");
+      }
+    }
+    return () => {
+      if (isMobile) {
+        let Element = document.getElementsByTagName("header");
+        if(Element.length){
+          Element[0].style.setProperty("display", "block");
+        }
+      }
+    }
+  }, [isMobile])
+
+  useEffect(() => {
+    if (!isMobile) {
+      let Element = document.getElementsByClassName("PCFooterElement");
+      if(Element.length){
+        Element[0].style.setProperty("display", "none");
+      }
+    }
+    return () => {
+      if (!isMobile) {
+        let Element = document.getElementsByClassName("PCFooterElement");
+        if(Element.length){
+          Element[0].style.setProperty("display", "block");
+        }
+      }
+    }
+  }, [isMobile])
+
   return (
     <ProfileMainElement main_height={state.navbar.mainHeight}>
       <FirstRecharge ref={firstChargeRef} user={state.user} times={times} />
@@ -327,9 +363,9 @@ export const ProfileMainElement = styled.div.withConfig({
 `;
 
 const MentaionAppBannerElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["bottom_nav_height"].includes(prop),
+  shouldForwardProp: (prop) => !["root_width"].includes(prop),
 })`
-  ${({ bottom_nav_height }) => `
+  ${({ root_width }) => `
     /*  */
     position: fixed;
     right: 10px;
@@ -339,8 +375,7 @@ const MentaionAppBannerElement = styled.div.withConfig({
     @media only screen and (min-width: 599px) {
         right: 50%;
         bottom: 2%;
-        transform: ${({ root_width }) =>
-          "translateX(" + root_width * 0.49 + "px)"};
+        transform: ${"translateX(" + root_width * 0.49 + "px)"};
         display: flex;
         justify-content: center;
     }

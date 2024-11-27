@@ -170,6 +170,8 @@ const ProfileMainMissionElement = styled.div.withConfig({
             &_text {
             padding-top: 0px;
             font-weight: 1000;
+            display: flex;
+            align-items: center;
             font-size: ${isBrowser && "28px"};
             }
 
