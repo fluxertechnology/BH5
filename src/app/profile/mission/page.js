@@ -362,7 +362,7 @@ function ProfileMission() {
         >
           <div className="float_cover">
             <div className="float_cover_container">
-              <img src={completeIcon} alt="" width={120} />
+              <Image src={completeIcon} alt="" width={120} height={28} />
               <div className="title">签到成功</div>
               <div className="content">
                 获得

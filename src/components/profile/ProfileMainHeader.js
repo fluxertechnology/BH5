@@ -249,7 +249,9 @@ const ProfileMainHeader = ({
           className="profile_header_daily_vendor"
           routes={pageUrlConstants.vendor}
         >
-          <img
+          <Image
+            width={58}
+            height={75}
             className="profile_header_daily_vendor_icon"
             src="/images/profile/buy_bag.svg"
             alt="buy bag"
@@ -441,7 +443,7 @@ const ProfileMainHeaderElement = styled.div.withConfig({
         }
 
         &_icon {
-          margin: -50px 2px -15px -60px;
+          margin: -50px 2px -42px -60px;
           max-width: 58px;
           @media (max-width: 599px) {
             max-width: 40px;

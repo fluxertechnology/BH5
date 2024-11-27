@@ -39,6 +39,7 @@ import {
 } from "@/store/actions/comicAnimeActionData";
 import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 const HomeComicListContent = () => {
   const { state } = useGlobalContext();
@@ -180,7 +181,9 @@ const HomeComicListContent = () => {
       </CSSTransition>
       <div className="header">
         <div className="header_cover">
-          <img
+          <Image
+            width={1280}
+            height={170}
             className="header_cover_img"
             src={comicData.img}
             alt={comicData.title}

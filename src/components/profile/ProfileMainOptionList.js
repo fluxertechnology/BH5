@@ -9,6 +9,7 @@ import ImageCarousel from "@/components/common/ImageCarousel";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useGlobalContext } from "@/store";
+import Image from "next/image";
 
 const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
   const { state } = useGlobalContext();
@@ -124,7 +125,9 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
               }}
             >
               <div className="list_container_item_icon">
-                <img
+                <Image
+                  width={34}
+                  height={34}
                   className="list_container_item_icon_img"
                   src={data.icon}
                   alt="mission"
@@ -175,7 +178,9 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
               }}
             >
               <div className="list_container_item_icon">
-                <img
+                <Image
+                  width={34}
+                  height={34}
                   className="list_container_item_icon_img"
                   src={data.icon}
                   alt="mission"
@@ -207,7 +212,9 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
               }}
             >
               <div className="list_container_item_icon">
-                <img
+                <Image
+                  width={34}
+                  height={34}
                   className="list_container_item_icon_img"
                   src={data.icon}
                   alt="mission"

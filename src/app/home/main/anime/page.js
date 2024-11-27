@@ -346,7 +346,9 @@ const HomeAnimesPage = () => {
                   className="pc_friendly_url_container"
                   onClick={() => onOpenUrl(item.url)}
                 >
-                  <img
+                  <Image
+                    width={35}
+                    height={35}
                     src={item.icon}
                     alt={item.name}
                     className="pc_friendly_url_icon"
@@ -451,6 +453,8 @@ export const HomeAnimesPageElement = styled.div`
         &_text {
           font-size: 18px;
           font-weight: 900;
+          display: flex;
+          align-items: center;
           &_img {
             width: 35px;
             height: 35px;
