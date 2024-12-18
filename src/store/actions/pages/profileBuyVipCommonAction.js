@@ -35,7 +35,7 @@ export const exchangeVipCodeAction = (exchangeCode) => {
   };
 };
 
-export const buyVipMemberAction = (vipInfo, intl) => {
+export const buyVipMemberAction = (vipInfo, t) => {
   return function (dispatch) {
     const user = store.getState().user;
     let fromData = new FormData();
@@ -51,10 +51,10 @@ export const buyVipMemberAction = (vipInfo, intl) => {
         dispatch(setVipInfoAction());
         dispatch(updateUserDataAction());
 
-        callToast(intl.formatMessage({ id: "TOAST.TIP.BUY_SUCCESS_1" }));
+        callToast(t("Toast.buy_success_1"));
       })
       .catch(() => {
-        callToast(intl.formatMessage({ id: "TOAST.TIP.BUY_UNSUCCESS" }));
+        callToast("Toast.buy_unsuccess");
       });
   };
 };

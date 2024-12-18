@@ -299,6 +299,7 @@ export function GlobalProvider({ children }) {
       subHeight: 42,
       subFontSize: 20,
       fixed: true,
+      show: true,
       bottomNavHeight: 62,
       customComponent: () => false,
       prependComponent: () => <></>,
@@ -391,100 +392,3 @@ const Store = {
 };
 
 export default Store;
-
-function saveUserDate(storeData) {
-  window.localStorage.setItem(
-    "userData",
-    encryptionData(
-      JSON.stringify({
-        user: storeData.user,
-        vipInfoData: storeData.vipInfoData,
-      })
-    )
-  );
-}
-
-function saveSystem(storeData) {
-  window.localStorage.setItem(
-    "systemData",
-    encryptionData(
-      JSON.stringify({
-        config: storeData.config,
-        areaCode: storeData.areaCode,
-        homeCategory: storeData.homeCategory,
-        myWatchHistory: storeData.myWatchHistory,
-        homeTagData: storeData.homeTagData,
-        noticeListRead: storeData.noticeListRead,
-        homeCategoryTabList: storeData.homeCategoryTabList,
-        homeStreamList: storeData.homeStreamList,
-        vendorCategory: storeData.vendorCategory,
-      })
-    )
-  );
-}
-
-function saveCatchData(storeData) {
-  window.localStorage.setItem(
-    "catchData",
-    encryptionData(
-      JSON.stringify({
-        adsList: storeData.adsList,
-        noticeList: storeData.noticeList,
-        homeSearchTabList: storeData.homeSearchTabList,
-        showCoverCenter: {
-          ...storeData.showCoverCenter,
-          homeFloatAds: false, // 因要求從內存先把狀態改成 false
-        },
-      })
-    )
-  );
-}
-
-function saveContentData(storeData) {
-  window.localStorage.setItem(
-    "contentData",
-    encryptionData(
-      JSON.stringify({
-        homeData: storeData.homeData,
-        homeAnimeData: storeData.homeAnimeData,
-        homeTagData: storeData.homeTagData,
-        homeCategoryData: storeData.homeCategoryData,
-        homeComicViewData: storeData.homeComicViewData,
-        homeComicContentData: storeData.homeComicContentData,
-        homeAnimesViewData: storeData.homeAnimesViewData,
-        homeAnimesContentData: storeData.homeAnimesContentData,
-        homeSearchResultData: storeData.homeSearchResultData,
-        homeVideo: storeData.homeVideo,
-        homeLeaderBoard: storeData.homeLeaderBoard,
-        homeVideoList: storeData.homeVideoList,
-        homeVideoContent: storeData.homeVideoContent,
-        homeNovelsList: storeData.homeNovelsList,
-        homeNovelsListData: storeData.homeNovelsListData,
-        homeNovelsContentData: storeData.homeNovelsContentData,
-        homePhotosList: storeData.homePhotosList,
-        homePhotosListData: storeData.homePhotosListData,
-        homePhotosContentData: storeData.homePhotosContentData,
-        postData: storeData.postData,
-        postSameTagList: storeData.postSameTagList,
-        postProfile: storeData.postProfile,
-        postTags: storeData.postTags,
-        postListData: storeData.postListData,
-        postTrackData: storeData.postTrackData,
-        postRecommend: storeData.postRecommend,
-        postRecommendList: storeData.postRecommendList,
-        postRecommendFriendList: storeData.postRecommendFriendList,
-        postNotice: storeData.postNotice,
-        socialListData: storeData.socialListData,
-        socialProfileData: storeData.socialProfileData,
-        vendorData: storeData.vendorData,
-        vendorListData: storeData.vendorListData,
-        vendorGameListData: storeData.vendorGameListData,
-        myCollectList: storeData.myCollectList,
-        myBuyList: storeData.myBuyList,
-        transferMoney: storeData.getTransferMoney,
-        profileDirectBuy: storeData.profileDirectBuy,
-        profileMission: storeData.profileMission,
-      })
-    )
-  );
-}

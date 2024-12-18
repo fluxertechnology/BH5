@@ -4,7 +4,7 @@ import callToast from "@/lib/services/toastCall";
 import { updateUserDataAction } from "@/store/actions/user";
 import store from "@/store";
 
-export const dailyLoginAction = (intl) => {
+export const dailyLoginAction = (t) => {
   return function (dispatch) {
     axiosRequest
       .get(
@@ -12,13 +12,11 @@ export const dailyLoginAction = (intl) => {
         {
           uid: store.getState().user.id,
         },
-        intl.formatMessage({ id: "TOAST.TIP.SUCCESS.REDEMPTIONED" })
+        t("Toast.success_redemptioned")
       )
       .then((data) => {
         callToast(
-          intl.formatMessage({ id: "TOAST.TIP.SUCCESS.REDEMPTION" }) +
-            data +
-            intl.formatMessage({ id: "GLOBAL.GOLD_MONEY" })
+          t("Toast.success_redemptioned") + data + t("Global.gold_money")
         );
         dispatch(updateUserDataAction());
       });

@@ -35,6 +35,7 @@ const ProfilePayment = () => {
   const [showTransfer, setShowTransfer] = useState(false);
   useEffect(() => {
     let Element = document.getElementsByClassName("PCFooterElement");
+    if (!Element) return;
     setTimeout(() => Element[0].style.setProperty("display", "none"), 100);
   }, []);
   function getUserIdentity() {

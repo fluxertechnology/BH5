@@ -1,23 +1,13 @@
 import { encryptionData } from "@/lib/services/aes";
 
 function saveUserDate(storeData) {
-  window.localStorage.setItem(
-    "userData",
-    encryptionData(
-      JSON.stringify({
-        user: storeData.user,
-        vipInfoData: storeData.vipInfoData,
-      })
-    )
-  );
+  const data = JSON.stringify({
+    user: storeData.user,
+    vipInfoData: storeData.vipInfoData,
+  });
+  window.localStorage.setItem("userData", encryptionData(data));
   if (process.env.NODE_ENV === "development") {
-    window.localStorage.setItem(
-      "userDataOriginal",
-      JSON.stringify({
-        user: storeData.user,
-        vipInfoData: storeData.vipInfoData,
-      })
-    );
+    window.localStorage.setItem("userDataOriginal", data);
   }
 }
 
@@ -58,52 +48,52 @@ function saveCatchData(storeData) {
 }
 
 function saveContentData(storeData) {
-  window.localStorage.setItem(
-    "contentData",
-    encryptionData(
-      JSON.stringify({
-        homeData: storeData.homeData,
-        homeAnimeData: storeData.homeAnimeData,
-        homeTagData: storeData.homeTagData,
-        homeCategoryData: storeData.homeCategoryData,
-        homeComicViewData: storeData.homeComicViewData,
-        homeComicContentData: storeData.homeComicContentData,
-        homeAnimesViewData: storeData.homeAnimesViewData,
-        homeAnimesContentData: storeData.homeAnimesContentData,
-        homeSearchResultData: storeData.homeSearchResultData,
-        homeVideo: storeData.homeVideo,
-        homeLeaderBoard: storeData.homeLeaderBoard,
-        homeVideoList: storeData.homeVideoList,
-        homeVideoContent: storeData.homeVideoContent,
-        homeNovelsList: storeData.homeNovelsList,
-        homeNovelsListData: storeData.homeNovelsListData,
-        homeNovelsContentData: storeData.homeNovelsContentData,
-        homePhotosList: storeData.homePhotosList,
-        homePhotosListData: storeData.homePhotosListData,
-        homePhotosContentData: storeData.homePhotosContentData,
-        postData: storeData.postData,
-        postSameTagList: storeData.postSameTagList,
-        postProfile: storeData.postProfile,
-        postTags: storeData.postTags,
-        postListData: storeData.postListData,
-        postTrackData: storeData.postTrackData,
-        postRecommend: storeData.postRecommend,
-        postRecommendList: storeData.postRecommendList,
-        postRecommendFriendList: storeData.postRecommendFriendList,
-        postNotice: storeData.postNotice,
-        socialListData: storeData.socialListData,
-        socialProfileData: storeData.socialProfileData,
-        vendorData: storeData.vendorData,
-        vendorListData: storeData.vendorListData,
-        vendorGameListData: storeData.vendorGameListData,
-        myCollectList: storeData.myCollectList,
-        myBuyList: storeData.myBuyList,
-        transferMoney: storeData.getTransferMoney,
-        profileDirectBuy: storeData.profileDirectBuy,
-        profileMission: storeData.profileMission,
-      })
-    )
-  );
+  console.log('save content data')
+  const data = JSON.stringify({
+    homeData: storeData.homeData,
+    homeAnimeData: storeData.homeAnimeData,
+    homeTagData: storeData.homeTagData,
+    homeCategoryData: storeData.homeCategoryData,
+    homeComicViewData: storeData.homeComicViewData,
+    homeComicContentData: storeData.homeComicContentData,
+    homeAnimesViewData: storeData.homeAnimesViewData,
+    homeAnimesContentData: storeData.homeAnimesContentData,
+    homeSearchResultData: storeData.homeSearchResultData,
+    homeVideo: storeData.homeVideo,
+    homeLeaderBoard: storeData.homeLeaderBoard,
+    homeVideoList: storeData.homeVideoList,
+    homeVideoContent: storeData.homeVideoContent,
+    homeNovelsList: storeData.homeNovelsList,
+    homeNovelsListData: storeData.homeNovelsListData,
+    homeNovelsContentData: storeData.homeNovelsContentData,
+    homePhotosList: storeData.homePhotosList,
+    homePhotosListData: storeData.homePhotosListData,
+    homePhotosContentData: storeData.homePhotosContentData,
+    postData: storeData.postData,
+    postSameTagList: storeData.postSameTagList,
+    postProfile: storeData.postProfile,
+    postTags: storeData.postTags,
+    postListData: storeData.postListData,
+    postTrackData: storeData.postTrackData,
+    postRecommend: storeData.postRecommend,
+    postRecommendList: storeData.postRecommendList,
+    postRecommendFriendList: storeData.postRecommendFriendList,
+    postNotice: storeData.postNotice,
+    socialListData: storeData.socialListData,
+    socialProfileData: storeData.socialProfileData,
+    vendorData: storeData.vendorData,
+    vendorListData: storeData.vendorListData,
+    vendorGameListData: storeData.vendorGameListData,
+    myCollectList: storeData.myCollectList,
+    myBuyList: storeData.myBuyList,
+    transferMoney: storeData.getTransferMoney,
+    profileDirectBuy: storeData.profileDirectBuy,
+    profileMission: storeData.profileMission,
+  });
+  window.localStorage.setItem("contentData", encryptionData(data));
+  if (process.env.NODE_ENV === "development") {
+    window.localStorage.setItem("contentDataOriginal", data);
+  }
 }
 
 const useSaveStateData = (state) => {
@@ -115,6 +105,7 @@ const useSaveStateData = (state) => {
       navigator.userAgent.match(/iPhone/i);
     window.localStorage.setItem("lastTime", Date.now());
     saveUserDate(state);
+    saveContentData(state);
   } else {
     var isOnIOS =
       navigator.userAgent.match(/iPad/i) ||

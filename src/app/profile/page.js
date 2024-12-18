@@ -206,7 +206,7 @@ const ProfileMain = ({ children }) => {
     if (state.user.id === "guest") {
       useGlobalDispatch(pushRoutes(pageUrlConstants.login));
     } else {
-      useGlobalDispatch(dailyLoginAction(intl));
+      useGlobalDispatch(dailyLoginAction(t));
     }
   };
   const pushRoutesFunction = (routes) => {
@@ -216,7 +216,7 @@ const ProfileMain = ({ children }) => {
     useGlobalDispatch(toggleMentionAppCoverAction(true));
   };
   const dailyEvent = () => {
-    useGlobalDispatch(dailyLoginAction(intl));
+    useGlobalDispatch(dailyLoginAction(t));
   };
   const gosharef = () => {
     useGlobalDispatch(pushRoutes(pageUrlConstants.profile.pages.profileShare));

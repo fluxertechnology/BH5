@@ -17,7 +17,7 @@ const { profile } = pageUrlConstants;
 
 const ProfileSwitchLanguage = () => {
   const t = useTranslations();
-  const lang = Cookies.get("NEXT_LOCALE");
+  const lang = Cookies.get("NEXT_LOCALE") ?? 'tc';
   const { state, dispatch } = useGlobalContext();
 
   const LanguageList = [
@@ -26,7 +26,6 @@ const ProfileSwitchLanguage = () => {
   ];
 
   const currentLanguage = LanguageList.find((x) => x.lang === lang);  
-
   useEffect(() => {
     dispatch({
       type: "INIT_NAVBAR",

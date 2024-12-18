@@ -13,9 +13,7 @@ import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { pageUrlConstants, colors } from "@/lib/constants/index.js";
 import { useTranslations } from "next-intl";
-import {
-  clearScrollPage
-} from "@/store/actions/historyActions";
+import { clearScrollPage } from "@/store/actions/historyActions";
 import ImageComponent from "@/components/common/ImageComponent";
 import LinkComponent from "@/components/common/LinkComponent";
 import girl404 from "public/images/imgPlaceholder/girl404.png";
@@ -23,13 +21,10 @@ import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
 import { getPostListAction } from "@/store/actions/pages/postsRecommendFriendAction";
 import { postGetRecommendOriginal } from "@/store/actions/pages/postsMoreOriginalAction";
 
-
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import Image from "next/image";
 
-const PostsRecommendFriendRender = ({
-  refreshData,
-}) => {
+const PostsRecommendFriendRender = ({ refreshData }) => {
   const location = usePathname();
   const t = useTranslations();
   const { size, isMobile } = useMediaQuery();
@@ -58,12 +53,12 @@ const PostsRecommendFriendRender = ({
     setLocalState(getLocalState());
   }, [state]);
 
-  const updatePostListData = (scrollColdEnd = () => { }) => {
+  const updatePostListData = (scrollColdEnd = () => {}) => {
     useGlobalDispatch(getPostListAction(scrollColdEnd, ""));
-  }
+  };
   const initPostListData = () => {
-    useGlobalDispatch(getPostListAction(() => { }, "init"));
-  }
+    useGlobalDispatch(getPostListAction(() => {}, "init"));
+  };
   const floatBtnClick = () => {
     let user = store.getState().user;
     if (user.id === "guest") {
@@ -71,13 +66,13 @@ const PostsRecommendFriendRender = ({
     } else {
       useGlobalDispatch(pushRoutes(post.pages.postMain.pages.postAdd));
     }
-  }
+  };
   const pushToNew = () => {
     useGlobalDispatch(pushRoutes(pageUrlConstants.post.pages.postMain));
-  }
+  };
   const postGetRecommendOriginalAction = () => {
-    useGlobalDispatch(postGetRecommendOriginal("init", () => { }));
-  }
+    useGlobalDispatch(postGetRecommendOriginal("init", () => {}));
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", scrollEvent);
@@ -162,13 +157,19 @@ const PostsRecommendFriendRender = ({
         })}
         {localState.postListData.list?.length === 0 ? (
           <div className="container_empty">
-            <Image className="container_empty_girl_img" src={girl404} width={0} height={0} alt="404" />
+            <Image
+              className="container_empty_girl_img"
+              src={girl404}
+              width={0}
+              height={0}
+              alt="404"
+            />
             <p className="container_empty_girl_text">
-              {t('Global.tip.nothing')}
+              {t("Global.tip.nothing")}
             </p>
             <div className="container_empty_btn" onClick={pushToNew}>
               <span className="container_empty_btn_text">
-                {t('Post.go_search')}
+                {t("Post.go_search")}
               </span>
             </div>
           </div>

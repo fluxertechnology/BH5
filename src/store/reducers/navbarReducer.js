@@ -11,6 +11,7 @@ const defaultState = {
   subFontSize: 20,
   bottomNavHeight: 62,
   fixed: true,
+  show: true,
   customComponent: () => false,
   prependComponent: () => <></>,
   appendComponent: () => <></>,

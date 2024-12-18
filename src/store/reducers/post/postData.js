@@ -17,6 +17,18 @@ const postData = function (state = {}, action) {
         ...state,
       };
 
+    case "UPDATE_POSTDATA_ATTENTION":
+      const targetKey = Object.keys(state).find(
+        (key) => state[key].uid === action.id
+      );
+      if (state[targetKey]) {
+        state[targetKey].is_attention = action.state;
+      }
+
+      return {
+        ...state,
+      };
+
     case "UPDATE_POSTDATA_WATCH":
       if (state[action.id]) {
         state[action.id].fake_total_view = action.fake_total_view;

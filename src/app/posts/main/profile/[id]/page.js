@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState, useMemo } from "react";
+import { useEffect, useLayoutEffect, useState, useMemo, useRef } from "react";
 import styled from "styled-components";
 import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
 import { colors } from "@/lib/constants/index.js";
@@ -16,6 +16,12 @@ import { CSSTransition } from "react-transition-group";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { getPostListAction, postGetProfile } from '@/store/actions/pages/postsProfileAction.js'
+import {
+    postAttentionEventAction,
+    postPayEventAction,
+    postScribeEventAction,
+  } from "@/store/actions/pages/postCardItemAction.js";
+
 import { useParams } from 'next/navigation'
 import Image from "next/image";
 
@@ -131,7 +137,7 @@ const PostsProfilePage = ({
         useGlobalDispatch(getPostListAction(() => { }, "init", type));
     }
     const postCardAttentionEvent = (data) => {
-        if (userId === "guest") {
+        if (state.user.id === "guest") {
             useGlobalDispatch(pushRoutes(login));
         } else {
             useGlobalDispatch(
@@ -150,7 +156,7 @@ const PostsProfilePage = ({
         );
     }
     const postCardScribeMediaEvent = (data, type) => {
-        if (userId === "guest") {
+        if (state.user.id === "guest") {
             useGlobalDispatch(pushRoutes(login));
         } else {
             useGlobalDispatch(postScribeEventAction({ uid: data.id }, type));
@@ -167,7 +173,7 @@ const PostsProfilePage = ({
         pay_type = 1
     ) => {
         //data 不傳代表不打賞對應貼文
-        if (userId === "guest") {
+        if (state.user.id === "guest") {
             useGlobalDispatch(pushRoutes(login));
         } else {
             useGlobalDispatch(postPayEventAction(data, gold, callback, action, pay_type));
@@ -277,6 +283,8 @@ const PostsProfilePage = ({
             postCardScribeMediaEvent(localState.postProfile.profile, type);
         }
     }
+
+    const nodeRef = useRef(null);
     return (
         <PostsProfilePageElement>
             <PostsProfilePageCover>
@@ -287,6 +295,7 @@ const PostsProfilePage = ({
                     classNames="CSSTransition_opacity"
                     unmountOnExit
                     key="CSSTransition_show_donate"
+                    nodeRef={nodeRef}
                 >
                     <div className="float_cover">
                         <div className="float_cover_container">
@@ -339,6 +348,7 @@ const PostsProfilePage = ({
                     classNames="CSSTransition_scribe"
                     unmountOnExit
                     key="CSSTransition_show_scribe"
+                    nodeRef={nodeRef}
                 >
                     <div className="subscribe_cover" onClick={() => setShowScribe(false)}>
                         <div
@@ -385,6 +395,7 @@ const PostsProfilePage = ({
                     classNames="CSSTransition_scribe"
                     unmountOnExit
                     key="CSSTransition_show_scribe_no_post"
+                    nodeRef={nodeRef}
                 >
                     <div
                         className="no_subscribe_cover"
@@ -413,6 +424,7 @@ const PostsProfilePage = ({
                     classNames="CSSTransition_scribe"
                     unmountOnExit
                     key="CSSTransition_show_donate_thanks"
+                    nodeRef={nodeRef}
                 >
                     <div
                         className={`post_card_body_media_donate_cover`}

@@ -804,6 +804,12 @@
     "placeholder_mail_verify_tip": "验证码错误",
     "placeholder_qq": "请输入QQ帐号"
   },
+  "Register": {
+    "general": "一般注册",
+    "qq": "QQ注册",
+    "email": "邮箱注册",
+    "phone": "手机注册"
+  },
   "Personal": {
     "setting": "个人设定"
   },

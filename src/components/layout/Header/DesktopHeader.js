@@ -12,6 +12,7 @@ const DesktopHeader = () => {
 
   if (isMobile) return <></>;
 
+  if (!state.navbar.show) return <></>;
   return (
     <>
       {state.navbar.customComponent() || (

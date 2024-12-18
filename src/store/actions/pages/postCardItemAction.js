@@ -49,6 +49,7 @@ export const postAttentionEventAction = (data) => {
         axiosRequest.post(postPostAttentionUrl, formData).then((res) => {
             [
                 "UPDATE_POSTATTENTION",
+                "UPDATE_POSTDATA_ATTENTION",
                 "UPDATE_POSTTRACKATTENTION",
                 "UPDATE_POSTRECOMMENDLIST_ATTENTION",
                 "UPDATE_POST_PROFILE_ATTENTION",

@@ -10,12 +10,17 @@ import IconInput, { input_margin } from "@/components/login/IconInputComponent";
 import callToast from "@/lib/services/toastCall.js";
 import { callCaptcha, CALL_CAPTCHA_TYPE } from "@/lib/services/callCaptcha";
 import WavaButton from "@/components/layout/Header/WavaButton";
-import { signupUser } from "@/store/actions/pages/loginSignupAction";
 import { userLoginAction } from "@/store/actions/user";
 import { backRoutes, replaceRoutes } from "@/store/actions/historyActions";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 import { utmTrack, checkDataExpired } from "@/store/actions/utilities";
 import { handleRegisterAccount } from "@/lib/services/gtmEventHandle";
+import {
+  getEmailVerifyCode as getEmailVerifyCodeAction,
+  signupUser,
+  postVerifyEmailCodeAction,
+  postCheckUserEmailAction,
+} from "@/store/actions/pages/loginSignupAction";
 
 import gt4 from "@/lib/services/gt4";
 
@@ -271,7 +276,7 @@ const LoginSignupPage = () => {
     useGlobalDispatch(backRoutes(-2));
   };
   const getEmailVerify = (email) => {
-    useGlobalDispatch(getEmailVerifyCode(email));
+    useGlobalDispatch(getEmailVerifyCodeAction(email));
   };
   const emailCodeVerify = (data, callback) => {
     useGlobalDispatch(postVerifyEmailCodeAction(data, callback));
