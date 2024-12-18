@@ -146,19 +146,20 @@ const HomeComicListContent = () => {
       type: "INIT_NAVBAR",
       data: {
         customComponent: () => (
-            <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
-              <TopTitleBar
-                showBack={true}
-                show_back_color="#ffffff"
-                color={"#000"}
-                back_color={"transparent"}
-              />
-            </TopBarContainer>
+          <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
+            <TopTitleBar
+              showBack={true}
+              show_back_color="#ffffff"
+              color={"#000"}
+              back_color={"transparent"}
+            />
+          </TopBarContainer>
         ),
       },
     });
   }, []);
 
+  const nodeRef = useRef(null);
   return (
     <HomeComicListContentElement
       bottom_nav_height={state.navbar.bottomNavHeight}
@@ -169,6 +170,7 @@ const HomeComicListContent = () => {
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_show_cover"
+        nodeRef={nodeRef}
       >
         <ListSideBar
           is_in={showMore}
@@ -181,7 +183,7 @@ const HomeComicListContent = () => {
       </CSSTransition>
       <div className="header">
         <div className="header_cover">
-          <Image
+          <ImageComponent
             width={1280}
             height={170}
             className="header_cover_img"

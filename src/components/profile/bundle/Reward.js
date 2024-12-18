@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import BundleFoldrComponent, {
@@ -10,13 +10,16 @@ import BundleFoldrComponent, {
 import BundleCapsuleComponent from "@/components/profile/bundle/BundleCapsuleComponent";
 import { colors, requestUrlConstants } from "@/lib/constants";
 
-import { main_height, sub_height } from "@/components/layout/Header/TopBarContainer";
+import {
+  main_height,
+  sub_height,
+} from "@/components/layout/Header/TopBarContainer";
 import axiosRequest from "@/lib/services/axios";
 import store from "@/store";
 import ImageComponent from "@/components/common/ImageComponent";
 import CloseComponent, {
-    CloseComponentElement,
-  } from "@/components/common/CloseComponent";
+  CloseComponentElement,
+} from "@/components/common/CloseComponent";
 import { CSSTransition } from "react-transition-group";
 import callToast from "@/lib/services/toastCall";
 
@@ -146,6 +149,7 @@ const ProfileBundleReward = () => {
     setExchangeActualData(data);
   }
 
+  const nodeRef = useRef(null);
   return (
     <ProfileBundleRewardElement>
       <CSSTransition
@@ -154,6 +158,7 @@ const ProfileBundleReward = () => {
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_input"
+        nodeRef={nodeRef}
       >
         <div className="actual_window">
           <div className="actual_window_title">

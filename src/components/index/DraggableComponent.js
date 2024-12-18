@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import Draggable from "react-draggable";
 import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
@@ -47,6 +47,8 @@ const DraggableComponent = ({
       onClick();
     }
   }
+
+  const nodeRef = useRef(null);
   return (
     <DraggableComponentElement
       show={show}
@@ -59,6 +61,7 @@ const DraggableComponent = ({
         in={css_in}
         classNames="CSSTransition_opacity"
         unmountOnExit
+        nodeRef={nodeRef}
       >
         <Draggable
           onDrag={() => {

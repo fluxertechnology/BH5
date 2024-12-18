@@ -225,6 +225,7 @@ const HomeLayout = ({ children }) => {
     });
   }, []);
 
+  const nodeRef = useRef(null);
   return (
     <HomeLayoutElement
       main_height={state.navbar.mainHeight}
@@ -237,6 +238,7 @@ const HomeLayout = ({ children }) => {
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_floatAds"
+        nodeRef={nodeRef}
       >
         <FloatAds
           closeHomeFloatAds={() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
@@ -116,6 +116,8 @@ const ProfilePayment = () => {
       },
     });
   }, []);
+
+  const nodeRef = useRef(null);
   return (
     <ProfilePaymentElement main_height={state.navbar.mainHeight}>
       <article className="black_area">
@@ -279,6 +281,7 @@ const ProfilePayment = () => {
           classNames="CSSTransition_opacity"
           unmountOnExit
           key="CSSTransition_show_view"
+          nodeRef={nodeRef}
         >
           <div className="float_cover_tip" onClick={() => setShowModal(false)}>
             <div
