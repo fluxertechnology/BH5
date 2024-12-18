@@ -1,10 +1,10 @@
 import axiosRequest from "@/lib/services/axios";
 import { requestUrlConstants } from "@/lib/constants";
 import callToast from "@/lib/services/toastCall";
-import { backRoutes } from "../../reducers/actions/historyActions";
+import { backRoutes } from "@/store/actions/historyActions";
 import { updateUserDataAction } from "@/store/actions/user";
 const { postBuyVendorGoods } = requestUrlConstants;
-export const submitOrderAction = function (data,intl) {
+export const submitOrderAction = function (data,t) {
   return function (dispatch) {
     const formData = new FormData();
     formData.append("uid", data.uid);
@@ -23,9 +23,9 @@ export const submitOrderAction = function (data,intl) {
       // 更新用戶資料
       dispatch(updateUserDataAction());
       if( data.to_username ) {
-        callToast(intl.formatMessage({ id: "TOAST.TIP.SEND_SUCCESS", }));
+        callToast(t('Toast.send_success'));
       } else {
-        callToast(intl.formatMessage({ id: "TOAST.TIP.BUY_SUCCESS_1", }));
+        callToast(t('Toast.buy_success'));
         window.sessionStorage.setItem('buyRecord', res);
         dispatch(backRoutes());
       }

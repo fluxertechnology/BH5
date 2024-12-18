@@ -172,40 +172,40 @@
         "hot": {
           "commodity": "热销商品"
         }
-      },
-      "sheet": {
-        "label": {
-          "settle": "结账",
-          "choice": {
-            "coupon": "选择优惠券"
-          },
-          "gold_money_once": "金币1次",
-          "payment": "支付方式",
-          "buy": {
-            "discount": {
-              "game": "购买游戏即可享有折扣"
-            },
-            "money": "精钻购买",
-            "gold_money": "金币购买",
-            "confirm": "确定购买 "
-          },
-          "coupon": "优惠券",
-          "received_data": "收礼人资讯",
-          "give_away_phone": "请输入转赠的手机号码",
-          "specifications": "规格说明",
-          "description_1": "，仅适用于商城消费",
-          "description_2": "购买完成后请前往我的－商城 订单查看，如遇到任何问题，",
-          "description_3": "再请点选右上标誌联系客服， 谢谢。"
+      }
+    },
+    "sheet": {
+      "label": {
+        "settle": "结账",
+        "choice": {
+          "coupon": "选择优惠券"
         },
-        "placeholder": {
-          "reciever": {
-            "name": "请填写收货人姓名"
+        "gold_money_once": "金币1次",
+        "payment": "支付方式",
+        "buy": {
+          "discount": {
+            "game": "购买游戏即可享有折扣"
           },
-          "area": "请填写所在地区",
-          "complete_address": "请填写详细地址",
-          "postal_code": "请填写邮编",
-          "phone": "请填写手机"
-        }
+          "money": "精钻购买",
+          "gold_money": "金币购买",
+          "confirm": "确定购买 "
+        },
+        "coupon": "优惠券",
+        "received_data": "收礼人资讯",
+        "give_away_phone": "请输入转赠的手机号码",
+        "specifications": "规格说明",
+        "description_1": "，仅适用于商城消费",
+        "description_2": "购买完成后请前往我的－商城 订单查看，如遇到任何问题，",
+        "description_3": "再请点选右上标誌联系客服， 谢谢。"
+      },
+      "placeholder": {
+        "reciever": {
+          "name": "请填写收货人姓名"
+        },
+        "area": "请填写所在地区",
+        "complete_address": "请填写详细地址",
+        "postal_code": "请填写邮编",
+        "phone": "请填写手机"
       }
     }
   },
@@ -954,7 +954,7 @@
     }
   },
   "Download": {
-    "watch" : {
+    "watch": {
       "now": "在线观看"
     },
     "mode": {
