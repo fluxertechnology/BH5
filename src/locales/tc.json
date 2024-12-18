@@ -952,5 +952,22 @@
         }
       }
     }
+  },
+  "Download": {
+    "watch" : {
+      "now": "在线观看"
+    },
+    "mode": {
+      "android": "安卓下载",
+      "local": "网盘下载"
+    },
+    "label": {
+      "description_1": "商务合作请添加 Telegram: j80640"
+    },
+    "action": {
+      "click": {
+        "copy": "点击复制"
+      }
+    }
   }
 }

@@ -329,6 +329,7 @@ const PostsAddPage = () => {
     });
   }, []);
 
+  const nodeRef = useRef(null);
   return (
     <PostsAddPageElement
       uploadMount={postFileArray.length}
@@ -341,6 +342,7 @@ const PostsAddPage = () => {
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_show_donate"
+        nodeRef={nodeRef}
       >
         <div className="float_cover">
           <div className="float_cover_container">

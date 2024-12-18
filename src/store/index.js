@@ -300,6 +300,7 @@ export function GlobalProvider({ children }) {
       subFontSize: 20,
       fixed: true,
       show: true,
+      isShowFooter: true,
       bottomNavHeight: 62,
       customComponent: () => false,
       prependComponent: () => <></>,

@@ -950,5 +950,22 @@
         }
       }
     }
+  },
+  "Download": {
+    "watch": {
+      "now": "Watch Now"
+    },
+    "mode": {
+      "android": "Download Direct",
+      "local": "Cloud Space"
+    },
+    "label": {
+      "description_1": "Business add in Telegram:@j80640"
+    },
+    "action": {
+      "click": {
+        "copy": "Copy"
+      }
+    }
   }
 }

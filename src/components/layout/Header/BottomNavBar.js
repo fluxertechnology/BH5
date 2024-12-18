@@ -29,7 +29,7 @@ const BottomNavBar = () => {
   const { state } = useGlobalContext();
   const new_coupon_notification = state.user.new_coupon_notification;
   const { isMobile } = useMediaQuery();
-
+  
   let [navList, setNavList] = useState(() => [
     {
       cname: t("Navbar.bottom_navigator_index"),
@@ -82,7 +82,7 @@ const BottomNavBar = () => {
   };
 
   return (
-    <BottomNavBarElement ref={root} show_bottom_nav={isMobile} className={"BottomNavBarElement"}>
+    <BottomNavBarElement ref={root} show_bottom_nav={isMobile && state.navbar.isShowFooter} className={"BottomNavBarElement"}>
       <div className="bottom_nav">
         {navList.map((data, index) => {
           return (
