@@ -993,7 +993,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
                       alt="iconCoin"
                     />
                     <span className="post_card_body_media_cover_container_text">
-                      {price} ｜ {t("Post.unlock_watch")}
+                      {price} {t("Global.money")}｜ {t("Post.unlock_watch")}
                     </span>
                   </div>
                 )}
@@ -1629,6 +1629,7 @@ export const PostCardItemElement = styled.div.withConfig({
             background: rgba(250, 113, 154, 0.2);
             border: 3px solid;
             border-radius: 20px;
+            display: flex;
             @media (min-width: 899px) {
               padding: 12px 50px;
               border-radius: 40px;

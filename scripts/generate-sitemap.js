@@ -31,15 +31,14 @@ async function generateSitemap() {
         }
 
         // Handle dynamic routes
-        if (file.includes('[') && file.includes(']')) {
-          const dynamicSegment = file.match(/\[(.*?)\]/);
-          if (dynamicSegment) {
-            const paramName = dynamicSegment[1];
-            // Generate a URL pattern for dynamic routes
-            route = route.replace(/\[.*?\]/, `:${paramName}`); // Replace [id] with :id
-            // Add a dynamic route
-            routes.push(`${route}/`); // Ensure it ends with a slash
-          }
+        const dynamicSegments = route.match(/\[(.*?)\]/g);
+        if (dynamicSegments) {
+          dynamicSegments.forEach(segment => {
+            const paramName = segment.replace(/\[|\]/g, ''); // Remove brackets
+            route = route.replace(segment, `:${paramName}`); // Replace [id] with :id
+          });
+          // Add a dynamic route
+          routes.push(`${route}/`); // Ensure it ends with a slash
         } else {
           // Ensure the route starts with a slash and remove duplicate slashes
           route = `/${route}`.replace(/\/+/g, '/');
@@ -64,14 +63,14 @@ async function generateSitemap() {
             xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
             xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
       ${allUrls.map(url => {
-        // Ensure the URL is correctly formatted
-        const fullUrl = `${baseUrl}${url.startsWith('/') ? url : '/' + url}`;
-        return `
+    // Ensure the URL is correctly formatted
+    const fullUrl = `${baseUrl}${url.startsWith('/') ? url : '/' + url}`;
+    return `
           <url>
             <loc>${fullUrl}</loc>
           </url>
         `;
-      }).join('')}
+  }).join('')}
     </urlset>`;
 
   const publicPath = path.join(__dirname, '../public', 'sitemap.xml');
