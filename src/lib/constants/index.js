@@ -18,12 +18,11 @@ export const breakPoint = {
 };
 
 export function checkIsMobile() {
-  // TODO(ZY): uncomment and fix document issues
-  return true;
-  // return (
-  //   document.body.getBoundingClientRect().width <= breakPoint.mobile
-  //   //這個斷點在899px 但 CSS要判斷 599px 以上不然會太小
-  // ); // 這個是 mui 的斷點設定
+  if (typeof window == "undefined") return false;
+  return (
+    document.body.getBoundingClientRect().width <= breakPoint.mobile
+    //這個斷點在899px 但 CSS要判斷 599px 以上不然會太小
+  ); // 這個是 mui 的斷點設定
 }
 
 export const downloadPageUrl = "https://hqew1.com/bhub";

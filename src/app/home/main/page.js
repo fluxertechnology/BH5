@@ -22,6 +22,10 @@ import Image from "next/image";
 
 import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCarousel";
 
+import {
+  refreshAnimeData,
+} from "@/store/actions/pages/homeMainAction";
+
 const { home } = pageUrlConstants;
 
 export default function HomeMainPage() {
@@ -63,7 +67,7 @@ export default function HomeMainPage() {
       novel_list: fillDataArray("novel_list"),
       creation_list: fillDataArray("creation_list"),
     };
-  }, [state.homeData]);
+  }, [state.homeData,state.homeData.hot_comic_list]);
 
   useEffect(() => {
     if (!localState.video_category_list.length)
