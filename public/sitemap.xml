@@ -7,19 +7,267 @@
             xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
       
           <url>
-            <loc>https://91bblili.com/about/me</loc>
-          </url>
-        
-          <url>
             <loc>https://91bblili.com/about</loc>
           </url>
         
           <url>
-            <loc>https://91bblili.com/home</loc>
+            <loc>https://91bblili.com/home/anime/:animeId/:animeEp/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/category/leaderboard/anime</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/category/leaderboard/comic</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/comic/:comicId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/comic/:comicId/:comicEp/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/games</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/label/:type/:label/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/main/anime</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/main/category/:category/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/main/novels</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/main/photos</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/main/streams</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/main/videos</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/novelsContent/:novelId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/photosContent/:photoId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/protocol/eula</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/protocol/tsm</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/search</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/search/result/:search/:category/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/home/video/:videoId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/login/other/:loginType/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/login</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/login/recoverPassword</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/login/resetPassword</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/login/signup</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/notice</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/notice/:id/</loc>
           </url>
         
           <url>
             <loc>https://91bblili.com/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/add</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/add/tags</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/dynamic/:dynamicId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/dynamicTag/:tagId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/notice</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/original</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/profile/:id/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/recommend</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/posts/main/track</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/bundle</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/bundle/:type/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/collect/:type/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/direct_buy_vip</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/edit/avatar</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/edit/nick_name</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/edit</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/invites</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/mission</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/myorder</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/myorderDetail/:orderId/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/purchase_record/anime</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/purchase_record/comic</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/purchase_record/novel</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/purchase_record/photo</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/purchase_record/social</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/purchase_record/video</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/setInfo/email</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/setInfo</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/share</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/switchLanguage</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/transfer</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/watch_history/anime</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/watch_history/comic</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/vendor/goods/:id/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/vendor</loc>
           </url>
         
     </urlset>
