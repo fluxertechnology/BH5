@@ -29,6 +29,7 @@ import { useParams } from "next/navigation";
 import {getVendorGoodsAction,likeVendorGoodsAction} from 'src/store/actions/pages/vendorGoodsAction.js';
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { pushRoutes } from "@/store/actions/historyActions";
 
 const likeIcon = "/images/icons/heart.svg";
 const unLikeIcon = "/images/icons/empty_heart.svg";
