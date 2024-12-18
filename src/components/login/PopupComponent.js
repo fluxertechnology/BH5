@@ -1,17 +1,16 @@
 "use client";
-import { useTranslations } from "next-intl";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { colors, padding, REG_SET, pageUrlConstants } from "@/lib/constants";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEnvelope, faX } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-
-import IconInput, { input_margin } from "@/components/login/IconInputComponent";
-
+import { userLoginAction } from "@/store/actions/user";
+import { backRoutes, pushRoutes, replaceRoutes } from "@/store/actions/historyActions";
+import IconInput from "@/components/login/IconInputComponent";
 import callToast from "@/lib/services/toastCall.js";
 import { callCaptcha, CALL_CAPTCHA_TYPE } from "@/lib/services/callCaptcha";
-import WavaButton from "@/components/layout/Header/WavaButton";
-import { userLoginAction } from "@/store/actions/user";
-import { backRoutes, replaceRoutes } from "@/store/actions/historyActions";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 import { utmTrack, checkDataExpired } from "@/store/actions/utilities";
 import { handleRegisterAccount } from "@/lib/services/gtmEventHandle";
@@ -23,29 +22,47 @@ import {
 } from "@/store/actions/pages/loginSignupAction";
 
 import gt4 from "@/lib/services/gt4";
-import PopupDialog from "@/components/login/PopupComponent";
-
+import { pageUrlConstants, REG_SET } from "@/lib/constants";
+const { login, home } = pageUrlConstants;
 const { qqReg, emailReq, emailVerifyReq, alphanumericReq } = REG_SET;
-
-const { home } = pageUrlConstants;
 
 let captcha = {};
 let interval = "";
-const LoginSignupPage = () => {
+
+const PopupDialog = () => {
   const t = useTranslations();
 
   const { state } = useGlobalContext();
   const { is_mobile_reg, is_email_reg, is_qq_reg } = state.config;
-  const showSignupType = [is_qq_reg, is_mobile_reg, is_email_reg];
-  let defaultSignType = showSignupType.length - 1;
-  for (let i = 0; i < showSignupType.length; i++) {
-    if (showSignupType[i]) {
-      defaultSignType = i;
-      break;
-    }
-  }
+  // const showSignupType = [is_qq_reg, is_mobile_reg, is_email_reg];
+  let defaultSignType = 1;
+  // for (let i = 0; i < showSignupType.length; i++) {
+  //   if (showSignupType[i]) {
+  //     defaultSignType = i;
+  //     break;
+  //   }
+  // }
 
   const [loginType, setLoginType] = useState(defaultSignType);
+
+  const toLogin = () => {
+    useGlobalDispatch(pushRoutes(login));
+  };
+
+  const closePopup = () => {
+    document.getElementById("popup-dialog").style.display = "none";
+    document.getElementsByTagName("body")[0].style.overflow = "auto";
+  };
+  
+  const showPassword = () => {
+    var passwordInput = passwordRef.current;
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  };
+
   const accountRef = useRef(null);
   const qqAccRef = useRef(null);
   const emailRef = useRef(null);
@@ -286,78 +303,26 @@ const LoginSignupPage = () => {
     useGlobalDispatch(postCheckUserEmailAction(email, callback));
   };
 
-  const openPopup = () => {
-    document.getElementById("popup-dialog").style.display = "block";
-    document.getElementsByTagName("body")[0].style.overflow = "hidden";
-  };
-  
   useEffect(() => {
     if (typeof window !== "undefined") {
       gt4();
     }
   }, []);
+  
   return (
-    <LoginSignupPageElement>
-      <div id="aaaa" />
-      <div className="login_type">
-        {loginType !== 3 &&
-          loginTypeList.map(
-            (data, index) =>
-              !!showSignupType[index] && (
-                <div
-                  className={
-                    "login_type_box " + (index === loginType && "active")
-                  }
-                  onClick={() => {
-                    setLoginType(index);
-                  }}
-                  key={data.name}
-                >
-                  {data.name}
-                </div>
-              )
-          )}
-      </div>
-      <form className="input_content">
-        {loginType === 2 && (
-          <>
-            <div className="input_content_box">
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={emailRef}
-                inputType="email"
-                value={email}
-                callback={emailEvent}
-                placeholder={t("Login.placeholder_mail")}
-                enterKeyHint="next"
-                reg={emailReq}
-                regErrStr={t("Login.tip_error_mail")}
-              />
-            </div>
-          </>
-        )}
-        {loginType === 0 && (
-          <>
-            <div className="input_content_box">
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={qqAccRef}
-                inputType="number"
-                value={qqAcc}
-                callback={qqAccEvent}
-                placeholder={t("Login.placeholder_qq")}
-                enterKeyHint="next"
-                reg={qqReg}
-                regErrStr={t("Login.tip_error_qq")}
-              />
-            </div>
-          </>
-        )}
-        {loginType === 1 && (
-          <>
-            <div className="input_content_box">
+    <PopupDialogWrapper>
+      <div className="card-container">
+        <div className="close-cont" onClick={closePopup}>
+          <FontAwesomeIcon className="close-icon" icon={faX} style={{color: "#434343"}} />
+        </div>
+        <div className="card-header">
+          <h3 className="title-text">注册</h3>
+          <p className="subtitle-text">已有B次元账号？<span className="green cursor-pointer" onClick={toLogin} >{t("Login.login")}</span></p>
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="form-item">
+              <label className="form-label">一般账号注册</label>
               <IconInput
                 required
                 className="input_content_box_input"
@@ -370,41 +335,11 @@ const LoginSignupPage = () => {
                 regErrStr={t("Login.tip_error_account")}
               />
             </div>
-          </>
-        )}
-        {loginType === 3 && (
-          <>
-            <div className="input_content_box">
-              <IconInput
-                className="input_content_box_input"
-                ref={emailVerifyRef}
-                value={emailVerify}
-                type="number"
-                callback={emailVerifyEvent}
-                placeholder={t("Login.placeholder_mail_verify")}
-                enterKeyHint="done"
-                reg={emailVerifyReq}
-                regErrStr={t("Login.placeholder_mail_verify_tip")}
-                required
-              />
-              <div onClick={getEmailVerifyCode}>
-                <WavaButton
-                  className={`input_content_box_btn ${
-                    verifyTimer > 0 && "disabled"
-                  }`}
-                >
-                  {verifyTimer > 0
-                    ? verifyTimer + t("Login.after_second_sent")
-                    : t("Login.placeholder_get_letter")}
-                </WavaButton>
+            <div className="form-item">
+              <label className="form-label">密码</label>
+              <div className="eye-cont" onClick={showPassword}>
+                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
               </div>
-            </div>
-            <div className="input_content_box"></div>
-          </>
-        )}
-        {loginType !== 3 && (
-          <>
-            <div className="input_content_box">
               <IconInput
                 required
                 className="input_content_box_input"
@@ -416,116 +351,209 @@ const LoginSignupPage = () => {
                 enterKeyHint="done"
               />
             </div>
-          </>
-        )}
-      </form>
-      <div className="input_submit" onClick={signupUserSubmit}>
-        <p
-          className={`input_submit_text ${
-            loginType === 3 && emailVerify === "" && "disabled"
-          }`}
-        >
-          {loginType !== 3 || emailVerify !== ""
-            ? t("Login.register")
-            : t("Login.write_verity_code")}
-        </p>
-      </div>
+            <div className="btn-wrapper" onClick={signupUserSubmit}>
+              <button className="submit-btn">注册</button>
+            </div>
+          </div>
 
-      <br></br>
-      <div className="input_submit_text" onClick={openPopup}>
-        open register-pop-up
+          <div className="fast-register">
+            <div className="title-wrapper">
+              <h3>一秒快速注册</h3>
+              <p>享受海量优质作品</p>
+            </div>
+            <div className="email-register">
+              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
+              <p>以 Email 注册</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="popup-dialog" style={{display: 'none'}}>
-        <PopupDialog />
-      </div>
-    </LoginSignupPageElement>
+    </PopupDialogWrapper>
   );
 };
 
-export default LoginSignupPage;
+export default PopupDialog;
 
-export const LoginSignupPageElement = styled.div`
+export const PopupDialogWrapper = styled.div`
   /*  */
-  padding: ${padding}px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  .login_type {
-    display: flex;
-    margin-bottom: 10px;
-    &_box {
+  .card-container{
+    width: 16.667vw;
+    height: 25.458vw;
+    overflow: auto;
+    background-color: #fff;
+    padding: 2.042vw 1.25vw 1.25vw;
+    position: relative;
+
+    .close-cont{
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0.7vw 0.5vw;
       cursor: pointer;
-      font-size: 12px;
-      margin-right: 5px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: solid 1px #fa719a;
-      color: #fa719a;
-      &.active {
-        color: #fff;
-        background-color: #f24c7c;
+   
+      .close-icon{
+        width: 18px;
+        height: 18px;
       }
     }
-  }
 
-  .input_content {
-    &_box {
+    .card-header{
       display: flex;
-      margin-bottom: ${input_margin}px;
-      height: 60px;
-      @media (max-width: 899px) {
-        height: 40px;
-      }
-      &_input {
-        width: 100%;
-      }
-      &_btn {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        flex-grow: 1;
-        margin-left: 10px;
-        box-sizing: border-box;
-        min-width: 300px;
-        height: 100%;
-        line-height: 40px;
-        text-align: center;
-        color: #fff;
-        background-color: #f24c7c;
-        border-radius: 4px;
-        place-content: center;
-        @media (max-width: 899px) {
-          min-width: 100px;
-          font-size: 14px;
-        }
-        &.disabled {
-          color: #fff;
-          background-color: ${colors.text_light_grey};
-        }
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .title-text{
+      margin-bottom: 0.417vw;
+      line-height: 1;
+      font-size: 1.25vw;
+      color: #464656;
+      font-weight: 700 !important;
+    }
+
+    .subtitle-text{
+      margin-bottom: 1.042vw;
+      line-height: 1;
+      font-size: 0.729vw;
+      color: #464656;
+    }
+    
+    .form-item{
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .form-label{
+      line-height: 1;
+      font-size: 12px;
+      color: #464656;
+      font-weight: 700 !important;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+
+    label{
+      border: none;
+    }
+
+    .form-item input{
+      height: 40px;
+      min-height: 40px;
+      margin-top: 16px;
+      padding: 8px;
+      border: 1px solid #d6d6d6;
+      border-radius: 4px;
+      outline: none;
+      width: 100%;
+      margin: 0;
+      font-size: 16px;
+      color: #060616;
+      position: relative;
+    }
+
+    .green{
+      color: #56c676;
+      font-weight: 700;
+    }
+
+    .eye-cont{
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      line-height: 0;
+      margin: 11px;
+      z-index: 6;
+      cursor: pointer;
+    }
+
+    .eye-icon{
+      display: flex;
+      width: 24px;
+      height: 18px;
+    }
+
+    .submit-btn{
+      width: 100%;
+      margin-bottom: 12px;
+      line-height: 40px;
+      height: 40px;
+      border-radius: 2px !important;
+      background-color: #c6c6c6;
+      text-transform: none;
+      display: inline-flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700 !important;
+      padding: 0;
+      color: #fff;
+      transition: background-color .2s linear;
+
+      &:hover{
+        background-color: #8b8b8b;
       }
     }
   }
 
-  .input_submit {
-    cursor: pointer;
-    margin-top: 6rem;
+  .fast-register{
 
-    &_text {
-      padding: 16px 0;
-      font-size: 18px;
-      width: 100%;
-      text-align: center;
-      color: #fff;
-      background-color: #f24c7c;
-      border-radius: 4px;
-      font-weight: 700;
-      &.disabled {
-        background-color: #d8d8d8;
-        color: ${colors.text_grey};
+    margin-top: 2vw;
+    
+    .title-wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h3{
+        font-size: 48px;
+        margin-bottom: 5px;
       }
-      @media (max-width: 899px) {
-        padding: 10px 0;
+
+      p{
+        font-size: 16px;
+      }
+    }
+
+    .email-register{
+      border: 0.104vw solid #f2f2f2;
+      width: 100%;
+      height: 0.99vw;
+      padding: 0.66vw 0.817vw;
+      display: flex;
+      align-items: center;
+      margin-top: 2vw;
+      cursor: pointer;
+      transition: background-color .2s linear;
+  
+      .mail-icon{
+        width: 0.625vw;
+        height: 0.625vw;
+        margin-right: 3.875vw;
+      }
+
+      p{
         font-size: 14px;
       }
+
+      &:hover{
+        background-color: #f2f2f2;
+      }
     }
   }
+  
+
+}
 `;
