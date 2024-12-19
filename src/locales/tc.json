@@ -764,13 +764,15 @@
     "search_history": "搜寻历史"
   },
   "Login": {
-    "login": "登录",
+    "login": "登入",
     "logout": "登出",
     "login_now": "登录",
     "have_good_experiences": "登录即可享有更多极佳体验",
     "welcome": "欢迎登入B次元",
     "qq": "QQ登录",
     "mail": "邮箱登录",
+    "email": "以 Email 登入",
+    "general": "一般账号登入",
     "revise": "立即修改",
     "reset_password": "重置密码",
     "tip_error": "帐号或密码不正确",
@@ -785,7 +787,7 @@
     "select_login_mode": "或是选择以下方法登录",
     "pass": "略过，体验看看",
     "after_second_sent": "s 再次发送",
-    "register": "立即注册",
+    "register": "注册",
     "not_have_account": "还没有帐号",
     "go_login": "马上登录",
     "write_verity_code": "请先填写验证码",
@@ -805,10 +807,22 @@
     "placeholder_qq": "请输入QQ帐号"
   },
   "Register": {
-    "general": "一般注册",
+    "general": "一般账号注册",
     "qq": "QQ注册",
     "email": "邮箱注册",
-    "phone": "手机注册"
+    "phone": "手机注册",
+    "password": "密码",
+    "have_acc": "已有B次元账号？",
+    "no_acc": "没有B次元账号？",
+    "verifyCode": "验证码",
+    "editDetails": "修改邮箱及密码",
+    "fast_register_title":"一秒快速注册",
+    "fast_register_subtitle":"享受海量优质作品",
+    "fast_register_email":"以 Email 注册",
+    "t_and_c_1":"继续即表示您同意我们的",
+    "t_and_c_2":"服务条款",
+    "t_and_c_3":"和",
+    "t_and_c_4":"隐私政策"
   },
   "Personal": {
     "setting": "个人设定"

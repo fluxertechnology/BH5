@@ -1,17 +1,16 @@
 "use client";
-import { useTranslations } from "next-intl";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { colors, padding, REG_SET, pageUrlConstants } from "@/lib/constants";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEnvelope, faX, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-
-import IconInput, { input_margin } from "@/components/login/IconInputComponent";
-
+import { userLoginAction } from "@/store/actions/user";
+import { backRoutes, pushRoutes, replaceRoutes } from "@/store/actions/historyActions";
+import IconInput from "@/components/login/IconInputComponent";
 import callToast from "@/lib/services/toastCall.js";
 import { callCaptcha, CALL_CAPTCHA_TYPE } from "@/lib/services/callCaptcha";
-import WavaButton from "@/components/layout/Header/WavaButton";
-import { userLoginAction } from "@/store/actions/user";
-import { backRoutes, replaceRoutes } from "@/store/actions/historyActions";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 import { utmTrack, checkDataExpired } from "@/store/actions/utilities";
 import { handleRegisterAccount } from "@/lib/services/gtmEventHandle";
@@ -21,31 +20,40 @@ import {
   postVerifyEmailCodeAction,
   postCheckUserEmailAction,
 } from "@/store/actions/pages/loginSignupAction";
-
+import WavaButton from "@/components/layout/Header/WavaButton";
 import gt4 from "@/lib/services/gt4";
-import PopupDialog from "@/components/login/PopupComponent";
-
+import { pageUrlConstants, REG_SET } from "@/lib/constants";
+const { login, home } = pageUrlConstants;
 const { qqReg, emailReq, emailVerifyReq, alphanumericReq } = REG_SET;
-
-const { home } = pageUrlConstants;
 
 let captcha = {};
 let interval = "";
-const LoginSignupPage = () => {
+
+const PopupDialogRegister = () => {
   const t = useTranslations();
 
   const { state } = useGlobalContext();
-  const { is_mobile_reg, is_email_reg, is_qq_reg } = state.config;  
-  const showSignupType = [is_qq_reg, is_mobile_reg, is_email_reg];
-  let defaultSignType = showSignupType.length - 1;
-  for (let i = 0; i < showSignupType.length; i++) {
-    if (showSignupType[i]) {
-      defaultSignType = i;
-      break;
-    }
-  }
+  const { is_mobile_reg, is_email_reg, is_qq_reg } = state.config;
+  // const showSignupType = [is_qq_reg, is_mobile_reg, is_email_reg];
+  let defaultSignType = 1;
+  // for (let i = 0; i < showSignupType.length; i++) {
+  //   if (showSignupType[i]) {
+  //     defaultSignType = i;
+  //     break;
+  //   }
+  // }
 
   const [loginType, setLoginType] = useState(defaultSignType);
+  
+  const showPassword = () => {
+    var passwordInput = passwordRef.current;
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  };
+
   const accountRef = useRef(null);
   const qqAccRef = useRef(null);
   const emailRef = useRef(null);
@@ -59,17 +67,18 @@ const LoginSignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginTypeList = [
-    {
-      name: t("Register.qq"),
-    },
-    {
-      name: t("Register.general"),
-    },
-    {
-      name: t("Register.email"),
-    },
-  ];
+  // const loginTypeList = [
+  //   {
+  //     name: t("Register.qq"),
+  //   },
+  //   {
+  //     name: t("Register.general"),
+  //   },
+  //   {
+  //     name: t("Register.email"),
+  //   },
+  // ];
+  
   function emailVerifyEvent(e) {
     var key = window.event ? e.keyCode : e.which;
     setEmailVerify(e.target.value);
@@ -286,78 +295,26 @@ const LoginSignupPage = () => {
     useGlobalDispatch(postCheckUserEmailAction(email, callback));
   };
 
-  const openPopup = () => {
-    document.getElementById("popup-dialog").style.display = "block";
-    document.getElementsByTagName("body")[0].style.overflow = "hidden";
+  const clearFormInput = (loginType) => {
+    setAccount("");
+    setPassword("");
+    setEmail("");
+    setLoginType(loginType);
   };
-  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       gt4();
     }
   }, []);
+  
   return (
-    <LoginSignupPageElement>
-      <div id="aaaa" />
-      <div className="login_type">
-        {loginType !== 3 &&
-          loginTypeList.map(
-            (data, index) =>
-              !!showSignupType[index] && (
-                <div
-                  className={
-                    "login_type_box " + (index === loginType && "active")
-                  }
-                  onClick={() => {
-                    setLoginType(index);
-                  }}
-                  key={data.name}
-                >
-                  {data.name}
-                </div>
-              )
-          )}
-      </div>
-      <form className="input_content">
-        {loginType === 2 && (
-          <>
-            <div className="input_content_box">
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={emailRef}
-                inputType="email"
-                value={email}
-                callback={emailEvent}
-                placeholder={t("Login.placeholder_mail")}
-                enterKeyHint="next"
-                reg={emailReq}
-                regErrStr={t("Login.tip_error_mail")}
-              />
-            </div>
-          </>
-        )}
-        {loginType === 0 && (
-          <>
-            <div className="input_content_box">
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={qqAccRef}
-                inputType="number"
-                value={qqAcc}
-                callback={qqAccEvent}
-                placeholder={t("Login.placeholder_qq")}
-                enterKeyHint="next"
-                reg={qqReg}
-                regErrStr={t("Login.tip_error_qq")}
-              />
-            </div>
-          </>
-        )}
-        {loginType === 1 && (
-          <>
-            <div className="input_content_box">
+    <div className="card-body">
+      {loginType === 1 && (
+        <>
+          <div>
+            <div className="form-item">
+              <label className="form-label">{ t("Register.general") }</label>
               <IconInput
                 required
                 className="input_content_box_input"
@@ -370,13 +327,82 @@ const LoginSignupPage = () => {
                 regErrStr={t("Login.tip_error_account")}
               />
             </div>
-          </>
-        )}
-        {loginType === 3 && (
-          <>
-            <div className="input_content_box">
+            <div className="form-item">
+              <label className="form-label">{ t("Register.password") }</label>
+              <div className="eye-cont" onClick={showPassword}>
+                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+              </div>
               <IconInput
+                required
                 className="input_content_box_input"
+                ref={passwordRef}
+                inputType="password"
+                value={password}
+                callback={passwordEvent}
+                placeholder={t("Login.placeholder_password")}
+                enterKeyHint="done"
+              />
+            </div>
+            <div className="btn-wrapper" onClick={signupUserSubmit}>
+              <button className="submit-btn">{ t("Login.register") }</button>
+            </div>
+          </div>
+          <p className="t-and-c">{ t("Register.t_and_c_1") } <br /> <strong>{ t("Register.t_and_c_2") }</strong>{ t("Register.t_and_c_3") }<strong>{ t("Register.t_and_c_4") }</strong> </p>
+
+          <div className="fast-register">
+            {/* <div className="title-wrapper">
+              <h3>{ t("Register.fast_register_title") }</h3>
+              <p>{ t("Register.fast_register_subtitle") }</p>
+            </div> */}
+            <div className="user-register" onClick={() => clearFormInput(2)}>
+              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
+              <p>{ t("Register.fast_register_email") }</p>
+            </div>
+          </div>
+        
+        </>
+      )}
+      {(loginType === 2 || loginType == 3) && (
+        <>
+          <div>
+            <div className="form-item">
+              <label className="form-label">{ t("Register.email") }</label>
+              <IconInput
+                required
+                disabled={loginType == 3}
+                className="input_content_box_input"
+                ref={emailRef}
+                inputType="email"
+                value={email}
+                callback={emailEvent}
+                placeholder={t("Login.placeholder_mail")}
+                enterKeyHint="next"
+                reg={emailReq}
+                regErrStr={t("Login.tip_error_mail")}
+              />
+            </div>
+            <div className="form-item">
+              <label className="form-label">{ t("Register.password") }</label>
+              <div className="eye-cont" onClick={showPassword}>
+                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+              </div>
+              <IconInput
+                required
+                disabled={loginType == 3}
+                className="input_content_box_input"
+                ref={passwordRef}
+                inputType="password"
+                value={password}
+                callback={passwordEvent}
+                placeholder={t("Login.placeholder_password")}
+                enterKeyHint="done"
+              />
+            </div>
+
+            {loginType == 3 && <div className="input_content_box email-verify-box">
+              <label className="form-label">{ t("Register.verifyCode") }</label>
+              <IconInput
+                className="input_content_box_input email-verify"
                 ref={emailVerifyRef}
                 value={emailVerify}
                 type="number"
@@ -389,7 +415,7 @@ const LoginSignupPage = () => {
               />
               <div onClick={getEmailVerifyCode}>
                 <WavaButton
-                  className={`input_content_box_btn ${
+                  className={`verify-btn ${
                     verifyTimer > 0 && "disabled"
                   }`}
                 >
@@ -399,133 +425,40 @@ const LoginSignupPage = () => {
                 </WavaButton>
               </div>
             </div>
-            <div className="input_content_box"></div>
-          </>
-        )}
-        {loginType !== 3 && (
-          <>
-            <div className="input_content_box">
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={passwordRef}
-                inputType="password"
-                value={password}
-                callback={passwordEvent}
-                placeholder={t("Login.placeholder_password")}
-                enterKeyHint="done"
-              />
-            </div>
-          </>
-        )}
-      </form>
-      <div className="input_submit" onClick={signupUserSubmit}>
-        <p
-          className={`input_submit_text ${
-            loginType === 3 && emailVerify === "" && "disabled"
-          }`}
-        >
-          {loginType !== 3 || emailVerify !== ""
-            ? t("Login.register")
-            : t("Login.write_verity_code")}
-        </p>
-      </div>
+            }
 
-      <br></br>
-      <div className="input_submit_text" onClick={openPopup}>
-        open register-pop-up
-      </div>
-      <div id="popup-dialog" style={{display: 'none'}}>
-        <PopupDialog type="register" />
-      </div>
-    </LoginSignupPageElement>
+            <div className="btn-wrapper" onClick={signupUserSubmit}>
+              <button className="submit-btn">
+                <p className={` ${loginType === 3 && emailVerify === "" && "disabled"}`}>
+                  {loginType !== 3 || emailVerify !== ""
+                    ? t("Login.register")
+                    : t("Login.write_verity_code")}
+                </p>
+                </button>
+              {loginType == 3 && (
+                <button className="edit-btn" onClick={() => setLoginType(2)}>
+                  <p>{ t("Register.editDetails") }</p>
+                </button>
+              )}
+            </div>
+            <p className="t-and-c">{ t("Register.t_and_c_1") } <br /> <strong>{ t("Register.t_and_c_2") }</strong>{ t("Register.t_and_c_3") }<strong>{ t("Register.t_and_c_4") }</strong> </p>
+
+            <div className="fast-register">
+              {/* <div className="title-wrapper">
+                <h3>{ t("Register.fast_register_title") }</h3>
+                <p>{ t("Register.fast_register_subtitle") }</p>
+              </div> */}
+              <div className="user-register" onClick={() => clearFormInput(1)}>
+                <FontAwesomeIcon className="mail-icon" icon={faCircleUser} style={{color: "#434343"}} />
+                <p>{ t("Register.general") }</p>
+              </div>
+            </div>
+          </div>
+        
+        </>
+      )}
+    </div>
   );
 };
 
-export default LoginSignupPage;
-
-export const LoginSignupPageElement = styled.div`
-  /*  */
-  padding: ${padding}px;
-
-  .login_type {
-    display: flex;
-    margin-bottom: 10px;
-    &_box {
-      cursor: pointer;
-      font-size: 12px;
-      margin-right: 5px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: solid 1px #fa719a;
-      color: #fa719a;
-      &.active {
-        color: #fff;
-        background-color: #f24c7c;
-      }
-    }
-  }
-
-  .input_content {
-    &_box {
-      display: flex;
-      margin-bottom: ${input_margin}px;
-      height: 60px;
-      @media (max-width: 899px) {
-        height: 40px;
-      }
-      &_input {
-        width: 100%;
-      }
-      &_btn {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        flex-grow: 1;
-        margin-left: 10px;
-        box-sizing: border-box;
-        min-width: 300px;
-        height: 100%;
-        line-height: 40px;
-        text-align: center;
-        color: #fff;
-        background-color: #f24c7c;
-        border-radius: 4px;
-        place-content: center;
-        @media (max-width: 899px) {
-          min-width: 100px;
-          font-size: 14px;
-        }
-        &.disabled {
-          color: #fff;
-          background-color: ${colors.text_light_grey};
-        }
-      }
-    }
-  }
-
-  .input_submit {
-    cursor: pointer;
-    margin-top: 6rem;
-
-    &_text {
-      padding: 16px 0;
-      font-size: 18px;
-      width: 100%;
-      text-align: center;
-      color: #fff;
-      background-color: #f24c7c;
-      border-radius: 4px;
-      font-weight: 700;
-      &.disabled {
-        background-color: #d8d8d8;
-        color: ${colors.text_grey};
-      }
-      @media (max-width: 899px) {
-        padding: 10px 0;
-        font-size: 14px;
-      }
-    }
-  }
-`;
+export default PopupDialogRegister;

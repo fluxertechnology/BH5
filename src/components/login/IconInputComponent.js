@@ -22,6 +22,7 @@ const IconInput = React.forwardRef(
       reg = null,
       regErrStr = null,
       required,
+      disabled
     },
     ref
   ) => {
@@ -37,6 +38,7 @@ const IconInput = React.forwardRef(
         {icon && <Image width={33} height={33} className="icon" src={icon} alt="icon" />}
         <input
           required={required}
+          disabled={disabled}
           ref={ref}
           className="input"
           type={inputType}
