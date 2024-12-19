@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEnvelope, faX } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEnvelope, faX, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { userLoginAction } from "@/store/actions/user";
 import { backRoutes, pushRoutes, replaceRoutes } from "@/store/actions/historyActions";
@@ -20,7 +20,7 @@ import {
   postVerifyEmailCodeAction,
   postCheckUserEmailAction,
 } from "@/store/actions/pages/loginSignupAction";
-
+import WavaButton from "@/components/layout/Header/WavaButton";
 import gt4 from "@/lib/services/gt4";
 import { pageUrlConstants, REG_SET } from "@/lib/constants";
 const { login, home } = pageUrlConstants;
@@ -44,6 +44,7 @@ const PopupDialog = () => {
   // }
 
   const [loginType, setLoginType] = useState(defaultSignType);
+  console.log(loginType)
 
   const toLogin = () => {
     useGlobalDispatch(pushRoutes(login));
@@ -320,52 +321,144 @@ const PopupDialog = () => {
           <p className="subtitle-text">已有B次元账号？<span className="green cursor-pointer" onClick={toLogin} >{t("Login.login")}</span></p>
         </div>
         <div className="card-body">
-          <div>
-            <div className="form-item">
-              <label className="form-label">一般账号注册</label>
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={accountRef}
-                value={account}
-                callback={accountEvent}
-                placeholder={t("Login.placeholder_account")}
-                enterKeyHint="next"
-                reg={alphanumericReq}
-                regErrStr={t("Login.tip_error_account")}
-              />
-            </div>
-            <div className="form-item">
-              <label className="form-label">密码</label>
-              <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+          {loginType === 1 && (
+            <>
+              <div>
+                <div className="form-item">
+                  <label className="form-label">一般账号注册</label>
+                  <IconInput
+                    required
+                    className="input_content_box_input"
+                    ref={accountRef}
+                    value={account}
+                    callback={accountEvent}
+                    placeholder={t("Login.placeholder_account")}
+                    enterKeyHint="next"
+                    reg={alphanumericReq}
+                    regErrStr={t("Login.tip_error_account")}
+                  />
+                </div>
+                <div className="form-item">
+                  <label className="form-label">密码</label>
+                  <div className="eye-cont" onClick={showPassword}>
+                    <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+                  </div>
+                  <IconInput
+                    required
+                    className="input_content_box_input"
+                    ref={passwordRef}
+                    inputType="password"
+                    value={password}
+                    callback={passwordEvent}
+                    placeholder={t("Login.placeholder_password")}
+                    enterKeyHint="done"
+                  />
+                </div>
+                <div className="btn-wrapper" onClick={signupUserSubmit}>
+                  <button className="submit-btn">注册</button>
+                </div>
               </div>
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={passwordRef}
-                inputType="password"
-                value={password}
-                callback={passwordEvent}
-                placeholder={t("Login.placeholder_password")}
-                enterKeyHint="done"
-              />
-            </div>
-            <div className="btn-wrapper" onClick={signupUserSubmit}>
-              <button className="submit-btn">注册</button>
-            </div>
-          </div>
 
-          <div className="fast-register">
-            <div className="title-wrapper">
-              <h3>一秒快速注册</h3>
-              <p>享受海量优质作品</p>
-            </div>
-            <div className="email-register">
-              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
-              <p>以 Email 注册</p>
-            </div>
-          </div>
+              <div className="fast-register">
+                <div className="title-wrapper">
+                  <h3>一秒快速注册</h3>
+                  <p>享受海量优质作品</p>
+                </div>
+                <div className="email-register" onClick={() => setLoginType(2)}>
+                  <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
+                  <p>以 Email 注册</p>
+                </div>
+              </div>
+            
+            </>
+          )}
+          {(loginType === 2 || loginType == 3) && (
+            <>
+              <div>
+                <div className="form-item">
+                  <label className="form-label">邮箱注册</label>
+                  <IconInput
+                    required
+                    className="input_content_box_input"
+                    ref={emailRef}
+                    inputType="email"
+                    value={email}
+                    callback={emailEvent}
+                    placeholder={t("Login.placeholder_mail")}
+                    enterKeyHint="next"
+                    reg={emailReq}
+                    regErrStr={t("Login.tip_error_mail")}
+                  />
+                </div>
+                <div className="form-item">
+                  <label className="form-label">密码</label>
+                  <div className="eye-cont" onClick={showPassword}>
+                    <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+                  </div>
+                  <IconInput
+                    required
+                    className="input_content_box_input"
+                    ref={passwordRef}
+                    inputType="password"
+                    value={password}
+                    callback={passwordEvent}
+                    placeholder={t("Login.placeholder_password")}
+                    enterKeyHint="done"
+                  />
+                </div>
+
+                <div className="input_content_box email-verify-box">
+                  <label className="form-label">验证码</label>
+                  <IconInput
+                    className="input_content_box_input email-verify"
+                    ref={emailVerifyRef}
+                    value={emailVerify}
+                    type="number"
+                    callback={emailVerifyEvent}
+                    placeholder={t("Login.placeholder_mail_verify")}
+                    enterKeyHint="done"
+                    reg={emailVerifyReq}
+                    regErrStr={t("Login.placeholder_mail_verify_tip")}
+                    required
+                  />
+                  <div onClick={getEmailVerifyCode}>
+                    <WavaButton
+                      className={`verify-btn ${
+                        verifyTimer > 0 && "disabled"
+                      }`}
+                    >
+                      {verifyTimer > 0
+                        ? verifyTimer + t("Login.after_second_sent")
+                        : t("Login.placeholder_get_letter")}
+                    </WavaButton>
+                  </div>
+                </div>
+
+                <div className="btn-wrapper" onClick={signupUserSubmit}>
+                  <button className="submit-btn">
+                    <p className={` ${loginType === 3 && emailVerify === "" && "disabled"}`}>
+                      {loginType !== 3 || emailVerify !== ""
+                        ? t("Login.register")
+                        : t("Login.write_verity_code")}
+                    </p>
+                    </button>
+                </div>
+                <p className="t-and-c">繼續即表示您同意我們的服務條款和隱私政策</p>
+
+                <div className="fast-register">
+                  <div className="title-wrapper">
+                    <h3>一秒快速注册</h3>
+                    <p>享受海量优质作品</p>
+                  </div>
+                  <div className="email-register" onClick={() => setLoginType(1)}>
+                    <FontAwesomeIcon className="mail-icon" icon={faCircleUser} style={{color: "#434343"}} />
+                    <p>一般账号注册</p>
+                  </div>
+                </div>
+              </div>
+            
+            </>
+          )}
         </div>
       </div>
     </PopupDialogWrapper>
@@ -389,11 +482,11 @@ export const PopupDialogWrapper = styled.div`
   justify-content: center;
 
   .card-container{
-    width: 16.667vw;
-    height: 25.458vw;
+    width: 17.667vw;
+    max-height: 34.458vw;
     overflow: auto;
     background-color: #fff;
-    padding: 2.042vw 1.25vw 1.25vw;
+    padding: 2.042vw 1.25vw 2.042vw;
     position: relative;
 
     .close-cont{
@@ -404,8 +497,8 @@ export const PopupDialogWrapper = styled.div`
       cursor: pointer;
    
       .close-icon{
-        width: 18px;
-        height: 18px;
+        width: 0.938vw;
+        height: 0.938vw;
       }
     }
 
@@ -432,16 +525,17 @@ export const PopupDialogWrapper = styled.div`
     
     .form-item{
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 0.833vw;
     }
 
     .form-label{
       line-height: 1;
-      font-size: 12px;
+      font-size: 0.625vw;
       color: #464656;
       font-weight: 700 !important;
       display: inline-block;
-      margin-bottom: 5px;
+      margin-bottom: 0.26vw;
+      min-width: 2vw;
     }
 
     label{
@@ -449,16 +543,16 @@ export const PopupDialogWrapper = styled.div`
     }
 
     .form-item input{
-      height: 40px;
-      min-height: 40px;
-      margin-top: 16px;
-      padding: 8px;
-      border: 1px solid #d6d6d6;
-      border-radius: 4px;
+      height: 2.083vw;
+      min-height: 2.083vw;
+      margin-top: 0.833vw;
+      padding: 0.417vw;
+      border: 0.052vw solid #d6d6d6;
+      border-radius: 0.208vw;
       outline: none;
       width: 100%;
       margin: 0;
-      font-size: 16px;
+      font-size: 0.833vw;
       color: #060616;
       position: relative;
     }
@@ -473,30 +567,30 @@ export const PopupDialogWrapper = styled.div`
       right: 0;
       bottom: 0;
       line-height: 0;
-      margin: 11px;
+      margin: 0.573vw;
       z-index: 6;
       cursor: pointer;
     }
 
     .eye-icon{
       display: flex;
-      width: 24px;
-      height: 18px;
+      width: 1.25vw;
+      height: 0.938vw;
     }
 
     .submit-btn{
       width: 100%;
-      margin-bottom: 12px;
-      line-height: 40px;
-      height: 40px;
-      border-radius: 2px !important;
+      margin-bottom: 0.625vw;
+      line-height: 2.083vw;
+      height: 2.083vw;
+      border-radius: 0.104vw !important;
       background-color: #c6c6c6;
       text-transform: none;
       display: inline-flex;
       text-align: center;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 0.833vw;
       font-weight: 700 !important;
       padding: 0;
       color: #fff;
@@ -518,12 +612,12 @@ export const PopupDialogWrapper = styled.div`
       align-items: center;
 
       h3{
-        font-size: 48px;
-        margin-bottom: 5px;
+        font-size: 2.5vw;
+        margin-bottom: 0.26vw;
       }
 
       p{
-        font-size: 16px;
+        font-size: 0.833vw;
       }
     }
 
@@ -545,7 +639,7 @@ export const PopupDialogWrapper = styled.div`
       }
 
       p{
-        font-size: 14px;
+        font-size: 0.729vw;
       }
 
       &:hover{
@@ -553,7 +647,39 @@ export const PopupDialogWrapper = styled.div`
       }
     }
   }
-  
 
+  .email-verify-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vw !important;
+    
+    label{
+      margin-bottom: 0 !important;
+      margin-right: 1vw;
+    }
+  }
+
+  .email-verify input{
+    font-size: 0.729vw;
+  }
+  
+  .verify-btn{
+    width:  5vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #ffc44b;
+    font-size: 0.729vw;
+  }
+
+  .t-and-c{
+    margin-bottom: 0;
+    font-size: 0.625vw;
+    color: #666676;
+    line-height: 1;
+    text-align: center;
+  }
 }
 `;

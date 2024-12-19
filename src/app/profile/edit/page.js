@@ -253,16 +253,27 @@ export const ProfileEditInfoElement = styled.div.withConfig({
         &_input {
             display: flex;
             width: 60%;
-            max-width: 200px;
+            // max-width: 200px;
+
+            @media (max-width: 1024px) {
+              width: 40%;
+              max-width: 200px;
+            }
 
             &_el {
-            width: 100%;
-            font-size: 22px;
-            text-align: right;
-            color: #a8a8a8;
-            border: none;
-            outline: none;
-            font-weight: 900;
+              width: 100%;
+              font-size: 22px;
+              text-align: right;
+              color: #a8a8a8;
+              border: none;
+              outline: none;
+              font-weight: 900;
+
+              @media (max-width: 1024px) {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
             }
         }
 
