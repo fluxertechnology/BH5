@@ -419,7 +419,7 @@ const styles = {
 
 export const HomeMainPageElement = styled.div`
   /*  */
-  padding-top: 114px;
+  // padding-top: 114px;
   position: relative;
   overflow: hidden;
   background: #f3f4f5;

@@ -346,7 +346,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     //   url: downloadPage[1] + "?utm_source=" + user.share_ma,
     // });
     navigator.clipboard
-      .writeText(downloadPage[1] + "?utm_source=" + user.share_ma)
+      .writeText(downloadPage[1] + "?utm_source=" + state.user.share_ma)
       .then(() => {
         callToast("复制成功");
       })
@@ -413,7 +413,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     );
   };
   const dailyEvent = () => {
-    useGlobalDispatch(dailyLoginAction(intl));
+    useGlobalDispatch(dailyLoginAction(t));
   };
   const postSearchWatchHistoryEvent = (type) => {
     useGlobalDispatch(postSearchWatchHistoryAction(type));

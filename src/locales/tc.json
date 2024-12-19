@@ -427,8 +427,8 @@
         "watch": {
           "forever": "无限观影"
         },
-        "exclusive": "专属客服",
-        "premium_icon": "尊享图标",
+        "exclusive": "动态免审核",
+        "premium_icon": "限定头像",
         "info": {
           "description_1": "无限观影权益内容仅包含动画、漫画、小说、美图、直播、约Ｐ，不包含视频。",
           "description_2": "直播、约Ｐ，不包含视频。",
@@ -747,7 +747,7 @@
       "checked": "已选择",
       "buy_long": "选择购买时长",
       "submit_form": "订单已提交",
-      "modal_description": "支付成功，一般在1－5分钟内生效。如超时未生效，请您再试一次，若仍然未生效，请联系在线客服",
+      "modal_description": "我们正在确认您的支付状态，\n请稍候…\n如果您已完成支付，\nVIP 权益将在 1-5 分钟内生效。",
       "member_permissions": "会员特权",
       "one_month": "一个月vip",
       "third_month": "三个月vip",

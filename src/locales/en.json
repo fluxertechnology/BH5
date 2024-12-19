@@ -745,7 +745,7 @@
       "checked": "Selected",
       "buy_long": "Select Purchase Duration",
       "submit_form": "Order Submitted",
-      "modal_description": "Payment successful, generally effective within 1-5 minutes. If it is not effective after the timeout, please try again. If it is still not effective, please contact online customer service",
+      "modal_description": "We are confirming your payment status, please wait...\nIf you have completed the payment, the VIP benefits will take effect within 1-5 minutes.",
       "member_permissions": "Member Privileges",
       "one_month": "One Month VIP",
       "third_month": "Three Months VIP",
