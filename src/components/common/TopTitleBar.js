@@ -5,6 +5,7 @@ import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
 import { colors, padding, pageUrlConstants } from "@/lib/constants";
 
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import HomeIcon from '@mui/icons-material/Home';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +16,8 @@ import {
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 
 import { useGlobalDispatch, useGlobalContext } from "@/store";
+
+import { useRouter } from "next/navigation";
 
 const TopTitleBar = ({
   title = "",
@@ -33,6 +36,7 @@ const TopTitleBar = ({
   show_border_bottom = false,
 }) => {
   const { state } = useGlobalContext();
+  const router = useRouter();
   const backEvent = (backIndex, not_clear_history) => {
     if (backIndex) {
       useGlobalDispatch(
@@ -59,18 +63,25 @@ const TopTitleBar = ({
     >
       <div className="container">
         {showBack ? (
-          <div
-            className="container_back"
-            onClick={() => {
-              backEvent(backIndex, not_clear_history);
-            }}
-            style={{
-              color: show_back_color,
-            }}
-          >
-            <KeyboardBackspaceIcon
-              className="container_back_icon"
-              icon={faAngleLeft}
+          <div>
+            <div
+              className="container_back"
+              onClick={() => {
+                backEvent(backIndex, not_clear_history);
+              }}
+              style={{
+                color: show_back_color,
+              }}
+            >
+              <KeyboardBackspaceIcon
+                className="container_back_icon"
+                icon={faAngleLeft}
+              />
+            </div>
+            <HomeIcon
+              className="container_back_icon ml-4"
+              onClick={() => router.push('/')}
+              style={{ cursor: 'pointer', color: show_back_color }}
             />
           </div>
         ) : (
@@ -144,7 +155,7 @@ export const TopTitleBarElement = styled.div.withConfig({
 
     &_back {
       background-color: ${({ show_back_color }) =>
-        show_back_color === "#fff" ? "#0007" : "transparent"};
+    show_back_color === "#fff" ? "#0007" : "transparent"};
       border-radius: 50%;
 
       &_icon {

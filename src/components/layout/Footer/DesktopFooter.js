@@ -7,14 +7,22 @@ import Cookies from "js-cookie"; // Make sure to import Cookies
 import Image from "next/image";
 import styled from "styled-components";
 import Grid2 from "@mui/material/Grid2";
-import { useState } from 'react';
+import { useState } from "react";
 import { QRCodeCanvas as QRCode } from "qrcode.react";
 import useMediaQuery from "@/hooks/useMediaQuery";
-
-import { colors, downloadPage, officialContact, profileService, profileFeedback, pageUrlConstants } from "@/lib/constants";
+import { useGlobalContext } from "@/store";
+import {
+  colors,
+  downloadPage,
+  officialContact,
+  profileService,
+  profileFeedback,
+  pageUrlConstants,
+} from "@/lib/constants";
 const { home } = pageUrlConstants;
 
 const DesktopFooter = ({ locale }) => {
+  const { state } = useGlobalContext();
   const t = useTranslations();
   // const router = useRouter();
 
@@ -27,29 +35,29 @@ const DesktopFooter = ({ locale }) => {
 
   let urlItems = [
     {
-      text: t('Profile.main.option.common_problem'),
+      text: t("Profile.main.option.common_problem"),
       onClick: () => window.open(profileService),
     },
     {
-      text: t('Profile.main.option.contact_us'),
+      text: t("Profile.main.option.contact_us"),
       onClick: () => window.open("mailto: cs@bbacgn.com"),
     },
     {
-      text: t('Profile.main.option.feeback'),
+      text: t("Profile.main.option.feeback"),
       onClick: () => window.open(profileFeedback),
     },
   ];
 
   let serviceTerms = [
     {
-      text: t('Footer.user.privacy_policy'),
+      text: t("Footer.user.privacy_policy"),
       url: {
         name: home.pages.homeProtocol.pages.homeEULA.name,
         path: home.pages.homeProtocol.pages.homeEULA.path,
       },
     },
     {
-      text: t('Footer.user.services_agreement'),
+      text: t("Footer.user.services_agreement"),
       url: {
         name: home.pages.homeProtocol.pages.homeTSM.name,
         path: home.pages.homeProtocol.pages.homeTSM.path,
@@ -57,10 +65,13 @@ const DesktopFooter = ({ locale }) => {
     },
   ];
 
-  if(isMobile) return<></>
+  if (isMobile) return <></>;
 
   return (
-    <PCFooterElement className={"PCFooterElement"}>
+    <PCFooterElement
+      className={"PCFooterElement"}
+      show_footer={state.navbar.isShowFooter}
+    >
       <div className="area">
         <div className="area_left">
           <div className="area_left_img">
@@ -156,8 +167,11 @@ const DesktopFooter = ({ locale }) => {
 export default DesktopFooter;
 
 export const bottom_footer_height = "250px";
-export const PCFooterElement = styled.div`
+export const PCFooterElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["show_footer"].includes(prop),
+})`
   /*  */
+  display: ${({ show_footer }) => (show_footer ? "block" : "none")};
   background-color: #f3f4f5;
   height: ${bottom_footer_height + "px"};
   font-size: 1.1rem;
@@ -264,7 +278,11 @@ const QrCode = () => {
             onMouseEnter={onHover}
             onMouseLeave={onLeaveHover}
             className={"search_bar_nav_item_btn_img"}
-            src={isHover ? "/images/footer/app_download_dark.svg" : "/images/footer/app_download.svg"}
+            src={
+              isHover
+                ? "/images/footer/app_download_dark.svg"
+                : "/images/footer/app_download.svg"
+            }
             alt={"app_download"}
           />
         </div>
@@ -273,9 +291,7 @@ const QrCode = () => {
         </div>
         <div className="qrcode_float">
           <ol>
-            <li>
-            {t("Global.action.download_app_description")}
-            </li>
+            <li>{t("Global.action.download_app_description")}</li>
             <li>
               <QRCode
                 className="share_info_qrcode_item_img"
@@ -325,7 +341,7 @@ const QrCodeElement = styled.div`
         box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
         z-index: 1;
 
-        .share_info_qrcode_item_img{
+        .share_info_qrcode_item_img {
           width: 128px;
           height: 128px;
           margin: 5px auto;
@@ -362,12 +378,14 @@ const FriendSocial = () => {
         onMouseLeave={onLeaveHover}
         className={"search_bar_nav_item_btn_img"}
         src={
-          isHover ? "/images/footer/friend_socrial_dark.svg" : "/images/footer/friend_socrial.svg"
+          isHover
+            ? "/images/footer/friend_socrial_dark.svg"
+            : "/images/footer/friend_socrial.svg"
         }
         alt={"friend_socrial"}
       />
       <div className="pt-1 ">
-        {t('Profile.main.option.official_friend_group')}
+        {t("Profile.main.option.official_friend_group")}
       </div>
     </FriendSocialElement>
   );

@@ -172,40 +172,40 @@
         "hot": {
           "commodity": "Popular"
         }
-      },
-      "sheet": {
-        "label": {
-          "settle": "Payment",
-          "choice": {
-            "coupon": "Select Coupon"
-          },
-          "gold_money_once": "B coin 1 time",
-          "payment": "Payment method",
-          "buy": {
-            "discount": {
-              "game": "Get discounts on game"
-            },
-            "money": "Top Up Diamond",
-            "gold_money": "Top Up B Coins",
-            "confirm": "Confirm "
-          },
-          "coupon": "Coupon",
-          "received_data": "Receiver info.",
-          "give_away_phone": "Enter the mobile to transfer",
-          "specifications": "Spec.",
-          "description_1": "Only for shopping",
-          "description_2": "When shopping completed, go to Profile to check the order",
-          "description_3": "If you have any questions, contact customer service"
+      }
+    },
+    "sheet": {
+      "label": {
+        "settle": "Payment",
+        "choice": {
+          "coupon": "Select Coupon"
         },
-        "placeholder": {
-          "receiver": {
-            "name": "Input Receiver Info."
+        "gold_money_once": "B coin 1 time",
+        "payment": "Payment method",
+        "buy": {
+          "discount": {
+            "game": "Get discounts on game"
           },
-          "area": "Input Receiver Area",
-          "complete_address": "Input Receiver Address",
-          "postal_code": "Input Your Email",
-          "phone": "Input Phone No."
-        }
+          "money": "Top Up Diamond",
+          "gold_money": "Top Up B Coins",
+          "confirm": "Confirm "
+        },
+        "coupon": "Coupon",
+        "received_data": "Receiver info.",
+        "give_away_phone": "Enter the mobile to transfer",
+        "specifications": "Spec.",
+        "description_1": "Only for shopping",
+        "description_2": "When shopping completed, go to Profile to check the order",
+        "description_3": "If you have any questions, contact customer service"
+      },
+      "placeholder": {
+        "receiver": {
+          "name": "Input Receiver Info."
+        },
+        "area": "Input Receiver Area",
+        "complete_address": "Input Receiver Address",
+        "postal_code": "Input Your Email",
+        "phone": "Input Phone No."
       }
     }
   },
@@ -745,7 +745,7 @@
       "checked": "Selected",
       "buy_long": "Select Purchase Duration",
       "submit_form": "Order Submitted",
-      "modal_description": "Payment successful, generally effective within 1-5 minutes. If it is not effective after the timeout, please try again. If it is still not effective, please contact online customer service",
+      "modal_description": "We are confirming your payment status, please wait...\nIf you have completed the payment, the VIP benefits will take effect within 1-5 minutes.",
       "member_permissions": "Member Privileges",
       "one_month": "One Month VIP",
       "third_month": "Three Months VIP",
@@ -962,6 +962,23 @@
           },
           "all": "All"
         }
+      }
+    }
+  },
+  "Download": {
+    "watch": {
+      "now": "Watch Now"
+    },
+    "mode": {
+      "android": "Download Direct",
+      "local": "Cloud Space"
+    },
+    "label": {
+      "description_1": "Business add in Telegram:@j80640"
+    },
+    "action": {
+      "click": {
+        "copy": "Copy"
       }
     }
   }

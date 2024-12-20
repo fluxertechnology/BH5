@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { styled as muiStyled } from "@mui/material/styles";
-import TopBarContainer, {
-  main_height,
-} from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import { useTranslations } from "next-intl";
 import { colors, pageUrlConstants } from "@/lib/constants";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
@@ -42,8 +42,8 @@ const ProfilePayment = () => {
     return time === "-1"
       ? t("Profile.buy.watch.forever_1")
       : Date.now() > time * 1000
-      ? t("Profile.main.vip.maturity1")
-      : new Date(time * 1000).toLocaleDateString().toString();
+        ? t("Profile.main.vip.maturity1")
+        : new Date(time * 1000).toLocaleDateString().toString();
   }
   const memberPermissions = [
     {
@@ -94,7 +94,7 @@ const ProfilePayment = () => {
   const getDirectPurchaseList = () => {
     useGlobalDispatch(postDirectPurchaseList());
   };
-  const getDirectPurchase = (data, callback = () => {}) => {
+  const getDirectPurchase = (data, callback = () => { }) => {
     useGlobalDispatch(postDirectPurchase(data, callback));
   };
 
@@ -116,6 +116,8 @@ const ProfilePayment = () => {
       },
     });
   }, []);
+
+  const nodeRef = useRef(null);
   return (
     <ProfilePaymentElement main_height={state.navbar.mainHeight}>
       <article className="black_area">
@@ -159,8 +161,8 @@ const ProfilePayment = () => {
                 {state.profileDirectBuy.item_list.map((item, index) => {
                   return (
                     <VipCard
-                      key={item.id}
-                      nowSelect={itemSelect === index}
+                      key={index}
+                      nowselect={itemSelect === index ? "true" : "false"}
                       onClick={() => setItemSelect(index)}
                       index={index}
                       {...item}
@@ -195,14 +197,13 @@ const ProfilePayment = () => {
       </div>
 
       <FloatElement
-        showTransfer={showTransfer}
-        onCloseFloatCover={onCloseFloatCover}
       >
         <div
           className="float_cover"
           style={{
             height: showTransfer ? "auto" : "0vh",
             transform: showTransfer && "translateY(" + -70 + `vh) `,
+            overflow: "hidden",
           }}
         >
           <div className="float_cover_container">
@@ -238,7 +239,7 @@ const ProfilePayment = () => {
                     onClick={() => setChannelSelect(item.id)}
                   >
                     <label
-                      for={item.name}
+                      htmlFor={item.name}
                       className="float_cover_body_text g-flex-center align-items-center gap-1 justify-content-start w-100 "
                     >
                       <Image
@@ -255,7 +256,7 @@ const ProfilePayment = () => {
                       id={item.name}
                       name="payTypeItems"
                       value={item.name}
-                      checked={item.id == channelSelect}
+                      onChange={() => setChannelSelect(item.id)}
                     />
                   </div>
                 ))}
@@ -279,6 +280,7 @@ const ProfilePayment = () => {
           classNames="CSSTransition_opacity"
           unmountOnExit
           key="CSSTransition_show_view"
+          nodeRef={nodeRef}
         >
           <div className="float_cover_tip" onClick={() => setShowModal(false)}>
             <div
@@ -470,6 +472,7 @@ export const ProfilePaymentElement = styled.div.withConfig({
               width: 80%;
               text-align: center;
               color: ${colors.text_grey};
+              white-space:pre-line;
 
               &_input {
                 width: 100%;
@@ -639,7 +642,7 @@ const VipCard = ({
       case 2:
         return "/images/profile/bg-red.svg";
       default:
-        break;
+        return "";
     }
   }
   function switchColor() {
@@ -651,7 +654,7 @@ const VipCard = ({
       case 2:
         return "#ff4848";
       default:
-        break;
+        return "";
     }
   }
   return (
@@ -678,7 +681,7 @@ const VipCardElement = styled.div`
   height: 9rem;
   white-space: nowrap;
   font-weight: 600;
-  opacity: ${({ nowSelect }) => (nowSelect ? 1 : 0.5)};
+  opacity: ${({ nowselect }) => (nowselect == "true" ? 1 : 0.5)};
   cursor: pointer;
   user-select: none;
   transition: 1s;

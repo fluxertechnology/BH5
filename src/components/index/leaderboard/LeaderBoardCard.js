@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ImageComponent from "@/components/common/ImageComponent";
 import { pageUrlConstants, side_padding } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
-import { useGlobalContext } from "@/store";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 import { judeTotalViewUnit } from "@/store/actions/utilities";
 import Image from "next/image";

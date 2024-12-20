@@ -172,40 +172,40 @@
         "hot": {
           "commodity": "热销商品"
         }
-      },
-      "sheet": {
-        "label": {
-          "settle": "结账",
-          "choice": {
-            "coupon": "选择优惠券"
-          },
-          "gold_money_once": "金币1次",
-          "payment": "支付方式",
-          "buy": {
-            "discount": {
-              "game": "购买游戏即可享有折扣"
-            },
-            "money": "精钻购买",
-            "gold_money": "金币购买",
-            "confirm": "确定购买 "
-          },
-          "coupon": "优惠券",
-          "received_data": "收礼人资讯",
-          "give_away_phone": "请输入转赠的手机号码",
-          "specifications": "规格说明",
-          "description_1": "，仅适用于商城消费",
-          "description_2": "购买完成后请前往我的－商城 订单查看，如遇到任何问题，",
-          "description_3": "再请点选右上标誌联系客服， 谢谢。"
+      }
+    },
+    "sheet": {
+      "label": {
+        "settle": "结账",
+        "choice": {
+          "coupon": "选择优惠券"
         },
-        "placeholder": {
-          "reciever": {
-            "name": "请填写收货人姓名"
+        "gold_money_once": "金币1次",
+        "payment": "支付方式",
+        "buy": {
+          "discount": {
+            "game": "购买游戏即可享有折扣"
           },
-          "area": "请填写所在地区",
-          "complete_address": "请填写详细地址",
-          "postal_code": "请填写邮编",
-          "phone": "请填写手机"
-        }
+          "money": "精钻购买",
+          "gold_money": "金币购买",
+          "confirm": "确定购买 "
+        },
+        "coupon": "优惠券",
+        "received_data": "收礼人资讯",
+        "give_away_phone": "请输入转赠的手机号码",
+        "specifications": "规格说明",
+        "description_1": "，仅适用于商城消费",
+        "description_2": "购买完成后请前往我的－商城 订单查看，如遇到任何问题，",
+        "description_3": "再请点选右上标誌联系客服， 谢谢。"
+      },
+      "placeholder": {
+        "reciever": {
+          "name": "请填写收货人姓名"
+        },
+        "area": "请填写所在地区",
+        "complete_address": "请填写详细地址",
+        "postal_code": "请填写邮编",
+        "phone": "请填写手机"
       }
     }
   },
@@ -427,8 +427,8 @@
         "watch": {
           "forever": "无限观影"
         },
-        "exclusive": "专属客服",
-        "premium_icon": "尊享图标",
+        "exclusive": "动态免审核",
+        "premium_icon": "限定头像",
         "info": {
           "description_1": "无限观影权益内容仅包含动画、漫画、小说、美图、直播、约Ｐ，不包含视频。",
           "description_2": "直播、约Ｐ，不包含视频。",
@@ -747,7 +747,7 @@
       "checked": "已选择",
       "buy_long": "选择购买时长",
       "submit_form": "订单已提交",
-      "modal_description": "支付成功，一般在1－5分钟内生效。如超时未生效，请您再试一次，若仍然未生效，请联系在线客服",
+      "modal_description": "我们正在确认您的支付状态，\n请稍候…\n如果您已完成支付，\nVIP 权益将在 1-5 分钟内生效。",
       "member_permissions": "会员特权",
       "one_month": "一个月vip",
       "third_month": "三个月vip",
@@ -964,6 +964,23 @@
           },
           "all": "全部"
         }
+      }
+    }
+  },
+  "Download": {
+    "watch": {
+      "now": "在线观看"
+    },
+    "mode": {
+      "android": "安卓下载",
+      "local": "网盘下载"
+    },
+    "label": {
+      "description_1": "商务合作请添加 Telegram: j80640"
+    },
+    "action": {
+      "click": {
+        "copy": "点击复制"
       }
     }
   }

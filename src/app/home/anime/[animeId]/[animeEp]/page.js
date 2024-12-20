@@ -141,6 +141,8 @@ const HomeAnimesContent = () => {
   const collectEvent = (id) => {
     useGlobalDispatch(collectComicAnimeContentAction(id, 2));
   };
+
+  const nodeRef = useRef(null);
   return (
     <HomeAnimesContentElement>
       <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
@@ -156,6 +158,7 @@ const HomeAnimesContent = () => {
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_show_cover"
+        nodeRef={nodeRef}
       >
         <ListSideBar
           is_in={showMore}

@@ -58,7 +58,7 @@ const OutOfQuotaPortal = () => {
       type: "CLOSE_OUTOFQUOTAPORTAL",
     });
     const url = [
-      pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon,
+      pageUrlConstants.profile.pages.profileDirectBuyVip,
       // pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipSex,
       pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipVideo,
     ];
@@ -92,8 +92,8 @@ const OutOfQuotaPortal = () => {
               <Image
                 className="show_container_cover_girl"
                 src="/images/outOfQuota/outQuotaGirl.png"
-                width={0}
-                height={0}
+                width={200}
+                height={200}
                 alt="Girl"
               />
               <Image
@@ -119,12 +119,12 @@ const OutOfQuotaPortal = () => {
                 </p>
               </div>
               <div className="show_container_content_button">
-                <div
+                {/* <div
                   className="show_container_content_button_btn"
                   onClick={() => setShowBuyBoard(true)}
                 >
                   {`${judgeUnit()}支付`}
-                </div>
+                </div> */}
                 <div
                   className="show_container_content_button_btn highlight"
                   onClick={() => toBuyVipPage(state.outOfQuotaData.buy_type)}
