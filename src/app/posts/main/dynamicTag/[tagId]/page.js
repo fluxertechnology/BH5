@@ -31,19 +31,29 @@ const PostsSameTagListPage = () => {
   const title = useMemo(() => {
     state.postTags.postTags.filter((data) => data.id == tagId)[0]?.name || [];
   }, [tagId]);
+
   useEffect(() => {
     getPostTagsFunc();
-    // if (parseInt(state.postSameTagList.page) === 0) {
     initPostSameListTagData();
-    // }
+
+    const handleScroll = () => {
+      scrollBottomCallEvent((scrollColdEnd) => {
+        if (!state.postSameTagList.isDone) {
+          updatePostSameListTagData(scrollColdEnd);
+        }
+      });
+    };
 
     if (typeof window !== "undefined") {
-      window.addEventListener("scroll", scrollEvent);
+      window.addEventListener("scroll", handleScroll);
     }
-    // return () => {
-    //   window.removeEventListener("scroll", scrollEvent);
-    // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // Cleanup function to remove the event listener
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("scroll", handleScroll);
+      }
+    };
   }, [title]);
 
   function scrollEvent() {
@@ -54,11 +64,11 @@ const PostsSameTagListPage = () => {
     });
   }
 
-  const updatePostSameListTagData = (scrollColdEnd = () => {}) => {
+  const updatePostSameListTagData = (scrollColdEnd = () => { }) => {
     useGlobalDispatch(getPostSameTagListAction(scrollColdEnd));
   };
   const initPostSameListTagData = () => {
-    useGlobalDispatch(getPostSameTagListAction(() => {}, "init"));
+    useGlobalDispatch(getPostSameTagListAction(() => { }, "init"));
   };
   const floatBtnClick = () => {
     let user = state.user;

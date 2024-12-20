@@ -63,7 +63,7 @@ const HomeAnimesPage = () => {
           return { id: index };
         }),
     };
-  }, [state.homeAnimeData]);
+  }, [state.homeAnimeData,state.homeAnimeData.comic,state.homeAnimeData.new,state.homeAnimeData.video]);
 
   const [friendly_url] = useState(() => [
     // {

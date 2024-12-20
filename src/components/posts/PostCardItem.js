@@ -38,7 +38,7 @@ import maleIcon from "public/images/icons/male.svg";
 import optionIcon from "public/images/icons/option.svg";
 import { padding, colors, pageUrlConstants } from "@/lib/constants/index.js";
 
-import { A11y } from "swiper/modules";
+import { A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
 import { CSSTransition } from "react-transition-group";
@@ -1630,6 +1630,7 @@ export const PostCardItemElement = styled.div.withConfig({
             border: 3px solid;
             border-radius: 20px;
             display: flex;
+            align-items:center;
             @media (min-width: 899px) {
               padding: 12px 50px;
               border-radius: 40px;
