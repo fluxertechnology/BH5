@@ -285,11 +285,6 @@ const LoginSignupPage = () => {
   const checkEmailUnique = (email, callback) => {
     useGlobalDispatch(postCheckUserEmailAction(email, callback));
   };
-
-  const openPopup = () => {
-    document.getElementById("popup-dialog").style.display = "block";
-    document.getElementsByTagName("body")[0].style.overflow = "hidden";
-  };
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -429,14 +424,6 @@ const LoginSignupPage = () => {
             ? t("Login.register")
             : t("Login.write_verity_code")}
         </p>
-      </div>
-
-      <br></br>
-      <div className="input_submit_text" onClick={openPopup}>
-        open register-pop-up
-      </div>
-      <div id="popup-dialog" style={{display: 'none'}}>
-        <PopupDialog type="register" />
       </div>
     </LoginSignupPageElement>
   );

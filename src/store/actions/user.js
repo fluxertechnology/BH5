@@ -119,6 +119,14 @@ export const userFBLoginOutAction = () => {
   };
 };
 
+export var dialogType = "login";
+export function openPopup(type) {
+  document.getElementById("popup-dialog").style.display = "block";
+  document.getElementsByTagName("body")[0].style.overflow = "hidden";
+
+  dialogType = type;
+}
+
 // export const getUserVideoFavorListAction = () => {
 //   return function(dispatch) {
 //     axiosRequest.get(getUserVideoFavoriteList, {

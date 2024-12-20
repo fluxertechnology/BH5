@@ -29,7 +29,7 @@ import ImageComponent from "@/components/common/ImageComponent";
 
 import { dailyLoginAction } from "@/store/actions/pages/profileMainAction";
 import callToast from "@/lib/services/toastCall";
-import { userFBLoginOutAction, userLoginOutAction } from "@/store/actions/user";
+import { userFBLoginOutAction, userLoginOutAction, openPopup } from "@/store/actions/user";
 import { clearVipInfoAction } from "@/store/actions/pages/profileBuyVipCommonAction";
 import { initPostData } from "@/store/actions/pages/postMainAction";
 import { postSearchWatchHistoryAction } from "@/store/actions/pages/profileWatchHistory";
@@ -391,7 +391,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     if (userData.id !== "guest") {
       useGlobalDispatch(pushRoutes(profile.pages.profileMain));
     } else {
-      useGlobalDispatch(pushRoutes(login));
+      // useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     }
   };
   const clickLogin = () => {
@@ -686,6 +687,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
+            {/* <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}> */}
               {isLogin ? (
                 <ImageComponent
                   is_cover={true}
