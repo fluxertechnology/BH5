@@ -3,7 +3,7 @@ import DesktopFooter from "@/components/layout/Footer/DesktopFooter";
 import MobileHeader from "@/components/layout/Header/MobileHeader";
 import MobileFooter from "@/components/layout/Footer/MobileFooter";
 import GlobalComponent from "@/components/common/GlobalComponent";
-import PopupContainer from "@/components/common/PopupContainerComponent";
+import PopupDialog from "@/components/login/PopupComponent";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -42,7 +42,7 @@ export default async function RootLayout({ children }) {
             <DesktopFooter locale={locale} />
             <MobileFooter locale={locale} />
             <GlobalComponent />
-            <PopupContainer locale={locale} />
+            <PopupDialog locale={locale} />
           </GlobalProvider>
         </NextIntlClientProvider>
       </body>

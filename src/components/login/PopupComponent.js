@@ -6,39 +6,74 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import PopupDialogLogin from "@/components/login/PopupComponentLogin";
 import PopupDialogRegister from "@/components/login/PopupComponentRegister";
+import PopupDialogRecoverPassword from "@/components/login/PopupComponentRecoverPassword";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { closePopup } from "@/store/actions/user";
 
-const PopupDialog = ({ type }) => {
+const PopupDialog = () => {
   const t = useTranslations();
+  const { state } = useGlobalContext();
 
-  const [popupType, setPopupType] = useState("");
+  const [popupType, setPopupType] = useState(state.navbar.dialogType); 
 
   const toLogin = () => {
     // useGlobalDispatch(pushRoutes(login));
-    setPopupType("login");
+    
+    useGlobalDispatch({
+      type: "UPDATE_POPUP_TYPE",
+      data: {
+        popupType: "login",
+      },
+    });
   };
 
   const toRegister = () => {
     // useGlobalDispatch(pushRoutes(login));
-    setPopupType("register");
+
+    useGlobalDispatch({
+      type: "UPDATE_POPUP_TYPE",
+      data: {
+        popupType: "register",
+      },
+    });
+
   };
 
-  const closePopup = () => {
-    document.getElementById("popup-dialog").style.display = "none";
-    document.getElementsByTagName("body")[0].style.overflow = "auto";
+  const closeModal = () => {
+    useGlobalDispatch({
+      type: "UPDATE_POPUP_TYPE",
+      data: {
+        popupType: "login",
+      },
+    });
+
+    useGlobalDispatch(closePopup());
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPopupType(type);
-    }
-  }, []);
+    console.log("popupType");
+    console.log(popupType);
+    console.log(state.navbar.dialogType);
+    
+    setPopupType(state.navbar.dialogType);
+
+  }, [state.navbar.dialogType]);
+
+  // useEffect(() => {
+  //   useGlobalDispatch({
+  //     type: "UPDATE_POPUP_TYPE",
+  //     data: {
+  //       popupType,
+  //     },
+  //   });
+  // }, [popupType]);
 
   return (
-    <>
+    <div id="popup-dialog" style={{display: 'none'}}>
       {popupType == "register" && (
         <PopupDialogWrapper>
           <div className="card-container">
-            <div className="close-cont" onClick={closePopup}>
+            <div className="close-cont" onClick={closeModal}>
               <FontAwesomeIcon
                 className="close-icon"
                 icon={faX}
@@ -62,7 +97,7 @@ const PopupDialog = ({ type }) => {
       {popupType == "login" && (
         <PopupDialogWrapper>
           <div className="card-container">
-            <div className="close-cont" onClick={closePopup}>
+            <div className="close-cont" onClick={closeModal}>
               <FontAwesomeIcon
                 className="close-icon"
                 icon={faX}
@@ -78,14 +113,14 @@ const PopupDialog = ({ type }) => {
                 </span>
               </p>
             </div>
-            <PopupDialogLogin popupType={popupType} setPopupType={setPopupType} />
+            <PopupDialogLogin />
           </div>
         </PopupDialogWrapper>
       )}
       {popupType == "forget" && (
         <PopupDialogWrapper>
           <div className="card-container">
-            <div className="close-cont" onClick={closePopup}>
+            <div className="close-cont" onClick={closeModal}>
               <FontAwesomeIcon
                 className="close-icon"
                 icon={faX}
@@ -101,10 +136,11 @@ const PopupDialog = ({ type }) => {
                 </span>
               </p>
             </div>
+            <PopupDialogRecoverPassword />
           </div>
         </PopupDialogWrapper>
       )}
-    </>
+    </div>
   );
 };
 
@@ -215,6 +251,19 @@ export const PopupDialogWrapper = styled.div`
       }
     }
 
+    .form-item .input_content_box{
+      border: 0.052vw solid #646464;
+      border-radius: 0.208vw;
+    }
+
+    .form-item .phone-verify{
+      width: 65%;
+    }
+
+    .form-item .input_content_box input{
+      border: none; 
+    }
+
     .green{
       color: #56c676;
       font-weight: 700;
@@ -257,6 +306,30 @@ export const PopupDialogWrapper = styled.div`
       &:hover{
         background-color: #8b8b8b;
       }
+    }
+  }
+
+  .phone-verify-btn{
+    width: 30%;
+    line-height: 2.092vw;
+    height: 2.292vw;
+    min-height: 2.292vw;
+    border-radius: 0.208vw !important;
+    background-color: #f2f2f2;
+    text-transform: none;
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.833vw;
+    padding: 0.417vw;
+    color: #000;
+    transition: background-color .2s linear;
+    border: 0.104vw solid #646464;
+    cursor: pointer;
+
+    &:hover{
+      background-color: #fff;
     }
   }
 
@@ -392,9 +465,13 @@ export const PopupDialogWrapper = styled.div`
       padding: 0.66vw 0.817vw;
       display: flex;
       align-items: center;
-      margin-top: 2vw;
       cursor: pointer;
       transition: background-color .2s linear;
+      margin-bottom: 0.5vw;
+
+      &:first{
+        margin-top: 2vw;
+      }
   
       .mail-icon{
         width: 0.825vw;

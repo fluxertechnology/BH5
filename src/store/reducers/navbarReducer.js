@@ -13,6 +13,7 @@ const defaultState = {
   fixed: true,
   show: true,
   isShowFooter: true,
+  dialogType: null,
   customComponent: () => false,
   prependComponent: () => <></>,
   appendComponent: () => <></>,
@@ -70,6 +71,13 @@ const navbarReducer = function (state = {}, action) {
         prependComponent: () => <></>,
         appendComponent: () => <></>,
       };
+
+    case "UPDATE_POPUP_TYPE":
+      return {
+        ...state,
+        dialogType: action.data.popupType,
+      }
+      
     default:
       return state;
   }

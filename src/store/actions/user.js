@@ -119,13 +119,27 @@ export const userFBLoginOutAction = () => {
   };
 };
 
-export var dialogType = "login";
-export function openPopup(type) {
-  document.getElementById("popup-dialog").style.display = "block";
-  document.getElementsByTagName("body")[0].style.overflow = "hidden";
+export const openPopup =
+  (popupType) =>
+  (dispatch) => {
+    document.getElementById("popup-dialog").style.display = "block";
+    document.getElementsByTagName("body")[0].style.overflow = "hidden";
 
-  dialogType = type;
-}
+    dispatch({
+      type: "UPDATE_POPUP_TYPE",
+      data: {
+        popupType,
+      },
+    });
+  };
+
+export const closePopup = () => {
+  return function () {
+    document.getElementById("popup-dialog").style.display = "none";
+    document.getElementsByTagName("body")[0].style.overflow = "auto";
+
+  };
+};
 
 // export const getUserVideoFavorListAction = () => {
 //   return function(dispatch) {

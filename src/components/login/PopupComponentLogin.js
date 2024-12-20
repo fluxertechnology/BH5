@@ -22,7 +22,7 @@ import { pageUrlConstants, REG_SET } from "@/lib/constants";
 const { login, home } = pageUrlConstants;
 const { alphanumericReq } = REG_SET;
 
-const PopupDialogLogin = ({popupType, setPopupType}) => {
+const PopupDialogLogin = () => {
   const t = useTranslations();
 
   const { state } = useGlobalContext();
@@ -49,7 +49,12 @@ const PopupDialogLogin = ({popupType, setPopupType}) => {
 
   const toForgetPassword = () => {
     // useGlobalDispatch(pushRoutes(login));
-    setPopupType("forget");
+    useGlobalDispatch({
+      type: "UPDATE_POPUP_TYPE",
+      data: {
+        popupType: "forget",
+      },
+    });
   };
 
   const phoneNumberRef = useRef(null);
