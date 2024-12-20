@@ -69,7 +69,7 @@ const HomeLeaderboard = ({ children }) => {
 
   return (
     <HomeLeaderboardElement
-      main_height={state.navbar.mainHeight}
+      // main_height={state.navbar.mainHeight}
       sub_height={state.navbar.subHeight}
     >
       <ImageCarousel

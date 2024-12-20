@@ -51,6 +51,10 @@
           </url>
         
           <url>
+            <loc>https://91bblili.com/home/main</loc>
+          </url>
+        
+          <url>
             <loc>https://91bblili.com/home/main/photos</loc>
           </url>
         
@@ -191,6 +195,10 @@
           </url>
         
           <url>
+            <loc>https://91bblili.com/profile/feedback</loc>
+          </url>
+        
+          <url>
             <loc>https://91bblili.com/profile/invites</loc>
           </url>
         
@@ -208,6 +216,22 @@
         
           <url>
             <loc>https://91bblili.com/profile</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/payment</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/payment_record</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/payment_record/with_draw/history/:type/</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/payment_record/with_draw</loc>
           </url>
         
           <url>
@@ -235,6 +259,10 @@
           </url>
         
           <url>
+            <loc>https://91bblili.com/profile/record</loc>
+          </url>
+        
+          <url>
             <loc>https://91bblili.com/profile/setInfo/email</loc>
           </url>
         
@@ -255,6 +283,18 @@
           </url>
         
           <url>
+            <loc>https://91bblili.com/profile/vip/common</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/vip/sex</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/profile/vip/video</loc>
+          </url>
+        
+          <url>
             <loc>https://91bblili.com/profile/watch_history/anime</loc>
           </url>
         
@@ -263,11 +303,19 @@
           </url>
         
           <url>
+            <loc>https://91bblili.com/vendor/category/:category/</loc>
+          </url>
+        
+          <url>
             <loc>https://91bblili.com/vendor/goods/:id/</loc>
           </url>
         
           <url>
             <loc>https://91bblili.com/vendor</loc>
+          </url>
+        
+          <url>
+            <loc>https://91bblili.com/vendor/sheet/:goodsId/:buyType/</loc>
           </url>
         
     </urlset>

@@ -267,6 +267,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
         &_text {
           font-size: 14px;
           color: ${colors.dark_pink};
+          display:flex;
+          align-items:center;
           @media (max-width: 899px) {
             font-size: 12px;
           }

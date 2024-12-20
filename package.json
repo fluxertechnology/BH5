@@ -44,7 +44,7 @@
     "sass": "^1.81.0",
     "sharethis-reactjs": "^1.6.0",
     "styled-components": "^6.1.13",
-    "swiper": "^11.1.14"
+    "swiper": "^8.4.2"
   },
   "devDependencies": {
     "@types/node": "22.9.0",
