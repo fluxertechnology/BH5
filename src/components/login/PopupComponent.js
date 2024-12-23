@@ -154,7 +154,7 @@ export const PopupDialogWrapper = styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 6;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,6 +167,10 @@ export const PopupDialogWrapper = styled.div`
     background-color: #fff;
     padding: 2.542vw 1.75vw 2.542vw;
     position: relative;
+    @media (min-width: 769px) and (max-width:1024px) {
+      width: 50vw;
+      max-height: 100%;
+    }
     @media (max-width: 768px) {
       width: 80vw;
       max-height: 100%;
@@ -182,6 +186,10 @@ export const PopupDialogWrapper = styled.div`
       .close-icon{
         width: 0.938vw;
         height: 0.938vw;
+        @media (min-width: 769px) and (max-width:1024px){
+          width: 2vw;
+          height: 2vw;
+        }
         @media (max-width: 768px) {
           width: 4vw;
           height: 4vw;
@@ -202,6 +210,10 @@ export const PopupDialogWrapper = styled.div`
       font-size: 1.25vw;
       color: #464656;
       font-weight: 700 !important;
+      @media (min-width: 769px) and (max-width:1024px){
+        font-size: 4vw;
+        margin-bottom: 2vw;
+      }
       @media (max-width: 768px) {
         font-size: 8vw;
         margin-bottom: 2vw;
@@ -213,6 +225,10 @@ export const PopupDialogWrapper = styled.div`
       line-height: 1;
       font-size: 0.729vw;
       color: #464656;
+      @media (min-width: 769px) and (max-width:1024px){
+        font-size: 1.8vw;
+        margin-bottom: 1vw;
+      }
       @media (max-width: 768px) {
         font-size: 2.4vw;
         margin-bottom: 2vw;
@@ -237,6 +253,10 @@ export const PopupDialogWrapper = styled.div`
       display: inline-block;
       margin-bottom: 0.26vw;
       min-width: 2vw;
+      @media (min-width: 769px) and (max-width:1024px){
+        font-size: 1.8vw;
+        margin-bottom: 1vw;
+      }
       @media (max-width: 768px) {
         font-size: 2.4vw;
         margin-bottom: 1vw;
@@ -265,6 +285,12 @@ export const PopupDialogWrapper = styled.div`
       font-size: 0.833vw;
       color: #060616;
       position: relative;
+      @media (min-width: 769px) and (max-width:1024px) {
+        font-size: 1.8vw;
+        margin-top: 0.5vw;
+        margin-bottom: 0.5vw;
+        height: 4vw;
+      }
       @media (max-width: 768px) {
         font-size: 2.4vw;
         margin-top: 1vw;
@@ -304,7 +330,9 @@ export const PopupDialogWrapper = styled.div`
       margin: 0.573vw;
       z-index: 6;
       cursor: pointer;
-
+      @media (min-width: 769px) and (max-width:1024px) {
+        transform: translateY(0%);
+      }
       @media (max-width: 768px) {
         transform: translateY(-30%);
       }
@@ -314,6 +342,10 @@ export const PopupDialogWrapper = styled.div`
       display: flex;
       width: 1.25vw;
       height: 0.938vw;
+      @media (min-width: 769px) and (max-width:1024px) {
+        width: 2vw;
+        height: auto;
+      }
       @media (max-width: 768px) {
         width: 5vw;
         height: auto;
@@ -337,10 +369,16 @@ export const PopupDialogWrapper = styled.div`
       padding: 0;
       color: #fff;
       transition: background-color .2s linear;
-      @media (max-width: 768px) {
-        height: 8vw;
-        font-size: 2.4vw;
+
+      @media (min-width: 769px) and (max-width:1024px) { 
+        height: 4vw; 
+        font-size: 1.8vw; 
       }
+      @media (max-width: 768px) { 
+        height: 8vw; 
+        font-size: 2.4vw; 
+      }
+
       &:hover{
         background-color: #8b8b8b;
       }
@@ -376,6 +414,15 @@ export const PopupDialogWrapper = styled.div`
     transition: background-color .2s linear;
     border: 0.104vw solid #646464;
     cursor: pointer;
+    margin:auto 0;
+
+    @media (min-width: 769px) and (max-width:1024px) { 
+      height: 4vw; font-size: 1.8vw; 
+    }
+    @media (max-width: 768px) { 
+      height: 8vw; 
+      font-size: 2.4vw; 
+    }
 
     &:hover{
       background-color: #fff;
@@ -400,7 +447,10 @@ export const PopupDialogWrapper = styled.div`
     color: #000;
     transition: background-color .2s linear;
     border: 0.104vw solid #f2f2f2;
-
+    @media (min-width: 769px) and (max-width:1024px) {
+      height: 4vw;
+      font-size: 1.8vw;
+    }
     @media (max-width: 768px) {
         height: 8vw;
         font-size: 2.4vw;
@@ -439,6 +489,10 @@ export const PopupDialogWrapper = styled.div`
       cursor: pointer;
       transition: background-color .2s linear;
   
+      @media (min-width: 769px) and (max-width:1024px) {
+        height: 4vw;
+        margin-top: 2vw;
+      }
       @media (max-width: 768px) {
         height: 8vw;
         margin-top: 5vw;
@@ -450,6 +504,10 @@ export const PopupDialogWrapper = styled.div`
         // margin-right: 4.475vw;
         position: absolute;
 
+        @media (min-width: 769px) and (max-width:1024px) {
+          height: 2vw;
+          width: 2vw;
+        }
         @media (max-width: 768px) {
           width: 4vw;
           height: 4vw;
@@ -460,7 +518,9 @@ export const PopupDialogWrapper = styled.div`
         font-size: 0.729vw;
         text-align: center;
         width: 100%;
-
+        @media (min-width: 769px) and (max-width:1024px) {
+          font-size: 1.8vw;
+        }
         @media (max-width: 768px) {
           font-size: 2.4vw;
         }
@@ -496,6 +556,9 @@ export const PopupDialogWrapper = styled.div`
     cursor: pointer;
     color: #ffc44b;
     font-size: 0.729vw;
+    @media (min-width: 769px) and (max-width:1024px) {
+      font-size: 1.8vw;
+    }
     @media (max-width: 768px) {
         font-size: 2.4vw;
     }
@@ -512,6 +575,9 @@ export const PopupDialogWrapper = styled.div`
       font-weight: 700;
     }
 
+    @media (min-width: 769px) and (max-width:1024px) {
+      font-size: 1.8vw;
+    }
     @media (max-width: 768px) {
       font-size:2.4vw;
     }
@@ -532,6 +598,10 @@ export const PopupDialogWrapper = styled.div`
       h3{
         font-size: 2.5vw;
         margin-bottom: 0.26vw;
+        
+        @media (min-width: 769px) and (max-width:1024px) {
+          font-size: 1.8vw;
+        }
         @media (max-width: 768px) {
             font-size: 2.4vw;
         }
@@ -553,6 +623,9 @@ export const PopupDialogWrapper = styled.div`
       transition: background-color .2s linear;
       margin-bottom: 0.5vw;
 
+      @media (min-width: 769px) and (max-width:1024px) {
+        height: 4vw;
+      }
       @media (max-width: 768px) {
         height: 8vw;
       }
@@ -566,7 +639,11 @@ export const PopupDialogWrapper = styled.div`
         height: 0.825vw;
         margin-right: 4.475vw;
         position: absolute;
-        
+
+        @media (min-width: 769px) and (max-width:1024px) {
+          width: 3vw;
+          height: auto;
+        } 
         @media (max-width: 768px) {
           width: 5vw;
           height: auto;
@@ -583,6 +660,10 @@ export const PopupDialogWrapper = styled.div`
         margin-right: 4.475vw;
         position: absolute;
 
+        @media (min-width: 769px) and (max-width:1024px) {
+          width: 3vw;
+          height: 3vw;
+        } 
         @media (max-width: 768px) {
         width: 5vw;
         height: 5vw;
@@ -592,6 +673,10 @@ export const PopupDialogWrapper = styled.div`
       .phone-icon{
         width: 0.725vw;
         height: 0.725vw;
+        @media (min-width: 769px) and (max-width:1024px) {
+          width: auto;
+          height: 2vw;
+        } 
         @media (max-width: 768px) {
           width: auto;
           height: 4vw;
@@ -603,6 +688,10 @@ export const PopupDialogWrapper = styled.div`
         font-size: 0.729vw; 
         text-align:center;
         width: 100%;
+
+        @media (min-width: 769px) and (max-width:1024px) {
+          font-size: 1.8vw;
+        } 
         @media (max-width: 768px) {
           font-size: 2.4vw;
         }
