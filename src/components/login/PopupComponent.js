@@ -309,6 +309,19 @@ export const PopupDialogWrapper = styled.div`
     }
   }
 
+  .other-type{
+  
+    .eye-cont{
+      position: absolute;
+      right: 0;
+      bottom: 0.15vw;
+      line-height: 0;
+      margin: 0.573vw;
+      z-index: 6;
+      cursor: pointer;
+    }
+  }
+
   .phone-verify-btn{
     width: 30%;
     line-height: 2.092vw;
@@ -477,6 +490,20 @@ export const PopupDialogWrapper = styled.div`
         width: 0.825vw;
         height: 0.825vw;
         margin-right: 4.475vw;
+      }
+
+      .phone-icon-wrapper{
+        width: 0.925vw;
+        height: 0.925vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 4.475vw;
+      }
+
+      .phone-icon{
+        width: 0.725vw;
+        height: 0.725vw;
       }
   
       p{

@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEnvelope, faX, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEnvelope, faMobileScreen, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import IconInput from "@/components/login/IconInputComponent";
 import callToast from "@/lib/services/toastCall.js";
 import {
@@ -17,10 +17,11 @@ import {
   pushRoutes,
   replaceRoutes,
 } from "@/store/actions/historyActions";
+import { closePopup } from "@/store/actions/user";
 import Image from "next/image";
 import { pageUrlConstants, REG_SET } from "@/lib/constants";
 const { login, home } = pageUrlConstants;
-const { alphanumericReq } = REG_SET;
+const { qqReg, emailReq, alphanumericReq } = REG_SET;
 
 const PopupDialogLogin = () => {
   const t = useTranslations();
@@ -28,7 +29,7 @@ const PopupDialogLogin = () => {
   const { state } = useGlobalContext();
   const { is_mobile_reg, is_email_reg, is_qq_reg } = state.config;
   // const showSignupType = [is_qq_reg, is_mobile_reg, is_email_reg];
-  let defaultSignType = 1;
+  let defaultType = "general";
   // for (let i = 0; i < showSignupType.length; i++) {
   //   if (showSignupType[i]) {
   //     defaultSignType = i;
@@ -36,7 +37,19 @@ const PopupDialogLogin = () => {
   //   }
   // }
 
-  const [loginType, setLoginType] = useState(defaultSignType);
+  const [type, setType] = useState(defaultType);
+
+  const clearFormInput = (loginType) => {
+    setPhoneNumber("");
+    setPassword("");
+    setAccountId("");
+
+    console.log(loginType);
+    
+    setType(loginType);
+    console.log("type: " + type);
+    
+  };
   
   const showPassword = () => {
     var passwordInput = passwordRef.current;
@@ -63,6 +76,8 @@ const PopupDialogLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
+  const [accountId, setAccountId] = useState("");
+
   useEffect(() => {
     useGlobalDispatch(userFBLoginOutAction());
   }, []);
@@ -79,6 +94,14 @@ const PopupDialogLogin = () => {
     setPassword(e.target.value);
     if (key === 13) {
       userSubmit();
+    }
+  }
+
+  function accountIdEvent(e) {
+    var key = window.event ? e.keyCode : e.which;
+    setAccountId(e.target.value);
+    if (key === 13) {
+      passwordRef.current.focus();
     }
   }
 
@@ -100,9 +123,37 @@ const PopupDialogLogin = () => {
     }
   }
 
+  function passwordOtherEvent(e) {
+    var key = window.event ? e.keyCode : e.which;
+    setPassword(e.target.value);
+    if (key === 13) {
+      userOtherSubmit();
+    }
+  }
+
+  function userOtherSubmit() {
+    if (accountId && password) {
+      if (judeType(type, "reg").test(accountId)) {
+        useGlobalDispatch(
+          userLoginAction(
+            {
+              username: accountId,
+              passwd: password,
+            },
+            userOtherLoginCheck
+          )
+        );
+      }
+    } else {
+      callToast(t("Login.tip_error"));
+    }
+  }
+
   function userLoginCheck(code) {
     if (code) {
       userLoginSuccess();
+      clearFormInput("general");
+      closeModal();
     } else {
       setPhoneNumber("");
       setPassword("");
@@ -111,6 +162,80 @@ const PopupDialogLogin = () => {
       phoneNemberRef.current.focus();
     }
   }
+
+  function userOtherLoginCheck(code) {
+    if (code) {
+      userLoginSuccess();
+    } else {
+      setAccountId("");
+      setPassword("");
+      phoneNemberRef.current.value = "";
+      passwordRef.current.value = "";
+      phoneNemberRef.current.focus();
+    }
+  }
+  function judeType(type, format) {
+    if (format === "icon") {
+      switch (type) {
+        case "email":
+          return "/images/icons/mail.png";
+        case "qq":
+          return "/images/icons/qq.png";
+        default:
+          return "/images/icons/phone.png";
+      }
+    } else if (format === "placeholder") {
+      let nowFormatId = "";
+      switch (type) {
+        case "email":
+          nowFormatId = "Login.placeholder_mail";
+          break;
+        case "qq":
+          nowFormatId = "Login.placeholder_qq";
+          break;
+        default:
+          nowFormatId = "Login.placeholder_phone";
+          break;
+      }
+      return t(nowFormatId);
+    } else if (format === "regErrStr") {
+      let nowFormatId = "";
+      switch (type) {
+        case "email":
+          nowFormatId = "Login.tip_error_mail";
+          break;
+        case "qq":
+          nowFormatId = "Login.tip_error_qq";
+          break;
+        default:
+          nowFormatId = "Login.tip_error_phone";
+          break;
+      }
+      return t(nowFormatId);
+    } else if (format === "reg") {
+      switch (type) {
+        case "email":
+          return emailReq;
+        case "qq":
+          return qqReg;
+        default:
+          return /s*/;
+        // return alphanumericReq;
+      }
+    }
+  }
+
+  const closeModal = () => {
+    useGlobalDispatch({
+      type: "UPDATE_POPUP_TYPE",
+      data: {
+        popupType: "login",
+      },
+    });
+
+    useGlobalDispatch(closePopup());
+  };
+
   const loginOptions = [
       {
         type: "phone",
@@ -162,7 +287,7 @@ const PopupDialogLogin = () => {
   
   return (
     <div className="card-body">
-      {loginType === 1 && (
+      {type === "general" && (
         <>
           <div>
             <div className="form-item">
@@ -203,10 +328,98 @@ const PopupDialogLogin = () => {
           </div>
 
           <div className="fast-login">
-            <div className="user-login" onClick={() => clearFormInput(2)}>
+            <div className="user-login" onClick={() => clearFormInput("phone")}>
+              <div className="phone-icon-wrapper" style={{backgroundColor: "#646464", borderRadius: "999px"}}>
+                <FontAwesomeIcon className="phone-icon" icon={faMobileScreen} style={{color: "#ffffff"}} />
+              </div>
+              <p>{ t("Login.phone") }</p>
+            </div>
+            <div className="user-login" onClick={() => clearFormInput("email")}>
               <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
               <p>{ t("Login.email") }</p>
             </div>
+            <div className="user-login" onClick={() => clearFormInput("qq")}>
+              <img className="mail-icon" src="/images/login/icon-qq.svg" />
+              <p>{ t("Login.qqLogin") }</p>
+            </div>
+          </div>
+        
+        </>
+      )}
+      {(type === "phone" || type === "email" || type === "qq") && (
+        <>
+          <div>
+            <div className="form-item">
+              <label className="form-label">{ t("Login.others") }</label>
+              <div className="input_content_box">
+                <IconInput
+                  ref={phoneNumberRef}
+                  icon={judeType(type, "icon")}
+                  inputType={type === "email" ? "email" : "tel"}
+                  value={accountId}
+                  callback={accountIdEvent}
+                  placeholder={judeType(type, "placeholder")}
+                  enterKeyHint="next"
+                  reg={judeType(type, "reg")}
+                  regErrStr={judeType(type, "regErrStr")}
+                />
+              </div>
+            </div>
+            <div className="form-item other-type">
+              <div className="form-label-cont">
+                <label className="form-label">{ t("Register.password") }</label>
+                <label className="form-label forget" onClick={toForgetPassword}>{ t("Login.forget_password") }</label>
+              </div>
+              <div className="eye-cont" onClick={showPassword}>
+                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+              </div>
+              <div className="input_content_box">
+                <IconInput
+                  ref={passwordRef}
+                  icon={"/images/icons/lock.png"}
+                  inputType="password"
+                  value={password}
+                  callback={passwordOtherEvent}
+                  placeholder={t("Login.placeholder_password")}
+                  enterKeyHint="done"
+                />
+              </div>
+            </div>
+            <div className="btn-wrapper" onClick={userOtherSubmit}>
+              <button className="submit-btn">{ t("Login.login") }</button>
+            </div>
+          </div>
+
+          <div className="fast-login">
+            <div className="user-login" onClick={() => clearFormInput("general")}>
+              <FontAwesomeIcon className="mail-icon" icon={faUserCircle} style={{color: "#646464"}} />
+              <p>{ t("Login.general") }</p>
+            </div>
+
+            { type !== "phone" &&(
+                <div className="user-login" onClick={() => clearFormInput("phone")}>
+                  <div className="phone-icon-wrapper" style={{backgroundColor: "#646464", borderRadius: "999px"}}>
+                    <FontAwesomeIcon className="phone-icon" icon={faMobileScreen} style={{color: "#ffffff"}} />
+                  </div>
+                  <p>{ t("Login.phone") }</p>
+                </div>
+              )
+            }
+            { type !== "email" &&(
+                <div className="user-login" onClick={() => clearFormInput("email")}>
+                 <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
+                 <p>{ t("Login.email") }</p>
+               </div>
+              )
+            }
+            { type !== "qq" &&(
+                <div className="user-login" onClick={() => clearFormInput("qq")}>
+                  <img className="mail-icon" src="/images/login/icon-qq.svg" />
+                  <p>{ t("Login.qqLogin") }</p>
+                </div>
+              )
+            }
+            
           </div>
         
         </>
