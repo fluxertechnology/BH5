@@ -12,6 +12,7 @@ import { navigatorShare } from "@/store/actions/utilities";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import Image from "next/image";
 import { pushRoutes } from "@/store/actions/historyActions";
+import { openPopup } from "@/store/actions/user";
 import { pageUrlConstants } from "@/lib/constants";
 const { home, profile, notice, login } = pageUrlConstants;
 
@@ -41,7 +42,8 @@ const TopBar = () => {
     if (userData.id !== "guest") {
       useGlobalDispatch(pushRoutes(profile.pages.profileMain));
     } else {
-      useGlobalDispatch(pushRoutes(login));
+      // useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     }
   };
   const clickSearch = () => {

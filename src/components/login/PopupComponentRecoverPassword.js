@@ -1,6 +1,6 @@
 'use client';
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef,useCallback  } from "react";
 import styled from "styled-components";
 import { padding, REG_SET, requestUrlConstants } from "@/lib/constants";
 import IconInput, { input_margin } from "@/components/login/IconInputComponent";
@@ -70,53 +70,56 @@ const PopupDialogRecoverPassword = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function phoneNumberEvent(e) {
-    var key = window.event ? e.keyCode : e.which;
+  const phoneNumberEvent = useCallback((e) => {
+    var key = e.keyCode || e.which;
     setPhoneNumber(e.target.value);
     if (key === 13) {
       verifyRef.current.focus();
     }
-  }
+  }, [setPhoneNumber]);
 
-  function qqAccEvent(e) {
+  const qqAccEvent = useCallback((e) => {
     setQqAcc(e.target.value);
-  }
+  }, [setQqAcc]);
   function emailEvent(e) {
     setEmail(e.target.value);
   }
 
-  function verifyNumberEvent(e) {
-    var key = window.event ? e.keyCode : e.which;
+  const verifyNumberEvent = useCallback((e) => {
+    var key = e.keyCode || e.which;
     setVerifyNumber(e.target.value);
     if (key === 13) {
       verifyRef.current.focus();
     }
-  }
+  }, [setVerifyNumber]);
 
-  function areaCodeEvent(e) {
+  const areaCodeEvent = useCallback((e) => {
     setAreaCode(e.target.dataset.value);
-  }
+  }, [setAreaCode]);
 
-  function getUserVerify() {
+  const getUserVerify = useCallback(() => {
     if (areaCode && phoneNumber) {
       let formData = new FormData();
       formData.append("country_code", areaCode);
       formData.append("username", phoneNumber);
-      axiosRequest
-        .post(postGetVerify, formData)
-        .then((data) => {})
-        .catch((e) => {});
+      axiosRequest.post(postGetVerify, formData)
+        .then((data) => {
+          // handle response
+        })
+        .catch((e) => {
+          // handle error
+        });
     } else {
       callToast(t("Login.tip_error_must"));
     }
-  }
-  function accountEvent(e) {
-    var key = window.event ? e.keyCode : e.which;
+  }, [areaCode, phoneNumber]);
+  const accountEvent = useCallback((e) => {
+    var key = e.keyCode || e.which;
     setGeneralAccount(e.target.value);
     if (key === 13) {
       verifyRef.current.focus();
     }
-  }
+  }, [setGeneralAccount]);
 
   function userRevise() {
     switch (loginType) {
@@ -175,7 +178,7 @@ const PopupDialogRecoverPassword = () => {
       {loginType === 0 && (
         <div>
           <div className="form-item">
-            <label className="form-label">{ t("Register.general") }</label>
+            <label className="form-label">{t("Register.general")}</label>
             <IconInput
               className="input_content_box_input"
               value={generalAccount}
@@ -188,7 +191,7 @@ const PopupDialogRecoverPassword = () => {
           </div>
 
           <div className="btn-wrapper" onClick={userRevise}>
-            <button className="submit-btn">{ t("Login.revise") }</button>
+            <button className="submit-btn">{t("Login.revise")}</button>
           </div>
 
           <div className="fast-login">
@@ -196,13 +199,13 @@ const PopupDialogRecoverPassword = () => {
               <p>{ t("Register.general") }</p>
             </div> */}
             <div className="user-login flex justify-center" onClick={() => clearFormInput(1)}>
-              <p>{ t("Register.qq") }</p>
+              <p>{t("Register.qq")}</p>
             </div>
             <div className="user-login flex justify-center" onClick={() => clearFormInput(2)}>
-              <p>{ t("Register.email") }</p>
+              <p>{t("Register.email")}</p>
             </div>
             <div className="user-login flex justify-center" onClick={() => clearFormInput(3)}>
-              <p>{ t("Register.phone") }</p>
+              <p>{t("Register.phone")}</p>
             </div>
           </div>
         </div>
@@ -211,7 +214,7 @@ const PopupDialogRecoverPassword = () => {
         <>
           <div>
             <div className="form-item">
-              <label className="form-label">{ t("Register.qq") }</label>
+              <label className="form-label">{t("Register.qq")}</label>
               <IconInput
                 className="input_content_box_input"
                 ref={qqAccRef}
@@ -226,31 +229,31 @@ const PopupDialogRecoverPassword = () => {
             </div>
 
             <div className="btn-wrapper" onClick={userRevise}>
-              <button className="submit-btn">{ t("Login.revise") }</button>
+              <button className="submit-btn">{t("Login.revise")}</button>
             </div>
 
             <div className="fast-login">
               <div className="user-login flex justify-center" onClick={() => clearFormInput(0)}>
-                <p>{ t("Register.general") }</p>
+                <p>{t("Register.general")}</p>
               </div>
               {/* <div className="user-login flex justify-center" onClick={() => clearFormInput(1)}>
                 <p>{ t("Register.qq") }</p>
               </div> */}
               <div className="user-login flex justify-center" onClick={() => clearFormInput(2)}>
-                <p>{ t("Register.email") }</p>
+                <p>{t("Register.email")}</p>
               </div>
               <div className="user-login flex justify-center" onClick={() => clearFormInput(3)}>
-                <p>{ t("Register.phone") }</p>
+                <p>{t("Register.phone")}</p>
               </div>
             </div>
-          </div>        
+          </div>
         </>
       )}
       {loginType === 2 && (
         <>
           <div>
             <div className="form-item">
-              <label className="form-label">{ t("Register.email") }</label>
+              <label className="form-label">{t("Register.email")}</label>
               <IconInput
                 className="input_content_box_input"
                 ref={emailRef}
@@ -265,30 +268,30 @@ const PopupDialogRecoverPassword = () => {
             </div>
 
             <div className="btn-wrapper" onClick={userRevise}>
-              <button className="submit-btn">{ t("Login.revise") }</button>
+              <button className="submit-btn">{t("Login.revise")}</button>
             </div>
 
             <div className="fast-login">
               <div className="user-login flex justify-center" onClick={() => clearFormInput(0)}>
-                <p>{ t("Register.general") }</p>
+                <p>{t("Register.general")}</p>
               </div>
               <div className="user-login flex justify-center" onClick={() => clearFormInput(1)}>
-                <p>{ t("Register.qq") }</p>
+                <p>{t("Register.qq")}</p>
               </div>
               {/* <div className="user-login flex justify-center" onClick={() => clearFormInput(2)}>
                 <p>{ t("Register.email") }</p>
               </div> */}
               <div className="user-login flex justify-center" onClick={() => clearFormInput(3)}>
-                <p>{ t("Register.phone") }</p>
+                <p>{t("Register.phone")}</p>
               </div>
             </div>
-          </div>        
+          </div>
         </>
       )}
       {loginType === 3 && (
         <div>
           <div className="form-item">
-            <label className="form-label">{ t("Register.phone") }</label>
+            <label className="form-label">{t("Register.phone")}</label>
             <IconSelect
               className="input_content_box_input"
               icon={"/images/icons/flag.png"}
@@ -334,18 +337,18 @@ const PopupDialogRecoverPassword = () => {
           </div>
 
           <div className="btn-wrapper" onClick={userRevise}>
-            <button className="submit-btn">{ t("Login.revise") }</button>
+            <button className="submit-btn">{t("Login.revise")}</button>
           </div>
 
           <div className="fast-login">
             <div className="user-login flex justify-center" onClick={() => clearFormInput(0)}>
-              <p>{ t("Register.general") }</p>
+              <p>{t("Register.general")}</p>
             </div>
             <div className="user-login flex justify-center" onClick={() => clearFormInput(1)}>
-              <p>{ t("Register.qq") }</p>
+              <p>{t("Register.qq")}</p>
             </div>
             <div className="user-login flex justify-center" onClick={() => clearFormInput(2)}>
-              <p>{ t("Register.email") }</p>
+              <p>{t("Register.email")}</p>
             </div>
             {/* <div className="user-login flex justify-center" onClick={() => clearFormInput(3)}>
               <p>{ t("Register.phone") }</p>

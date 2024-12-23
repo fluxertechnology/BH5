@@ -14,11 +14,11 @@ const PopupDialog = () => {
   const t = useTranslations();
   const { state } = useGlobalContext();
 
-  const [popupType, setPopupType] = useState(state.navbar.dialogType); 
+  const [popupType, setPopupType] = useState(state.navbar.dialogType);
 
   const toLogin = () => {
     // useGlobalDispatch(pushRoutes(login));
-    
+
     useGlobalDispatch({
       type: "UPDATE_POPUP_TYPE",
       data: {
@@ -54,7 +54,7 @@ const PopupDialog = () => {
     console.log("popupType");
     console.log(popupType);
     console.log(state.navbar.dialogType);
-    
+
     setPopupType(state.navbar.dialogType);
 
   }, [state.navbar.dialogType]);
@@ -69,7 +69,7 @@ const PopupDialog = () => {
   // }, [popupType]);
 
   return (
-    <div id="popup-dialog" style={{display: 'none'}}>
+    <div id="popup-dialog" style={{ display: 'none' }}>
       {popupType == "register" && (
         <PopupDialogWrapper>
           <div className="card-container">
@@ -167,6 +167,10 @@ export const PopupDialogWrapper = styled.div`
     background-color: #fff;
     padding: 2.542vw 1.75vw 2.542vw;
     position: relative;
+    @media (max-width: 768px) {
+      width: 80vw;
+      max-height: 100%;
+    }
 
     .close-cont{
       position: absolute;
@@ -178,7 +182,12 @@ export const PopupDialogWrapper = styled.div`
       .close-icon{
         width: 0.938vw;
         height: 0.938vw;
+        @media (max-width: 768px) {
+          width: 4vw;
+          height: 4vw;
+        }
       }
+        
     }
 
     .card-header{
@@ -193,6 +202,10 @@ export const PopupDialogWrapper = styled.div`
       font-size: 1.25vw;
       color: #464656;
       font-weight: 700 !important;
+      @media (max-width: 768px) {
+        font-size: 8vw;
+        margin-bottom: 2vw;
+      }
     }
 
     .subtitle-text{
@@ -200,6 +213,10 @@ export const PopupDialogWrapper = styled.div`
       line-height: 1;
       font-size: 0.729vw;
       color: #464656;
+      @media (max-width: 768px) {
+        font-size: 2.4vw;
+        margin-bottom: 2vw;
+      }
     }
     
     .form-item{
@@ -220,7 +237,10 @@ export const PopupDialogWrapper = styled.div`
       display: inline-block;
       margin-bottom: 0.26vw;
       min-width: 2vw;
-
+      @media (max-width: 768px) {
+        font-size: 2.4vw;
+        margin-bottom: 1vw;
+      }
     }
 
     .forget{
@@ -245,6 +265,12 @@ export const PopupDialogWrapper = styled.div`
       font-size: 0.833vw;
       color: #060616;
       position: relative;
+      @media (max-width: 768px) {
+        font-size: 2.4vw;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        height: 8vw;
+      }
 
       &:disabled{
         background-color: #EBEBE4;
@@ -272,17 +298,26 @@ export const PopupDialogWrapper = styled.div`
     .eye-cont{
       position: absolute;
       right: 0;
-      bottom: 0;
+      top:50%;
+      transform: translateY(-50%);
       line-height: 0;
       margin: 0.573vw;
       z-index: 6;
       cursor: pointer;
+
+      @media (max-width: 768px) {
+        transform: translateY(-30%);
+      }
     }
 
     .eye-icon{
       display: flex;
       width: 1.25vw;
       height: 0.938vw;
+      @media (max-width: 768px) {
+        width: 5vw;
+        height: auto;
+      }
     }
 
     .submit-btn{
@@ -302,7 +337,10 @@ export const PopupDialogWrapper = styled.div`
       padding: 0;
       color: #fff;
       transition: background-color .2s linear;
-
+      @media (max-width: 768px) {
+        height: 8vw;
+        font-size: 2.4vw;
+      }
       &:hover{
         background-color: #8b8b8b;
       }
@@ -352,6 +390,10 @@ export const PopupDialogWrapper = styled.div`
     transition: background-color .2s linear;
     border: 0.104vw solid #f2f2f2;
 
+    @media (max-width: 768px) {
+        height: 8vw;
+        font-size: 2.4vw;
+    }
     &:hover{
       background-color: #fff;
     }
@@ -386,14 +428,31 @@ export const PopupDialogWrapper = styled.div`
       cursor: pointer;
       transition: background-color .2s linear;
   
+      @media (max-width: 768px) {
+        height: 8vw;
+        margin-top: 5vw;
+      }
+
       .mail-icon{
         width: 0.825vw;
         height: 0.825vw;
-        margin-right: 4.475vw;
+        // margin-right: 4.475vw;
+        position: absolute;
+
+        @media (max-width: 768px) {
+          width: 4vw;
+          height: 4vw;
+        }
       }
 
       p{
         font-size: 0.729vw;
+        text-align: center;
+        width: 100%;
+
+        @media (max-width: 768px) {
+          font-size: 2.4vw;
+        }
       }
 
       &:hover{
@@ -426,6 +485,9 @@ export const PopupDialogWrapper = styled.div`
     cursor: pointer;
     color: #ffc44b;
     font-size: 0.729vw;
+    @media (max-width: 768px) {
+        font-size: 2.4vw;
+    }
   }
 
   .t-and-c{
@@ -438,11 +500,19 @@ export const PopupDialogWrapper = styled.div`
     strong{
       font-weight: 700;
     }
+
+    @media (max-width: 768px) {
+      font-size:2.4vw;
+    }
   }
 
   .fast-login{
+
     margin-top: 2vw;
-    
+    @media (max-width: 768px) {
+        margin-top: 5vw;
+    }
+
     .title-wrapper{
       display: flex;
       flex-direction: column;
@@ -451,6 +521,9 @@ export const PopupDialogWrapper = styled.div`
       h3{
         font-size: 2.5vw;
         margin-bottom: 0.26vw;
+        @media (max-width: 768px) {
+            font-size: 2.4vw;
+        }
       }
 
       p{
@@ -469,6 +542,10 @@ export const PopupDialogWrapper = styled.div`
       transition: background-color .2s linear;
       margin-bottom: 0.5vw;
 
+      @media (max-width: 768px) {
+        height: 8vw;
+      }
+
       &:first{
         margin-top: 2vw;
       }
@@ -477,10 +554,22 @@ export const PopupDialogWrapper = styled.div`
         width: 0.825vw;
         height: 0.825vw;
         margin-right: 4.475vw;
+        position: absolute;
+        
+        @media (max-width: 768px) {
+          width: 5vw;
+          height: auto;
+          margin-right: 0vw;
+        }
       }
   
       p{
-        font-size: 0.729vw;
+        font-size: 0.729vw; 
+        text-align:center;
+        width: 100%;
+        @media (max-width: 768px) {
+          font-size: 2.4vw;
+        }
       }
   
       &:hover{

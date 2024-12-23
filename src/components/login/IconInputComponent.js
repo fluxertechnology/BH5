@@ -83,6 +83,10 @@ export const IconInputElement = styled.label.withConfig({
     font-weight: 700;
     color: #f00;
     font-size: 14px;
+
+    @media (max-width: 768px) {
+      font-size:2.4vw;
+    }
   }
   .icon {
     height: 33px;

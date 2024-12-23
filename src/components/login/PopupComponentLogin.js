@@ -37,7 +37,7 @@ const PopupDialogLogin = () => {
   // }
 
   const [loginType, setLoginType] = useState(defaultSignType);
-  
+
   const showPassword = () => {
     var passwordInput = passwordRef.current;
     if (passwordInput.type === "password") {
@@ -112,61 +112,67 @@ const PopupDialogLogin = () => {
     }
   }
   const loginOptions = [
-      {
-        type: "phone",
-        icon: "/images/login/icon-phone.svg",
-      },
-      {
-        type: "email",
-        icon: "/images/login/icon-mail.svg",
-      },
-      {
-        type: "qq",
-        icon: "/images/login/icon-qq.svg",
-      },
-    ];
-    const OtherLoginType = [
-      // {
-      //   type: "twitter",
-      //   icon: '/images/login/icon-twitter.svg',
-      // },
-      // {
-      //   type: "google",
-      //   icon: '/images/login/icon-google.svg',
-      // },
-    ];
-    const responseFacebook = useCallback((props) => {
-      const { accessToken } = props;
-      if (accessToken) {
-        userFBLogin(props, userLoginCheck);
+    {
+      type: "phone",
+      icon: "/images/login/icon-phone.svg",
+    },
+    {
+      type: "email",
+      icon: "/images/login/icon-mail.svg",
+    },
+    {
+      type: "qq",
+      icon: "/images/login/icon-qq.svg",
+    },
+  ];
+  const OtherLoginType = [
+    // {
+    //   type: "twitter",
+    //   icon: '/images/login/icon-twitter.svg',
+    // },
+    // {
+    //   type: "google",
+    //   icon: '/images/login/icon-google.svg',
+    // },
+  ];
+  const responseFacebook = useCallback((props) => {
+    const { accessToken } = props;
+    if (accessToken) {
+      userFBLogin(props, userLoginCheck);
+    }
+  }, []);
+
+  const userLogin = (data, callback) => {
+    useGlobalDispatch(userLoginAction(data, callback));
+  };
+  const userFBLogin = (props, callback) => {
+    useGlobalDispatch(userFBLoginAction(props, callback));
+  };
+  const userLoginSuccess = () => {
+    const breadcrumbsData = [...state.breadcrumbs];
+    breadcrumbsData.reverse();
+    for (let i = 0; i < breadcrumbsData.length; i++) {
+      if (breadcrumbsData[i].path.indexOf("login") === -1) {
+        useGlobalDispatch(replaceRoutes(breadcrumbsData[i]));
+        return;
       }
-    }, []);
-  
-    const userLogin = (data, callback) => {
-      useGlobalDispatch(userLoginAction(data, callback));
-    };
-    const userFBLogin = (props, callback) => {
-      useGlobalDispatch(userFBLoginAction(props, callback));
-    };
-    const userLoginSuccess = () => {
-      const breadcrumbsData = [...state.breadcrumbs];
-      breadcrumbsData.reverse();
-      for (let i = 0; i < breadcrumbsData.length; i++) {
-        if (breadcrumbsData[i].path.indexOf("login") === -1) {
-          useGlobalDispatch(replaceRoutes(breadcrumbsData[i]));
-          return;
-        }
-      }
-      useGlobalDispatch(backRoutes());
-    };
-  
+    }
+    useGlobalDispatch(backRoutes());
+  };
+
+  const clearFormInput = (loginType) => {
+    setPhoneNumber("");
+    setPassword("");
+    setLoginType(loginType);
+  };
+
   return (
     <div className="card-body">
       {loginType === 1 && (
         <>
           <div>
             <div className="form-item">
-              <label className="form-label">{ t("Login.general") }</label>
+              <label className="form-label">{t("Login.general")}</label>
               <IconInput
                 ref={phoneNumberRef}
                 inputType="account"
@@ -180,11 +186,11 @@ const PopupDialogLogin = () => {
             </div>
             <div className="form-item">
               <div className="form-label-cont">
-                <label className="form-label">{ t("Register.password") }</label>
-                <label className="form-label forget" onClick={toForgetPassword}>{ t("Login.forget_password") }</label>
+                <label className="form-label">{t("Register.password")}</label>
+                <label className="form-label forget" onClick={toForgetPassword}>{t("Login.forget_password")}</label>
               </div>
               <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
               </div>
               <IconInput
                 required
@@ -198,17 +204,17 @@ const PopupDialogLogin = () => {
               />
             </div>
             <div className="btn-wrapper" onClick={userSubmit}>
-              <button className="submit-btn">{ t("Login.login") }</button>
+              <button className="submit-btn">{t("Login.login")}</button>
             </div>
           </div>
 
           <div className="fast-login">
             <div className="user-login" onClick={() => clearFormInput(2)}>
-              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
-              <p>{ t("Login.email") }</p>
+              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{ color: "#434343" }} />
+              <p>{t("Login.email")}</p>
             </div>
           </div>
-        
+
         </>
       )}
     </div>

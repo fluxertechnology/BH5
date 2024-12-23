@@ -44,7 +44,7 @@ const PopupDialogRegister = () => {
   // }
 
   const [loginType, setLoginType] = useState(defaultSignType);
-  
+
   const showPassword = () => {
     var passwordInput = passwordRef.current;
     if (passwordInput.type === "password") {
@@ -78,7 +78,7 @@ const PopupDialogRegister = () => {
   //     name: t("Register.email"),
   //   },
   // ];
-  
+
   function emailVerifyEvent(e) {
     var key = window.event ? e.keyCode : e.which;
     setEmailVerify(e.target.value);
@@ -307,14 +307,14 @@ const PopupDialogRegister = () => {
       gt4();
     }
   }, []);
-  
+
   return (
     <div className="card-body">
       {loginType === 1 && (
         <>
           <div>
             <div className="form-item">
-              <label className="form-label">{ t("Register.general") }</label>
+              <label className="form-label">{t("Register.general")}</label>
               <IconInput
                 required
                 className="input_content_box_input"
@@ -328,10 +328,7 @@ const PopupDialogRegister = () => {
               />
             </div>
             <div className="form-item">
-              <label className="form-label">{ t("Register.password") }</label>
-              <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
-              </div>
+              <label className="form-label">{t("Register.password")}</label>
               <IconInput
                 required
                 className="input_content_box_input"
@@ -341,13 +338,17 @@ const PopupDialogRegister = () => {
                 callback={passwordEvent}
                 placeholder={t("Login.placeholder_password")}
                 enterKeyHint="done"
-              />
+              >
+                <div className="eye-cont" onClick={showPassword}>
+                  <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+                </div>
+                </IconInput>
             </div>
             <div className="btn-wrapper" onClick={signupUserSubmit}>
-              <button className="submit-btn">{ t("Login.register") }</button>
+              <button className="submit-btn">{t("Login.register")}</button>
             </div>
           </div>
-          <p className="t-and-c">{ t("Register.t_and_c_1") } <br /> <strong>{ t("Register.t_and_c_2") }</strong>{ t("Register.t_and_c_3") }<strong>{ t("Register.t_and_c_4") }</strong> </p>
+          <p className="t-and-c">{t("Register.t_and_c_1")} <br /> <strong>{t("Register.t_and_c_2")}</strong>{t("Register.t_and_c_3")}<strong>{t("Register.t_and_c_4")}</strong> </p>
 
           <div className="fast-register">
             {/* <div className="title-wrapper">
@@ -355,18 +356,18 @@ const PopupDialogRegister = () => {
               <p>{ t("Register.fast_register_subtitle") }</p>
             </div> */}
             <div className="user-register" onClick={() => clearFormInput(2)}>
-              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
-              <p>{ t("Register.fast_register_email") }</p>
+              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{ color: "#434343" }} />
+              <p>{t("Register.fast_register_email")}</p>
             </div>
           </div>
-        
+
         </>
       )}
       {(loginType === 2 || loginType == 3) && (
         <>
           <div>
             <div className="form-item">
-              <label className="form-label">{ t("Register.email") }</label>
+              <label className="form-label">{t("Register.email")}</label>
               <IconInput
                 required
                 disabled={loginType == 3}
@@ -382,9 +383,9 @@ const PopupDialogRegister = () => {
               />
             </div>
             <div className="form-item">
-              <label className="form-label">{ t("Register.password") }</label>
+              <label className="form-label">{t("Register.password")}</label>
               <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
+                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
               </div>
               <IconInput
                 required
@@ -400,7 +401,7 @@ const PopupDialogRegister = () => {
             </div>
 
             {loginType == 3 && <div className="input_content_box email-verify-box">
-              <label className="form-label">{ t("Register.verifyCode") }</label>
+              <label className="form-label">{t("Register.verifyCode")}</label>
               <IconInput
                 className="input_content_box_input email-verify"
                 ref={emailVerifyRef}
@@ -415,9 +416,8 @@ const PopupDialogRegister = () => {
               />
               <div onClick={getEmailVerifyCode}>
                 <WavaButton
-                  className={`verify-btn ${
-                    verifyTimer > 0 && "disabled"
-                  }`}
+                  className={`verify-btn ${verifyTimer > 0 && "disabled"
+                    }`}
                 >
                   {verifyTimer > 0
                     ? verifyTimer + t("Login.after_second_sent")
@@ -434,14 +434,14 @@ const PopupDialogRegister = () => {
                     ? t("Login.register")
                     : t("Login.write_verity_code")}
                 </p>
-                </button>
+              </button>
               {loginType == 3 && (
                 <button className="edit-btn" onClick={() => setLoginType(2)}>
-                  <p>{ t("Register.editDetails") }</p>
+                  <p>{t("Register.editDetails")}</p>
                 </button>
               )}
             </div>
-            <p className="t-and-c">{ t("Register.t_and_c_1") } <br /> <strong>{ t("Register.t_and_c_2") }</strong>{ t("Register.t_and_c_3") }<strong>{ t("Register.t_and_c_4") }</strong> </p>
+            <p className="t-and-c">{t("Register.t_and_c_1")} <br /> <strong>{t("Register.t_and_c_2")}</strong>{t("Register.t_and_c_3")}<strong>{t("Register.t_and_c_4")}</strong> </p>
 
             <div className="fast-register">
               {/* <div className="title-wrapper">
@@ -449,12 +449,12 @@ const PopupDialogRegister = () => {
                 <p>{ t("Register.fast_register_subtitle") }</p>
               </div> */}
               <div className="user-register" onClick={() => clearFormInput(1)}>
-                <FontAwesomeIcon className="mail-icon" icon={faCircleUser} style={{color: "#434343"}} />
-                <p>{ t("Register.general") }</p>
+                <FontAwesomeIcon className="mail-icon" icon={faCircleUser} style={{ color: "#434343" }} />
+                <p>{t("Register.general")}</p>
               </div>
             </div>
           </div>
-        
+
         </>
       )}
     </div>
