@@ -351,8 +351,6 @@ export const PopupDialogWrapper = styled.div`
   
     .eye-cont{
       position: absolute;
-      right: 0;
-      bottom: 0.15vw;
       line-height: 0;
       margin: 0.573vw;
       z-index: 6;
@@ -583,11 +581,22 @@ export const PopupDialogWrapper = styled.div`
         justify-content: center;
         align-items: center;
         margin-right: 4.475vw;
+        position: absolute;
+
+        @media (max-width: 768px) {
+        width: 5vw;
+        height: 5vw;
+        }
       }
 
       .phone-icon{
         width: 0.725vw;
         height: 0.725vw;
+        @media (max-width: 768px) {
+          width: auto;
+          height: 4vw;
+          margin-right: 0vw;
+        }
       }
   
       p{
