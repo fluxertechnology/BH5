@@ -14,6 +14,9 @@ import LinkComponent from "@/components/common/LinkComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import PostsAddModalPage from "@/components/common/ModalRender";
 import Image from "next/image";
+import store, { useGlobalDispatch } from "@/store";
+import { openPopup } from "@/store/actions/user";
+import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
 
 const { profile, login } = pageUrlConstants;
 
@@ -47,6 +50,16 @@ const ProfileMainHeader = ({
     setMembershipDate(variable);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
+
+  const clickProfile = () => {
+    const userData = store.getState().user;
+    if (userData.id !== "guest") {
+      useGlobalDispatch(pushRoutes(profile.pages.profileEdit.pages.profileEditInfo));
+    } else {
+      // useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
+    }
+  };
 
   function judgeMembershipExpiration() {
     if (id !== "guest") {
@@ -131,13 +144,9 @@ const ProfileMainHeader = ({
           alt="gear iicon"
         />
       </LinkComponent>
-      <LinkComponent
-        className="profile_header_info"
-        routes={
-          id === "guest"
-            ? login.pages.loginMain
-            : profile.pages.profileEdit.pages.profileEditInfo
-        }
+      <div
+        className="profile_header_info cursor-pointer"
+        onClick={clickProfile}
       >
         <div className="profile_header_info_avatar ml-3 mt-5">
           <ImageComponent
@@ -207,7 +216,7 @@ const ProfileMainHeader = ({
         <div className="profile_header_info_arrow mt-5 mr-2">
           <FontAwesomeIcon icon={faAngleRight} />
         </div>
-      </LinkComponent>
+      </div>
       <div className="profile_header_daily">
         <div className="profile_header_daily_view">
           <p className="profile_header_daily_view_amount fw-m">
