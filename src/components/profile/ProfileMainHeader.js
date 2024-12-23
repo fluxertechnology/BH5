@@ -16,6 +16,7 @@ import PostsAddModalPage from "@/components/common/ModalRender";
 import Image from "next/image";
 import store, { useGlobalDispatch } from "@/store";
 import { openPopup } from "@/store/actions/user";
+import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
 
 const { profile, login } = pageUrlConstants;
 
@@ -53,7 +54,7 @@ const ProfileMainHeader = ({
   const clickProfile = () => {
     const userData = store.getState().user;
     if (userData.id !== "guest") {
-      useGlobalDispatch(pushRoutes(pages.profileEdit.pages.profileEditInfo));
+      useGlobalDispatch(pushRoutes(profile.pages.profileEdit.pages.profileEditInfo));
     } else {
       // useGlobalDispatch(pushRoutes(login));
       useGlobalDispatch(openPopup("login"));
