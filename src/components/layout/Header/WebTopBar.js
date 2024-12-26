@@ -64,7 +64,7 @@ const QrCode = ({ scroll }) => {
   return (
     <QrCodeElement scroll={scroll}>
       <div className="qrcode">
-        <Image
+        {/* <Image
           className={"search_bar_nav_item_btn_img"}
           src={
             scroll
@@ -74,8 +74,10 @@ const QrCode = ({ scroll }) => {
           width={0}
           height={0}
           alt={"download"}
-        />
-        {t("Global.action.download_app")}
+        /> */}
+        <div className="search_bar_nav_item_btn_title_text">
+          {t("Global.action.download_app")}
+        </div>
         <div className="qrcode_float">
           <div className="qrcode_float_left">
             <div className="qrcode_float_left_top">
@@ -111,9 +113,9 @@ const QrCodeElement = styled.div.withConfig({
     white-space: nowrap;
     font-size: 12px;
     border-radius: 4px;
-    border: solid 2px ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
+    // border: solid 2px ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
     padding: 5px;
-    color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
+    // color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
 
     &_img {
       width: 70px !important;
@@ -200,6 +202,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     return newNotice;
   }, [state.noticeList, state.noticeListRead]);
 
+  const toPaymentPage = () => {
+    useGlobalDispatch(updateRechargeStateAction(true));
+    useGlobalDispatch(pushRoutes(profile.pages.profilePayment));
+  };
+
   const [navList] = useState(() => [
     {
       intlKey: "Navbar.bottom_navigator_index",
@@ -228,6 +235,24 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       path: vendor.path,
       image: "/images/header/vendor.svg",
       activeImage: "/images/header/shop_selected_btn.png",
+    },
+    {
+      intlKey: "Common.history",
+      name: "",
+      path: "",
+      component: "history",
+    },
+    {
+      intlKey: "Common.charge_1",
+      name: "Payment",
+      path: "/payment",
+      component: "recharge",
+    },
+    {
+      intlKey: "Global.action.download_app",
+      name: "Download QR Code",
+      path: "",
+      component: "qrcode",
     },
   ]);
 
@@ -317,8 +342,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       state.user.time === "-1"
         ? t("Profile.buy.watch.forever_1")
         : Date.now() > state.user.time * 1000
-        ? t("Profile.main.vip.maturity")
-        : new Date(state.user.time * 1000).toLocaleDateString().toString();
+          ? t("Profile.main.vip.maturity")
+          : new Date(state.user.time * 1000).toLocaleDateString().toString();
     setMembershipDate(variable);
   }, [state.user.time]);
   useEffect(() => {
@@ -330,8 +355,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       ? "/images/header/topbar/switch_lang_dark.svg"
       : "/images/header/topbar/switch_lang_en_dark.svg"
     : lang === "tc"
-    ? "/images/header/topbar/switch_lang.svg"
-    : "/images/header/topbar/switch_lang_en.svg";
+      ? "/images/header/topbar/switch_lang.svg"
+      : "/images/header/topbar/switch_lang_en.svg";
 
   async function saveUrl() {
     // navigatorShare({
@@ -379,10 +404,6 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   const clickService = () => {
     window.open("https://bli2pay.com/8jcng");
   };
-  const toPaymentPage = () => {
-    useGlobalDispatch(updateRechargeStateAction(true));
-    useGlobalDispatch(pushRoutes(profile.pages.profilePayment));
-  };
   const clickNew = () => {
     useGlobalDispatch(pushRoutes(notice));
   };
@@ -428,6 +449,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   return (
     <TopsearchBarElement
       main_height={state.navbar.mainHeight}
+      is_login={isLogin}
       ref={ContainerRef}
       scroll={scroll}
     >
@@ -446,64 +468,131 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             onClick={() => clickItem(navList[0])}
           />
           {navList.map((navItem) => (
-            <div
-              className="search_bar_nav cursor"
-              key={navItem.name}
-              style={{
-                animation: scroll ? "1s recharge-move 2" : "",
-              }}
-              onClick={(e) => {
-                clickItem(navItem);
-              }}
-            >
-              <WavaButton
-                className={
-                  "search_bar_nav_item_btn " +
-                  (location.indexOf(navItem.path) !== -1 ? "active" : "")
-                }
+            navItem.component ? (
+              <div
+                className="search_bar_nav cursor"
+                key={navItem.name}
               >
-                <div className="search_bar_nav_item_cover" />
-                <Image
-                  className={"search_bar_nav_item_btn_img"}
-                  width={0}
-                  height={0}
-                  src={scroll ? navItem.activeImage : navItem.image}
-                  alt={navItem.name}
-                />
-                <div className="search_bar_nav_item_btn_title_text">
-                  {t(navItem.intlKey)}
-                </div>
-              </WavaButton>
-            </div>
+                {navItem.component === "qrcode" && (<QrCode scroll={scroll} />)}
+                {navItem.component === "history" && (<div className="search_bar_history">
+                  <div className="search_bar_nav_item_btn">
+                    <div
+                      className="search_bar_nav_item_btn_title_text"
+                    >
+                      {t("Navbar.bar_history")}
+                    </div>
+                  </div>
+                  <div className="search_bar_history_cover">
+                    <TabContext value={tabValue}>
+                      <Box className="search_bar_history_tab_container">
+                        <TabList
+                          onChange={handleChange}
+                          aria-label="lab API tabs example"
+                        >
+                          <Tab label="H漫" value={1} />
+                          <Tab label="番剧" value={0} />
+                        </TabList>
+                      </Box>
+                      <TabPanel value={1}>
+                        <ProfileWatchHistoryComicHandle disabledScrollRefresh />
+                      </TabPanel>
+                      <TabPanel value={0}>
+                        <ProfileWatchHistoryAnimeHandle disabledScrollRefresh />
+                      </TabPanel>
+                    </TabContext>
+                  </div>
+                </div>)}
+                {navItem.component === "recharge" ? (
+                  <div className="search_bar_recharge">
+                    {/* Button */}
+                    <div className="search_bar_nav_item_btn">
+                      <div
+                        className="search_bar_nav_item_btn_title_text"
+                        onClick={toPaymentPage}
+                      >
+                        {t("Navbar.bar_topup")}
+                      </div>
+                    </div>
+
+                    {/* Hover Element */}
+                    <div className="search_bar_recharge_float">
+                      <div>{t("Navbar.bar_recharge_description")}</div>
+                      <div className="search_bar_recharge_float_description">
+                        <span>
+                          <Image
+                            src="/images/header/topbar/free-nor.svg"
+                            width={0}
+                            height={0}
+                            alt="free"
+                          />
+                          {t("Navbar.bar_recharge_description_1")}
+                        </span>
+                        <span>
+                          <Image
+                            src="/images/header/topbar/fast-nor.svg"
+                            width={0}
+                            height={0}
+                            alt="fast"
+                          />
+                          {t("Navbar.bar_recharge_description_2")}
+                        </span>
+                      </div>
+                      <div
+                        className="search_bar_recharge_button"
+                        onClick={toPaymentPage}
+                      >
+                        <WavaButton>
+                          {t(
+                            isLogin
+                              ? "Navbar.bar_recharge_button_notlogin"
+                              : "Navbar.bar_recharge_button"
+                          )}
+                        </WavaButton>
+                      </div>
+                      <div
+                        className="search_bar_recharge_button_light"
+                        onClick={clickVip}
+                      >
+                        <WavaButton>{t("Navbar.bar_recharge_button_1")}</WavaButton>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <navItem.component scroll={scroll} />
+                )}
+              </div>
+            ) : (
+              <div
+                className="search_bar_nav cursor"
+                key={navItem.name}
+                style={{
+                  animation: scroll ? "1s recharge-move 2" : "",
+                }}
+                onClick={() => {
+                  clickItem(navItem);
+                }}
+              >
+                <WavaButton
+                  className={
+                    "search_bar_nav_item_btn " +
+                    (location.indexOf(navItem.path) !== -1 ? "active" : "")
+                  }
+                >
+                  <div className="search_bar_nav_item_cover" />
+                  <div className="search_bar_nav_item_btn_title_text">
+                    {t(navItem.intlKey)}
+                  </div>
+                </WavaButton>
+              </div>
+            )
           ))}
-        </div>
-        <div className="search_bar_item" />
-        <div className="search_bar_main cursor">
-          <Searchbar
-            callback={clickSearch}
-            isPlaceholder={isPlaceholder}
-            scroll={scroll}
-          />
-        </div>
-        <div className="search_bar_item">
-          <div className="search_bar_recharge">
-            <Image
-              className={
-                "search_bar_recharge_img " +
-                (state.config.highlightRechargeState ? "" : "active")
-              }
-              onClick={toPaymentPage}
-              src={
-                !state.config.highlightRechargeState
-                  ? "/images/home/recharge_highlight.svg"
-                  : scroll
-                  ? "/images/header/topbar/recharge_highlight_dark.svg"
-                  : "/images/home/recharge.svg"
-              }
-              width={0}
-              height={0}
-              alt="recharge"
-            />
+          {/* <div className="search_bar_recharge">
+            <div className="search_bar_nav_item_btn">
+              <div className="search_bar_nav_item_btn_title_text" onClick={toPaymentPage}>
+                充值
+              </div>
+            </div>
+
             <div className="search_bar_recharge_float">
               <div>{t("Navbar.bar_recharge_description")}</div>
               <div className="search_bar_recharge_float_description">
@@ -547,147 +636,22 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               </div>
             </div>
           </div>
+          <QrCode scroll={scroll} /> */}
+        </div>
+        <div className="search_bar_item" />
+        <div className="search_bar_main cursor">
+          <Searchbar
+            callback={clickSearch}
+            isPlaceholder={isPlaceholder}
+            scroll={scroll}
+          />
+        </div>
 
-          <div className="search_bar_history">
-            <Image
-              src={
-                scroll
-                  ? "/images/header/topbar/history_dark.svg"
-                  : "/images/header/topbar/history.svg"
-              }
-              width={0}
-              height={0}
-              alt="service"
-              className="search_bar_history_img"
-            />
-            <div className="search_bar_history_cover">
-              <TabContext value={tabValue}>
-                <Box className="search_bar_history_tab_container">
-                  <TabList
-                    onChange={handleChange}
-                    aria-label="lab API tabs example"
-                  >
-                    <Tab label="H漫" value={1} />
-                    <Tab label="番剧" value={0} />
-                  </TabList>
-                </Box>
-                <TabPanel value={1}>
-                  <ProfileWatchHistoryComicHandle disabledScrollRefresh />
-                </TabPanel>
-                <TabPanel value={0}>
-                  <ProfileWatchHistoryAnimeHandle disabledScrollRefresh />
-                </TabPanel>
-              </TabContext>
-            </div>
-          </div>
 
-          <div className="search_bar_switch">
-            <Image
-              src={judgeSwitchLangImg}
-              width={0}
-              height={0}
-              alt="switch"
-              className="search_bar_switch_img"
-            />
-            <div className="search_bar_switch_cover">
-              <div className="search_bar_switch_cover_content">
-                {LanguageList.map((list) => (
-                  <div
-                    key={list.name}
-                    className="cursor"
-                    onClick={() => changeLanguage(list.lang)}
-                  >
-                    {list.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="search_bar_task ">
-            <Image
-              src={
-                scroll
-                  ? "/images/header/topbar/task_dark.svg"
-                  : "/images/header/topbar/task.svg"
-              }
-              width={0}
-              height={0}
-              alt="task"
-              className="search_bar_float_img"
-            />
-
-            <div className={`search_bar_float search_bar_task_float`}>
-              {questInfoList?.map((daliy, index) => (
-                <React.Fragment key={index}>
-                  <ol>
-                    <li className="search_bar_float_title">{daliy.title}</li>
-                    <li>{daliy.description}</li>
-                    <li
-                      className={`search_bar_float_content ${!index && "gold"}`}
-                    >
-                      {!index && (
-                        <Image
-                          src={daliy.icon}
-                          width={0}
-                          height={0}
-                          alt="coin"
-                          className="search_bar_float_img"
-                        />
-                      )}
-
-                      {daliy.content}
-                    </li>
-                    <li>
-                      <div
-                        className="search_bar_float_button"
-                        onClick={daliy.buttonEvent}
-                      >
-                        {daliy.button}
-                      </div>
-                    </li>
-                  </ol>
-                  <ol style={{ display: index && "none" }}>
-                    <div className="divider" />
-                  </ol>
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-          <div className="search_bar_service" onClick={clickService}>
-            <Image
-              width={42}
-              height={42}
-              src={
-                scroll
-                  ? "/images/header/topbar/service_dark.svg"
-                  : "/images/header/topbar/service.svg"
-              }
-              alt="service"
-              className="search_bar_service_img"
-            />
-          </div>
-
-          <div className="search_bar_news" onClick={clickNew}>
-            <Image
-              src={
-                scroll
-                  ? "/images/header/topbar/news_dark.svg"
-                  : "/images/header/topbar/news.svg"
-              }
-              width={0}
-              height={0}
-              alt="news"
-              className="search_bar_news_img"
-            />
-            {newNotice ? (
-              <span className="search_bar_news_number">{newNotice}</span>
-            ) : (
-              ""
-            )}
-          </div>
+        <div className="search_bar_item">
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
-            {/* <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}> */}
+              {/* <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}> */}
               {isLogin ? (
                 <ImageComponent
                   is_cover={true}
@@ -732,7 +696,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                       </div>
                       <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
                         {state.user.time === "-1" ||
-                        Date.now() < state.user.time * 1000 ? (
+                          Date.now() < state.user.time * 1000 ? (
                           <Image
                             className="search_bar_avatar_cover_user_info_crown"
                             src="/images/icons/crown.png"
@@ -769,7 +733,115 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               {/* </div> */}
             </div>
           </div>
-          <QrCode scroll={scroll} />
+          {!isLogin &&
+            <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}>
+              <div className="search_bar_avatar_login">
+                {t("Login.register")}
+              </div>
+            </div>
+
+          }
+          <div className="search_bar_news" onClick={clickNew}>
+            <Image
+              src={
+                "/images/header/topbar/notification.png"
+              }
+              width={26}
+              height={28}
+              alt="news"
+              className="search_bar_news_img"
+            />
+            {newNotice ? (
+              <span className="search_bar_news_number">{newNotice}</span>
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="search_bar_task ">
+            <Image
+              src={
+                "/images/header/topbar/checkin.png"
+              }
+              width={28}
+              height={28}
+              alt="task"
+              className="search_bar_float_img"
+            />
+
+            <div className={`search_bar_float search_bar_task_float`}>
+              {questInfoList?.map((daliy, index) => (
+                <React.Fragment key={index}>
+                  <ol>
+                    <li className="search_bar_float_title">{daliy.title}</li>
+                    <li>{daliy.description}</li>
+                    <li
+                      className={`search_bar_float_content ${!index && "gold"}`}
+                    >
+                      {!index && (
+                        <Image
+                          src={daliy.icon}
+                          width={0}
+                          height={0}
+                          alt="coin"
+                          className="search_bar_float_img"
+                        />
+                      )}
+
+                      {daliy.content}
+                    </li>
+                    <li>
+                      <div
+                        className="search_bar_float_button"
+                        onClick={daliy.buttonEvent}
+                      >
+                        {daliy.button}
+                      </div>
+                    </li>
+                  </ol>
+                  <ol style={{ display: index && "none" }}>
+                    <div className="divider" />
+                  </ol>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+          <div className="search_bar_service" onClick={clickService}>
+            <Image
+              width={31}
+              height={25}
+              src={
+                "/images/header/topbar/customer_service.png"
+              }
+              alt="service"
+              className="search_bar_service_img"
+            />
+          </div>
+          <div className="search_bar_switch">
+            <Image
+              src={
+                "/images/header/topbar/translation.png"
+              }
+              width={35}
+              height={35}
+              alt="switch"
+              className="search_bar_switch_img"
+            />
+            <div className="search_bar_switch_cover">
+              <div className="search_bar_switch_cover_content">
+                {LanguageList.map((list) => (
+                  <div
+                    key={list.name}
+                    className="cursor"
+                    onClick={() => changeLanguage(list.lang)}
+                  >
+                    {list.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </TopsearchBarElement>
@@ -777,14 +849,14 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 };
 
 const TopsearchBarElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["scroll", "main_height"].includes(prop),
+  shouldForwardProp: (prop) => !["scroll", "main_height", "is_login"].includes(prop),
 })`
-  ${({ main_height, scroll }) => `
+  ${({ main_height, scroll, is_login }) => `
     /*  */
     padding-right: ${padding}px;
     padding-left: ${padding}px;
     height: ${main_height}px;
-    background-color: ${colors.dark_pink};
+    background-color: #fff;
 
     .logo {
       width: 110px;
@@ -884,20 +956,19 @@ const TopsearchBarElement = styled.div.withConfig({
             &_title {
               &_text {
                 align-self: center;
+                text-align:center;
                 font-size: 14px;
-                color: #fff;
                 font-weight: 600;
-                color: ${scroll ? colors.text_grey : "#fff"};
+                color: #000;
               }
             }
 
             &.active {
               cursor: default;
-              transform: translateY(-3px) scale(1.05);
               transform-origin: bottom center;
               font-size: 16px;
-              color: ${colors.text_grey};
               text-shadow: 0.09px 0px ${colors.text_grey};
+              border-bottom: 1px solid ${colors.dark_pink};
 
               .search_bar_nav_item_cover {
                 display: block;
@@ -922,8 +993,9 @@ const TopsearchBarElement = styled.div.withConfig({
         justify-content: center;
         align-self: center;
         margin-left: 10px;
-        width: ${main_height * 0.55}px;
-        height: ${main_height * 0.55}px;
+        width: auto;
+        min-width: ${is_login ? main_height * 0.55 : main_height * 0.875}px;
+        height: ${is_login ? main_height * 0.55 : main_height * 0.375}px;
         font-size: 14px;
         color: ${colors.dark_pink};
         font-weight: 900;
@@ -933,7 +1005,7 @@ const TopsearchBarElement = styled.div.withConfig({
           display: flex;
           justify-content: center;
           align-items: center;
-          border-radius: 50%;
+          border-radius: ${is_login ? 9999 : main_height * 0.1875}px;
           width: 100%;
           height: 100%;
           background-color: #fffa;
@@ -1089,8 +1161,9 @@ const TopsearchBarElement = styled.div.withConfig({
           }
         }
         &_img {
-          width: 35px;
-          height: 35px;
+          width: 28px;
+          height: 28px;
+          object-fit:contain;
         }
       }
 
@@ -1137,6 +1210,7 @@ const TopsearchBarElement = styled.div.withConfig({
           }
           .MuiTabPanel-root {
             padding: 0px !important;
+            width: 100%;
           }
           .MuiTab-root {
             color: #000000;
@@ -1155,8 +1229,16 @@ const TopsearchBarElement = styled.div.withConfig({
 
       &_service {
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        
         &:hover {
           animation: navbar-jump infinite 1.5s;
+        }
+        &_img {
+          width: 31px;
+          height: 25px;
+          margin: auto;
         }
       }
 
@@ -1166,8 +1248,8 @@ const TopsearchBarElement = styled.div.withConfig({
         margin-right: 10px;
         position: relative;
         &_img {
-          width: 30px;
-          height: 30px;
+          width: 28px;
+          height: 28px;
           margin-bottom: 4px;
 
           &.active {
@@ -1372,8 +1454,8 @@ const TopsearchBarElement = styled.div.withConfig({
 
     @media (min-width: 899px) {
       .search_bar_news_img {
-        height: 30px;
-        width: 30px;
+        height: 28px;
+        width: 26px;
       }
 
       .search_bar_recharge_img {

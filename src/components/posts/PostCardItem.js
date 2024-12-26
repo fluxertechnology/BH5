@@ -1805,6 +1805,9 @@ export const PostCardItemElement = styled.div.withConfig({
         cursor: pointer;
         width: 30%;
         text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &_icon {
           margin: 0 5px;

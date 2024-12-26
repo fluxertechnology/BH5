@@ -17,8 +17,6 @@ import { faStar } from "@fortawesome/free-regular-svg-icons";
 
 import { useGlobalDispatch, useGlobalContext } from "@/store";
 
-import { useRouter } from "next/navigation";
-
 const TopTitleBar = ({
   title = "",
   iconState,
@@ -36,7 +34,9 @@ const TopTitleBar = ({
   show_border_bottom = false,
 }) => {
   const { state } = useGlobalContext();
-  const router = useRouter();
+
+  const { home } = pageUrlConstants;
+
   const backEvent = (backIndex, not_clear_history) => {
     if (backIndex) {
       useGlobalDispatch(
@@ -80,8 +80,13 @@ const TopTitleBar = ({
             </div>
             <HomeIcon
               className="container_back_icon ml-4"
-              onClick={() => router.push('/')}
-              style={{ cursor: 'pointer', color: show_back_color }}
+              onClick={() => 
+                useGlobalDispatch(
+                  pushRoutes(
+                    home.pages.homeMain
+                  )
+              )}
+            style={{ cursor: 'pointer', color: show_back_color }}
             />
           </div>
         ) : (

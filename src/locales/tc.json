@@ -52,7 +52,9 @@
     "bar_recharge_description_2": "顺畅体验不卡顿",
     "bar_recharge_button_notlogin": "新会员 VIP首充优惠",
     "bar_recharge_button": "充值VIP 爽撸不间断",
-    "bar_recharge_button_1": "点我输入 VIP兑换码"
+    "bar_recharge_button_1": "点我输入 VIP兑换码",
+    "bar_history": "历史",
+    "bar_topup": "充值"
   },
   "Footer": {
     "user": {
@@ -819,13 +821,13 @@
     "no_acc": "没有B次元账号？",
     "verifyCode": "验证码",
     "editDetails": "修改邮箱及密码",
-    "fast_register_title":"一秒快速注册",
-    "fast_register_subtitle":"享受海量优质作品",
-    "fast_register_email":"以 Email 注册",
-    "t_and_c_1":"继续即表示您同意我们的",
-    "t_and_c_2":"服务条款",
-    "t_and_c_3":"和",
-    "t_and_c_4":"隐私政策"
+    "fast_register_title": "一秒快速注册",
+    "fast_register_subtitle": "享受海量优质作品",
+    "fast_register_email": "以 Email 注册",
+    "t_and_c_1": "继续即表示您同意我们的",
+    "t_and_c_2": "服务条款",
+    "t_and_c_3": "和",
+    "t_and_c_4": "隐私政策"
   },
   "Personal": {
     "setting": "个人设定"

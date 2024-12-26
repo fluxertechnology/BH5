@@ -52,7 +52,9 @@
     "bar_recharge_description_2": "Smooth Experience",
     "bar_recharge_button_notlogin": "First Recharge Discount for New Members",
     "bar_recharge_button": "Recharge for VIP, happy non-stop.",
-    "bar_recharge_button_1": "Enter VIP Code By Clicking Here."
+    "bar_recharge_button_1": "Enter VIP Code By Clicking Here.",
+    "bar_history": "History",
+    "bar_topup": "Topup"
   },
   "Common": {
     "error": "Something went wrong!",

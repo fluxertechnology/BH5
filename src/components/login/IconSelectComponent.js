@@ -88,6 +88,7 @@ export const IconSelectElement = styled.div`
     height: 100%;
     border: 1px solid #646464;
     border-radius: 5px;
+    height: 2.083vw;
 
     &_icon {
       height: 80%;
