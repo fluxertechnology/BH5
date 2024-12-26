@@ -27,6 +27,7 @@ import LinkComponent from "@/components/common/LinkComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const GameProps = createContext("");
 const GamePropsProvider = GameProps.Provider;
@@ -42,6 +43,7 @@ const StyledTabs = styled((props) => (
   />
 ))(({ theme }) => ({
   "& .MuiTabs-indicator": {
+    display: "none",
     backgroundColor: colors.back_dark_pink,
     [theme.breakpoints?.up("sm")]: {
       height: "2px",
@@ -50,41 +52,60 @@ const StyledTabs = styled((props) => (
       height: "2px",
     },
   },
+  "& .MuiTabs-flexContainer": {
+    height: "100%",
+  },
   "& .MuiTabs-indicatorSpan": {
     width: "100%",
     backgroundColor: colors.back_dark_pink,
   },
   "& .MuiTabs-fixed": {
-    maxHeight: sub_height,
+    // maxHeight: sub_height,
+    // height: "40px",
   },
   "& .MuiTabs-scroller": {
     width: "auto",
     flex: "none",
   },
 }));
+const lang = Cookies.get("NEXT_LOCALE");
 
 const AntTab = styled((props) => <Tab disableRipple {...props} />)(
-  ({ theme }) => ({
-    textTransform: "none",
-    minWidth: 0,
-    padding: "12px 8px",
-    fontSize: 16 + "px",
-    alignSelf: "center",
-    color: "rgba(0, 0, 0, 0.85)",
-    transition: "0.3s",
-    [theme.breakpoints?.down("sm")]: {
-      width: "auto",
-      fontSize: 14 + "px",
-    },
-    "&:hover": {
-      color: colors.text_grey,
-      opacity: 1,
-    },
-    "&.Mui-selected": {
-      color: colors.back_dark_pink,
-      fontWeight: theme.typography?.fontWeightMedium,
-    },
-  })
+  ({ theme, bgColors }) => {
+    const backgroundColor = Array.isArray(bgColors) && bgColors.length === 2
+      ? `linear-gradient(135deg, ${bgColors[0]}, ${bgColors[1]})`
+      : bgColors[0] || "#333333";
+
+    return {
+      textTransform: "none",
+      minWidth: 0,
+      padding: "0px",
+      fontSize: lang == 'en' ? "max(10px,0.739vw)" : "max(12px,0.885vw)",
+      fontFamily: "Microsoft YaHei",
+      fontWeight: 700,
+      alignSelf: "center",
+      width: "max(50px,5.365vw)",
+      height: "max(30px,2.083vw)",
+      minHeight: "20px",
+      borderRadius: "0.677vw",
+      background: backgroundColor, // Use `background` for gradient support
+      color: "#fff",
+      transition: "0.3s",
+      marginRight: "0.521vw",
+      [theme.breakpoints?.down("sm")]: {
+        width: "auto",
+        fontSize: "14px",
+      },
+      "&:hover": {
+        color: colors.text_grey,
+        opacity: 1,
+      },
+      "&.Mui-selected": {
+        color: "#fff",
+        // fontWeight: theme.typography?.fontWeightMedium,
+      },
+    };
+  }
 );
 
 const TopTabBar = ({
@@ -233,9 +254,8 @@ const TopTabBar = ({
                   src={foldArrowIcon}
                   width={0}
                   height={0}
-                  className={`${!disabledIndent && "px-indent"} top_bar_arrow ${
-                    drawer && "disabled"
-                  } `}
+                  className={`${!disabledIndent && "px-indent"} top_bar_arrow ${drawer && "disabled"
+                    } `}
                   onClick={() => setDrawer((pre) => !pre)}
                   alt="arrow"
                 />
@@ -244,9 +264,8 @@ const TopTabBar = ({
           </div>
           {drawer && (
             <div
-              className={`${!disabledIndent && "px-indent"} top_bar_control ${
-                !drawer && "disabled"
-              }`}
+              className={`${!disabledIndent && "px-indent"} top_bar_control ${!drawer && "disabled"
+                }`}
             >
               <Image
                 src={foldArrowIcon}
@@ -262,16 +281,39 @@ const TopTabBar = ({
       ) : (
         <TopTabBarElement
           type={type}
-          className={`${!disabledIndent && "px-indent"} `}
+          className={`${!disabledIndent && "w-full"} `}
         >
           <StyledTabs value={nowKey} onChange={handleChange}>
-            {labelListKey.map((labelKey) => {
+            {labelListKey.map((labelKey, index) => {
+              const categoryColors = [
+                ["#ff487f", "#fa719a"], // Ani-Manga
+                ["#33b7c3", "#7fc28f"], // Video
+                ["#4aeba8", "#fcb423"], // Image
+                ["#f80f6e", "#595292"], // Novel
+                ["#1289e7", "#24e5c0"], // K-Comics
+                ["#2065bc", "#923bde"], // Dojin
+                ["#5eaeef", "#f3305f"], // 3D
+                ["#ea2c38", "#ea9d3c"], // RANKS
+                ["#0f74c7", "#7acfec"], // Free Watch
+                ["#ffb321", "#ff8921"], // Customer Support
+                ["#ff4b80", "#ff4b60"], // Download APP
+                ["#ff4b80"],           // PINK
+              ];
+
+              // Fetch the colors for the current label or default to a solid background
+              const bgColors = categoryColors[index % categoryColors.length] || ["#333333"];
+
               return (
                 <AntTab
                   length={labelListKey.length}
                   value={labelKey}
-                  label={labelList[labelKey].intlKey ? t(labelList[labelKey].intlKey) : labelList[labelKey].name}
+                  label={
+                    labelList[labelKey].intlKey
+                      ? t(labelList[labelKey].intlKey)
+                      : labelList[labelKey].name
+                  }
                   key={labelKey}
+                  bgColors={bgColors} // Pass the dynamic background colors
                   onClick={() => {
                     onClickTab(labelKey);
                   }}
@@ -279,7 +321,7 @@ const TopTabBar = ({
               );
             })}
           </StyledTabs>
-          <div className="g-center gap-3">
+          <div className="g-center gap-3 mt-[0.521vw]">
             {linkItems.map((data, index) => {
               const { onMouseEnterEvent, onClickEvent, color, icon, name } =
                 data;
@@ -290,7 +332,7 @@ const TopTabBar = ({
                   onMouseEnter={onMouseEnterEvent && onMouseEnterEvent}
                   onMouseLeave={onMouseEnterEvent && onMouseEnterEvent}
                   onClick={onClickEvent && onClickEvent}
-                  style={{ color: color }}
+                  style={{ color: color, fontSize: 'max(12px,0.833vw)'}}
                 >
                   <Image src={icon} width={0} height={0} alt={name} />
                   {name}
@@ -425,9 +467,23 @@ export const TopTabBarElement = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: ${({ type }) => (type === 1 ? sub_height : main_height)}px;
+  align-items: start;
+  padding-top:3px;
+  height: ${({ type }) => (type === 1 ? sub_height * 1.59 : main_height)}px;
   background-color: #fff;
+  padding-right: 5vw;
+  padding-left: 5vw;
+
+  @media (max-width: 1024px) {
+    padding-right: 1vw;
+    padding-left: 1vw;
+  }
+  
+  @media (min-width: 1400px) {
+    padding-right: 11.927vw;
+    padding-left: 11.927vw;
+  }
+
   img {
     width: 25px;
     height: 25px;
@@ -461,11 +517,12 @@ export const TopTabBarElement = styled.div`
 
 export const H5TopTabBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["type", "drawer", "sub_height", "main_height"].includes(prop),
-}) `
+})`
   /*  */
   display: flex;
   background-color: #fff;
   flex-direction: column;
+
   .top_bar {
     &_container {
       position: relative;

@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import searchIcon from "@public/images/topbar/search.svg";
 import searchGrayIcon from "@public/images/topbar/search_gray.svg";
+import SearchIcon from '@mui/icons-material/Search';
 import { colors } from "@/lib/constants";
 import styled from "styled-components";
 import Image from "next/image";
@@ -10,8 +11,8 @@ const Searchbar = ({
   isPlaceholder,
   scroll,
   callback,
-  inputOnChange = () => {},
-  inputKeyDown = () => {},
+  inputOnChange = () => { },
+  inputKeyDown = () => { },
 }) => {
   const t = useTranslations();
   return (
@@ -35,13 +36,7 @@ const Searchbar = ({
           )}
         </div>
         <div className="search_icon">
-          <Image
-            src={scroll ? searchGrayIcon : searchIcon}
-            width={0}
-            height={0}
-            className="search_icon_img"
-            alt=""
-          />
+          <SearchIcon className="search_icon_img text-[#000000]"/>
         </div>
       </div>
     </SearchbarElement>
@@ -60,10 +55,10 @@ export const SearchbarElement = styled.div.withConfig({
     display: flex;
     align-items: middle;
     background-color: #fff;
-    border-radius: 30px;
-    @media (min-width: 899px) {
+    border-radius: 0.365vw;
+    @media (min-width: 1024px) {
       padding: 0;
-      min-width: 200px;
+      min-width: 160px;
     }
 
     &_icon {
@@ -71,11 +66,12 @@ export const SearchbarElement = styled.div.withConfig({
       align-items: center;
       margin-right: 10px;
       vertical-align: middle;
-      color: #aaa;
+      color: #fff;
 
       &_img {
-        width: 14px;
-        height: 14px;
+        width: 11px;
+        height: 11px;
+        object-fit:contain;
         vertical-align: middle;
       }
     }
@@ -93,7 +89,7 @@ export const SearchbarElement = styled.div.withConfig({
     }
 
     &.placeholder {
-      background-color: #00000036;
+      background-color: #e8e8e8;
       font-weight: 600;
       .search {
         &_icon {
@@ -105,8 +101,9 @@ export const SearchbarElement = styled.div.withConfig({
           align-items: center;
 
           &_placeholder {
+            font-size: max(10px,0.586vw);
             color: ${({ scroll }) =>
-              scroll ? colors.text_light_grey : "#fffa"};
+              scroll ? '#969696' : "#969696"};
           }
         }
       }

@@ -105,6 +105,11 @@ const QrCodeElement = styled.div.withConfig({
   /*  */
   display: flex;
   align-items: center;
+
+  @media (max-width: 1023px){
+    display: none;
+  }
+
   .qrcode {
     display: flex;
     align-items: center;
@@ -114,7 +119,7 @@ const QrCodeElement = styled.div.withConfig({
     font-size: 12px;
     border-radius: 4px;
     // border: solid 2px ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
-    padding: 5px;
+    padding: 4px 0.417vw;
     // color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
 
     &_img {
@@ -153,7 +158,7 @@ const QrCodeElement = styled.div.withConfig({
         text-align: center;
         position: absolute;
         display: flex;
-        top: 40px;
+        top: 25px;
         right: 0;
         z-index: 999;
         border-radius: 5px;
@@ -262,16 +267,16 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
         let { scrollY } = window;
         setScroll(Boolean(scrollY));
         let TargetStyle = ContainerRef?.current?.style; //不加問號目前好像動作太快會故障
-        if (TargetStyle) {
-          TargetStyle.transition = "0.2s";
-          if (scrollY) {
-            TargetStyle.backgroundColor = "#fff";
-            TargetStyle.borderBottom = "0.5px grey dotted";
-          } else {
-            TargetStyle.backgroundColor = colors.dark_pink;
-            TargetStyle.borderBottom = "none";
-          }
-        }
+        // if (TargetStyle) {
+        //   TargetStyle.transition = "0.2s";
+        //   if (scrollY) {
+        //     TargetStyle.backgroundColor = "#fff";
+        //     TargetStyle.borderBottom = "0.5px grey dotted";
+        //   } else {
+        //     TargetStyle.backgroundColor = colors.dark_pink;
+        //     TargetStyle.borderBottom = "none";
+        //   }
+        // }
       };
       window.addEventListener("scroll", onScroll);
       return function cleanup() {
@@ -458,11 +463,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           <Image
             src={
               scroll
-                ? "/images/header/topbar/logo_p.svg"
-                : "/images/header/topbar/logo_w.svg"
+                ? "/images/header/topbar/logo.png"
+                : "/images/header/topbar/logo.png"
             }
-            width={0}
-            height={0}
+            width={110}
+            height={39}
             alt="B次元 LOGO"
             className="logo cursor"
             onClick={() => clickItem(navList[0])}
@@ -638,17 +643,16 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           <QrCode scroll={scroll} /> */}
         </div>
-        <div className="search_bar_item" />
-        <div className="search_bar_main cursor">
-          <Searchbar
-            callback={clickSearch}
-            isPlaceholder={isPlaceholder}
-            scroll={scroll}
-          />
-        </div>
-
 
         <div className="search_bar_item">
+          <div className="search_bar_item" />
+          <div className="search_bar_main cursor">
+            <Searchbar
+              callback={clickSearch}
+              isPlaceholder={isPlaceholder}
+              scroll={scroll}
+            />
+          </div>
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
               {/* <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}> */}
@@ -661,7 +665,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   placeholderImg="/images/imgPlaceholder/avatar.png"
                 />
               ) : (
-                <div className="search_bar_avatar_login">
+                <div className="search_bar_avatar_login bg-[#000]">
                   {t("Login.login")}
                 </div>
               )}
@@ -735,7 +739,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div>
           {!isLogin &&
             <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}>
-              <div className="search_bar_avatar_login">
+              <div className="search_bar_avatar_login bg-[#e8e8e8] text-[#000]">
                 {t("Login.register")}
               </div>
             </div>
@@ -853,10 +857,19 @@ const TopsearchBarElement = styled.div.withConfig({
 })`
   ${({ main_height, scroll, is_login }) => `
     /*  */
-    padding-right: ${padding}px;
-    padding-left: ${padding}px;
+    padding-right: 5vw;
+    padding-left: 5vw;
     height: ${main_height}px;
     background-color: #fff;
+
+    @media (max-width: 1024px) {
+    padding-right: 1vw;
+    padding-left: 1vw;
+    }
+    @media (min-width: 1400px) {
+      padding-right: 11.927vw;
+      padding-left: 11.927vw;
+    }
 
     .logo {
       width: 110px;
@@ -942,7 +955,7 @@ const TopsearchBarElement = styled.div.withConfig({
 
           &_btn {
             display: flex;
-            padding: 4px 8px;
+            padding: 4px 0.417vw;
             &:hover {
               animation: navbar-jump infinite 1.5s;
             }
@@ -968,7 +981,7 @@ const TopsearchBarElement = styled.div.withConfig({
               transform-origin: bottom center;
               font-size: 16px;
               text-shadow: 0.09px 0px ${colors.text_grey};
-              border-bottom: 1px solid ${colors.dark_pink};
+              border-bottom: 2px solid ${colors.dark_pink};
 
               .search_bar_nav_item_cover {
                 display: block;
@@ -982,22 +995,23 @@ const TopsearchBarElement = styled.div.withConfig({
       &_main,
       &_news,
       &_service,
-      &_switch,
-      &_history,
-      &_recharge {
-        margin-right: 10px;
+      // &_switch,
+      // &_recharge 
+      // &_history,
+      {
+        margin-right: max(0.521vw);
       }
       &_avatar {
         cursor: pointer;
         display: flex;
         justify-content: center;
         align-self: center;
-        margin-left: 10px;
+        margin-left: 0;
         width: auto;
         min-width: ${is_login ? main_height * 0.55 : main_height * 0.875}px;
         height: ${is_login ? main_height * 0.55 : main_height * 0.375}px;
         font-size: 14px;
-        color: ${colors.dark_pink};
+        color: #fff;
         font-weight: 900;
         text-shadow: 0.2px 0.2px ${colors.dark_pink};
         align-self: center;
@@ -1008,7 +1022,7 @@ const TopsearchBarElement = styled.div.withConfig({
           border-radius: ${is_login ? 9999 : main_height * 0.1875}px;
           width: 100%;
           height: 100%;
-          background-color: #fffa;
+          padding: 0 0.5vw;
         }
 
         &_cover {
@@ -1060,7 +1074,7 @@ const TopsearchBarElement = styled.div.withConfig({
               display: flex;
               flex-direction: column;
               top: 40px;
-              right: 0;
+              left: 0;
               gap: 10px;
               border-radius: 5px;
               box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
@@ -1139,7 +1153,7 @@ const TopsearchBarElement = styled.div.withConfig({
               text-align: center;
               padding: 10px 0;
               gap: 5px;
-              top: 40px;
+              top: 25px;
               background-color: #fff;
               border-radius: 5px;
               box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
@@ -1196,7 +1210,7 @@ const TopsearchBarElement = styled.div.withConfig({
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              top: 40px;
+              top: 25px;
               right: -20em;
               width: 25em;
               border-radius: 5px;
@@ -1245,7 +1259,7 @@ const TopsearchBarElement = styled.div.withConfig({
       &_float,
       &_recharge {
         align-self: center;
-        margin-right: 10px;
+        // margin-right: 10px;
         position: relative;
         &_img {
           width: 28px;
@@ -1318,8 +1332,8 @@ const TopsearchBarElement = styled.div.withConfig({
             justify-content: center;
             align-items: center;
             white-space: nowrap;
-            top: 40px;
-            left: -370%;
+            top: 25px;
+            left: 0%;
             border-radius: 5px;
             box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
           }
@@ -1356,7 +1370,7 @@ const TopsearchBarElement = styled.div.withConfig({
       }
       &_news {
         position: relative;
-        margin-right: 10px;
+        margin-right: max(0.521vw);
         align-self: center;
         cursor: pointer;
         &:hover {
@@ -1379,8 +1393,8 @@ const TopsearchBarElement = styled.div.withConfig({
           line-height: 14px;
           text-align: center;
           padding: 1%;
-          color: ${scroll ? "#fff" : colors.dark_pink};
-          background-color: ${scroll ? "red" : "#fff"};
+          color: ${scroll ? "#fff" : "#fff"};
+          background-color: ${scroll ? "red" : "red"};
           border-radius: 50%;
         }
       }
@@ -1389,7 +1403,7 @@ const TopsearchBarElement = styled.div.withConfig({
         position: absolute;
         visibility: hidden;
         display: flex;
-        top: 30px;
+        top: 25px;
         right: -230px;
         cursor: default;
 
@@ -1463,9 +1477,9 @@ const TopsearchBarElement = styled.div.withConfig({
         width: 35px;
       }
       .search_bar_avatar_login {
-        background-color: ${scroll && "#1a2950"};
-        color: ${scroll && "#fff"};
-        font-size: 16px;
+        // background-color: #1a2950;
+        // color: #fff;
+        font-size: max(12px,0.833vw);
       }
     }
   `}

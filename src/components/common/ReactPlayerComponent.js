@@ -498,7 +498,7 @@ export const PlyrComponentElement = styled.div.withConfig({
         left: 50%;
         transform: translate(-50%, 20px);
         padding-left: 20px;
-        padding-right: 20px;
+        padding-right: 150px;
         padding-top: 15px;
         padding-bottom: 15px;
         color: #fff;
