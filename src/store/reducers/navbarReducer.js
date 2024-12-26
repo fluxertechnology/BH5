@@ -13,6 +13,7 @@ const defaultState = {
   fixed: true,
   show: true,
   isShowFooter: true,
+  isShowSearch: false,
   dialogType: null,
   customComponent: () => false,
   prependComponent: () => <></>,
@@ -67,6 +68,7 @@ const navbarReducer = function (state = {}, action) {
         fixed: true,
         show: true,
         isShowFooter: true,
+        isShowSearch: false,
         customComponent: () => false,
         prependComponent: () => <></>,
         appendComponent: () => <></>,
@@ -76,8 +78,8 @@ const navbarReducer = function (state = {}, action) {
       return {
         ...state,
         dialogType: action.data.popupType,
-      }
-      
+      };
+
     default:
       return state;
   }

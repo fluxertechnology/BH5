@@ -301,6 +301,7 @@ export function GlobalProvider({ children }) {
       fixed: true,
       show: true,
       isShowFooter: true,
+      isShowSearch: false,
       bottomNavHeight: 62,
       customComponent: () => false,
       prependComponent: () => <></>,

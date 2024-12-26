@@ -47,7 +47,12 @@ const TopBar = () => {
     }
   };
   const clickSearch = () => {
-    useGlobalDispatch(pushRoutes(home.pages.homeSearch));
+    useGlobalDispatch({
+      type: 'UPDATE_NAVBAR',
+      key: 'isShowSearch',
+      data: true,
+    })
+    // useGlobalDispatch(pushRoutes(home.pages.homeSearch));
   };
   const clickHome = () => {
     useGlobalDispatch(pushRoutes(home.pages.homeMain));
@@ -68,9 +73,16 @@ const TopBar = () => {
           />
         </div>
         <div className="search_bar_main">
-          <Searchbar
+          {/* <Searchbar
             callback={clickSearch}
             isPlaceholder={state.navbar.isPlaceholder}
+          /> */}
+          <Image 
+           src="/images/header/topbar/search.png"
+            width={16}
+            height={16}
+            alt="search"
+            onClick={clickSearch}
           />
         </div>
         {/* <div className="search_bar_share" onClick={toPaymentPage}>
@@ -195,7 +207,7 @@ export const TopBarElement = styled.div.withConfig({
         }
       }
       &_main {
-        flex-grow: 1;
+        // flex-grow: 1;
         margin: 0 10px;
       }
 
