@@ -7,7 +7,7 @@ import CoverCubeItem from "@/components/common/CoverCubeItem";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useTranslations } from "next-intl";
-import { itemScrollBottomCallEvent } from "@/lib/services/scrollEvent";
+import { itemScrollBottomCallEvent, scrollCold } from "@/lib/services/scrollEvent";
 
 const SearchResult = ({ show = true }) => {
   const { state } = useGlobalContext();
@@ -30,6 +30,7 @@ const SearchResult = ({ show = true }) => {
   };
   const onSearchInputKeydown = (e) => {
     if (e.key === "Enter") {
+      scrollCold(false);
       updateSearchResult(`${searchInput}/${searchCategory}`);
     }
   };
@@ -83,6 +84,7 @@ const SearchResult = ({ show = true }) => {
     <SearchResultElement
       main_height={state.navbar.mainHeight}
       bottom_nav_height={state.navbar.bottomNavHeight}
+      isMobile={isMobile}
     >
       <div className={state.navbar.isShowSearch ? "" : "hide"}>
         <div className="search_bar">
@@ -96,12 +98,25 @@ const SearchResult = ({ show = true }) => {
               onChange={onSearchInputChange}
               onKeyDown={onSearchInputKeydown}
             />
-            <div onClick={closeSearch}>X</div>
+            <div onClick={closeSearch} className="close_btn">
+              <Image
+                src="/images/shared/close_black.png"
+                width={20}
+                height={20}
+                alt="Close"
+              />
+            </div>
           </div>
         </div>
 
         <div className="search_result_wrapper">
-          <div className="search_result_container">
+          <div
+            className={
+              localState.list.length
+                ? "search_result_container with_content"
+                : "search_result_container"
+            }
+          >
             <Grid
               container
               direction="row"
@@ -140,21 +155,20 @@ const SearchResult = ({ show = true }) => {
 
 const SearchResultElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["main_height", "bottom_nav_height"].includes(prop),
+    !["main_height", "bottom_nav_height", "isMobile"].includes(prop),
 })`
-  ${({ main_height, bottom_nav_height }) => `
+  ${({ main_height, bottom_nav_height, isMobile }) => `
     .hide {
         display: none;
     }
     .search_bar {
         height: 65px;
-        padding: 15px 30px;
+        padding: ${isMobile ? "15px 30px" : "10px 11.927vw"};
         position: fixed;
         top: ${main_height}px;
         left: 0;
         background-color: #fff;
         width: 100%;
-        border: 1px solid black;
         z-index: 11;
     }
     .search_bar_content {
@@ -166,6 +180,7 @@ const SearchResultElement = styled.div.withConfig({
     .search_content_input {
         width: 100%;
         height: 35px;
+        padding: 0 10px;
         background-color: #00000036;
         border-radius: 10px;
     }
@@ -175,17 +190,24 @@ const SearchResultElement = styled.div.withConfig({
         z-index: 11;
         top: ${main_height + 65}px;
         width: 100%;
-        height: calc(100vh - ${main_height + 65 + bottom_nav_height}px);
+        height: calc(100vh - ${
+          main_height + 65 + (isMobile ? bottom_nav_height : 0)
+        }px);
         background-color: rgba(0, 0, 0, 0.7);
         overflow-y: auto;
     }
     .search_result_container {
         display: flex;
         flex-wrap: wrap;
-        padding: 15px 30px;
+    }
+    .search_result_container.with_content {
+        padding: ${isMobile ? "0px 30px" : "15px 11.927vw"};
     }
     .search_result_container > div {
         background-color: #fff;
+    }
+    .close_btn {
+      cursor: pointer;
     }
   `}
 `;

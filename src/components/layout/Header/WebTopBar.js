@@ -404,7 +404,12 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     useGlobalDispatch(initPostData());
   };
   const clickSearch = () => {
-    useGlobalDispatch(pushRoutes(home.pages.homeSearch));
+    useGlobalDispatch({
+      type: 'UPDATE_NAVBAR',
+      key: 'isShowSearch',
+      data: true,
+    })
+    // useGlobalDispatch(pushRoutes(home.pages.homeSearch));
   };
   const clickService = () => {
     window.open("https://bli2pay.com/8jcng");
@@ -647,11 +652,17 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
         <div className="search_bar_item">
           <div className="search_bar_item" />
           <div className="search_bar_main cursor">
-            <Searchbar
+            {/* <Searchbar
               callback={clickSearch}
               isPlaceholder={isPlaceholder}
               scroll={scroll}
-            />
+            /> */}
+            <img 
+              src="/images/header/topbar/search.png"
+              className="w-[25px] h-[25px]"
+              alt="search"
+              onClick={clickSearch}
+          />
           </div>
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
@@ -931,6 +942,7 @@ const TopsearchBarElement = styled.div.withConfig({
       }
       &_item {
         display: flex;
+        align-items: center;
       }
 
       &_nav {
