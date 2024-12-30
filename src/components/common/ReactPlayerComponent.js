@@ -601,6 +601,7 @@ export const PlyrComponentElement = styled.div.withConfig({
   .ply {
     &_container {
       position: relative;
+      width: 100%;
       height: 200px;
       @media (min-width: 599px) {
         height: 50vh;
