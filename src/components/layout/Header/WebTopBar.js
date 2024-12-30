@@ -180,6 +180,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const changeLanguage = (newLocale) => {
     Cookies.set("NEXT_LOCALE", newLocale, { path: "/" });
+    setLanguage(newLocale);
     router.refresh();
   };
   const lang = Cookies.get("NEXT_LOCALE");
@@ -568,7 +569,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                     </div>
                   </div>
                 ) : (
-                  <navItem.component scroll={scroll} />
+                  <div>{/*<navItem.component scroll={scroll} />*/}</div>
                 )}
               </div>
             ) : (
