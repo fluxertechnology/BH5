@@ -305,8 +305,8 @@ const ProfileMainHeader = ({
               {t("Profile.direct_buy_vip.member_permissions")}
             </div>
             <div className="profile_main_cover_power_items">
-              {memberPowerItem.map((item) => (
-                <div className="profile_main_cover_power_item" key={item.text}>
+              {memberPowerItem.map((item,index) => (
+                <div className="profile_main_cover_power_item" key={`${item.text}-${index}`}>
                   <Image src={item.icon} width={0} height={0} alt={item.text} />
                   {item.text}
                 </div>
