@@ -93,7 +93,7 @@ const HomeVideoContent = ({}) => {
     useGlobalDispatch(addMissionRecordAction(mission_id));
   };
   return (
-    <HomeVideoContentElement>
+    <HomeVideoContentElement main_height={state.navbar.mainHeight}>
       <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
         <TopTitleBar
           showBack={true}
@@ -178,8 +178,12 @@ const HomeVideoContent = ({}) => {
 
 export default HomeVideoContent;
 
-const HomeVideoContentElement = styled.div`
+const HomeVideoContentElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+})`
+  ${({ main_height }) => `
   /*  */
+  padding: ${main_height}px 0;
   .nav_list {
     display: flex;
     overflow: auto;
@@ -269,4 +273,4 @@ const HomeVideoContentElement = styled.div`
       }
     }
   }
-`;
+`}`;
