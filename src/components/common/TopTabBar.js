@@ -70,7 +70,7 @@ const StyledTabs = styled((props) => (
 }));
 const lang = Cookies.get("NEXT_LOCALE");
 
-const AntTab = styled((props) => <Tab disableRipple {...props} />)(
+const AntTab = styled((props) => <Tab disableRipple {...Object.fromEntries(Object.entries(props).filter(([key]) => key !== 'bgColors'))} />)(
   ({ theme, bgColors }) => {
     const backgroundColor = Array.isArray(bgColors) && bgColors.length === 2
       ? `linear-gradient(135deg, ${bgColors[0]}, ${bgColors[1]})`
