@@ -51,10 +51,6 @@ const PopupDialog = () => {
   };
 
   useEffect(() => {
-    console.log("popupType");
-    console.log(popupType);
-    console.log(state.navbar.dialogType);
-
     setPopupType(state.navbar.dialogType);
 
   }, [state.navbar.dialogType]);

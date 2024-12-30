@@ -35,7 +35,6 @@ function itemScrollBottomCallEvent(item, callback) {
 }
 
 function scrollCold(state) {
-  console.log(state,'state')
   scrollColdDown = state;
 }
 
