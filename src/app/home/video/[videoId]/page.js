@@ -36,7 +36,7 @@ const HomeVideoContent = ({}) => {
         };
   }, [state.homeVideoContent, state.homeVideoList]);
   useEffect(() => {
-    if (videoId && state.homeVideoList.length > 0) {
+    if (videoId) {
       checkUser({
         id: videoId,
       });
@@ -45,7 +45,7 @@ const HomeVideoContent = ({}) => {
     //   getFavorVideo();
     // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.homeVideoList.length]);
+  }, [videoId]);
   useEffect(() => {
     if (videoData.url) {
       addMissionRecord(5);
@@ -92,9 +92,18 @@ const HomeVideoContent = ({}) => {
   const addMissionRecord = (mission_id) => {
     useGlobalDispatch(addMissionRecordAction(mission_id));
   };
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        isShowFooter: false,
+      },
+    });
+  }, []);
   return (
     <HomeVideoContentElement main_height={state.navbar.mainHeight}>
-      <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
+      <TopBarContainer not_fixed={true} show_shadow={false} z_index={10}>
         <TopTitleBar
           showBack={true}
           back_color={"transparent"}
