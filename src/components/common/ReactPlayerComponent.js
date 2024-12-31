@@ -240,7 +240,7 @@ const ReactPlayerComponent = ({
         {!src || !isLogin ? (
           <section className="ply_container">
             <div className="ply_cover" />
-            {isLogin && (
+            {!isLogin && (
               <div className="ply_tip">
                 <ol>
                   <li>{t("Global.not_login.tip.description_1")}</li>
@@ -259,18 +259,18 @@ const ReactPlayerComponent = ({
           </section>
         ) : (
           <section className="react_player_container">
-            <ReactPlayer
-              ref={reactPlayerRef}
-              url={src}
-              onPause={plyrPause}
-              className="react_player"
-              onEnded={onPlayEnd}
-              loop={false}
-              controls
-              onProgress={onProgress}
-              playing
-            />
-            {showRecommendAnime && (
+               <ReactPlayer
+                ref={reactPlayerRef}
+                url={src}
+                onPause={plyrPause}
+                className="react_player"
+                onEnded={onPlayEnd}
+                loop={false}
+                controls
+                onProgress={onProgress}
+                playing
+              />
+              {showRecommendAnime && (
               <section className="g-flex">
                 <section className="react_player_next_container">
                   <section className="react_player_next_area ">
