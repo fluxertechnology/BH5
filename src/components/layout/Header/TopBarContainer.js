@@ -58,7 +58,7 @@ const TopBarContainerElement = styled.header.withConfig({
   /*  */
   background-color: ${({ background_color }) => background_color};
   position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};
-  top: 0;
+  //top: 0;
   right: 0;
   left: 0;
   z-index: ${({ z_index }) => z_index};

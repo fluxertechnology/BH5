@@ -101,6 +101,7 @@ import scrollToTopStatus from "@/store/reducers/scrollToTopStatus";
 
 import routerReducer from "@/store/reducers/routerReducer";
 import navbarReducer from "@/store/reducers/navbarReducer";
+import serviceWorkerReducer from "@/store/reducers/serviceWorkerReducer";
 
 const rootReducer = combineReducers({
   adsList,
@@ -169,6 +170,7 @@ const rootReducer = combineReducers({
 
   router: routerReducer,
   navbar: navbarReducer,
+  serviceWorker: serviceWorkerReducer,
 });
 
 // const clientOnlyRootReducer = combineReducers({

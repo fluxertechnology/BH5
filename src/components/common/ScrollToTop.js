@@ -6,6 +6,10 @@ import toTopAnime from "@public/images/shared/top.json";
 import { useGlobalContext } from "@/store";
 
 const ScrollToTop = () => {
+  if (window === undefined) {
+    return null;
+  }
+
   const { state } = useGlobalContext();
 
   const status = useMemo(() => {
