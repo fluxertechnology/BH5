@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
@@ -7,6 +8,7 @@ import { colors, downloadPage } from "@/lib/constants";
 import ImageComponent from "@/components/common/ImageComponent";
 
 import avatarPlaceholder from "@public/images/imgPlaceholder/avatar.png";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 import { navigatorShare } from "@/store/actions/utilities";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
@@ -36,6 +38,8 @@ const TopBar = () => {
     window.open("https://bli2pay.com/8jcng");
   }
 
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+
   const clickAvatar = () => {
     // console.log("這邊要判斷登入狀態");
     const userData = state.user;
@@ -60,14 +64,40 @@ const TopBar = () => {
   const clickNew = () => {
     useGlobalDispatch(pushRoutes(notice));
   };
+
+  const pushRoutesFunction = (routes) => {
+    useGlobalDispatch(pushRoutes(routes));
+  };
+
+  const switchLanguage = () => {
+    pushRoutesFunction(pageUrlConstants.profile.pages.profileSwitchLanguage);
+  }
+
+  const notification = () => {
+    pushRoutesFunction(pageUrlConstants.notice);
+  }
+
+  const toPaymentPage = () => {
+    pushRoutesFunction(pageUrlConstants.notice);
+  };
+
+  const moreComponent = () => {
+    setIsMoreOpen(prevState => !prevState);
+    useGlobalDispatch({
+      type: 'UPDATE_NAVBAR',
+      key: 'isShowMore',
+      data: !isMoreOpen,
+    })
+  }
+
   return (
     <TopBarElement main_height={state.navbar.mainHeight}>
       <div className="search_bar">
         <div className="search_bar_logo ">
           <Image
-            src="/images/topbar/logo_w.svg"
-            width={0}
-            height={0}
+            src="/images/header/topbar/logo.png"
+            width={150}
+            height={150}
             alt="bh5_logo"
             onClick={clickHome}
           />
@@ -77,8 +107,8 @@ const TopBar = () => {
             callback={clickSearch}
             isPlaceholder={state.navbar.isPlaceholder}
           /> */}
-          <Image 
-           src="/images/header/topbar/search.png"
+          <Image
+            src="/images/header/topbar/search.png"
             width={16}
             height={16}
             alt="search"
@@ -95,25 +125,70 @@ const TopBar = () => {
             alt="B次元分享连结"
           />
         </div> */}
+        <div className="search_bar_language">
+          <Image
+            className={
+              "search_bar_language_img "
+            }
+            onClick={switchLanguage}
+            src={
+              "/images/header/translation.png"
+            }
+            width={19}
+            height={19}
+            alt="switch language"
+          />
+        </div>
+
         <div
           className="search_bar_recharge"
           onClick={state.navbar.toPaymentPage}
         >
           <Image
             className={
-              "search_bar_recharge_img " +
-              (state.config.highlightRechargeState ? "" : "active")
+              "search_bar_recharge_img "
             }
             src={
               state.config.highlightRechargeState
-                ? "/images/home/recharge.svg"
-                : "/images/home/recharge_highlight.svg"
+                ? "/images/header/topup.png"
+                : "/images/header/topup_pink.png"
             }
-            width={0}
-            height={0}
+            width={21}
+            height={20}
             alt="recharge"
           />
         </div>
+
+        <div className="search_bar_notification">
+          <Image
+            className={
+              "search_bar_notification_img "
+            }
+            onClick={notification}
+            src={
+              "/images/header/notification.png"
+            }
+            width={21}
+            height={19}
+            alt="switch language"
+          />
+        </div>
+
+        <div className="search_bar_more">
+          <Image
+            className={
+              "search_bar_more_img "
+            }
+            onClick={moreComponent}
+            src={
+              "/images/header/more.png"
+            }
+            width={19}
+            height={19}
+            alt="switch language"
+          />
+        </div>
+
         <div className="search_bar_avatar" onClick={clickAvatar}>
           {state.user.id !== "guest" ? (
             <ImageComponent
@@ -124,7 +199,16 @@ const TopBar = () => {
               placeholderImg={avatarPlaceholder}
             />
           ) : (
-            <div className="search_bar_avatar_login">{t("Login.login")}</div>
+            // <div className="search_bar_avatar_login bg-[#000]">{t("Login.login")}</div>
+            <AccountCircleOutlinedIcon
+              className="search_bar_avatar_login bg-[#000]"
+              onClick={() =>
+                useGlobalDispatch(
+                  pushRoutes(
+                    home.pages.homeMain
+                  )
+                )}
+            ></AccountCircleOutlinedIcon>
           )}
         </div>
         {/* <div className="search_bar_service" onClick={clickService}>
@@ -161,7 +245,7 @@ export const TopBarElement = styled.div.withConfig({
     /*  */
     padding: 0 5%;
     height: ${main_height}px;
-    background-color: ${colors.dark_pink};
+    background-color: #fff;
 
     .search_bar {
       display: flex;
@@ -186,7 +270,7 @@ export const TopBarElement = styled.div.withConfig({
         width: ${main_height * 0.65}px;
         height: ${main_height * 0.65}px;
         font-size: 14px;
-        color: ${colors.dark_pink};
+        color: #000;
         border-radius: 50%;
         font-weight: 900;
         text-shadow: 0.2px 0.2px ${colors.dark_pink};
@@ -203,7 +287,7 @@ export const TopBarElement = styled.div.withConfig({
       &_logo {
         flex: 30%;
         img {
-          width: 90px;
+          width: 72px;
         }
       }
       &_main {
@@ -217,12 +301,33 @@ export const TopBarElement = styled.div.withConfig({
         padding-bottom: 0.1em;
       }
 
+      &_language ,
+      &_more {
+        margin-right: 10px;
+
+        &_img {
+          width: 19px;
+          height: 19px;
+          object-fit:contain;
+        } 
+      }  
+
+      &_notification {
+        margin-right: 10px;
+
+        &_img {
+          width: 19px;
+          height: 21px;
+          object-fit:contain;
+        } 
+      }
       &_recharge {
         margin-right: 10px;
 
         &_img {
-          width: 30px;
-          height: 30px;
+          width: 21px;
+          height: 20px;
+          object-fit:contain;
 
           &.active {
             animation: 1s recharge-move infinite;

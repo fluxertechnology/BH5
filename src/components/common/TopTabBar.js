@@ -220,6 +220,22 @@ const TopTabBar = ({
       callback(labelKey);
     }
   }
+
+  const categoryColors = [
+    ["#ff487f", "#fa719a"], // Ani-Manga
+    ["#33b7c3", "#7fc28f"], // Video
+    ["#4aeba8", "#fcb423"], // Image
+    ["#f80f6e", "#595292"], // Novel
+    ["#1289e7", "#24e5c0"], // K-Comics
+    ["#2065bc", "#923bde"], // Dojin
+    ["#5eaeef", "#f3305f"], // 3D
+    ["#ea2c38", "#ea9d3c"], // RANKS
+    ["#0f74c7", "#7acfec"], // Free Watch
+    ["#ffb321", "#ff8921"], // Customer Support
+    ["#ff4b80", "#ff4b60"], // Download APP
+    ["#ff4b80"],           // PINK
+  ];
+
   return (
     <>
       {isMobile ? (
@@ -229,15 +245,24 @@ const TopTabBar = ({
           >
             <div className="top_bar_url">
               {labelListKey.map((labelKey, index) => {
+                const bgColors = categoryColors[index % categoryColors.length] || ["#333333"];
+                const backgroundColor = Array.isArray(bgColors) && bgColors.length === 2
+                  ? `linear-gradient(135deg, ${bgColors[0]}, ${bgColors[1]})`
+                  : bgColors[0] || "#333333";
+
                 return (
                   <div
                     key={labelKey}
                     className="top_bar_url_item"
                     style={{
-                      color:
-                        nowKey === labelKey
-                          ? colors.back_dark_pink
-                          : colors.text_grey,
+                      color: nowKey === labelKey ? '#fff': "#fff",
+                      background: backgroundColor,
+                      // padding: '10px',
+                      borderRadius: '1.733vw',
+                      // marginRight: '5px', 
+                      display: 'flex', 
+                      justifyContent:'center',
+                      alignItems:'center',
                     }}
                     onClick={() => {
                       onClickTab(labelKey);
@@ -248,7 +273,7 @@ const TopTabBar = ({
                 );
               })}
             </div>
-            <div className="top_bar_control">
+            {/* <div className="top_bar_control">
               {!drawer && (
                 <Image
                   src={foldArrowIcon}
@@ -260,9 +285,9 @@ const TopTabBar = ({
                   alt="arrow"
                 />
               )}
-            </div>
+            </div> */}
           </div>
-          {drawer && (
+          {/* {drawer && (
             <div
               className={`${!disabledIndent && "px-indent"} top_bar_control ${!drawer && "disabled"
                 }`}
@@ -276,7 +301,7 @@ const TopTabBar = ({
                 alt="arrow"
               />
             </div>
-          )}
+          )} */}
         </H5TopTabBarElement>
       ) : (
         <TopTabBarElement
@@ -285,22 +310,7 @@ const TopTabBar = ({
         >
           <StyledTabs value={nowKey} onChange={handleChange}>
             {labelListKey.map((labelKey, index) => {
-              const categoryColors = [
-                ["#ff487f", "#fa719a"], // Ani-Manga
-                ["#33b7c3", "#7fc28f"], // Video
-                ["#4aeba8", "#fcb423"], // Image
-                ["#f80f6e", "#595292"], // Novel
-                ["#1289e7", "#24e5c0"], // K-Comics
-                ["#2065bc", "#923bde"], // Dojin
-                ["#5eaeef", "#f3305f"], // 3D
-                ["#ea2c38", "#ea9d3c"], // RANKS
-                ["#0f74c7", "#7acfec"], // Free Watch
-                ["#ffb321", "#ff8921"], // Customer Support
-                ["#ff4b80", "#ff4b60"], // Download APP
-                ["#ff4b80"],           // PINK
-              ];
 
-              // Fetch the colors for the current label or default to a solid background
               const bgColors = categoryColors[index % categoryColors.length] || ["#333333"];
 
               return (
@@ -313,7 +323,7 @@ const TopTabBar = ({
                       : labelList[labelKey].name
                   }
                   key={labelKey}
-                  bgColors={bgColors} // Pass the dynamic background colors
+                  bgColors={bgColors}
                   onClick={() => {
                     onClickTab(labelKey);
                   }}
@@ -332,7 +342,7 @@ const TopTabBar = ({
                   onMouseEnter={onMouseEnterEvent && onMouseEnterEvent}
                   onMouseLeave={onMouseEnterEvent && onMouseEnterEvent}
                   onClick={onClickEvent && onClickEvent}
-                  style={{ color: color, fontSize: 'max(12px,0.833vw)'}}
+                  style={{ color: color, fontSize: 'max(12px,0.833vw)' }}
                 >
                   <Image src={icon} width={0} height={0} alt={name} />
                   {name}
@@ -526,12 +536,20 @@ export const H5TopTabBarElement = styled.div.withConfig({
   .top_bar {
     &_container {
       position: relative;
-      display: flex;
+      // display: flex;
+      display: block;
       justify-content: center;
       align-items: center;
       height: ${({ type, drawer }) =>
-        type === 1 ? (drawer ? "auto" : sub_height) : main_height}px;
+    type === 1 ? (drawer ? "auto" : sub_height) : main_height}px;
       min-height: ${sub_height}px;
+
+      @media (max-width: 768px) {
+      height: 55px;
+      min-height: auto;
+      }
+
+
       img {
         width: 25px;
         height: 25px;
@@ -541,19 +559,31 @@ export const H5TopTabBarElement = styled.div.withConfig({
     &_url {
       flex: 0 0 ${({ drawer }) => (drawer ? "90%" : "85%")};
       display: flex;
-      flex-wrap: ${({ drawer }) => (drawer ? "wrap" : "nowrap")};
-      overflow: hidden;
-      gap: ${({ drawer }) => (drawer ? "1rem" : "0.5rem")};
+      flex-wrap: nowrap; // Prevent wrapping
+      overflow-x: auto; // Enable horizontal scrolling
+      overflow-y: hidden; // Hide vertical overflow
+      gap: ${({ drawer }) => (drawer ? "1rem" : "1.333vw")};
       padding: 5px 0;
       font-size: 16px;
       text-align: center;
       align-items: center;
+      white-space: nowrap; // Prevent items from wrapping
       &_item {
         display: flex;
         justifycontent: center;
         flex: 0 0 ${({ drawer }) => (drawer ? "auto" : "15%")};
         text-wrap: nowrap;
         flex-wrap: nowrap;
+        width:103px;
+        height:40px;
+
+        @media (max-width: 768px) {
+          font-size: max(12px,1.891vw);
+          font-weight:700;
+          width:103px;
+          height:40px;
+        }
+
       }
     }
     &_control {

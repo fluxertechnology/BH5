@@ -54,7 +54,8 @@
     "bar_recharge_button": "充值VIP 爽撸不间断",
     "bar_recharge_button_1": "点我输入 VIP兑换码",
     "bar_history": "历史",
-    "bar_topup": "充值"
+    "bar_topup": "充值",
+    "bar_customer_support": "客服"
   },
   "Footer": {
     "user": {
@@ -694,7 +695,7 @@
     },
     "setting": {
       "info": {
-        "": "设置中心",
+        "index": "设置中心",
         "label": {
           "mail": "绑定邮箱",
           "confirm": "确认",

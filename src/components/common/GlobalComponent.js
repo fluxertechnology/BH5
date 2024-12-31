@@ -24,6 +24,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 import useHTMLEvent from "@/hooks/useHTMLEvent";
 import SearchResult from "@/components/common/SearchResult";
+import NavbarMore from "@/components/common/NavbarMore";
 
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
@@ -141,6 +142,7 @@ export default function GlobalComponent() {
         <OutOfQuotaPortal />
       </CSSTransition>
       <SearchResult />
+      <NavbarMore />
     </div>
   );
 }

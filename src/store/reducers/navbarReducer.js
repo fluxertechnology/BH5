@@ -14,6 +14,7 @@ const defaultState = {
   show: true,
   isShowFooter: true,
   isShowSearch: false,
+  isShowMore: false,
   dialogType: null,
   customComponent: () => false,
   prependComponent: () => <></>,
@@ -41,14 +42,14 @@ const navbarReducer = function (state = {}, action) {
         return {
           ...state,
           mainHeight: 50,
-          subHeight: 38,
+          subHeight: 55,
           subFontSize: 16,
         };
       }
       return {
         ...state,
         mainHeight: 72,
-        subHeight: 42,
+        subHeight: 66,
         subFontSize: 20,
       };
 
@@ -69,6 +70,7 @@ const navbarReducer = function (state = {}, action) {
         show: true,
         isShowFooter: true,
         isShowSearch: false,
+        isShowMore: false,
         customComponent: () => false,
         prependComponent: () => <></>,
         appendComponent: () => <></>,

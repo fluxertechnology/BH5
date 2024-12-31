@@ -54,7 +54,8 @@
     "bar_recharge_button": "Recharge for VIP, happy non-stop.",
     "bar_recharge_button_1": "Enter VIP Code By Clicking Here.",
     "bar_history": "History",
-    "bar_topup": "Topup"
+    "bar_topup": "Topup",
+    "bar_customer_support": "Customer Support"
   },
   "Common": {
     "error": "Something went wrong!",
@@ -692,7 +693,7 @@
     },
     "setting": {
       "info": {
-        "": "Settings",
+        "index": "Settings",
         "label": {
           "mail": "Connect Email",
           "confirm": "Confirm",
