@@ -39,6 +39,7 @@ const TopBarContainer = ({
       show_shadow={show_shadow}
       z_index={z_index}
       background_color={backgroundColor}
+      isMobile={isMobile}
       {...props}
     >
       {state.navbar.prependComponent && state.navbar.prependComponent()}
@@ -55,12 +56,12 @@ TopBarContainer.propTypes = {
 export default TopBarContainer;
 
 const TopBarContainerElement = styled.header.withConfig({
-  shouldForwardProp: (prop) => !["not_fixed", "show_shadow"].includes(prop),
+  shouldForwardProp: (prop) => !["not_fixed", "show_shadow", "isMobile"].includes(prop),
 })`
   /*  */
   background-color: ${({ background_color }) => background_color};
   position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};
-  //top: 0;
+  top: ${({ isMobile }) => (isMobile ? "unset" : "0")};
   right: 0;
   left: 0;
   z-index: ${({ z_index }) => z_index};
