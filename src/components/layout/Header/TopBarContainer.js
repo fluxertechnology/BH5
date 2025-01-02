@@ -24,12 +24,12 @@ const TopBarContainer = ({
 }) => {
   const { isMobile } = useMediaQuery();
   const { state } = useGlobalContext();
-  main_height = !isMobile ? 72 : 50;
-  sub_height = !isMobile ? 42 : 38;
+  main_height = !isMobile ? 72 : 60;
+  sub_height = !isMobile ? 42 : 65;
   sub_fontSize = !isMobile ? 20 : 16;
   useEffect(() => {
-    main_height = !isMobile ? 72 : 50;
-    sub_height = !isMobile ? 42 : 38;
+    main_height = !isMobile ? 72 : 60;
+    sub_height = !isMobile ? 42 : 65;
     sub_fontSize = !isMobile ? 20 : 16;
   }, [isMobile]);
 

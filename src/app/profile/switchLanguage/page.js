@@ -21,7 +21,7 @@ const ProfileSwitchLanguage = () => {
   const { state, dispatch } = useGlobalContext();
 
   const LanguageList = [
-    { name: "簡體中文", lang: "tc" },
+    { name: "简体中文", lang: "tc" },
     { name: "English", lang: "en" },
   ];
 

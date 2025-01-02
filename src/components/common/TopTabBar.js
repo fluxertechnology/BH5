@@ -554,11 +554,6 @@ export const H5TopTabBarElement = styled.div.withConfig({
     type === 1 ? (drawer ? "auto" : sub_height) : main_height}px;
       min-height: ${sub_height}px;
 
-      @media (max-width: 768px) {
-        height: 65px;
-      }
-
-
       img {
         width: 25px;
         height: 25px;
