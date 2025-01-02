@@ -92,20 +92,20 @@ const ProfilePayment = () => {
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       data: {
-        show: false,
+        customComponent: () => (
+          <TopBarContainer show_shadow={false}>
+            <TopTitleBar
+              title={t("Global.action.charge_1")}
+              showBack={true}
+              show_back_color="#ffffff"
+            />
+          </TopBarContainer>
+        )
       },
     });
   }, []);
   return (
     <ProfilePaymentElement main_height={state.navbar.mainHeight}>
-      <TopBarContainer show_shadow={false}>
-        <TopTitleBar
-          title={t("Global.action.charge_1")}
-          showBack={true}
-          show_back_color="#ffffff"
-        />
-      </TopBarContainer>
-
       <div className="info_container">
         <div className="info_container_content">
           <div className="info_container_content_title">
@@ -489,7 +489,7 @@ export const ProfilePaymentElement = styled.div.withConfig({
 })`
   ${({ main_height }) => `
     /*  */
-    padding: ${main_height}px 0;
+    padding: ${main_height}px 0px;
     .info_container {
         position: relative;
         z-index: 1;

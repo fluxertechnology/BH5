@@ -65,7 +65,7 @@ const VendorSheetRender = () => {
 
   useEffect(() => {
     if (!goodsData.id) {
-      backPage();
+      //backPage();
     }
     if (!goodsData.mone) {
       setPaymentType(1);
@@ -653,7 +653,6 @@ export const VendorSheetRenderElement = styled.div.withConfig({
 })`
   ${({ main_height, bottom_nav_height }) => `
     /*  */
-    padding-top: ${main_height}px;
     padding-bottom: ${bottom_nav_height}px;
 
     .sheet_coupon {
@@ -810,6 +809,7 @@ export const VendorSheetRenderElement = styled.div.withConfig({
     }
 
     .sheet_container {
+        padding-top: ${main_height}px;
         border-bottom: 10px solid ${colors.back_grey};
 
         &_header,

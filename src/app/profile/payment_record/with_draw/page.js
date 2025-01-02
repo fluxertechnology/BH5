@@ -122,7 +122,7 @@ const ProfilePaymentWithDraw = () => {
     });
   }, []);
   return (
-    <ProfilePaymentWithDrawElement main_height={state.navbar.mainHeight}>
+    <ProfilePaymentWithDrawElement>
       <TopBarContainer>
         <TopTitleBar
           title={t("Profile.payment.transfer.with_draw")}
@@ -143,7 +143,7 @@ const ProfilePaymentWithDraw = () => {
         </TopTitleBar>
       </TopBarContainer>
 
-      <ProfilePaymentWithDrawTopElement>
+      <ProfilePaymentWithDrawTopElement main_height={state.navbar.mainHeight}>
         <div className="profile_with_draw_bg img_container">
           <Image
             src="/images/profile/with_draw_bg.png"
