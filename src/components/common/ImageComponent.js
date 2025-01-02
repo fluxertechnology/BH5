@@ -6,6 +6,7 @@ import { colors } from "@/lib/constants";
 import viewIcon from "@public/images/icons/view.svg";
 import { judeTotalViewUnit } from "@/store/actions/utilities";
 import Image from "next/image";
+import 'lazysizes';
 
 const ImageComponent = ({
   cover = false,
@@ -53,9 +54,9 @@ const ImageComponent = ({
       img_border={img_border}
       continueWatch={continueWatch}
     >
-        <Image
+        <img
           className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
-          src={imgSrc || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
+          data-src={imgSrc || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           width={0}
           height={0}
@@ -74,7 +75,8 @@ const ImageComponent = ({
             }
           }}
           onError={(e) => {
-            setImgSrc("/images/imgPlaceholder/300x300.jpg");
+            //setImgSrc("/images/imgPlaceholder/300x300.jpg");
+            e.target.src = "/images/imgPlaceholder/300x300.jpg";
           }}
           draggable="false"
           {...props}
