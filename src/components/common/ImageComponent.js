@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 
-import placeholder_300x300 from "@public/images/imgPlaceholder/300x300.jpg";
 import { colors } from "@/lib/constants";
 import viewIcon from "@public/images/icons/view.svg";
 import { judeTotalViewUnit } from "@/store/actions/utilities";
@@ -68,8 +67,8 @@ const ImageComponent = ({
     >
         <Image
           className={`img ${src && lazyLoad ? "lazyload" : ""}`}
-          src={src || placeholderImg || placeholder_300x300.src}
-          blurDataURL={placeholderImg || placeholder_300x300.src}
+          src={src || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
+          blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           width={0}
           height={0}
           alt={alt ?? "unknown-pic"}
@@ -88,7 +87,7 @@ const ImageComponent = ({
             }
           }}
           onError={(e) => {
-            // e.target.src = placeholderImg || placeholder_300x300.src; TODO(ZY)
+            e.target.src = "/images/imgPlaceholder/300x300.jpg";
           }}
           draggable="false"
           {...props}
