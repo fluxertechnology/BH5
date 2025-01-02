@@ -161,11 +161,11 @@ const NavbarMore = ({ show = true }) => {
           </div>
           <div className="function_list">
             <div className="function_item">
-              <Image src={'/images/header/history.png'} width={20} height={20} alt={'History'} />
+              <Image src={'/images/header/history.png'} width={20} height={20} alt={t("Navbar.bar_history")} className="function_item_img"/>
               <p>{t("Navbar.bar_history")}</p>
             </div>
             <div className="function_item">
-              <Image src={'/images/header/setting.png'} width={20} height={20} alt={'History'} />
+              <Image src={'/images/header/setting.png'} width={20} height={20} alt={t("Profile.setting.info.index")} className="function_item_img"/>
               <p>{t("Profile.setting.info.index")}</p>
             </div>
           </div>
@@ -261,10 +261,18 @@ const WrapperStyles = styled.div.withConfig({
 
   .function_item{
     display:flex;
+    align-items:center;
     font-size: max(10px,1.867vw);
     font-weight: 700;
     color: #000;
     margin-bottom: 4.8vw;
+  }
+
+  .function_item_img{
+    width: 2.667vw;
+    height: 2.667vw;
+    object-fit:contain;
+    margin-right:1.2vw;
   }
 
   .btn_list{

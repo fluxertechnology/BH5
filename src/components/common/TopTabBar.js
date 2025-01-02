@@ -42,6 +42,9 @@ const StyledTabs = styled((props) => (
     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
   />
 ))(({ theme }) => ({
+  "& .MuiTabs-root": {
+    overflowX:"auto",
+  },
   "& .MuiTabs-indicator": {
     display: "none",
     backgroundColor: colors.back_dark_pink,
@@ -79,19 +82,19 @@ const AntTab = styled((props) => <Tab disableRipple {...Object.fromEntries(Objec
     return {
       textTransform: "none",
       minWidth: 0,
-      padding: "0px",
-      fontSize: lang == 'en' ? "max(10px,0.739vw)" : "max(12px,0.885vw)",
-      fontFamily: "Microsoft YaHei",
-      fontWeight: 700,
-      alignSelf: "center",
-      width: "max(50px,5.365vw)",
-      height: "max(30px,2.083vw)",
-      minHeight: "20px",
-      borderRadius: "0.677vw",
+      padding: "0px !important",
+      fontSize: lang == 'en' ? "max(10px,0.739vw) !important" : "max(12px,0.885vw) !important",
+      fontFamily: "Microsoft YaHei !important",
+      fontWeight: "700  !important",
+      alignSelf: "center !important",
+      width: "max(50px,5.365vw) !important",
+      height: "max(30px,2.083vw) !important",
+      minHeight: "20px !important",
+      borderRadius: "0.677vw !important",
       background: backgroundColor, // Use `background` for gradient support
-      color: "#fff",
-      transition: "0.3s",
-      marginRight: "0.521vw",
+      color: "#fff !important",
+      transition: "0.3s !important",
+      marginRight: "0.521vw !important",
       [theme.breakpoints?.down("sm")]: {
         width: "auto",
         fontSize: "14px",
@@ -101,7 +104,7 @@ const AntTab = styled((props) => <Tab disableRipple {...Object.fromEntries(Objec
         opacity: 1,
       },
       "&.Mui-selected": {
-        color: "#fff",
+        color: "#fff !important",
         // fontWeight: theme.typography?.fontWeightMedium,
       },
     };
@@ -306,9 +309,9 @@ const TopTabBar = ({
       ) : (
         <TopTabBarElement
           type={type}
-          className={`${!disabledIndent && "w-full"} `}
+          className={`${!disabledIndent && "w-full "} `}
         >
-          <StyledTabs value={nowKey} onChange={handleChange}>
+          <StyledTabs value={nowKey} onChange={handleChange} className={"max-w-[57.5vw] md:max-w-[65vw] !overflow-x-auto"}>
             {labelListKey.map((labelKey, index) => {
 
               const bgColors = categoryColors[index % categoryColors.length] || ["#333333"];
@@ -331,7 +334,7 @@ const TopTabBar = ({
               );
             })}
           </StyledTabs>
-          <div className="g-center gap-3 mt-[0.521vw]">
+          <div className="g-center gap-3 my-auto">
             {linkItems.map((data, index) => {
               const { onMouseEnterEvent, onClickEvent, color, icon, name } =
                 data;
@@ -345,7 +348,7 @@ const TopTabBar = ({
                   style={{ color: color, fontSize: 'max(12px,0.833vw)' }}
                 >
                   <Image src={icon} width={0} height={0} alt={name} />
-                  {name}
+                  <p>{name}</p>
                   {gameFloatStatus && index === 1 && (
                     <div className="float">
                       <span>{t("Game.label.featured_game")}</span>
@@ -479,10 +482,13 @@ export const TopTabBarElement = styled.div`
   justify-content: space-between;
   align-items: start;
   padding-top:3px;
-  height: ${({ type }) => (type === 1 ? sub_height * 1.59 : main_height)}px;
+  height: ${({ type }) => (type === 1 ? sub_height  : main_height)}px;
   background-color: #fff;
   padding-right: 5vw;
   padding-left: 5vw;
+  padding-bottom: 23.00px; //66.78-42px
+  box-sizing: content-box;
+  width:initial;
 
   @media (max-width: 1024px) {
     padding-right: 1vw;
@@ -492,6 +498,10 @@ export const TopTabBarElement = styled.div`
   @media (min-width: 1400px) {
     padding-right: 11.927vw;
     padding-left: 11.927vw;
+  }
+
+  category_list{
+    width: 57.5vw;
   }
 
   img {
@@ -545,8 +555,7 @@ export const H5TopTabBarElement = styled.div.withConfig({
       min-height: ${sub_height}px;
 
       @media (max-width: 768px) {
-      height: 55px;
-      min-height: auto;
+        height: 65px;
       }
 
 
@@ -563,7 +572,7 @@ export const H5TopTabBarElement = styled.div.withConfig({
       overflow-x: auto; // Enable horizontal scrolling
       overflow-y: hidden; // Hide vertical overflow
       gap: ${({ drawer }) => (drawer ? "1rem" : "1.333vw")};
-      padding: 5px 0;
+      padding: 4px 0;
       font-size: 16px;
       text-align: center;
       align-items: center;
@@ -574,7 +583,7 @@ export const H5TopTabBarElement = styled.div.withConfig({
         flex: 0 0 ${({ drawer }) => (drawer ? "auto" : "15%")};
         text-wrap: nowrap;
         flex-wrap: nowrap;
-        width:103px;
+        min-width:103px;
         height:40px;
 
         @media (max-width: 768px) {

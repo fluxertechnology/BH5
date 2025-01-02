@@ -937,6 +937,8 @@ const TopsearchBarElement = styled.div.withConfig({
       justify-content: space-between;
       align-items: center;
       height: 100%;
+      margin: 0 !important;
+
       &_main {
         display: flex;
         justify-content: end;

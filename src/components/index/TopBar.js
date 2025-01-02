@@ -57,6 +57,12 @@ const TopBar = () => {
       key: 'isShowSearch',
       data: true,
     })
+
+    useGlobalDispatch({
+      type: 'UPDATE_NAVBAR',
+      key: 'isShowMore',
+      data: setIsMoreOpen(false),
+    })
     // useGlobalDispatch(pushRoutes(home.pages.homeSearch));
   };
   const clickHome = () => {
@@ -90,6 +96,11 @@ const TopBar = () => {
       key: 'isShowMore',
       data: !isMoreOpen,
     })
+    useGlobalDispatch({
+      type: 'UPDATE_NAVBAR',
+      key: 'isShowSearch',
+      data: false,
+    })
   }
 
   return (
@@ -111,8 +122,8 @@ const TopBar = () => {
           /> */}
           <Image
             src="/images/header/topbar/search.png"
-            width={16}
-            height={16}
+            width={19}
+            height={19}
             alt="search"
             onClick={clickSearch}
           />

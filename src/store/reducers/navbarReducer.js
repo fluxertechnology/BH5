@@ -27,8 +27,8 @@ const navbarReducer = function (state = {}, action) {
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       return {
         ...defaultState,
-        mainHeight: isMobile ? 50 : 72,
-        subHeight: isMobile ? 55 : 66.7,
+        mainHeight: isMobile ? 60 : 72,
+        subHeight: isMobile ? 65 : 66.7,
         subFontSize: isMobile ? 16 : 20,
         ...action.data,
       };
@@ -41,8 +41,8 @@ const navbarReducer = function (state = {}, action) {
       if (action.data.isMobile) {
         return {
           ...state,
-          mainHeight: 50,
-          subHeight: 55,
+          mainHeight: 60,
+          subHeight: 65,
           subFontSize: 16,
         };
       }
