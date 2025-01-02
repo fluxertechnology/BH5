@@ -63,6 +63,7 @@ const PostAddTags = () => {
   const goBackRoutes = () => {
     useGlobalDispatch(backRoutes());
   };
+
   return (
     <PostAddTagsElement main_height={state.navbar.mainHeight}>
       {isMobile && (
@@ -157,11 +158,6 @@ export const PostAddTagsElement = styled.article.withConfig({
 })`
   ${({ main_height }) => `
   /*  */
-
-  @media (max-width: 899px) {
-    padding-top: ${main_height}px;
-  }
-
   .post_add_tags {
     padding: 10px 20px;
     display: flex;
@@ -198,6 +194,7 @@ export const PostAddTagsElement = styled.article.withConfig({
     }
 
     &_main {
+      padding-top: ${main_height}px;
       background-color: #fff;
       min-height: 100vh;
       border-top: solid;

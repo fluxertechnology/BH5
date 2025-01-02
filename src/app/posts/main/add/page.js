@@ -320,21 +320,13 @@ const PostsAddPage = () => {
     useGlobalDispatch(updateUserDataAction());
   };
 
-  useEffect(() => {
-    useGlobalDispatch({
-      type: "INIT_NAVBAR",
-      data: {
-        isShow: false,
-      },
-    });
-  }, []);
-
   const nodeRef = useRef(null);
   return (
     <PostsAddPageElement
       uploadMount={postFileArray.length}
       main_height={state.navbar.mainHeight}
       bottom_nav_height={state.navbar.bottomNavHeight}
+      isMobile={isMobile}
     >
       <CSSTransition
         timeout={200}
@@ -813,17 +805,19 @@ export default PostsAddPage;
 
 export const PostsAddPageElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["main_height", "bottom_nav_height", "uploadMount"].includes(prop),
+    !["main_height", "bottom_nav_height", "uploadMount", "isMobile"].includes(prop),
 })`
-  ${({ main_height, bottom_nav_height, uploadMount }) => `
+  ${({ main_height, bottom_nav_height, uploadMount, isMobile }) => `
   /*  */
+  .displaynone {
+    display: none;
+  }
   background-color: #fff;
   height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 150vh;
   @media (max-width: 899px) {
-    padding-top: ${main_height}px;
     padding-bottom: ${bottom_nav_height}px;
   }
 
@@ -864,6 +858,7 @@ export const PostsAddPageElement = styled.div.withConfig({
   }
 
   .container {
+    padding-top: ${isMobile ? main_height : 0}px;
     &_body {
       &_input {
         padding: ${padding}px;
@@ -892,6 +887,7 @@ export const PostsAddPageElement = styled.div.withConfig({
       &_effect {
         &_area {
           display: flex;
+          flex-wrap: wrap;
           justify-content: space-between;
           align-items: center;
           padding: 0 ${padding / 2}px;

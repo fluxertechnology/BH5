@@ -17,6 +17,7 @@ import { pushRoutes } from "@/store/actions/historyActions";
 import { openPopup } from "@/store/actions/user";
 import { pageUrlConstants } from "@/lib/constants";
 const { home, profile, notice, login } = pageUrlConstants;
+import { updateRechargeStateAction } from "@/store/actions/config";
 
 const TopBar = () => {
   const { state } = useGlobalContext();
@@ -78,8 +79,9 @@ const TopBar = () => {
   }
 
   const toPaymentPage = () => {
-    pushRoutesFunction(pageUrlConstants.notice);
-  };
+    useGlobalDispatch(updateRechargeStateAction(true));
+    useGlobalDispatch(pushRoutes(profile.pages.profilePayment));
+  }
 
   const moreComponent = () => {
     setIsMoreOpen(prevState => !prevState);
@@ -142,7 +144,7 @@ const TopBar = () => {
 
         <div
           className="search_bar_recharge"
-          onClick={state.navbar.toPaymentPage}
+          onClick={toPaymentPage}
         >
           <Image
             className={

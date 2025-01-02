@@ -6,9 +6,14 @@ import { useEffect, useState } from "react";
  */
 
 const useMediaQuery = () => {
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const userAgent = navigator.userAgent;
+  const isMobileUA = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+  const isTabletUA = /tablet|ipad/i.test(userAgent);
+  const isDesktopUA = !isMobileUA && !isTabletUA;
+
+  const [isDesktop, setIsDesktop] = useState(isDesktopUA);
+  const [isTablet, setIsTablet] = useState(isTabletUA);
+  const [isMobile, setIsMobile] = useState(isMobileUA);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const isClient = typeof window !== "undefined";
@@ -18,7 +23,10 @@ const useMediaQuery = () => {
   ]); // Initialize with current window size
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+
+    if (!isClient) {
+      return;
+    }
     const updateDeviceType = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;

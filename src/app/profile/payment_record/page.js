@@ -30,7 +30,15 @@ const ProfilePaymentRecord = () => {
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       data: {
-        show: false,
+        customComponent: () => (
+          <TopBarContainer>
+            <TopTitleBar
+              title={t("Profile.payment.charge.history")}
+              showBack={true}
+              show_back_color="#ffffff"
+            />
+          </TopBarContainer>
+        ),
         isShowFooter: false,
       },
     });
@@ -38,13 +46,6 @@ const ProfilePaymentRecord = () => {
 
   return (
     <ProfilePaymentRecordElement main_height={state.navbar.mainHeight}>
-      <TopBarContainer>
-        <TopTitleBar
-          title={t("Profile.payment.charge.history")}
-          showBack={true}
-          show_back_color="#ffffff"
-        />
-      </TopBarContainer>
       <div className="payment_warning fw-m">
         {t("Profile.payment.charge.unsuccess_description")}
       </div>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { usePathname } from 'next/navigation'
-import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import { pageUrlConstants, colors } from "@/lib/constants/index.js";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -66,7 +66,7 @@ const PostsNoticePage = ({
     }, [location]);
 
     return (
-        <PostsNoticePageElement>
+        <PostsNoticePageElement main_height={state.navbar.mainHeight}>
             <TopBarContainer not_fixed={!isMobile} z_index={5}>
                 <TopTitleBar
                     title={t('Post.notify')}
@@ -191,124 +191,128 @@ PostsNoticePage.propTypes = {
 
 export default PostsNoticePage;
 
-export const PostsNoticePageElement = styled.div`
-  /*  */
-  background: #fff;
-  min-height: 100%;
-  .post_notice {
-    padding-top: ${main_height}px;
-    min-height: calc(100vh);
-    &_card {
-      padding: 10px 20px;
+export const PostsNoticePageElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+})`
+  ${({ main_height }) => `
+    /*  */
+    background: #fff;
+    min-height: 100%;
+    .post_notice {
+      padding-top: ${main_height}px;
+      min-height: calc(100vh);
+      &_card {
+        padding: 10px 20px;
+      }
+
+      &_items {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &_avatar {
+          width: 55px;
+          height: 55px;
+          object-fit: cover;
+          border-radius: 50px;
+          user-select: none;
+          -webkit-touch-callout: none;
+        }
+        &_description {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          font-size: 14px;
+          align-self: center;
+          &_content {
+            font-size: 16px;
+            color: ${colors.text_grey};
+            &_name {
+              color: black;
+              font-weight: bold;
+            }
+          }
+          &_time {
+            font-size: 14px;
+            color: ${colors.text_light_grey};
+          }
+        }
+
+        &_area {
+          &_left {
+            display: flex;
+            gap: 10px;
+          }
+          &_right {
+            video,
+            img {
+              width: 55px;
+              height: 55px;
+              object-fit: cover;
+              user-select: none;
+              -webkit-touch-callout: none;
+            }
+          }
+        }
+      }
     }
 
-    &_items {
+    .divider {
+      height: 1px;
+      width: 100%;
+      background-color: #a8a8a8;
+      margin-top: 20px;
+    }
+
+    .container_empty {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      &_avatar {
-        width: 55px;
-        height: 55px;
-        object-fit: cover;
-        border-radius: 50px;
-        user-select: none;
-        -webkit-touch-callout: none;
-      }
-      &_description {
+      background: #fff;
+
+      &_girl {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        font-size: 14px;
-        align-self: center;
-        &_content {
-          font-size: 16px;
-          color: ${colors.text_grey};
-          &_name {
-            color: black;
-            font-weight: bold;
+        align-items: center;
+
+        &_img {
+          margin-top: 20px;
+          width: 150px;
+          @media (max-width: 899px) {
+            width: 100px;
           }
         }
-        &_time {
+
+        &_text {
+          margin-top: 15px;
           font-size: 14px;
-          color: ${colors.text_light_grey};
+          color: ${colors.text_grey};
         }
       }
 
-      &_area {
-        &_left {
-          display: flex;
-          gap: 10px;
-        }
-        &_right {
-          video,
-          img {
-            width: 55px;
-            height: 55px;
-            object-fit: cover;
-            user-select: none;
-            -webkit-touch-callout: none;
-          }
-        }
-      }
-    }
-  }
-
-  .divider {
-    height: 1px;
-    width: 100%;
-    background-color: #a8a8a8;
-    margin-top: 20px;
-  }
-
-  .container_empty {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    background: #fff;
-
-    &_girl {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      &_img {
-        margin-top: 20px;
-        width: 150px;
-        @media (max-width: 899px) {
-          width: 100px;
-        }
-      }
-
-      &_text {
+      &_btn {
+        cursor: pointer;
+        display: inline-block;
+        padding: 18px;
         margin-top: 15px;
-        font-size: 14px;
-        color: ${colors.text_grey};
+        width: 200px;
+        font-size: 20px;
+        text-align: center;
+        color: #fff;
+        @media (max-width: 899px) {
+          width: 150px;
+          padding: 5px 10px;
+          font-size: 18px;
+        }
+        background-image: linear-gradient(
+          to bottom,
+          #fa83b3 0%,
+          #f45c8c 50%,
+          #f24c7c 100%
+        );
+        border-radius: 36px;
       }
     }
-
-    &_btn {
-      cursor: pointer;
-      display: inline-block;
-      padding: 18px;
-      margin-top: 15px;
-      width: 200px;
-      font-size: 20px;
-      text-align: center;
-      color: #fff;
-      @media (max-width: 899px) {
-        width: 150px;
-        padding: 5px 10px;
-        font-size: 18px;
-      }
-      background-image: linear-gradient(
-        to bottom,
-        #fa83b3 0%,
-        #f45c8c 50%,
-        #f24c7c 100%
-      );
-      border-radius: 36px;
-    }
-  }
-`;
+   `
+}`;
