@@ -57,7 +57,7 @@ const ImageComponent = ({
         <img
           className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
           data-src={imgSrc || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
-          blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
+          //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           width={0}
           height={0}
           alt={alt ?? "unknown-pic"}
