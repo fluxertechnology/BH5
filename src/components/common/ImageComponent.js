@@ -31,6 +31,7 @@ const ImageComponent = ({
 }) => {
   const t = useTranslations();
   const [fixHeight, setFixHeight] = useState(null);
+  const [imgSrc, setImgSrc] = useState(src);
 
   function preventMenu(even) {
     var e = even || window.event;
@@ -40,19 +41,6 @@ const ImageComponent = ({
     e.returnValue = false;
     return false;
   }
-
-  const imageLoader = ({ src, width, height }) => {
-    if (src.includes("http")) {
-      return src;
-    }
-    const imgFolderPath = src.split("/").slice(0, -1).join("/");
-    if (src.includes(imgFolderPath)) {
-      return `${src}?w=${width}&h=${height}`;
-    }
-    return `${imgFolderPath}${
-      src.startsWith("/") ? src : `/${src}`
-    }?w=${width}&h=${height}`;
-  };
 
   return (
     <ImageComponentElement
@@ -66,8 +54,8 @@ const ImageComponent = ({
       continueWatch={continueWatch}
     >
         <Image
-          className={`img ${src && lazyLoad ? "lazyload" : ""}`}
-          src={src || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
+          className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
+          src={imgSrc || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           width={0}
           height={0}
@@ -75,11 +63,10 @@ const ImageComponent = ({
           title={title}
           style={imgStyle}
           onContextMenu={preventMenu}
-          loader={imageLoader}
           onLoad={(e) => {
             if (toFixSize) {
               let img = document.createElement("img");
-              img.src = e.target.src;
+              setImgSrc(e.target.src);
               img.addEventListener("load", function () {
                 setFixHeight((img.height / img.width) * 100);
                 img.remove();
@@ -87,7 +74,7 @@ const ImageComponent = ({
             }
           }}
           onError={(e) => {
-            //e.target.src = "/images/imgPlaceholder/300x300.jpg";
+            setImgSrc("/images/imgPlaceholder/300x300.jpg");
           }}
           draggable="false"
           {...props}
