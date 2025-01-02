@@ -260,7 +260,7 @@ const PostCardDetail = () => {
             <div className="message_container_submit" onClick={clickSubmit}>
               <Image
                 className="message_container_submit_icon"
-                src="/images/post/send_arrow.svg"
+                src="/images/icons/send_arrow.svg"
                 width={0}
                 height={0}
                 alt="submit"
