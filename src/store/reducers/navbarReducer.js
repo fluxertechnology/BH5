@@ -28,7 +28,7 @@ const navbarReducer = function (state = {}, action) {
       return {
         ...defaultState,
         mainHeight: isMobile ? 50 : 72,
-        subHeight: isMobile ? 38 : 42,
+        subHeight: isMobile ? 55 : 66.7,
         subFontSize: isMobile ? 16 : 20,
         ...action.data,
       };
