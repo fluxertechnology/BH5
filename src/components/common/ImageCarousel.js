@@ -137,6 +137,7 @@ const ImageCarousel = ({
                   className="image_carousel_slide_img "
                   alt={data.cname}
                   src={data.picurl}
+                  imgHeight={height}
                   title={data.name}
                   placeholderImg="/images/imgPlaceholder/345x80.jpg"
                 />
@@ -169,6 +170,9 @@ export const ImageCarouselElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["swiper_progress"].includes(prop),
 })`
   /*  */
+  .swiper-wrapper {
+    height: auto !important;
+  }
   .swiper-autoplay-progress {
     position: absolute;
     right: 0;

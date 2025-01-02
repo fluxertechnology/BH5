@@ -14,6 +14,7 @@ const ImageComponent = ({
   alt,
   title,
   height = 100,
+  imgHeight = '',
   border_radius = "5px",
   placeholderImg = "",
   is_cover = false,
@@ -57,6 +58,7 @@ const ImageComponent = ({
       background_color={background_color}
       img_border={img_border}
       continueWatch={continueWatch}
+      imgHeight={imgHeight}
     >
         <img
           src={!lazyLoad ? imgSrc : placeholderSrc}
@@ -130,7 +132,7 @@ const ImageComponentElement = styled.div.withConfig({
     bottom: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: ${({ imgHeight }) => !!imgHeight ? imgHeight : '100%'};
     vertical-align: middle;
     object-fit: ${({ is_cover = false }) => (is_cover ? "cover" : "contain")};
     -webkit-touch-callout: none;
