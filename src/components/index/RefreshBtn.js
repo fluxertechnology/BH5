@@ -40,7 +40,7 @@ export const RefreshBtnElement = styled.div`
         padding: 3px;
       }
       &_text {
-        display: flex;
+        //display: flex;
         align-items: center;
         width: 100%;
         text-align: center;
