@@ -39,7 +39,9 @@ const ProfileBuyVip = ({ children }) => {
           title={t("Profile.build.label.card.member")}
         />
       </TopBarContainer>
+      <div className="layout_container">
       {children}
+      </div>
     </ProfileBuyVipElement>
   );
 };
@@ -52,13 +54,14 @@ const ProfileBuyVipElement = styled.div.withConfig({
 })`
   ${({ main_height, bottom_nav_height }) => `
     /*  */
-    padding-top: ${main_height}px;
-    padding-bottom: ${bottom_nav_height}px;
-
-    .grid {
+   .grid {
         background-color: #fff;
     }
 
+    .layout_container {
+        padding-top: ${main_height}px;
+        padding-bottom: ${bottom_nav_height}px;
+    }
     .container {
         position: relative;
     }
