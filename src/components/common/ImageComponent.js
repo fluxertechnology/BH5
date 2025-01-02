@@ -87,7 +87,7 @@ const ImageComponent = ({
             }
           }}
           onError={(e) => {
-            e.target.src = "/images/imgPlaceholder/300x300.jpg";
+            //e.target.src = "/images/imgPlaceholder/300x300.jpg";
           }}
           draggable="false"
           {...props}
