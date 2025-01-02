@@ -65,7 +65,7 @@ const VendorSheetRender = () => {
 
   useEffect(() => {
     if (!goodsData.id) {
-      //backPage();
+      backPage();
     }
     if (!goodsData.mone) {
       setPaymentType(1);
