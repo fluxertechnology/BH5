@@ -63,6 +63,14 @@ const ProfileBuyVipCommon = () => {
     );
   };
 
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        isShowFooter: false,
+      },
+    });
+  }, []);
   return (
     <ProfileBuyVipCommonElement>
       <div className="container">
@@ -388,6 +396,7 @@ const ProfileBuyVipCommonElement = styled.div`
         padding: ${padding}px;
       }
       &_title {
+        display: flex;
         &_icon {
           width: 20px;
           height: 20px;

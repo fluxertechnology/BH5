@@ -218,6 +218,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
     post_count = 0,
     vip,
   } = postData;
+
   const { state } = useGlobalContext();
   const t = useTranslations();
   const tagListRef = useRef(null);
@@ -252,6 +253,11 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
       onClick: () => {},
     },
   ]);
+  useEffect(() => {
+    const settingList = moreSettingList
+    settingList[2].onClick = () => postAttentionEvent(postData)
+    setMoreSettingList([...settingList])
+  }, [postData])
 
   const postCardLikeEvent = (data) => {
     if (store.getState().user.id === "guest") {
@@ -453,8 +459,9 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
     // preventPageScroll();
   }
 
-  function postAttentionEvent() {
-    postCardAttentionEvent(postData);
+
+  function postAttentionEvent(data = null) {
+    postCardAttentionEvent(data ?? postData);
   }
 
   function donateGoldEvent() {

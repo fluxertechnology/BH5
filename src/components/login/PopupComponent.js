@@ -541,6 +541,7 @@ export const PopupDialogWrapper = styled.div`
 
   .email-verify-box {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 1vw !important;
     
@@ -551,11 +552,12 @@ export const PopupDialogWrapper = styled.div`
   }
 
   .email-verify input{
-    font-size: 0.729vw;
+    font-size: max(12px, 0.729vw);
+    width: 100%;
   }
   
   .verify-btn{
-    width:  5vw;
+    //width:  5vw;
     height: 100%;
     display: flex;
     justify-content: center;
