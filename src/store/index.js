@@ -296,7 +296,7 @@ export function GlobalProvider({ children }) {
       clickHome: () => {},
       toPaymentPage: () => {},
       mainHeight: 72,
-      subHeight: 42,
+      subHeight: 66.7,
       subFontSize: 20,
       fixed: true,
       show: true,

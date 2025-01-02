@@ -263,6 +263,16 @@ const ProfileMain = ({ children }) => {
     }
   }, [isMobile])
 
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      key: "customComponent",
+      data: {
+        show: false,
+      },
+    });
+  }, []);
+
   return (
     <ProfileMainElement main_height={state.navbar.mainHeight}>
       <FirstRecharge ref={firstChargeRef} user={state.user} times={times} />

@@ -7,7 +7,7 @@ const defaultState = {
   clickHome: () => {},
   toPaymentPage: () => {},
   mainHeight: 72,
-  subHeight: 42,
+  subHeight: 66.7,
   subFontSize: 20,
   bottomNavHeight: 62,
   fixed: true,
@@ -49,7 +49,7 @@ const navbarReducer = function (state = {}, action) {
       return {
         ...state,
         mainHeight: 72,
-        subHeight: 66,
+        subHeight: 66.7,
         subFontSize: 20,
       };
 
@@ -63,7 +63,7 @@ const navbarReducer = function (state = {}, action) {
         clickHome: () => {},
         toPaymentPage: () => {},
         mainHeight: 72,
-        subHeight: 42,
+        subHeight: 66.7,
         subFontSize: 20,
         bottomNavHeight: 62,
         fixed: true,

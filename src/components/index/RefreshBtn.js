@@ -42,6 +42,7 @@ export const RefreshBtnElement = styled.div`
       &_text {
         display: flex;
         align-items: center;
+        width: 100%;
         text-align: center;
         color: ${colors.dark_pink};
         font-weight: 900;
