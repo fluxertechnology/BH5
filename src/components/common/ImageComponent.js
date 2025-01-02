@@ -33,6 +33,9 @@ const ImageComponent = ({
   const t = useTranslations();
   const [fixHeight, setFixHeight] = useState(null);
   const [imgSrc, setImgSrc] = useState(src);
+  const placeholderSrc = Object.keys(placeholderImg).length
+    ? placeholderImg.src
+    : placeholderImg
 
   function preventMenu(even) {
     var e = even || window.event;
@@ -55,11 +58,10 @@ const ImageComponent = ({
       continueWatch={continueWatch}
     >
         <img
+          src={!lazyLoad ? imgSrc : placeholderSrc || "/images/imgPlaceholder/300x300.jpg"}
           className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
-          data-src={imgSrc || placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
+          data-src={imgSrc || placeholderSrc || "/images/imgPlaceholder/300x300.jpg"}
           //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
-          width={0}
-          height={0}
           alt={alt ?? "unknown-pic"}
           title={title}
           style={imgStyle}

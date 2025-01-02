@@ -12,6 +12,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 
 import { useGlobalContext } from "@/store";
 import Image from "next/image";
+import ImageComponent from "@/components/common/ImageComponent";
 
 let auto_play_progress_move_time = 500;
 let autoPlayProgressMoveTimeMultiple = 6;
@@ -132,7 +133,7 @@ const ImageCarousel = ({
                 }}
                 className="image_carousel_slide"
               >
-                <Image
+                <ImageComponent
                   className="image_carousel_slide_img "
                   alt={data.cname}
                   src={data.picurl}
