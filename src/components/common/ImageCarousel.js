@@ -137,9 +137,8 @@ const ImageCarousel = ({
                   className="image_carousel_slide_img "
                   alt={data.cname}
                   src={data.picurl}
-                  width={0}
-                  height={0}
                   title={data.name}
+                  placeholderImg="/images/imgPlaceholder/345x80.jpg"
                 />
               </LinkComponent>
             </SwiperSlide>

@@ -33,9 +33,10 @@ const ImageComponent = ({
   const t = useTranslations();
   const [fixHeight, setFixHeight] = useState(null);
   const [imgSrc, setImgSrc] = useState(src);
-  const placeholderSrc = Object.keys(placeholderImg).length
+  const placeholderSrc = (typeof placeholderImg === "object"
     ? placeholderImg.src
-    : placeholderImg
+    : placeholderImg)
+    || "/images/imgPlaceholder/300x300.jpg"
 
   function preventMenu(even) {
     var e = even || window.event;
@@ -58,9 +59,9 @@ const ImageComponent = ({
       continueWatch={continueWatch}
     >
         <img
-          src={!lazyLoad ? imgSrc : placeholderSrc || "/images/imgPlaceholder/300x300.jpg"}
+          src={!lazyLoad ? imgSrc : placeholderSrc}
           className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
-          data-src={imgSrc || placeholderSrc || "/images/imgPlaceholder/300x300.jpg"}
+          data-src={imgSrc || placeholderSrc}
           //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           alt={alt ?? "unknown-pic"}
           title={title}
@@ -78,14 +79,14 @@ const ImageComponent = ({
           }}
           onError={(e) => {
             //setImgSrc("/images/imgPlaceholder/300x300.jpg");
-            e.target.src = "/images/imgPlaceholder/300x300.jpg";
+            e.target.src = placeholderSrc
           }}
           draggable="false"
           {...props}
         />
 
       {isFree && <div className="free_tip">{t("Global.free")}</div>}
-      {total_view_show && (
+      {!!total_view_show && (
         <div className="total_view">
           <Image
             src={viewIcon}
@@ -94,10 +95,10 @@ const ImageComponent = ({
             alt="b次元观看数"
             title="b次元观看数"
           />
-          {judeTotalViewUnit(total_view)}
+          {total_view > 0 ? judeTotalViewUnit(total_view) : ''}
         </div>
       )}
-      {continueWatch && (
+      {!!continueWatch && (
         <div className="total_view">{"观看至第" + continueWatch + "集"}</div>
       )}
     </ImageComponentElement>
@@ -112,7 +113,7 @@ const ImageComponentElement = styled.div.withConfig({
 })`
   /*  */
   position: relative;
-  overflow: hidden;
+  //overflow: hidden;
   padding-bottom: ${({ height }) => height}%;
   width: 100%;
   background-color: ${({ background_color }) => background_color};
@@ -129,7 +130,7 @@ const ImageComponentElement = styled.div.withConfig({
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: auto;
     vertical-align: middle;
     object-fit: ${({ is_cover = false }) => (is_cover ? "cover" : "contain")};
     -webkit-touch-callout: none;
