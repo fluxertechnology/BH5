@@ -113,7 +113,7 @@ const ImageComponentElement = styled.div.withConfig({
 })`
   /*  */
   position: relative;
-  //overflow: hidden;
+  overflow: hidden;
   padding-bottom: ${({ height }) => height}%;
   width: 100%;
   background-color: ${({ background_color }) => background_color};
