@@ -5,9 +5,7 @@ import { useTranslations } from "next-intl";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import styled from "styled-components";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
-import TopBarContainer, {
-  main_height,
-} from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer, {main_height} from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import PostCardItem from "@/components/posts/PostCardItem";
 
@@ -162,14 +160,6 @@ const PostCardDetail = () => {
     useGlobalDispatch(getPostCardDetailAction(goodsId));
   };
 
-  useEffect(() => {
-    useGlobalDispatch({
-      type: "INIT_NAVBAR",
-      data: {
-        show: false,
-      },
-    });
-  }, []);
   return (
     <PostCardDetailElement>
       {isMobile ? (
@@ -390,10 +380,6 @@ export default PostCardDetail;
 
 export const PostCardDetailElement = styled.div`
   /*  */
-
-  @media (max-width: 899px) {
-    padding-top: ${main_height}px;
-  }
   .share_cover {
     position: fixed;
     top: 0;

@@ -156,41 +156,38 @@ function PostsMain({ children }) {
     window.open(applyOriginal);
   };
 
+
   useEffect(() => {
     dispatch({
       type: "INIT_NAVBAR",
       key: "customComponent",
       data: {
-        customComponent: () => (
-          <>
-            <TopBarContainer>
-              {isMobile ? (
-                <TopTitleBar title={t("Post.dynamic")}>
-                  <Image
-                    src={newsIcon}
-                    width={0}
-                    height={0}
-                    alt="newsIcon"
-                    className="top_img"
-                    onClick={() => clickTabLabel("notice")}
-                  />
-                </TopTitleBar>
-              ) : (
-                <WebTopBar />
-              )}
-            </TopBarContainer>
-          </>
-        ),
+        show: false,
       },
     });
   }, [isMobile]);
 
   return (
     <PostsMainElement showRightArea={location.split("/")[3] !== "original"}>
+      {!isMobile && (
+        <TopBarContainer>
+          <WebTopBar />
+        </TopBarContainer>
+      )}
       {topAreaShow && ( //PC版留言跟Mobile 評論、發布畫面不同需額外控制
         <>
           {isMobile && (
-            <React.Fragment>
+            <>
+              <TopTitleBar title={t("Post.dynamic")}>
+                <Image
+                  src={newsIcon}
+                  width={0}
+                  height={0}
+                  alt="newsIcon"
+                  className="top_img"
+                  onClick={() => clickTabLabel("notice")}
+                />
+              </TopTitleBar>
               {state.user.is_creation === 0 && (
                 <div
                   className={`post_apply_original ${
@@ -199,7 +196,7 @@ function PostsMain({ children }) {
                   onClick={goToApplyOriginal}
                 >
                   <div className="post_apply_original_left">
-                    <Image src={moneyIcon} width={0} height={0} alt="money" />
+                    <img src={moneyIcon.src} alt="money" />
                     轻松赚取高薪！同时看得开心！
                   </div>
                   <div className="post_apply_original_right">
@@ -207,7 +204,7 @@ function PostsMain({ children }) {
                   </div>
                 </div>
               )}
-            </React.Fragment>
+            </>
           )}
           <ImageCarousel
             adsKey={adsKeys.home}

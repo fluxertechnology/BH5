@@ -85,14 +85,6 @@ const PostsSameTagListPage = () => {
     useGlobalDispatch(getPostTags());
   };
 
-  useEffect(() => {
-    useGlobalDispatch({
-      type: "INIT_NAVBAR",
-      data: {
-        show: false,
-      },
-    });
-  }, []);
   return (
     <PostsSameTagListPageElement main_height={state.navbar.mainHeight}>
       <TopBarContainer not_fixed={!isMobile} z_index={5}>
@@ -156,12 +148,12 @@ export const PostsSameTagListPageElement = styled.div.withConfig({
 })`
   ${({ main_height }) => `
     /*  */
-    padding-top: ${main_height}px;
     @media (max-width: 899px) {
         background-color: #f3f4f5;
     }
     .post_main {
         &_container {
+        padding-top: ${main_height}px;
         display: flex;
         flex-direction: column;
         min-height: 150vh;

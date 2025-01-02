@@ -16,6 +16,7 @@ import { postGetRecommendOriginal } from '@/store/actions/pages/postsMoreOrigina
 
 const PostsMoreOriginalPage = ({
 }) => {
+  console.log("PostsMoreOriginalPage", main_height);
     const t = useTranslations();
     const { isMobile } = useMediaQuery();
 
@@ -114,7 +115,6 @@ export const PostsMoreOriginalPageElement = styled.div.withConfig({
   background: #fff;
   min-height: 120vh;
   padding: 15px;
-  padding-top: ${main_height}px;
 
   .divider {
     height: 1px;
@@ -124,7 +124,7 @@ export const PostsMoreOriginalPageElement = styled.div.withConfig({
   }
   .content {
     display: grid;
-    padding-top: 10px;
+    padding-top: ${main_height+10}px;
     grid-template-columns: repeat(4, auto);
     grid-template-rows: auto;
     gap: 20px;
