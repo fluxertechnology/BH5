@@ -308,6 +308,9 @@ export function GlobalProvider({ children }) {
       prependComponent: () => <></>,
       appendComponent: () => <></>,
     },
+    serviceWorker: {
+      isReady: false,
+    }
   };
 
   let toInitData = {};
@@ -363,9 +366,11 @@ export function GlobalProvider({ children }) {
   });
 
   // FORTEST: on state change
-  useEffect(() => {
-    console.log("state changed", state);
-  }, [state]);
+  if (process.env.NODE_ENV === "development") {
+    useEffect(() => {
+      console.log("state changed", state);
+    }, [state]);
+  }
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>

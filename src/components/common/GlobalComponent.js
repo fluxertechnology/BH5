@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 
@@ -31,12 +31,10 @@ export default function GlobalComponent() {
 
   const { onScrollBottom } = useHTMLEvent();
   // useEffect(() => {
-  //   document.querySelectorAll("img").forEach((e) => {
-  //     e.src =
-  //       "http://localhost:3001/_next/static/media/300x300.d8626b8b.jpg?w=16&h=16";
-  //     e.srcset =
-  //       "http://localhost:3001/_next/static/media/300x300.d8626b8b.jpg?w=16&h=16";
-  //   });
+     //document.querySelectorAll('img').forEach((e) => { if(e.src.includes('localhost')) {return}   e.src = 'https://picsum.photos/200'; e.srcset = 'https://picsum.photos/200'})
+  //   setInterval(() => {
+    //      document.querySelectorAll('img').forEach((e) => { if(e.src.includes('localhost')) {return}   e.src = 'https://picsum.photos/200'; e.srcset = 'https://picsum.photos/200'})
+    //}, 10000);
   // });
 
   useEffect(() => {
@@ -88,6 +86,26 @@ export default function GlobalComponent() {
       },
     });
   }, [isMobile]);
+
+
+	const [isServiceWorkerReady, setIsServiceWorkerReady] = useState(false);
+	useEffect(() => {
+		if (!isServiceWorkerReady && 'serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/service-worker.js', {scope: '/'}).then(
+					function (registration) {
+						// 註冊成功
+	 					 console.log(
+							'ServiceWorker registration successful with scope: ',
+							registration.scope,
+						);
+					},
+					function (err) {
+						// 註冊失敗 :(
+						console.log('ServiceWorker registration failed: ', err);
+					},
+				);
+		}
+	}, []);
 
   const closeMentionAppCover = () => {
     useGlobalDispatch(toggleMentionAppCoverAction(false));

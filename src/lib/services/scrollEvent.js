@@ -1,7 +1,7 @@
 let scrollColdDown = false;
 let scrollColdDownTimer;
 function scrollBottomCallEvent(callback) {
-  if (!scrollColdDown) {
+  if (window !== 'undefined' && !scrollColdDown) {
     const windowBottom =
       document.documentElement.getBoundingClientRect().bottom;
     const windowHeight = document.documentElement.clientHeight;

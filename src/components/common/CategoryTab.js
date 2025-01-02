@@ -12,11 +12,11 @@ const CategoryTab = ({
     <CategoryTabElement
       onClick={(e) => {
         e.stopPropagation();
-        e.preventDefault();
+        //e.preventDefault();
       }}
       onTouchEnd={(e) => {
         e.stopPropagation();
-        e.preventDefault();
+        //e.preventDefault();
       }}
     >
       <LinkComponent
