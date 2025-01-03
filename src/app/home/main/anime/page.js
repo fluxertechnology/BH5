@@ -293,7 +293,7 @@ const HomeAnimesPage = () => {
             <p className="home_animes_container_title_text">
               <Image
                 className="home_animes_container_title_text_img"
-                src="/images/home/anime.svg"
+                src="/images/home/hot.svg"
                 width={0}
                 height={0}
                 alt={t('Home.popular_animate')}
