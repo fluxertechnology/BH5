@@ -274,6 +274,7 @@ const ProfileMainMissionElement = styled.div.withConfig({
                 margin-left: auto;
 
                 &_button {
+                text-align: center;
                 cursor: pointer;
                 padding: 4px;
                 font-size: ${isBrowser && "14px"};
