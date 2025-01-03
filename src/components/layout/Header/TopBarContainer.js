@@ -2,6 +2,7 @@ import styled from "styled-components";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useEffect } from "react";
 import { useGlobalContext } from "@/store";
+import SearchResult from "@/components/common/SearchResult";
 
 export let main_height = 72;
 
@@ -45,6 +46,7 @@ const TopBarContainer = ({
       {state.navbar.prependComponent && state.navbar.prependComponent()}
       {children}
       {state.navbar.appendComponent && state.navbar.appendComponent()}
+      <SearchResult />
     </TopBarContainerElement>
   );
 };
