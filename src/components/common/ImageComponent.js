@@ -49,10 +49,6 @@ const ImageComponent = ({
   }
 
   const imgRef = React.useRef(null);
-  useEffect(() => {
-    console.log('imgRef.current', imgRef.current.src)
-    const src = imgRef.current?.getAttribute('data-src');
-  }, [imgRef.current])
 
   return (
     <ImageComponentElement
