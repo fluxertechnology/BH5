@@ -47,6 +47,7 @@ const FloatElement = styled.div`
       &_icon {
         @media (max-width: 899px) {
           width: 30px !important;
+          height: 30px !important;
         }
       }
     }
