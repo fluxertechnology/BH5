@@ -219,6 +219,7 @@ const ReactPlayerComponent = ({
       : [];
   }, [state.adsList.stop_video_banner]);
 
+  const nodeRef = useRef(null);
   return (
     <PlyrComponentElement isMobile={isMobile}>
       <CSSTransition
@@ -320,7 +321,7 @@ const ReactPlayerComponent = ({
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_buy_cover"
-        nodeRef={reactPlayerRef}
+        nodeRef={nodeRef}
       >
         <div className="video_ads">
           <div
@@ -363,7 +364,7 @@ const ReactPlayerComponent = ({
                   }
                   placeholderImg="/images/imgPlaceholder/720x400.jpg"
                   toFixSize={true}
-                  height={0}
+                  height={40}
                   border_radius={0}
                 />
               </div>
@@ -626,6 +627,7 @@ export const PlyrComponentElement = styled.div.withConfig({
       align-items: center;
     }
     &_img {
+      object-fit: cover;
       width: 100%;
       height: 100%;
     }
