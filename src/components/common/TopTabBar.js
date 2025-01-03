@@ -486,7 +486,6 @@ export const TopTabBarElement = styled.div`
   background-color: #fff;
   padding-right: 5vw;
   padding-left: 5vw;
-  padding-bottom: 23.00px; //66.78-42px
   box-sizing: content-box;
   width:initial;
 
