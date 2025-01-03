@@ -84,7 +84,7 @@ const ImageCarousel = ({
         setHeight(size ?? "auto");
         break;
     }
-  }, [isMobile]);
+  }, [isMobile, size]);
   function focusEvent() {
     setSwiperProgress(
       swiper_progress === auto_play_time ? auto_play_time - 1 : auto_play_time

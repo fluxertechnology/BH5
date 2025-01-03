@@ -159,7 +159,7 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
       <ImageCarousel
         adsKey={adsKeys.profile_interval}
         threeInOneBanner={!isMobile}
-        size="22.667vw"
+        size={isMobile ? "22.667vw" : "7.578vw"}
         is_cover
       />
       <div className="list_container fw-m">
