@@ -244,7 +244,7 @@ const TopTabBar = ({
       {isMobile ? (
         <H5TopTabBarElement drawer={drawer} type={type}>
           <div
-            className={`${!disabledIndent && "px-indent"}  top_bar_container`}
+            className={`top_bar_container`}
           >
             <div className="top_bar_url">
               {labelListKey.map((labelKey, index) => {
@@ -588,6 +588,12 @@ export const H5TopTabBarElement = styled.div.withConfig({
           height:40px;
         }
 
+      }
+      &_item:first-child{
+        margin-left:3.867vw;
+      }
+      &_item:last-child{
+        margin-right:3.867vw;
       }
     }
     &_control {

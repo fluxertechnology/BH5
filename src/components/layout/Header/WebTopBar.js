@@ -909,7 +909,7 @@ const TopsearchBarElement = styled.div.withConfig({
         position: absolute;
         z-index: 999;
         visibility: hidden;
-        top: 41px !important;
+        top: 33px !important;
       }
       li {
         margin: 5px;
