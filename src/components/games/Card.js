@@ -30,6 +30,8 @@ function ImgMediaCard(props) {
   //   return data;
   // }
   const t = useTranslations();
+
+  const [imgSrc, setImgSrc] = React.useState(data.img || data.picurl || placeholder_300x300.src);
   return (
     <CardElement
       goldFrame={goldFrame}
@@ -43,16 +45,16 @@ function ImgMediaCard(props) {
             alt={data.title}
             onLoad={(e) => {
               let img = document.createElement("img");
-              img.src = e.target.src;
+              setImgSrc(e.target.src);
               img.addEventListener("load", function () {
                 setFixHeight(img.height / 2);
                 img.remove();
               });
             }}
             onError={(e) => {
-              e.target.src = placeholder_300x300;
+              setImgSrc(placeholder_300x300.src);
             }}
-            image={data.img || data.picurl}
+            image={imgSrc}
           />
         ) : (
           <ImageComponent

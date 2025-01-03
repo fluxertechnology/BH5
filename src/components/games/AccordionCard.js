@@ -37,17 +37,22 @@ function SimpleAccordion(props) {
   function onClickImg() {
     window.open(url);
   }
+
+  const [imgSrc, setImgSrc] = useState(img);
   return (
     <AccordionElement>
       <div className="top_container mb-2 cursor">
         <Image
           className="top_container_icon_img"
-          src={img}
+          src={imgSrc}
           width={0}
           height={0}
           alt="fireIcon"
           title="fireIcon"
           onClick={onClickImg}
+          onError={(e) => {
+            setImgSrc("/images/imgPlaceholder/694x206.jpg");
+          }}
         />
         <StyleAccordion square className="mt-0" onClick={handleClick}>
           <StyledAccordionSummary
@@ -76,8 +81,8 @@ function SimpleAccordion(props) {
       <Collapse orientation="vertical" in={expanded}>
         {expanded && (
           <Grid container direction="row" alignItems="start" spacing={2}>
-            {datas.map((data) => (
-              <Grid item md={6} xs={6} key={data.title || data.name}>
+            {datas.map((data, index) => (
+              <Grid item md={6} xs={6} key={`${data.title || data.name}-${index}`}>
                 <Card horizontal data={data} />
               </Grid>
             ))}
