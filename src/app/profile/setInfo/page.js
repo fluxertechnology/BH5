@@ -113,7 +113,7 @@ function ProfileSetInfo() {
           <>
             <TopBarContainer>
               <TopTitleBar
-                title={t("Profile.setting.info.")}
+                title={t("Profile.setting.info.index")}
                 showBack={true}
                 show_back_color="#ffffff"
               />
