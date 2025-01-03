@@ -120,6 +120,7 @@ const ProfileTransferCoinRender = () => {
             </>
           );
         },
+        isShowFooter: false,
       },
     });
   }, [isMobile]);
