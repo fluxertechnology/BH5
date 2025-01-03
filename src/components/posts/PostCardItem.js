@@ -233,7 +233,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
   const [swiperInstance, setSwiperInstance] = useState(false);
   const [swiperNumber, setSwiperNumber] = useState(0);
   const [url, setUrl] = useState("");
-  const [donateGold, setDonateGold] = useState(null);
+  const [donateGold, setDonateGold] = useState(0);
   const sliderRef = useRef(null);
   const [moreSettingList, setMoreSettingList] = useState([
     {
