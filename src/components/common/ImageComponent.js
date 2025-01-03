@@ -11,6 +11,7 @@ import 'lazysizes';
 const ImageComponent = ({
   cover = false,
   src,
+
   alt,
   title,
   height = 100,
@@ -130,7 +131,7 @@ const ImageComponentElement = styled.div.withConfig({
 
   .img {
     user-select: none;
-    position: ${({ is_placeholder }) => (!is_placeholder ? "absolute" : "relative")};
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
