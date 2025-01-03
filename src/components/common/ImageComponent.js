@@ -111,7 +111,7 @@ export default ImageComponent;
 
 const ImageComponentElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["is_cover", "img_border", "continueWatch"].includes(prop),
+    !["is_cover", "img_border", "continueWatch", 'imgHeight'].includes(prop),
 })`
   /*  */
   position: relative;
