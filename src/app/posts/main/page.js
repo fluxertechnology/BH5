@@ -20,7 +20,7 @@ import LoadingSkeleton from "@/components/posts/LoadingSkeleton";
 import { getPostListAction } from '@/store/actions/pages/postsMainNewAction.js'
 import Image from "next/image";
 
-const { profile } = pageUrlConstants;
+const { profile, login, post } = pageUrlConstants;
 const PostsMainNewPage = ({
     showTip,
 }) => {
