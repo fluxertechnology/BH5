@@ -25,6 +25,7 @@ import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { updateUserDataAction } from "@/store/actions/user";
 import { dailyLoginAction } from "@/store/actions/pages/profileMainAction";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
+import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 
 const number = 6 * 60 * 60;
 const ProfileMain = ({ children }) => {
