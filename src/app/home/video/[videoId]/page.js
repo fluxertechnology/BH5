@@ -125,6 +125,8 @@ const HomeVideoContent = ({}) => {
       <ImageCarousel
         adsKey={adsKeys.video_banner}
         threeInOneBanner={!isMobile}
+        size="banner_animated"
+        is_cover
       />
       <HomeVideos hideImageCarousel />
       {/* <div className="recommend px-indent mt-5">
