@@ -62,6 +62,7 @@ export default InlineShareButton;
 export const InlineShareButtonElement = styled.div`
   /*  */
   .st-remove-label {
+    display: inline-block !important;
     @media (min-width: 899px) {
       display: inline-block !important;
     }
