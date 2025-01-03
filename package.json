@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "prod": "npm install && next build && next start",
+    "prod": "next build && next start",
     "lint": "next lint",
     "generate-sitemap": "node scripts/generate-sitemap.js"
   },
