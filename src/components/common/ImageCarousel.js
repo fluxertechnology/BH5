@@ -81,7 +81,7 @@ const ImageCarousel = ({
         setHeight(isMobile ? "56vw" : "18vw");
         break;
       default: //浮動廣告banner
-        setHeight("auto");
+        setHeight(size ?? "auto");
         break;
     }
   }, [isMobile]);
@@ -139,6 +139,7 @@ const ImageCarousel = ({
                   src={data.picurl}
                   imgHeight={height}
                   title={data.name}
+                  is_cover
                   placeholderImg="/images/imgPlaceholder/345x80.jpg"
                 />
               </LinkComponent>

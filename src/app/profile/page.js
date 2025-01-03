@@ -223,13 +223,6 @@ const ProfileMain = ({ children }) => {
   };
 
   useEffect(() => {
-    useGlobalDispatch({
-      type: "INIT_NAVBAR",
-      data: {},
-    });
-  }, []);
-
-  useEffect(() => {
     if (isMobile) {
       let Element = document.getElementsByTagName("header");
       if(Element.length){
@@ -268,13 +261,13 @@ const ProfileMain = ({ children }) => {
       type: "INIT_NAVBAR",
       key: "customComponent",
       data: {
-        show: false,
+        show: !isMobile,
       },
     });
-  }, []);
+  }, [isMobile]);
 
   return (
-    <ProfileMainElement main_height={state.navbar.mainHeight}>
+    <ProfileMainElement main_height={state.navbar.mainHeight} isMobile={isMobile}>
       <FirstRecharge ref={firstChargeRef} user={state.user} times={times} />
       <ProfileMainHeader
         id={id}
@@ -359,12 +352,13 @@ const ProfileMain = ({ children }) => {
 export default ProfileMain;
 
 export const ProfileMainElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+  shouldForwardProp: (prop) => !["main_height", "isMobile"].includes(prop),
 })`
-  ${({ main_height }) => `
+  ${({ main_height, isMobile }) => `
+    margin-top: ${isMobile ? 0 : main_height}px;
     /*  */
     @media (min-width: 599px) {
-        margin-top: ${main_height}px;
+        //margin-top: ${main_height}px;
     }
     @media (max-width: 599px) {
         padding-bottom: 15%;
