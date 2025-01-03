@@ -35,7 +35,7 @@ const ProfilePayment = () => {
   const [showTransfer, setShowTransfer] = useState(false);
   useEffect(() => {
     let Element = document.getElementsByClassName("PCFooterElement");
-    if (!Element) return;
+    if (!Element[0]) return;
     setTimeout(() => Element[0].style.setProperty("display", "none"), 100);
   }, []);
   function getUserIdentity() {
@@ -113,6 +113,7 @@ const ProfilePayment = () => {
             />
           </TopBarContainer>
         ),
+        isShowFooter: false,
       },
     });
   }, []);
@@ -182,8 +183,8 @@ const ProfilePayment = () => {
           </p>
         </div>
         <div className="container_footer_highlight">
-          {memberPermissions.map((item) => (
-            <HighlightItem key={item.text} {...item} />
+          {memberPermissions.map((item, index) => (
+            <HighlightItem key={`${item.text}-${index}`} {...item} />
           ))}
         </div>
         <div className="container_footer_description">
@@ -674,10 +675,10 @@ const VipCard = ({
 const VipCardElement = styled.div`
   /*  */
   background: ${({ background }) => "url(" + background + ")"}no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   font-size: 1rem;
-  width: 9rem;
+  width: 17rem;
   height: 9rem;
   white-space: nowrap;
   font-weight: 600;
@@ -685,9 +686,9 @@ const VipCardElement = styled.div`
   cursor: pointer;
   user-select: none;
   transition: 1s;
-  @media (max-width: 899px) {
+  @media (max-width: 768px) {
     width: 7rem;
-    height: 7rem;
+    height: 10rem;
   }
   &:hover {
     transition: 0.5s;
@@ -708,8 +709,13 @@ const VipCardElement = styled.div`
       }
     }
     &_subtitle {
+      width: 15rem;
+      overflow-wrap: break-word;
+      white-space: normal;
+      text-align: center;
       font-size: 1.2rem;
-      @media (max-width: 899px) {
+      @media (max-width: 768px) {
+        width: 6rem;
         font-size: 1rem;
       }
     }
