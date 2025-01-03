@@ -118,10 +118,10 @@ export const ProfileTransferRecordElement = styled.div.withConfig({
 })`
   ${({ main_height }) => `
     /*  */
-    padding-top: ${main_height}px;
     background-color: ${colors.back_grey};
     .transfer_record {
         &_container {
+        padding-top: ${main_height}px;
         position: relative;
         background-color: ${colors.back_grey};
         }
