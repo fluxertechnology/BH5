@@ -1,327 +1,335 @@
-"use client";
+'use client';
 
-import { useRef, useEffect, useState, useMemo } from "react";
-import Grid from "@mui/material/Grid";
-import styled from "styled-components";
-import AccordionCard from "@/components/games/AccordionCard";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import styled from 'styled-components';
+import AccordionCard from '@/components/games/AccordionCard';
 import TopBarContainer, {
-  main_height,
-} from "@/components/layout/Header/TopBarContainer";
-import TopTitleBar from "@/components/common/TopTitleBar";
-import scrollBottomCallEvent from "@/lib/services/scrollEvent";
-import { colors, pageUrlConstants } from "@/lib/constants";
-import FeaturedCard from "@/components/games/FeaturedCard";
-import LinkComponent from "@/components/common/LinkComponent";
-import background from "@public/images/game/bg.png";
-import dropdownIcon from "@public/images/icons/dropdown.svg";
+	main_height,
+} from '@/components/layout/Header/TopBarContainer';
+import TopTitleBar from '@/components/common/TopTitleBar';
+import scrollBottomCallEvent from '@/lib/services/scrollEvent';
+import { colors, pageUrlConstants } from '@/lib/constants';
+import FeaturedCard from '@/components/games/FeaturedCard';
+import LinkComponent from '@/components/common/LinkComponent';
+import background from '@public/images/game/bg.png';
+import dropdownIcon from '@public/images/icons/dropdown.svg';
 
-import useMediaQuery from "@/hooks/useMediaQuery";
-import { moneyAndGold } from "@/components/vendor/VendorItemCard";
-import ImageComponent from "@/components/common/ImageComponent";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { getGameListAction } from "@/store/actions/pages/gameActions";
+import useMediaQuery from '@/hooks/useMediaQuery';
+import { moneyAndGold } from '@/components/vendor/VendorItemCard';
+import ImageComponent from '@/components/common/ImageComponent';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { useGlobalContext, useGlobalDispatch } from '@/store';
+import { getGameListAction } from '@/store/actions/pages/gameActions';
 
 const { vendor } = pageUrlConstants;
 const Game = () => {
-  const { state } = useGlobalContext();
-  const t = useTranslations();
-  const gameListRef = useRef(null);
-  const list = useMemo(
-    () => state.gameListData?.list ?? [],
-    [state.gameListData]
-  );
-  const { isMobile } = useMediaQuery();
-  const [gameList, setGameList] = useState([]);
-  const [shopList, setShopList] = useState(isMobile ? [[], []] : [[]]);
-  const [rankList, setRankList] = useState([]);
-  const [typeSelect, setTypeSelect] = useState(0);
+	const { state } = useGlobalContext();
+	const t = useTranslations();
+	const gameListRef = useRef(null);
+	const { isMobile } = useMediaQuery();
+	const [gameList, setGameList] = useState([]);
+	const [shopList, setShopList] = useState(isMobile ? [[], []] : [[]]);
+	const [rankList, setRankList] = useState([]);
+	const [typeSelect, setTypeSelect] = useState(0);
 
-  useEffect(() => {
-    if (list.length) {
-      let newData = list.filter((data) => data.type === "supplier");
-      setGameList(newData);
-      newData = list.filter((data) => data.type === "shop_list");
-      if (isMobile) {
-        let mobileShopList = [[], []];
-        newData = newData[0]?.shop_list.map((data, index) => {
-          return mobileShopList[index % 2].push(data);
-        });
-        setShopList(mobileShopList);
-      } else {
-        setShopList([newData[0]?.shop_list || []]);
-      }
+	useEffect(() => {
+    const list = state.gameListData.list;
+		if (list.length) {
+			let newData = list.filter((data) => data.type === 'supplier');
+			setGameList(newData);
+			newData = list.filter((data) => data.type === 'shop_list');
+			if (isMobile) {
+				let mobileShopList = [[], []];
+				newData = newData[0]?.shop_list.map((data, index) => {
+					return mobileShopList[index % 2].push(data);
+				});
+				setShopList(mobileShopList);
+			} else {
+				setShopList([newData[0]?.shop_list || []]);
+			}
 
-      newData = list.filter((data) => data.type === "rank_list");
-      setRankList(newData[0]?.rank_list);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list]);
+			newData = list.filter((data) => data.type === 'rank_list');
+			setRankList(newData[0]?.rank_list);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.gameListData.list.length]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", scrollEvent);
-    return () => {
-      window.removeEventListener("scroll", scrollEvent);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typeSelect]);
+	useEffect(() => {
+		window.addEventListener('scroll', scrollEvent);
+		return () => {
+			window.removeEventListener('scroll', scrollEvent);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [typeSelect]);
 
-  useEffect(() => {
-    resetGameListData();
-    updateGameListData(typeSelect);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typeSelect, isMobile]);
+	useEffect(() => {
+		resetGameListData();
+		updateGameListData(typeSelect);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [typeSelect, isMobile]);
 
-  function scrollEvent() {
-    scrollBottomCallEvent((scrollColdEnd) => {
-      // if (!gameListData.isDone && list.length > 0)
-      //   updateGameListData(typeSelect, scrollColdEnd);
-    });
-  }
+	function scrollEvent() {
+		scrollBottomCallEvent((scrollColdEnd) => {
+			// if (!gameListData.isDone && list.length > 0)
+			//   updateGameListData(typeSelect, scrollColdEnd);
+		});
+	}
 
-  function gameWheelEvent(e) {
-    // e.preventDefault();
-    // e.stopPropagation();
-    gameListRef.current.scrollLeft += e.deltaY;
-  }
-  function onChangeType(e) {
-    if (Number(e.target.value) !== typeSelect) {
-      setTypeSelect(Number(e.target.value));
-    }
-  }
+	function gameWheelEvent(e) {
+		// e.preventDefault();
+		// e.stopPropagation();
+		gameListRef.current.scrollLeft += e.deltaY;
+	}
+	function onChangeType(e) {
+		if (Number(e.target.value) !== typeSelect) {
+			setTypeSelect(Number(e.target.value));
+		}
+	}
 
-  const updateGameListData = (type, scrollColdEnd = () => {}) => {
-    useGlobalDispatch(getGameListAction(type, scrollColdEnd));
-  };
-  const resetGameListData = () => {
-    useGlobalDispatch({ type: "RESET_GAMELIST" });
-  };
+	const updateGameListData = (type, scrollColdEnd = () => {}) => {
+		useGlobalDispatch(getGameListAction(type, scrollColdEnd));
+	};
+	const resetGameListData = () => {
+		useGlobalDispatch({ type: 'RESET_GAMELIST' });
+	};
 
-  return (
-    <GameElement>
-      <TopBarContainer show_shadow={false}>
-        <TopTitleBar
-          title={t("Game.label.game")}
-          showBack={true}
-          show_back_color="#ffffff"
-        />
-      </TopBarContainer>
-      <div className="game_container">
-        <div className="container_accordion">
-          {gameList.map((data, index) => {
-            if (data.supplier && index < 3) {
-              let { name, img, description, game, url } = data.supplier;
-              return (
-                <AccordionCard
-                  key={name}
-                  img={img}
-                  title={name}
-                  description={description}
-                  datas={game}
-                  url={url}
-                />
-              );
-            }
-          })}
-        </div>
-        <div className="container_featured mx-2 mt-3">
-          <div className="container_featured_title mx-2 fw-l both_clear">
-            <article className="container_featured_title_left">
-              {gameList.length ? t("Game.label.featured_game") : ""}
-            </article>
-            <LinkComponent
-              routes={{
-                name: vendor.pages.vendorCategory.name + "游戏",
-                path: vendor.pages.vendorCategory.path + "?title=游戏",
-                dynamic: {
-                  category: 1,
-                },
-              }}
-            >
-              <div className="container_featured_title_right cursor mr-2">
-                {gameList.length ? t("Game.label.view_all") : ""}
-              </div>
-            </LinkComponent>
-          </div>
-          {gameList.length ? (
-            <div className="container_featured_filter">
-              <select onChange={onChangeType}>
-                <option value={0}>{t("Game.label.all_game")}</option>
-                <option value={1}>{t("Game.label.pc_game")}</option>
-                <option value={2}>{t("Game.label.android_game")}</option>
-              </select>
-            </div>
-          ) : (
-            ""
-          )}
+	useEffect(() => {
+		useGlobalDispatch({
+			type: 'INIT_NAVBAR',
+			data: {
+				show: false,
+				isShowFooter: false,
+			},
+		});
+	}, []);
 
-          {isMobile ? (
-            shopList?.map((item) => (
-              <div
-                ref={gameListRef}
-                className="g-flex py-2 container_featured "
-                onWheel={gameWheelEvent}
-              >
-                <div className="container_featured_game pb-1">
-                  {item.map((data) => (
-                    <FeaturedCard
-                      data={data}
-                      key={data.title}
-                      type="game"
-                      style={{
-                        width: isMobile && window.innerWidth / 4,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            <div
-              ref={gameListRef}
-              className="g-flex py-2 container_featured "
-              onWheel={gameWheelEvent}
-            >
-              <Grid container direction="row" alignItems="start" spacing={2}>
-                {shopList?.map((item) =>
-                  item.map((data) => (
-                    <Grid item md={3} key={data.title}>
-                      <FeaturedCard data={data} />
-                    </Grid>
-                  ))
-                )}
-              </Grid>
-            </div>
-          )}
-        </div>
+	return (
+		<GameElement>
+			<TopBarContainer show_shadow={false}>
+				<TopTitleBar
+					title={t('Game.label.game')}
+					showBack={true}
+					show_back_color='#ffffff'
+				/>
+			</TopBarContainer>
+			<div className='game_container'>
+				<div className='container_accordion'>
+					{gameList.map((data, index) => {
+						if (data.supplier && index < 3) {
+							let { name, img, description, game, url } = data.supplier;
+							return (
+								<AccordionCard
+									key={`${name}-${index}`}
+									img={img}
+									title={name}
+									description={description}
+									datas={game}
+									url={url}
+								/>
+							);
+						}
+					})}
+				</div>
+				<div className='container_featured mx-2 mt-3'>
+					<div className='container_featured_title mx-2 fw-l both_clear'>
+						<article className='container_featured_title_left'>
+							{gameList.length ? t('Game.label.featured_game') : ''}
+						</article>
+						<LinkComponent
+							routes={{
+								name: vendor.pages.vendorCategory.name + '游戏',
+								path: vendor.pages.vendorCategory.path + '?title=游戏',
+								dynamic: {
+									category: 1,
+								},
+							}}
+						>
+							<div className='container_featured_title_right cursor mr-2'>
+								{gameList.length ? t('Game.label.view_all') : ''}
+							</div>
+						</LinkComponent>
+					</div>
+					{gameList.length
+						? (
+							<div className='container_featured_filter'>
+								<select onChange={onChangeType}>
+									<option value={0}>{t('Game.label.all_game')}</option>
+									<option value={1}>{t('Game.label.pc_game')}</option>
+									<option value={2}>{t('Game.label.android_game')}</option>
+								</select>
+							</div>
+						)
+						: (
+							''
+						)}
 
-        <div className="container_featured mx-2 mt-3">
-          <div className="container_featured_title mx-2 mb-2 fw-l both_clear">
-            <article className="container_featured_title_left">
-              {gameList.length ? t("Game.label.ranks") : ""}
-            </article>
-          </div>
-          {/* 前三名 */}
-          <div className="container_featured_rankings">
-            {rankList?.map((data, index) => {
-              if (index <= 2) {
-                let newIndex = isMobile
-                  ? index
-                  : index === 0
-                  ? 1
-                  : index === 1
-                  ? 0
-                  : 2;
-                return (
-                  <div
-                    key={newIndex}
-                    className={`container_featured_rankings_item_${newIndex}`}
-                  >
-                    <FeaturedCard
-                      data={rankList[newIndex]}
-                      key={rankList[newIndex].title}
-                      goldFrame
-                      style={{
-                        width: isMobile && window.innerWidth / 3.5,
-                      }}
-                    />
-                    <Image
-                      className="container_featured_rankings_item_badge"
-                      src={`/images/game/rank${newIndex + 1}.svg`}
-                      width={0}
-                      height={0}
-                      alt={`badge${newIndex}`}
-                    />
-                  </div>
-                );
-              } else {
-                return <></>;
-              }
-            })}
-          </div>
-          {/* 四到十名 */}
-          {list?.map((list) => {
-            if (list?.rank_list) {
-              return list.rank_list.map((data, index) => {
-                if (index > 2) {
-                  return (
-                    <LinkComponent
-                      className="container_featured_rankings bottom_border"
-                      key={data.title}
-                      routes={{
-                        name: vendor.pages.vendorGoods.name + data.title,
-                        path: vendor.pages.vendorGoods.path,
-                        dynamic: {
-                          goodsId: data.id,
-                        },
-                      }}
-                    >
-                      <Image
-                        className="container_featured_rankings_item_badge  other"
-                        src={`/images/game/rank${index + 1}.svg`}
-                        width={0}
-                        height={0}
-                        alt={`badge${index}`}
-                      />
-                      <div className="container_featured_rankings_pic">
-                        <ImageComponent
-                          src={data.picurl}
-                          alt={data.title}
-                          title={data.title}
-                          border_radius={"10px"}
-                          background_color="#fff"
-                          height={100}
-                          is_cover={true}
-                        />
-                      </div>
-                      <section
-                        className="g-flex column gap-2"
-                        style={{ width: "70%" }}
-                      >
-                        <div className="container_featured_rankings_title">
-                          {data.title}
-                        </div>
-                        <div className="container_featured_rankings_price">
-                          {moneyAndGold(data.mone, data.yue, t)}
-                        </div>
-                      </section>
-                    </LinkComponent>
-                  );
-                }
-              });
-            }
-          })}
-        </div>
+					{isMobile
+						? (
+							shopList?.map((item, index) => (
+								<div
+                  key={index}
+									ref={gameListRef}
+									className='g-flex py-2 container_featured '
+									onWheel={gameWheelEvent}
+								>
+									<div className='container_featured_game pb-1'>
+										{item.map((data, index) => (
+											<FeaturedCard
+												data={data}
+												key={`${data.title}-${index}`}
+												type='game'
+												style={{
+													width: isMobile && window.innerWidth / 4,
+												}}
+											/>
+										))}
+									</div>
+								</div>
+							))
+						)
+						: (
+							<div
+								ref={gameListRef}
+								className='g-flex py-2 container_featured '
+								onWheel={gameWheelEvent}
+							>
+								<Grid container direction='row' alignItems='start' spacing={2}>
+									{shopList?.map((item, index) =>
+										item.map((data) => (
+											<Grid item md={3} key={`${data.title}-${index}`}>
+												<FeaturedCard data={data} />
+											</Grid>
+										))
+									)}
+								</Grid>
+							</div>
+						)}
+				</div>
 
-        <div className="container_accordion">
-          {list.map((data, index) => {
-            if (data.supplier && index >= 3) {
-              let { name, img, description, game, url } = data.supplier;
-              return (
-                <div key={name}>
-                  <AccordionCard
-                    img={img}
-                    title={name}
-                    description={description}
-                    datas={game}
-                    url={url}
-                  />
-                </div>
-              );
-            }
-          })}
-        </div>
-      </div>
-    </GameElement>
-  );
+				<div className='container_featured mx-2 mt-3'>
+					<div className='container_featured_title mx-2 mb-2 fw-l both_clear'>
+						<article className='container_featured_title_left'>
+							{gameList.length ? t('Game.label.ranks') : ''}
+						</article>
+					</div>
+					{/* 前三名 */}
+					<div className='container_featured_rankings'>
+						{rankList?.map((data, index) => {
+							if (index <= 2) {
+								let newIndex = isMobile
+									? index
+									: index === 0
+									? 1
+									: index === 1
+									? 0
+									: 2;
+								return (
+									<div
+                    key={index}
+										className={`container_featured_rankings_item_${newIndex}`}
+									>
+										<FeaturedCard
+											data={rankList[newIndex]}
+											goldFrame
+											style={{
+												width: isMobile && window.innerWidth / 3.5,
+											}}
+										/>
+										<Image
+											className='container_featured_rankings_item_badge'
+											src={`/images/game/rank${newIndex + 1}.svg`}
+											width={0}
+											height={0}
+											alt={`badge${newIndex}`}
+										/>
+									</div>
+								);
+							}
+						})}
+					</div>
+					{/* 四到十名 */}
+					{state.gameListData.list.map((list) => {
+						if (list?.rank_list) {
+							return list.rank_list.map((data, index) => {
+								if (index > 2) {
+									return (
+										<LinkComponent
+											className='container_featured_rankings bottom_border'
+											key={data.title}
+											routes={{
+												name: vendor.pages.vendorGoods.name + data.title,
+												path: vendor.pages.vendorGoods.path,
+												dynamic: {
+													goodsId: data.id,
+												},
+											}}
+										>
+											<Image
+												className='container_featured_rankings_item_badge  other'
+												src={`/images/game/rank${index + 1}.svg`}
+												width={0}
+												height={0}
+												alt={`badge${index}`}
+											/>
+											<div className='container_featured_rankings_pic'>
+												<ImageComponent
+													src={data.picurl}
+													alt={data.title}
+													title={data.title}
+													border_radius={'10px'}
+													background_color='#fff'
+													height={100}
+													is_cover={true}
+												/>
+											</div>
+											<section
+												className='g-flex column gap-2'
+												style={{ width: '70%' }}
+											>
+												<div className='container_featured_rankings_title'>
+													{data.title}
+												</div>
+												<div className='container_featured_rankings_price'>
+													{moneyAndGold(data.mone, data.yue, t)}
+												</div>
+											</section>
+										</LinkComponent>
+									);
+								}
+							});
+						}
+					})}
+				</div>
+
+				<div className='container_accordion'>
+					{state.gameListData.list.map((data, index) => {
+						if (data.supplier && index >= 3) {
+							let { name, img, description, game, url } = data.supplier;
+							return (
+								<div key={`${name}-${index}`}>
+									<AccordionCard
+										img={img}
+										title={name}
+										description={description}
+										datas={game}
+										url={url}
+									/>
+								</div>
+							);
+						}
+					})}
+				</div>
+			</div>
+		</GameElement>
+	);
 };
 
 export default Game;
 
 export const GameElement = styled.div`
   /*  */
-  padding-top: ${main_height}px;
   background-image: url(${background});
   background-size: contain;
   background-repeat: no-repeat;
@@ -332,8 +340,9 @@ export const GameElement = styled.div`
     color: #000;
   }
   .game_container {
+    padding-top: ${main_height}px;
     position: relative;
-    @media (min-width: 599px) {
+    @media (min-width: 768px) {
       padding: 0 25%;
     }
   }

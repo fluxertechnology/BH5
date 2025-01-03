@@ -273,7 +273,7 @@ export function GlobalProvider({ children }) {
       homeFloatAds: false, // 因要求從內存先把狀態改成 false
       announcementCover: false,
     },
-    gameListData: { vendorList: [], page: 0, isNew: true, isDone: false },
+    gameListData: { list: [], vendorList: [], page: 0, isNew: true, isDone: false },
     scrollToTopStatus: false,
     router: {
       action: "", // TODO(ZY): get router action
