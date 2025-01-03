@@ -243,7 +243,7 @@ const ProfilePayment = () => {
                       htmlFor={item.name}
                       className="float_cover_body_text g-flex-center align-items-center gap-1 justify-content-start w-100 "
                     >
-                      <Image
+                      <ImageComponent
                         src={item.img}
                         width={0}
                         height={0}

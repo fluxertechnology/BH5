@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 
@@ -48,6 +48,12 @@ const ImageComponent = ({
     return false;
   }
 
+  const imgRef = React.useRef(null);
+  useEffect(() => {
+    console.log('imgRef.current', imgRef.current.src)
+    const src = imgRef.current?.getAttribute('data-src');
+  }, [imgRef.current])
+
   return (
     <ImageComponentElement
       className={className}
@@ -59,9 +65,10 @@ const ImageComponent = ({
       img_border={img_border}
       continueWatch={continueWatch}
       imgHeight={imgHeight}
+      is_placeholder={imgRef.current?.src.includes('/images/imgPlaceholder')}
     >
         <img
-          src={!lazyLoad ? imgSrc : placeholderSrc}
+          src={!lazyLoad ? (imgSrc || placeholderSrc) : placeholderSrc}
           className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
           data-src={imgSrc || placeholderSrc}
           //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
@@ -85,6 +92,7 @@ const ImageComponent = ({
           }}
           draggable="false"
           {...props}
+          ref={imgRef}
         />
 
       {isFree && <div className="free_tip">{t("Global.free")}</div>}
@@ -111,7 +119,7 @@ export default ImageComponent;
 
 const ImageComponentElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["is_cover", "img_border", "continueWatch", 'imgHeight'].includes(prop),
+    !["is_cover", "img_border", "continueWatch", 'imgHeight', 'is_placeholder'].includes(prop),
 })`
   /*  */
   position: relative;
@@ -126,7 +134,7 @@ const ImageComponentElement = styled.div.withConfig({
 
   .img {
     user-select: none;
-    position: absolute;
+    position: ${({ is_placeholder }) => (!is_placeholder ? "absolute" : "relative")};
     top: 0;
     right: 0;
     bottom: 0;
