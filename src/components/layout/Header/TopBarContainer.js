@@ -21,6 +21,7 @@ const TopBarContainer = ({
   children,
   z_index = 10,
   backgroundColor = "transparent",
+  top = 0,
   ...props
 }) => {
   const { isMobile } = useMediaQuery();
@@ -41,6 +42,7 @@ const TopBarContainer = ({
       z_index={z_index}
       background_color={backgroundColor}
       isMobile={isMobile}
+      top={top}
       {...props}
     >
       {state.navbar.prependComponent && state.navbar.prependComponent()}
@@ -58,12 +60,12 @@ TopBarContainer.propTypes = {
 export default TopBarContainer;
 
 const TopBarContainerElement = styled.header.withConfig({
-  shouldForwardProp: (prop) => !["not_fixed", "show_shadow", "isMobile"].includes(prop),
+  shouldForwardProp: (prop) => !["not_fixed", "show_shadow", "isMobile", "top"].includes(prop),
 })`
   /*  */
   background-color: ${({ background_color }) => background_color};
   position: ${({ not_fixed }) => (not_fixed ? "absolute" : "fixed")};
-  top: ${({ isMobile }) => (isMobile ? "unset" : "0")};
+  top: ${({ top }) => top};
   right: 0;
   left: 0;
   z-index: ${({ z_index }) => z_index};

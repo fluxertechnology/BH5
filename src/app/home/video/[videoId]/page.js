@@ -103,7 +103,7 @@ const HomeVideoContent = ({}) => {
   }, []);
   return (
     <HomeVideoContentElement main_height={state.navbar.mainHeight}>
-      <TopBarContainer not_fixed={true} show_shadow={false} z_index={10}>
+      <TopBarContainer not_fixed={true} show_shadow={false} z_index={10} top="unset">
         <TopTitleBar
           showBack={true}
           back_color={"transparent"}

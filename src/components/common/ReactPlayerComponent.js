@@ -228,7 +228,7 @@ const ReactPlayerComponent = ({
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_OutOfQuotaPortal"
-        nodeRef={reactPlayerRef}
+        nodeRef={nodeRef}
       >
         <ReportCoverComponent
           report_type={videoType}
@@ -364,7 +364,7 @@ const ReactPlayerComponent = ({
                   }
                   placeholderImg="/images/imgPlaceholder/720x400.jpg"
                   toFixSize={true}
-                  height={40}
+                  height={55.55555555555556}
                   border_radius={0}
                 />
               </div>
@@ -494,12 +494,14 @@ export const PlyrComponentElement = styled.div.withConfig({
       }
 
       &_close {
+        display: flex;
+        align-items: center;
         cursor: pointer;
         position: absolute;
         left: 50%;
         transform: translate(-50%, 20px);
         padding-left: 20px;
-        padding-right: 150px;
+        padding-right: 20px;
         padding-top: 15px;
         padding-bottom: 15px;
         color: #fff;
