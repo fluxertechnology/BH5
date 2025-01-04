@@ -280,8 +280,8 @@ export const TopBarElement = styled.div.withConfig({
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        width: ${main_height * 0.65}px;
-        height: ${main_height * 0.65}px;
+        width: ${main_height * 0.45}px;
+        height: ${main_height * 0.45}px;
         font-size: 14px;
         color: #000;
         border-radius: 50%;
