@@ -15,6 +15,7 @@ const { home } = pageUrlConstants;
 export const userLoginAction =
   (params, callback = () => {}) =>
   (dispatch) => {
+    console.log("users login action");
     return utilitiesRequest
       .getLoginAction(params)
       .then((data) => {
@@ -35,11 +36,12 @@ export const userLoginAction =
           updateUserDataAction((check) => {
             callback(check);
             if (check) {
-              setVipInfoAction()(dispatch)
+              setVipInfoAction(() => {
+                dispatch(replaceRoutes(home.pages.homeMain));
+              })(dispatch)
             }
           }, data.id)(dispatch);
-          useSaveStateData(store.getState());
-          dispatch(replaceRoutes(home.pages.homeMain));
+  
         } else {
           callback(false);
         }

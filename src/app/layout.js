@@ -1,22 +1,18 @@
-import DesktopHeader from "@/components/layout/Header/DesktopHeader";
-import DesktopFooter from "@/components/layout/Footer/DesktopFooter";
-import MobileHeader from "@/components/layout/Header/MobileHeader";
-import MobileFooter from "@/components/layout/Footer/MobileFooter";
-import GlobalComponent from "@/components/common/GlobalComponent";
-import PopupDialog from "@/components/login/PopupComponent";
+
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { GlobalProvider } from "@/store";
 import { GoogleTagManager } from '@next/third-parties/google'
+import RootComponent from "@/components/common/RootComponent";
 
 import "@/styles/globals.scss";
+
 
 export default async function RootLayout({ children }) {
   const locale = await getLocale();
   const messages = await getMessages();
 
-  // Load metadata translations
   const metadataTranslations = messages.Home;
 
   // Set metadata
@@ -25,6 +21,7 @@ export default async function RootLayout({ children }) {
     description: metadataTranslations.description,
   };
 
+
   return (
     <html lang={locale}>
       <head>
@@ -32,17 +29,11 @@ export default async function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
       </head>
 
-      <GoogleTagManager gtmId="G-8JGS6Q3L39___" />
+      <GoogleTagManager gtmId={process.env.GOOGLE_TAG_MANAGER_ID} />
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <GlobalProvider>
-            <DesktopHeader locale={locale} />
-            <MobileHeader locale={locale} />
-            <div className="min-h-screen">{children}</div>
-            <DesktopFooter locale={locale} />
-            <MobileFooter locale={locale} />
-            <GlobalComponent />
-            <PopupDialog locale={locale} />
+            <RootComponent locale={locale}>{children}</RootComponent>
           </GlobalProvider>
         </NextIntlClientProvider>
       </body>

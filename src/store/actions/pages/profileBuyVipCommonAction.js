@@ -7,7 +7,7 @@ import callToast from "@/lib/services/toastCall";
 const { getVipInfoDataUrl, getVipExchangeCodeUrl, postBuyVipMemberUrl } =
   requestUrlConstants;
 
-export const setVipInfoAction = () => {
+export const setVipInfoAction = (callback = () => {}) => {
   return function (dispatch) {
     axiosRequest
       .get(getVipInfoDataUrl, {
@@ -18,6 +18,7 @@ export const setVipInfoAction = () => {
           type: "INIT_VIPINFODATA",
           data,
         });
+        callback();
       });
   };
 };

@@ -120,7 +120,7 @@ const ProfileEditAvatar = () => {
   }
   function onChangeImg(e) {
     const value = e.target;
-    setDynamicImg(value.getAttribute("src"));
+    setDynamicImg(value.src);
     setSelectImgIndex(Number(value.getAttribute("index")));
     setUploadFile(avatar_list[Number(value.getAttribute("index"))]);
   }
@@ -180,7 +180,7 @@ const ProfileEditAvatar = () => {
   }
 
   const updateUserAvatar = ({ file, avatar_id }) => {
-    useGlobalDispatch(updateUserAvatarAction({ file, avatar_id }));
+    useGlobalDispatch(updateUserAvatarAction({ file, avatar_id, callback: backRoutesAction }));
   };
   const unClockAvatar = (
     id,
@@ -361,6 +361,9 @@ const ProfileEditAvatar = () => {
 export default ProfileEditAvatar;
 export const ProfileEditAvatarElement = styled.div`
   /*  */
+  .displaynone {
+    display: none;
+  }
   @media (max-width: 899px) {
     padding: 0 0.5em;
   }

@@ -28,9 +28,6 @@ const PostsSameTagListPage = () => {
   const { width } = size;
 
   const tagId = useParams().tagId;
-  const title = useMemo(() => {
-    state.postTags.postTags.filter((data) => data.id == tagId)[0]?.name || [];
-  }, [tagId]);
 
   useEffect(() => {
     getPostTagsFunc();
@@ -54,7 +51,7 @@ const PostsSameTagListPage = () => {
         window.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [title]);
+  }, []);
 
   function scrollEvent() {
     scrollBottomCallEvent((scrollColdEnd) => {
@@ -89,7 +86,7 @@ const PostsSameTagListPage = () => {
     <PostsSameTagListPageElement main_height={state.navbar.mainHeight}>
       <TopBarContainer not_fixed={!isMobile} z_index={5}>
         <TopTitleBar
-          title={title}
+          title={ state.postTags.postTags.filter((data) => data.id == tagId)[0]?.name || ''}
           showBack={true}
           show_back_color={"#000"}
           back_color={"#fff"}

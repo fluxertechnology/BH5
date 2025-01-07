@@ -339,7 +339,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
     );
     // }
   };
-  const postAddWatchMountEvent = (data) => {
+  const postAddWatchMountEventDispatch = (data) => {
     if (state.user.id === "guest") {
       useGlobalDispatch(pushRoutes(login));
     } else {
@@ -525,7 +525,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
     setSwiperNumber(mediaInd);
     if (parseInt(lock_status) !== 1 && store.getState().user.id !== "guest") {
       clickMediaContent();
-      postAddWatchMountEvent(postData);
+      postAddWatchMountEventDispatch(postData);
     } else {
       useGlobalDispatch(pushRoutes(login));
     }
@@ -758,6 +758,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
                           e.preventDefault();
                         }}
                       >
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" />
                         <source src={media_value + "#t=0.1"} />
                       </video>
                     </>
@@ -1116,7 +1117,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
             imgClassName="post_card_footer_item_icon"
             onClick={() => {
               toPostCardDetail(postData.id);
-              postAddWatchMountEvent(postData);
+              postAddWatchMountEventDispatch(postData);
             }}
           >
             <span className="post_card_footer_item_text">

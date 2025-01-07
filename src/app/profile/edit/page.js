@@ -31,10 +31,8 @@ const ProfileEditInfo = ({ children }) => {
   const { deleteData } = useIndexDBController();
   const { avatar, nick_name, sex } = state.user;
   useEffect(() => {
-    if (!state.user.avatar_list) {
-      getAvatarList();
-    }
-  }, [isMobile, state.user.avatar_list]);
+    getAvatarList();
+  }, []);
 
   function sexEditEvent(sex) {
     editUserData({

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
 
 import { applyOriginal, colors, pageUrlConstants } from "@/lib/constants/index.js";
@@ -9,6 +9,9 @@ import WavaButton from "@/components/layout/Header/WavaButton";
 import openVip from "public/json/profile/open_vip.json";
 import moneyIcon from "public/images/post/money.svg";
 import Image from "next/image";
+import ImageComponent from "@/components/common/ImageComponent";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const AsideRecommend = ({ recommendList }) => {
   const AsideRecommendRef = useRef();
@@ -50,7 +53,7 @@ const AsideRecommend = ({ recommendList }) => {
                 },
               }}
             >
-              <Image src={data.avatar} width={0} height={0} alt={data.nick_name} draggable={false} />
+              <ImageComponent src={data.avatar} height="2.344vw" width="2.344vw" border_radius="50px"  alt={data.nick_name} draggable={false} />
             </LinkComponent>
             {data.nick_name}
           </div>
