@@ -6,7 +6,7 @@ import { postListDataLimit } from "../../reducers/post/postListData";
 const { postGetPostDataListUrl, postGetPostTags } = requestUrlConstants;
 
 /**
- * @description get post list data
+ * @descriotion get post list data
  *
  * @param {*} data
  * @param {*} scrollColdEnd
@@ -21,7 +21,7 @@ export const getPostSameTagListAction = (scrollColdEnd, init) => {
     formData.append("uid", userData.id);
     formData.append("page", init ? 1 : postSameTagList.page + 1);
     formData.append("limit", postListDataLimit);
-    formData.append("tag", storeData.router.location.pathname.split("/")[4]);
+    formData.append("tag", window.location.pathname.split("/")[4]);
     axiosRequest.post(postGetPostDataListUrl, formData).then((data) => {
       scrollColdEnd(false);
       dispatch({
