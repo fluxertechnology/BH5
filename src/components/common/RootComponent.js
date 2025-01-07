@@ -98,12 +98,12 @@ const RootComponent = ({ children, locale }) => {
 		};
 
 		const result = findMatchingRoute(state.router.location.pathname);
-		if (result.matchedRoute) {
+		if (result.matchedRoute && state.user.id === 'guest') {
 			setTimeout(() => {
 				useGlobalDispatch(openPopup('login'));
 			});
 		}
-	}, [state.router.location.pathname, isClient]);
+	}, [state.user.id, state.router.location.pathname, isClient]);
 
 	if (!isClient) {
 		return null;

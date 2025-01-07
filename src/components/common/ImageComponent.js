@@ -51,6 +51,11 @@ const ImageComponent = ({
   }
 
   const imgRef = React.useRef(null);
+  useEffect(() => {
+    if (src !== imgSrc) {
+      setImgSrc(src)
+    }
+  }, [src])
 
   return (
     <ImageComponentElement

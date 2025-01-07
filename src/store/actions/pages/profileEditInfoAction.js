@@ -6,7 +6,7 @@ import store, { useGlobalDispatch } from "@/store";
 const { postUpdateUserAvatarUrl, postUpdateUserDataUrl, postGetAvatarListUrl } =
   requestUrlConstants;
 
-export const updateUserAvatarAction = ({ file, avatar_id }) => {
+export const updateUserAvatarAction = ({ file, avatar_id, callback = () => {}}) => {
   return function (dispatch) {
     let formData = new FormData();
     if (avatar_id) {
@@ -22,7 +22,8 @@ export const updateUserAvatarAction = ({ file, avatar_id }) => {
         formData
       )
       .then((data) => {
-        dispatch(updateUserDataAction());
+        updateUserDataAction()(dispatch);
+        callback();
       });
   };
 };

@@ -78,6 +78,13 @@ export default function GlobalComponent() {
   }, [pathname, searchParams]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      useSaveStateData(state);
+    }
+  }, [state.user]);
+ 
+
+  useEffect(() => {
     useGlobalDispatch({
       type: "SWITCH_NAVBAR",
       data: {
