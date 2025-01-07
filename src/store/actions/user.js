@@ -5,6 +5,7 @@ import { setVipInfoAction } from "@/store/actions/pages/profileBuyVipCommonActio
 import { encryptionData } from "@/lib/services/aes";
 import * as utilitiesRequest from "@/store/reducers/cruds/userCRUD";
 import { replaceRoutes } from "./historyActions";
+import useSaveStateData from "@/hooks/useSaveStateData";
 const { home } = pageUrlConstants;
 /**
  * @description user llogin event
@@ -37,6 +38,7 @@ export const userLoginAction =
               setVipInfoAction()(dispatch)
             }
           }, data.id)(dispatch);
+          useSaveStateData(store.getState());
           dispatch(replaceRoutes(home.pages.homeMain));
         } else {
           callback(false);
