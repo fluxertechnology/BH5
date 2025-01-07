@@ -1088,7 +1088,7 @@ const TopsearchBarElement = styled.div.withConfig({
               visibility: visible;
               display: flex;
               flex-direction: column;
-              top: 40px;
+              top: 28px;
               left: 0;
               gap: 10px;
               border-radius: 5px;

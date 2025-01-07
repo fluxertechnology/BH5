@@ -157,6 +157,7 @@ export const PopupDialogWrapper = styled.div`
   justify-content: center;
 
   .card-container{
+    min-width: 400px;
     width: 20.667vw;
     max-height: 37.458vw;
     overflow: auto;
@@ -224,7 +225,7 @@ export const PopupDialogWrapper = styled.div`
     .subtitle-text{
       margin-bottom: 1.042vw;
       line-height: 1;
-      font-size: 0.729vw;
+      font-size: max(14px,0.729vw);
       color: #464656;
       @media (min-width: 769px) and (max-width:1024px){
         font-size: 1.8vw;
@@ -248,7 +249,7 @@ export const PopupDialogWrapper = styled.div`
 
     .form-label{
       line-height: 1;
-      font-size: 0.625vw;
+      font-size: max(12px,0.625vw);
       color: #464656;
       font-weight: 700 !important;
       display: inline-block;
@@ -283,7 +284,7 @@ export const PopupDialogWrapper = styled.div`
       outline: none;
       width: 100%;
       margin: 0;
-      font-size: 0.833vw;
+      font-size: max(14px,0.833vw);
       color: #060616;
       position: relative;
       @media (min-width: 769px) and (max-width:1024px) {
@@ -371,7 +372,7 @@ export const PopupDialogWrapper = styled.div`
       text-align: center;
       align-items: center;
       justify-content: center;
-      font-size: 0.833vw;
+      font-size: max(14px,0.833vw);
       font-weight: 700 !important;
       padding: 0;
       color: #fff;
@@ -522,7 +523,7 @@ export const PopupDialogWrapper = styled.div`
       }
 
       p{
-        font-size: 0.729vw;
+        font-size: max(14px,0.729vw);
         text-align: center;
         width: 100%;
         @media (min-width: 769px) and (max-width:1024px) {
@@ -564,7 +565,7 @@ export const PopupDialogWrapper = styled.div`
     align-items: center;
     cursor: pointer;
     color: #ffc44b;
-    font-size: 0.729vw;
+    font-size: max(14px,0.729vw);
     @media (min-width: 769px) and (max-width:1024px) {
       font-size: 1.8vw;
     }
@@ -575,7 +576,7 @@ export const PopupDialogWrapper = styled.div`
 
   .t-and-c{
     margin-bottom: 0;
-    font-size: 0.729vw;
+    font-size: max(14px,0.729vw);
     color: #666676;
     line-height: 1.2;
     text-align: center;
@@ -696,7 +697,7 @@ export const PopupDialogWrapper = styled.div`
       }
   
       p{
-        font-size: 0.729vw; 
+        font-size: max(14px,0.729vw); 
         text-align:center;
         width: 100%;
 
