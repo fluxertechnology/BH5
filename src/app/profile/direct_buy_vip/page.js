@@ -39,6 +39,7 @@ const ProfilePayment = () => {
     setTimeout(() => Element[0].style.setProperty("display", "none"), 100);
   }, []);
   function getUserIdentity() {
+    if (typeof time === "undefined") return "--:--";
     return time === "-1"
       ? t("Profile.buy.watch.forever_1")
       : Date.now() > time * 1000
