@@ -59,9 +59,8 @@ const ProfileMainHeader = ({
       const now = Date.now();
       const differenceInMilliseconds = (time* 1000) - now; 
       const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24); 
-      console.log(time* 1000,now,'12332'); 
   
-      if (differenceInDays && differenceInDays >0 && differenceInDays <30 ){
+      if (rank !== '普通会员' && differenceInDays > 0 && differenceInDays <= 3) {
         setExpiringSoon(true);
       }
     }
