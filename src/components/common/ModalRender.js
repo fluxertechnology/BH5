@@ -183,7 +183,7 @@ const PostAddModalElement = styled.div`
 
     &_tip {
       position: absolute;
-      bottom: 10%;
+      bottom: 30%;
       display: flex;
       justify-content: center;
       align-items: center;

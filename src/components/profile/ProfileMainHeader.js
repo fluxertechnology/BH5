@@ -14,7 +14,7 @@ import LinkComponent from "@/components/common/LinkComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import PostsAddModalPage from "@/components/common/ModalRender";
 import Image from "next/image";
-import store, { useGlobalDispatch } from "@/store";
+import store, { useGlobalContext, useGlobalDispatch } from "@/store";
 import { openPopup } from "@/store/actions/user";
 import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
 
@@ -35,20 +35,38 @@ const ProfileMainHeader = ({
   redirectBuy,
 }) => {
   const t = useTranslations();
+  const { state } = useGlobalContext();
   const { isMobile } = useMediaQuery();
   const [badge, setBadge] = useState("");
   const [membershipDate, setMembershipDate] = useState("");
   const [expirationTip, setExpirationTip] = useState(false);
+  const [expiringSoon,setExpiringSoon] = useState(false);
+
+  const currentDate = new Date();
 
   useEffect(() => {
     const variable =
       time === "-1"
         ? t("Profile.buy.watch.forever_1")
         : Date.now() > time * 1000
-        ? t("Profile.main.vip.maturity")
-        : new Date(time * 1000).toLocaleDateString().toString();
+          ? t("Profile.main.vip.maturity")
+          : new Date(time * 1000).toLocaleDateString().toString();
     setMembershipDate(variable);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // Check Vip is expiring soon
+    if ( time && time > 0){
+      const now = Date.now();
+      const differenceInMilliseconds = (time* 1000) - now; 
+      const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24); 
+      console.log(time* 1000,now,'12332'); 
+  
+      if (differenceInDays && differenceInDays >0 && differenceInDays <30 ){
+        setExpiringSoon(true);
+      }
+    }
+    
+
   }, [time]);
 
   const clickProfile = () => {
@@ -206,7 +224,7 @@ const ProfileMainHeader = ({
                 ""
               )}
               <span className="profile_header_info_detill_time_text fw-m">
-                {membershipDate}
+                {membershipDate} {expiringSoon&&`(${t("Profile.main.label.member_expiring_soon")})`}
               </span>
             </div>
           ) : (
@@ -287,37 +305,40 @@ const ProfileMainHeader = ({
           alt="open vip"
         />
       </LinkComponent>
-      <PostsAddModalPage
-        initStatus={expirationTip}
-        title={t("Profile.main.label.member_benefit_tip")}
-        buttonProps={{
-          text: t("Profile.main.label.continue_buy"),
-          onButtonClick: () => redirectBuy(),
-          localStorageName: "member_expired_float_show",
-        }}
-      >
-        <div className="profile_main_cover">
-          <div className="profile_main_cover_tip">
-            {t("Profile.main.label.member_description")}
-          </div>
-          <div className="profile_main_cover_power">
-            <div className="profile_main_cover_power_subtitle">
-              {t("Profile.direct_buy_vip.member_permissions")}
-            </div>
-            <div className="profile_main_cover_power_items">
-              {memberPowerItem.map((item,index) => (
-                <div className="profile_main_cover_power_item" key={`${item.text}-${index}`}>
-                  <Image src={item.icon} width={0} height={0} alt={item.text} />
-                  {item.text}
+      {
+        expiringSoon && (
+          <PostsAddModalPage
+            initStatus={expirationTip}
+            title={t("Profile.main.label.member_benefit_tip")}
+            buttonProps={{
+              text: t("Profile.main.label.continue_buy"),
+              onButtonClick: () => redirectBuy(),
+              localStorageName: "member_expired_float_show",
+            }}
+          > {state.vipInfoData.length}
+            <div className="profile_main_cover">
+              <div className="profile_main_cover_tip">
+                {t("Profile.main.label.member_description")}
+              </div>
+              <div className="profile_main_cover_power">
+                <div className="profile_main_cover_power_subtitle">
+                  {t("Profile.direct_buy_vip.member_permissions")}
                 </div>
-              ))}
+                <div className="profile_main_cover_power_items">
+                  {memberPowerItem.map((item, index) => (
+                    <div className="profile_main_cover_power_item" key={`${item.text}-${index}`}>
+                      <Image src={item.icon} width={0} height={0} alt={item.text} />
+                      {item.text}
+                    </div>
+                  ))}
+                </div>
+                <div className="profile_main_cover_power_description">
+                  {t("Profile.main.label.member_description_1")}
+                </div>
+              </div>
             </div>
-            <div className="profile_main_cover_power_description">
-              {t("Profile.main.label.member_description_1")}
-            </div>
-          </div>
-        </div>
-      </PostsAddModalPage>
+          </PostsAddModalPage>)
+      }
     </ProfileMainHeaderElement>
   );
 };
