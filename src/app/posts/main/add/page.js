@@ -956,7 +956,7 @@ export const PostsAddPageElement = styled.div.withConfig({
           display: flex;
           align-items: center;
           &_img {
-            padding: 10px;
+            margin: 10px;
             width: 30px;
             height: 30px;
             vertical-align: middle;
