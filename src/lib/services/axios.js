@@ -7,8 +7,7 @@ import callToast from "@/lib/services/toastCall";
 import Image from "next/image";
 
 const loading = "/images/shared/axiosLoading.svg";
-// import { nowLang } from "../i18n/Metronici18n";
-const nowLang = 'en'; // TODO(ZY): Check current language
+import { nowLang } from "@/i18n/Metronici18n";
 const axiosItem = axios.create({
   baseURL: apiUrl,
   // headers: { "Content-Type": "multipart/form-data"},
