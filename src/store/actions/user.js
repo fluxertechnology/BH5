@@ -35,11 +35,13 @@ export const userLoginAction =
           updateUserDataAction((check) => {
             callback(check);
             if (check) {
-              setVipInfoAction()(dispatch)
+              setVipInfoAction(() => {
+                useSaveStateData(store.getState());
+                dispatch(replaceRoutes(home.pages.homeMain));
+              })(dispatch)
             }
           }, data.id)(dispatch);
-          useSaveStateData(store.getState());
-          dispatch(replaceRoutes(home.pages.homeMain));
+  
         } else {
           callback(false);
         }
