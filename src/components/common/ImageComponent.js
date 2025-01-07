@@ -65,9 +65,9 @@ const ImageComponent = ({
       is_placeholder={imgRef.current?.src.includes('/images/imgPlaceholder')}
     >
         <img
-          src={!lazyLoad ? (imgSrc || placeholderSrc) : placeholderSrc}
-          className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
-          data-src={imgSrc || placeholderSrc}
+          src={!lazyLoad ? (src || placeholderSrc) : placeholderSrc}
+          className={`img ${src && lazyLoad ? "lazyload" : ""}`}
+          data-src={src|| placeholderSrc}
           //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           alt={alt ?? "unknown-pic"}
           title={title}
@@ -76,7 +76,8 @@ const ImageComponent = ({
           onLoad={(e) => {
             if (toFixSize) {
               let img = document.createElement("img");
-              setImgSrc(e.target.src);
+              //setImgSrc(e.target.src);
+              img.src = e.target.src;
               img.addEventListener("load", function () {
                 setFixHeight((img.height / img.width) * 100);
                 img.remove();
