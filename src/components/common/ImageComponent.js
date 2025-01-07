@@ -15,6 +15,7 @@ const ImageComponent = ({
   alt,
   title,
   height = 100,
+  width = 100,
   imgHeight = '',
   border_radius = "5px",
   placeholderImg = "",
@@ -56,6 +57,7 @@ const ImageComponent = ({
       className={className}
       style={style}
       height={fixHeight || height}
+      width={width}
       border_radius={border_radius}
       is_cover={is_cover}
       background_color={background_color}
@@ -65,9 +67,9 @@ const ImageComponent = ({
       is_placeholder={imgRef.current?.src.includes('/images/imgPlaceholder')}
     >
         <img
-          src={!lazyLoad ? (src || placeholderSrc) : placeholderSrc}
-          className={`img ${src && lazyLoad ? "lazyload" : ""}`}
-          data-src={src|| placeholderSrc}
+          src={!lazyLoad ? (imgSrc || placeholderSrc) : placeholderSrc}
+          className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
+          data-src={ src|| placeholderSrc}
           //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
           alt={alt ?? "unknown-pic"}
           title={title}
@@ -117,12 +119,13 @@ export default ImageComponent;
 
 const ImageComponentElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["is_cover", "img_border", "continueWatch", 'imgHeight', 'is_placeholder'].includes(prop),
+    !["is_cover", "img_border", "continueWatch", 'imgHeight', 'is_placeholder','height','width','border_radius'].includes(prop),
 })`
   /*  */
   position: relative;
   overflow: hidden;
-  padding-bottom: ${({ height }) => height}%;
+  padding-bottom: ${({ height }) => typeof height === "string" && !(/^-?\d+(\.\d+)?$/.test(height)) ? height : `${height}%`};
+  padding-right: ${({ width }) => typeof width === "string" && !(/^-?\d+(\.\d+)?$/.test(width)) ? width : `${width}%`};
   width: 100%;
   background-color: ${({ background_color }) => background_color};
   border-radius: ${({ border_radius }) => border_radius};
