@@ -124,9 +124,9 @@ const HomeNovelsPage = () => {
             );
           })
           .sort((a, b) => b.id - a.id)
-          .map((data) => {
+          .map((data, i) => {
             return (
-              <Grid item md={2} xs={4} key={"小說 " + data.title}>
+              <Grid item md={2} xs={4} key={"小說 " + data.title + i}>
                 <NovelCard key={data.id} data={data} total_view_show />
               </Grid>
             );
