@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
 
 import toTopAnime from "@public/images/shared/top.json";
 import { useGlobalContext } from "@/store";
 
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 const ScrollToTop = () => {
-  if (window === undefined) {
+  if (typeof window === 'undefined') {
     return null;
   }
 
@@ -25,8 +27,10 @@ const ScrollToTop = () => {
     animeRef.current.play();
   }
   useEffect(() => {
-    animeRef.current.goToAndStop(300, true); // (幾豪秒的動畫,要不要秀)
-  }, []);
+    if (animeRef.current) {
+      animeRef.current.goToAndStop(300, true); // (幾豪秒的動畫,要不要秀)
+    }
+  }, [animeRef.current]);
   const scrollToTop = useCallback(() => {
     pause();
     window.scrollTo({ top: 0, behavior: "smooth" });

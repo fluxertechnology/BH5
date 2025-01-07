@@ -74,18 +74,26 @@ const CssTextField = MuiStyle(TextField)({
 
 const dbName = "bh5_post";
 var db;
-var request = indexedDB.open(dbName, 2);
-request.onupgradeneeded = function (event) {
-  db = event.target.result;
-  var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
-  objectStore.createIndex("name", "name", { unique: true });
-};
-request.onsuccess = function (event) {
-  db = event.target.result;
-};
+var request;
+
+if (typeof window !== "undefined") {
+  request = indexedDB.open(dbName, 2);
+  request.onupgradeneeded = function (event) {
+    db = event.target.result;
+    var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+    objectStore.createIndex("name", "name", { unique: true });
+  };
+  request.onsuccess = function (event) {
+    db = event.target.result;
+  };
+}
 const PostsAddPage = () => {
   const { state } = useGlobalContext();
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isClient } = useMediaQuery();
+
+  if (!isClient) {
+    return null;
+  }
   const [dynamicText, setDynamicText] = useState(
     window.localStorage.getItem("post_add_render_dynamicText") || ""
   );

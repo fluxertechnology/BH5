@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
 
 import { applyOriginal, colors, pageUrlConstants } from "@/lib/constants/index.js";
@@ -9,6 +9,8 @@ import WavaButton from "@/components/layout/Header/WavaButton";
 import openVip from "public/json/profile/open_vip.json";
 import moneyIcon from "public/images/post/money.svg";
 import Image from "next/image";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const AsideRecommend = ({ recommendList }) => {
   const AsideRecommendRef = useRef();
