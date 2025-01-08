@@ -81,7 +81,7 @@ export default function GlobalComponent() {
     if (typeof window !== "undefined") {
       useSaveStateData(state);
     }
-  }, [state.user]);
+  }, [state]);
  
 
   useEffect(() => {
