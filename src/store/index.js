@@ -389,7 +389,12 @@ export function useGlobalDispatch(callback) {
   if (typeof callback !== "function" && !!callback.type) {
     return context.dispatch(callback);
   }
-  return callback(context.dispatch);
+  return callback((subCallback) => {
+    if (typeof subCallback !== "function" && !!subCallback.type) {
+      return context.dispatch(subCallback);
+    }
+    return subCallback(context.dispatch);
+  });
 }
 
 const Store = {
