@@ -7,6 +7,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import PopupDialogLogin from "@/components/login/PopupComponentLogin";
 import PopupDialogRegister from "@/components/login/PopupComponentRegister";
 import PopupDialogRecoverPassword from "@/components/login/PopupComponentRecoverPassword";
+import PopupDialogResetPassword from "@/components/login/PopupComponentResetPassword";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { closePopup } from "@/store/actions/user";
 
@@ -133,6 +134,29 @@ const PopupDialog = () => {
               </p>
             </div>
             <PopupDialogRecoverPassword />
+          </div>
+        </PopupDialogWrapper>
+      )}
+      {popupType == "reset" && (
+        <PopupDialogWrapper>
+          <div className="card-container">
+            <div className="close-cont" onClick={closeModal}>
+              <FontAwesomeIcon
+                className="close-icon"
+                icon={faX}
+                style={{ color: "#434343" }}
+              />
+            </div>
+            <div className="card-header">
+              <h3 className="title-text">{t("Login.forget_password")}</h3>
+              <p className="subtitle-text">
+                {t("Register.have_acc")}
+                <span className="green cursor-pointer" onClick={toLogin}>
+                  {t("Login.login")}
+                </span>
+              </p>
+            </div>
+            <PopupDialogResetPassword />
           </div>
         </PopupDialogWrapper>
       )}

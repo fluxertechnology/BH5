@@ -1,8 +1,8 @@
 'use client';
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef,useCallback  } from "react";
+import { useState, useEffect, useRef, useCallback  } from "react";
 import styled from "styled-components";
-import { padding, REG_SET, requestUrlConstants } from "@/lib/constants";
+import { padding, REG_SET, requestUrlConstants, pageUrlConstants } from "@/lib/constants";
 import IconInput, { input_margin } from "@/components/login/IconInputComponent";
 import IconSelect from "@/components/login/IconSelectComponent";
 // import PropTypes from "prop-types";
@@ -11,9 +11,11 @@ import axiosRequest from "@/lib/services/axios";
 import callToast from "@/lib/services/toastCall";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { initAreaCode } from "@/store/actions/areaCode";
-import { verifyResetPassword } from "@/store/actions/pages/loginRecoverPasswordAction";
+import { replaceRoutes } from "@/store/actions/historyActions";
+import { verifyResetPassword, checkUsernameExist } from "@/store/actions/pages/loginRecoverPasswordAction";
 
 const { postGetVerify } = requestUrlConstants;
+const { login } = pageUrlConstants;
 
 const { qqReg, emailReq, alphanumericReq } = REG_SET;
 
@@ -23,9 +25,44 @@ const PopupDialogRecoverPassword = () => {
   const { state } = useGlobalContext();
   const stateAreaCode = state.areaCode;
 
-  const resetPassword = (data, callback) => {
-    useGlobalDispatch(verifyResetPassword(data, callback));
-  };
+
+  const resetPassword = (data, needCheck = false) => {
+    if(needCheck) {
+      useGlobalDispatch(verifyResetPassword(data, (check)=>{
+        if(check) {
+          useGlobalDispatch({
+            type: "STORE_TEMPORARYDATA",
+            data
+          })
+          useGlobalDispatch({
+            type: "UPDATE_POPUP_TYPE",
+            data: {
+              popupType: "reset",
+            },
+          });
+        };
+        //useGlobalDispatch(replaceRoutes(login.pages.resetPassword));
+      }));
+    } else {
+      useGlobalDispatch(checkUsernameExist(data, (check)=>{
+        if(check) {
+          useGlobalDispatch({
+            type: "STORE_TEMPORARYDATA",
+            data
+          })
+          useGlobalDispatch({
+            type: "UPDATE_POPUP_TYPE",
+            data: {
+              popupType: "reset",
+            },
+          });
+          //useGlobalDispatch(replaceRoutes(login.pages.resetPassword));
+        } else {
+          callToast('亲～找不到喔');
+        }
+      }));
+    }
+  }
 
   const loginTypeList = [
     {
@@ -172,6 +209,8 @@ const PopupDialogRecoverPassword = () => {
         break;
     }
   }
+
+
 
   return (
     <div className="card-body">

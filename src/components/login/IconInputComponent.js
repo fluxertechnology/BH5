@@ -107,6 +107,7 @@ export const IconInputElement = styled.label.withConfig({
       color: ${colors.text_grey};
       font-size: 18px;
       padding-left: ${({ have_icon }) => have_icon && "0 em"};
+      margin-left: ${({ have_icon }) => have_icon && "0.2vw !important"};
     }
     &::placeholder {
       color: #6f6f6f;
