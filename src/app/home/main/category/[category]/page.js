@@ -69,16 +69,23 @@ const HomeCategoryPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+  const [ isInit, setIsInit ] = useState(true);
   useEffect(() => {
-    getListData();
+    getListData(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type, pickCategory, pickPrice, title]);
+
+  useEffect(() => {
+    if (isInit) return;
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, pickCategory, pickPrice, title]);
+  }, [isInit]);
 
   function scrollEvent() {
+    console.log("scrollEvent");
     scrollBottomCallEvent((scrollColdEnd) => {
       getCategoryData(
         {
@@ -111,13 +118,15 @@ const HomeCategoryPage = () => {
     tabRef.current.style.height = "64px";
   }
 
-  function getListData() {
+  function getListData(init = false) {
     getCategoryData({
+      init,
       type: type,
       category: title,
       is_free: pickPrice,
       tag_gp: pickCategory,
-    });
+    }, () => { if (init) setIsInit(false) }
+    );
   }
   function onSelectCategory(name) {
     if (pickCategory.indexOf(name) !== -1) {

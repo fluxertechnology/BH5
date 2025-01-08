@@ -37,6 +37,12 @@ export const getCategoryDataAction = (data, callback) => {
         ? homeCategoryData[data.category].page + 1
         : 1
     );
+    const crrPage = formdata.get("page");
+    if (data.init && crrPage > 1) {
+      callback(false);
+      return;
+    }
+
     formdata.append("limit", categoryDataLimit);
     if (
       "韩漫".indexOf(data.category) != -1 ||
