@@ -22,9 +22,8 @@ function scrollBottomCallEvent(callback) {
 
 function itemScrollBottomCallEvent(item, callback) {
   if (!scrollColdDown) {
-    const modalBottom = item.getBoundingClientRect().bottom;
-    const itemHeight = item.clientHeight;
-    if (modalBottom >= itemHeight && modalBottom !== item.scrollHeight) {
+    const { scrollTop, scrollHeight, clientHeight } = item;
+    if (scrollTop + clientHeight >= scrollHeight) {
       scrollColdDown = true;
       callback(scrollCold);
       scrollColdDownTimer = setTimeout(() => {

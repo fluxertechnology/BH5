@@ -58,7 +58,7 @@ function saveContentData(storeData) {
     homeComicContentData: storeData.homeComicContentData,
     homeAnimesViewData: storeData.homeAnimesViewData,
     homeAnimesContentData: storeData.homeAnimesContentData,
-    homeSearchResultData: storeData.homeSearchResultData,
+    //homeSearchResultData: storeData.homeSearchResultData,
     homeVideo: storeData.homeVideo,
     homeLeaderBoard: storeData.homeLeaderBoard,
     homeVideoList: storeData.homeVideoList,
