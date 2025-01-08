@@ -27,7 +27,7 @@ const HomeCategoryPage = () => {
 
   const { isMobile } = useMediaQuery();
 
-  const title = useParams().category;
+  const title = decodeURIComponent(useParams().category);
 
   const tabRef = useRef(null);
 
@@ -198,7 +198,7 @@ const HomeCategoryPage = () => {
             </WavaButton>
           </div>
         </div>
-        {title !== t("Global.free_for_a_limited_time") ? (
+        {true || title !== t("Global.free_for_a_limited_time") ? (
           <div className="category_container_content">
             <div className="category_container_content_box">
               <TabLabel

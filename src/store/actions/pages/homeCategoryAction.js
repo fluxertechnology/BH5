@@ -52,9 +52,9 @@ export const getCategoryDataAction = (data, callback) => {
     if (data.tag_gp.length !== 0) {
       formdata.append("tag_gp", data.tag_gp.join(",")); // 標籤 后宫,萝莉,女僕 不傳 全部
     }
-    if ("免费看".indexOf(data.category) !== -1) {
-      formdata.append("limit_free_time", 1);
-    }
+    //if ("免费看".indexOf(data.category) !== -1) {
+    //  formdata.append("limit_free_time", 1);
+    //}
     // 查看 formdata
     // for (var pair of formdata.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
