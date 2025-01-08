@@ -27,7 +27,13 @@ const HomeCategoryPage = () => {
 
   const { isMobile } = useMediaQuery();
 
-  const title = decodeURIComponent(useParams().category);
+  const titleLocale = {
+    'K-Comics': "韩漫",
+    'Dojin': "同人",
+    'Free Watch': "Free",
+  }
+  const decodeTitle = decodeURIComponent(useParams().category);
+  const title = titleLocale[decodeTitle] ?? decodeTitle;
 
   const tabRef = useRef(null);
 
