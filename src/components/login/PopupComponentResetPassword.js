@@ -60,10 +60,10 @@ const PopupDialogResetPassword = ({ closePopup }) => {
 				}
 				resetPasswordSubmit(data);
 			} else {
-				toastCall(intl.formatMessage({ id: 'LOGIN.TIP.NOREPEAT.PASSWORD' }));
+				toastCall(t('Login.tip_norepeat_password'))
 			}
 		} else {
-			toastCall(intl.formatMessage({ id: 'LOGIN.TIP.ERROR.MUST' }));
+			toastCall(t('Login.tip_error_must'))
 		}
 	}
 
