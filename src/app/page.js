@@ -15,10 +15,12 @@ import { DownloadCoverElement } from "@/components/start/DownloadCover";
 
 import { checkDataExpired } from "@/store/actions/utilities";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { backRoutes } from "@/store/actions/historyActions";
+import { pushRoutes } from "@/store/actions/historyActions";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { pageUrlConstants } from "@/lib/constants";
 
 const startpageBg = "/images/start/startpage.jpg";
+const { home } = pageUrlConstants;
 
 const StartPage = () => {
   const { state } = useGlobalContext();
@@ -33,7 +35,7 @@ const StartPage = () => {
   // }, []);
 
   const closeAds = () => {
-    useGlobalDispatch(backRoutes());
+    useGlobalDispatch(pushRoutes(home.pages.homeMain));
   };
 
   useEffect(() => {
