@@ -758,7 +758,6 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
                           e.preventDefault();
                         }}
                       >
-                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" />
                         <source src={media_value + "#t=0.1"} />
                       </video>
                     </>
@@ -1475,6 +1474,7 @@ export const PostCardItemElement = styled.div.withConfig({
           padding: 2px 10px;
           border: 1px solid #fff;
           border-radius: 30px;
+          display: flex;
 
           &_icon {
             width: 20px;
