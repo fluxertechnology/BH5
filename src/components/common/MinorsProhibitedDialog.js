@@ -8,8 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { colors, pageUrlConstants } from "@/lib/constants";
-import { pushRoutes } from "@/store/actions/historyActions";
 import { useGlobalDispatch } from "@/store";
+import { openPopup } from "@/store/actions/user";
 import Image from "next/image";
 
 const { login } = pageUrlConstants;
@@ -86,8 +86,7 @@ const MinorsProhibitedDialog = () => {
   };
   const handleToLogin = () => {
     setOpen(false);
-    window.localStorage.setItem("MinorsProhibitedDialog", Date.now());
-    useGlobalDispatch(pushRoutes(login));
+    useGlobalDispatch(openPopup("login"));
   };
 
   return (

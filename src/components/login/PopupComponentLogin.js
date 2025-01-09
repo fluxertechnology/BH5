@@ -45,12 +45,12 @@ const PopupDialogLogin = () => {
     setAccountId("");
 
     console.log(loginType);
-    
+
     setType(loginType);
     console.log("type: " + type);
-    
+
   };
-  
+
   const showPassword = () => {
     var passwordInput = passwordRef.current;
     if (passwordInput.type === "password") {
@@ -309,19 +309,21 @@ const PopupDialogLogin = () => {
                 <label className="form-label">{t("Register.password")}</label>
                 <label className="form-label forget" onClick={toForgetPassword}>{t("Login.forget_password")}</label>
               </div>
-              <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+              <div className="relative">
+                <IconInput
+                  required
+                  className="input_content_box_input"
+                  ref={passwordRef}
+                  inputType="password"
+                  value={password}
+                  callback={passwordEvent}
+                  placeholder={t("Login.placeholder_password")}
+                  enterKeyHint="done"
+                />
+                <div className="eye-cont" onClick={showPassword}>
+                  <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+                </div>
               </div>
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={passwordRef}
-                inputType="password"
-                value={password}
-                callback={passwordEvent}
-                placeholder={t("Login.placeholder_password")}
-                enterKeyHint="done"
-              />
             </div>
             <div className="btn-wrapper" onClick={userSubmit}>
               <button className="submit-btn">{t("Login.login")}</button>
@@ -330,28 +332,28 @@ const PopupDialogLogin = () => {
 
           <div className="fast-login">
             <div className="user-login" onClick={() => clearFormInput("phone")}>
-              <div className="phone-icon-wrapper" style={{backgroundColor: "#646464", borderRadius: "999px"}}>
-                <FontAwesomeIcon className="phone-icon" icon={faMobileScreen} style={{color: "#ffffff"}} />
+              <div className="phone-icon-wrapper" style={{ backgroundColor: "#646464", borderRadius: "999px" }}>
+                <FontAwesomeIcon className="phone-icon" icon={faMobileScreen} style={{ color: "#ffffff" }} />
               </div>
-              <p>{ t("Login.phone") }</p>
+              <p>{t("Login.phone")}</p>
             </div>
             <div className="user-login" onClick={() => clearFormInput("email")}>
-              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
-              <p>{ t("Login.email") }</p>
+              <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{ color: "#434343" }} />
+              <p>{t("Login.email")}</p>
             </div>
             <div className="user-login" onClick={() => clearFormInput("qq")}>
               <img className="mail-icon" src="/images/login/icon-qq.svg" />
-              <p>{ t("Login.qqLogin") }</p>
+              <p>{t("Login.qqLogin")}</p>
             </div>
           </div>
-        
+
         </>
       )}
       {(type === "phone" || type === "email" || type === "qq") && (
         <>
           <div>
             <div className="form-item">
-              <label className="form-label">{ t("Login.others") }</label>
+              <label className="form-label">{t("Login.others")}</label>
               <div className="input_content_box">
                 <IconInput
                   ref={phoneNumberRef}
@@ -368,13 +370,10 @@ const PopupDialogLogin = () => {
             </div>
             <div className="form-item other-type">
               <div className="form-label-cont">
-                <label className="form-label">{ t("Register.password") }</label>
-                <label className="form-label forget" onClick={toForgetPassword}>{ t("Login.forget_password") }</label>
+                <label className="form-label">{t("Register.password")}</label>
+                <label className="form-label forget" onClick={toForgetPassword}>{t("Login.forget_password")}</label>
               </div>
-              <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{color: "#c6c6c6"}} />
-              </div>
-              <div className="input_content_box">
+              <div className="input_content_box relative">
                 <IconInput
                   ref={passwordRef}
                   icon={"/images/icons/lock.png"}
@@ -384,43 +383,46 @@ const PopupDialogLogin = () => {
                   placeholder={t("Login.placeholder_password")}
                   enterKeyHint="done"
                 />
+                <div className="eye-cont" onClick={showPassword}>
+                  <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+                </div>
               </div>
             </div>
             <div className="btn-wrapper" onClick={userOtherSubmit}>
-              <button className="submit-btn">{ t("Login.login") }</button>
+              <button className="submit-btn">{t("Login.login")}</button>
             </div>
           </div>
 
           <div className="fast-login">
             <div className="user-login" onClick={() => clearFormInput("general")}>
-              <FontAwesomeIcon className="mail-icon" icon={faUserCircle} style={{color: "#646464"}} />
-              <p>{ t("Login.general") }</p>
+              <FontAwesomeIcon className="mail-icon" icon={faUserCircle} style={{ color: "#646464" }} />
+              <p>{t("Login.general")}</p>
             </div>
 
-            { type !== "phone" &&(
-                <div className="user-login" onClick={() => clearFormInput("phone")}>
-                  <div className="phone-icon-wrapper" style={{backgroundColor: "#646464", borderRadius: "999px"}}>
-                    <FontAwesomeIcon className="phone-icon" icon={faMobileScreen} style={{color: "#ffffff"}} />
-                  </div>
-                  <p>{ t("Login.phone") }</p>
+            {type !== "phone" && (
+              <div className="user-login" onClick={() => clearFormInput("phone")}>
+                <div className="phone-icon-wrapper" style={{ backgroundColor: "#646464", borderRadius: "999px" }}>
+                  <FontAwesomeIcon className="phone-icon" icon={faMobileScreen} style={{ color: "#ffffff" }} />
                 </div>
-              )
+                <p>{t("Login.phone")}</p>
+              </div>
+            )
             }
-            { type !== "email" &&(
-                <div className="user-login" onClick={() => clearFormInput("email")}>
-                 <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{color: "#434343"}} />
-                 <p>{ t("Login.email") }</p>
-               </div>
-              )
+            {type !== "email" && (
+              <div className="user-login" onClick={() => clearFormInput("email")}>
+                <FontAwesomeIcon className="mail-icon" icon={faEnvelope} style={{ color: "#434343" }} />
+                <p>{t("Login.email")}</p>
+              </div>
+            )
             }
-            { type !== "qq" &&(
-                <div className="user-login" onClick={() => clearFormInput("qq")}>
-                  <img className="mail-icon" src="/images/login/icon-qq.svg" />
-                  <p>{ t("Login.qqLogin") }</p>
-                </div>
-              )
+            {type !== "qq" && (
+              <div className="user-login" onClick={() => clearFormInput("qq")}>
+                <img className="mail-icon" src="/images/login/icon-qq.svg" />
+                <p>{t("Login.qqLogin")}</p>
+              </div>
+            )
             }
-            
+
           </div>
 
         </>

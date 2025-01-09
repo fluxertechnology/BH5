@@ -193,6 +193,7 @@ export const PopupDialogWrapper = styled.div`
       max-height: 100%;
     }
     @media (max-width: 768px) {
+      min-width: auto;
       width: 80vw;
       padding: 10.542vw 7.75vw;
       max-height: 100%;
@@ -359,7 +360,7 @@ export const PopupDialogWrapper = styled.div`
       top:50%;
       transform: translateY(-50%);
       line-height: 0;
-      margin: 0.573vw;
+      margin: 0 0.573vw;
       z-index: 6;
       cursor: pointer;
       @media (min-width: 769px) and (max-width:1024px) {
@@ -422,7 +423,7 @@ export const PopupDialogWrapper = styled.div`
     .eye-cont{
       position: absolute;
       line-height: 0;
-      margin: 0.573vw;
+      margin: 0 0.573vw;
       z-index: 6;
       cursor: pointer;
     }

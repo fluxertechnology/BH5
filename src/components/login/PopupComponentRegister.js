@@ -329,20 +329,21 @@ const PopupDialogRegister = () => {
             </div>
             <div className="form-item">
               <label className="form-label">{t("Register.password")}</label>
-              <IconInput
-                required
-                className="input_content_box_input"
-                ref={passwordRef}
-                inputType="password"
-                value={password}
-                callback={passwordEvent}
-                placeholder={t("Login.placeholder_password")}
-                enterKeyHint="done"
-              >
+              <div className="relative">
+                <IconInput
+                  required
+                  className="input_content_box_input"
+                  ref={passwordRef}
+                  inputType="password"
+                  value={password}
+                  callback={passwordEvent}
+                  placeholder={t("Login.placeholder_password")}
+                  enterKeyHint="done"
+                />
                 <div className="eye-cont" onClick={showPassword}>
                   <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
                 </div>
-                </IconInput>
+              </div>
             </div>
             <div className="btn-wrapper" onClick={signupUserSubmit}>
               <button className="submit-btn">{t("Login.register")}</button>
@@ -384,20 +385,22 @@ const PopupDialogRegister = () => {
             </div>
             <div className="form-item">
               <label className="form-label">{t("Register.password")}</label>
-              <div className="eye-cont" onClick={showPassword}>
-                <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+              <div className="relative">
+                <IconInput
+                  required
+                  disabled={loginType == 3}
+                  className="input_content_box_input"
+                  ref={passwordRef}
+                  inputType="password"
+                  value={password}
+                  callback={passwordEvent}
+                  placeholder={t("Login.placeholder_password")}
+                  enterKeyHint="done"
+                />
+                <div className="eye-cont" onClick={showPassword}>
+                  <FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+                </div>
               </div>
-              <IconInput
-                required
-                disabled={loginType == 3}
-                className="input_content_box_input"
-                ref={passwordRef}
-                inputType="password"
-                value={password}
-                callback={passwordEvent}
-                placeholder={t("Login.placeholder_password")}
-                enterKeyHint="done"
-              />
             </div>
 
             {loginType == 3 && <div className="input_content_box email-verify-box">

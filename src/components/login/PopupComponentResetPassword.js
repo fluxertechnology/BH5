@@ -11,6 +11,8 @@ import Image from 'next/image';
 import { backRoutes, replaceRoutes } from '@/store/actions/historyActions';
 import { toResetPassword } from '@/store/actions/pages/loginResetPasswordAction';
 import { closePopup } from '@/store/actions/user';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const { login } = pageUrlConstants;
 
@@ -41,6 +43,7 @@ const PopupDialogResetPassword = ({ closePopup }) => {
 			newPasswordRef.current.focus();
 		}
 	}
+
 	function newPasswordEvent(e) {
 		var key = window.event ? e.keyCode : e.which;
 		setNewPassword(e.target.value);
@@ -80,7 +83,7 @@ const PopupDialogResetPassword = ({ closePopup }) => {
 		useGlobalDispatch(toResetPassword(dataQuery, (check) => {
 			if (check) {
 				toastCall('请牢记您的新密码!请退出账号再重新登陆防止忘记哦~~！！');
-        closeModal();
+				closeModal();
 			}
 		}));
 	};
@@ -96,6 +99,19 @@ const PopupDialogResetPassword = ({ closePopup }) => {
 		useGlobalDispatch(closePopup());
 	};
 
+	const showPassword = () => {
+		const refs = [oldPasswordRef, passwordRef, newPasswordRef];
+		refs.forEach(ref => {
+		  if (ref.current && ref.current.type) {  // Check if ref.current is not null and has type
+			if (ref.current.type === "password") {
+			  ref.current.type = "text";
+			} else {
+			  ref.current.type = "password";
+			}
+		  }
+		});
+	  };
+
 	return (
 		<div className='card-body'>
 			<div>
@@ -107,15 +123,16 @@ const PopupDialogResetPassword = ({ closePopup }) => {
 									className='input_content_box_input'
 									ref={oldPasswordRef}
 									icon='/images/icons/lock.png'
-									inputType='text'
+									inputType='password'
 									value={oldPassword}
 									callback={oldPasswordEvent}
 									placeholder={t('Login.placeholder_again_password')}
-									placeholder={intl.formatMessage({
-										id: 'LOGIN.PLACEHOLDER.AGAIN_PASSWORD',
-									})}
 									enterKeyHint='next'
-								/>
+								>
+								</IconInput>
+								<div className="eye-cont" onClick={showPassword}>
+									<FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+								</div>
 							</div>
 						)
 						: (
@@ -124,27 +141,36 @@ const PopupDialogResetPassword = ({ closePopup }) => {
 				</div>
 				<div className='form-item'>
 					<IconInput
+						required
 						className='input_content_box_input'
 						ref={passwordRef}
 						icon='/images/icons/lock.png'
-						inputType='text'
+						inputType='password'
 						value={password}
 						callback={passwordEvent}
-						placeholder={t('Login.placeholder_new_password')}
+						placeholder={t("Login.placeholder_new_password")}
 						enterKeyHint='next'
-					/>
+					>
+					</IconInput>
+					<div className="eye-cont" onClick={showPassword}>
+						<FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+					</div>
 				</div>
 				<div className='form-item'>
 					<IconInput
 						className='input_content_box_input'
 						ref={newPasswordRef}
 						icon='/images/icons/lock.png'
-						inputType='text'
+						inputType='password'
 						value={newPassword}
 						callback={newPasswordEvent}
 						placeholder={t('Login.placeholder_again_password')}
 						enterKeyHint='done'
-					/>
+					>
+					</IconInput>
+					<div className="eye-cont" onClick={showPassword}>
+						<FontAwesomeIcon className="eye-icon" icon={faEye} style={{ color: "#c6c6c6" }} />
+					</div>
 				</div>
 
 				<div className='btn-wrapper' onClick={submitPassword}>
