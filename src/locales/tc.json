@@ -236,6 +236,7 @@
     "all": "全部",
     "free": "免费",
     "payment": "付费",
+    "subscribe": "订阅",
     "list": "目录",
     "clean": "清空",
     "setting": "Aa 设置",
@@ -325,9 +326,14 @@
     "friendly_comment": "发条友善评论",
     "news": "最新贴文",
     "focus": "关注",
+    "focused": "已关注",
     "recommend": "精选色友",
     "recommend_original": "推荐原创主",
     "post_article": "建立贴文",
+    "posts": "贴文",
+    "follower": "粉丝",
+    "click_subscribe": "点我订阅",
+    "click_subscribed": "已订阅",
     "notice": "动态通知",
     "notify": "通知",
     "go_search": "前往游览",
@@ -342,7 +348,8 @@
     "placeholder_donate": "打赏",
     "placeholder_donate_diamond": "精钻打赏",
     "placeholder_think_again": "再想一下",
-    "thx_support": "感谢支持 (ﾉ◕ヮ◕)ﾉ*:‧ﾟ✧"
+    "thx_support": "感谢支持 (ﾉ◕ヮ◕)ﾉ*:‧ﾟ✧",
+    "recommend_author":"推薦原創主"
   },
   "Profile": {
     "build": {

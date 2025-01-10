@@ -10,10 +10,12 @@ import openVip from "public/json/profile/open_vip.json";
 import moneyIcon from "public/images/post/money.svg";
 import Image from "next/image";
 import ImageComponent from "@/components/common/ImageComponent";
+import { useTranslations } from 'next-intl';
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const AsideRecommend = ({ recommendList }) => {
+  const t = useTranslations('Post');
   const AsideRecommendRef = useRef();
   const [stickyHeight, setStickyHeight] = useState(0);
 
@@ -39,7 +41,7 @@ const AsideRecommend = ({ recommendList }) => {
         <Lottie animationData={openVip} loop={true} alt="open vip" />
       </LinkComponent>
       <div className="aside_recommend_container">
-        <div className=" title_recommend">推薦原創主</div>
+        <div className=" title_recommend">{t("recommend_author")}</div>
         {recommendList.map((data) => (
           <div className="aside_recommend_field fw-s" key={data.uid}>
             <LinkComponent
@@ -53,7 +55,7 @@ const AsideRecommend = ({ recommendList }) => {
                 },
               }}
             >
-              <ImageComponent src={data.avatar} height="2.344vw" width="2.344vw" border_radius="50px"  alt={data.nick_name} draggable={false} />
+              <ImageComponent src={data.avatar} height="2.344vw" width="2.344vw" border_radius="50px" alt={data.nick_name} draggable={false} />
             </LinkComponent>
             {data.nick_name}
           </div>

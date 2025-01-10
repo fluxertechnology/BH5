@@ -92,15 +92,15 @@ const PostsProfilePage = ({
     const [nowGuide, setNowGuide] = useState(0);
     const [contentGuide, setContentGuide] = useState(() => [
         {
-            title: "全部",
+            title: t('Global.all'),
             key: "total",
         },
         {
-            title: "付费",
+            title: t('Global.payment'),
             key: "is_topay",
         },
         {
-            title: "订阅",
+            title: t('Global.subscribe'),
             key: "is_subscription",
         },
     ]);
@@ -193,26 +193,26 @@ const PostsProfilePage = ({
         if (is_creation) {
             setContentGuide(() => [
                 {
-                    title: "全部",
+                    title:  t('Global.all'),
                     key: "total",
                 },
                 {
-                    title: "付费",
+                    title: t('Global.payment'),
                     key: "is_topay",
                 },
                 {
-                    title: "订阅",
+                    title: t('Global.subscribe'),
                     key: "is_subscription",
                 },
             ]);
         } else {
             setContentGuide(() => [
                 {
-                    title: "全部",
+                    title:  t('Global.all'),
                     key: "total",
                 },
                 {
-                    title: "付费",
+                    title: t('Global.payment'),
                     key: "is_topay",
                 },
             ]);
@@ -504,19 +504,19 @@ const PostsProfilePage = ({
                                 <div className="post_information_content_bottom_item_mount">
                                     {post_count}
                                 </div>
-                                贴文
+                                {t('Post.posts')}
                             </span>
                             <span className="post_information_content_bottom_item">
                                 <div className="post_information_content_bottom_item_mount">
                                     {fans_count}
                                 </div>
-                                粉丝
+                                {t('Post.follower')}
                             </span>
                             <span className="post_information_content_bottom_item">
                                 <div className="post_information_content_bottom_item_mount">
                                     {attention_count}
                                 </div>
-                                关注
+                                {t('Post.focus')}
                             </span>
                         </section>
                     </article>
@@ -541,11 +541,11 @@ const PostsProfilePage = ({
                                                 : setShowNoScribe(true)
                                         }
                                     >
-                                        <WavaButton>点我訂閱(ゝ∀･)</WavaButton>
+                                        <WavaButton>{t('Post.click_subscribe')}(ゝ∀･)</WavaButton>
                                     </section>
                                 ) : (
                                     <section className="post_effect_subscribe">
-                                        <WavaButton>已訂閱</WavaButton>
+                                        <WavaButton>{t('Post.click_subscribed')}</WavaButton>
                                     </section>
                                 )
                             ) : (
@@ -559,13 +559,13 @@ const PostsProfilePage = ({
                                     setShowDonate(true);
                                 }}
                             >
-                                <WavaButton>打赏</WavaButton>
+                                <WavaButton>{t('Post.placeholder_donate')}</WavaButton>
                             </section>
                             <section
                                 className="post_effect_bottom_follow"
                                 onClick={() => postCardAttentionEvent(localState.postProfile.profile)}
                             >
-                                <WavaButton>{is_attention ? "已关注" : "关注"}</WavaButton>
+                                <WavaButton>{is_attention ? `${t('Post.focused')}` : `${t('Post.focus')}`}</WavaButton>
                             </section>
                         </section>
                     </section>
@@ -1097,6 +1097,8 @@ const PostsProfileContent = styled.article.withConfig({
       &_item {
         font-size: 18px;
         cursor: pointer;
+        min-width:30px;
+        text-align:center;
         color: ${colors.text_grey};
         &:hover {
           color: ${colors.dark_pink};

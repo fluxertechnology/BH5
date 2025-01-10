@@ -236,6 +236,7 @@
     "all": "All",
     "free": "Free",
     "payment": "Paid",
+    "subscribe": "Subsribe",
     "list": "Menu",
     "clean": "Clear",
     "setting": "Aa",
@@ -324,9 +325,14 @@
     "friendly_comment": "Leave a Comment",
     "news": "Latest",
     "focus": "Follow",
+    "focused": "Followed",
     "recommend": "Featured Porn Friends",
     "recommend_original": "Recommend The Original Owner",
     "post_article": "Post Article",
+    "posts": "Posts",
+    "follower": "Follower",
+    "click_subscribe": "Click To Subscribe",
+    "click_subscribed": "Subscribed",
     "notice": "Dynamic Notice",
     "notify": "Notify",
     "go_search": "Search",
@@ -338,10 +344,11 @@
     "know": "I Know",
     "unlock_watch": "Unlock",
     "placeholder_donate_money": "Donate B Coins",
-    "placeholder_donate": "Diamond Donate",
-    "placeholder_donate_diamond": "Donate",
+    "placeholder_donate": "Donate",
+    "placeholder_donate_diamond": "Diamond Donate",
     "placeholder_think_again": "Cancel",
-    "thx_support": "Thank you(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
+    "thx_support": "Thank you(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+    "recommend_author":"Recommended Author"
   },
   "Profile": {
     "build": {
