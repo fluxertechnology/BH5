@@ -5,7 +5,8 @@ let __FILTER_DOMAIN = [
   "ph.pklpubq.cn",
   "os.pklpubq.cn",
   "ph.bnmnm1.cn",
-  "os.bnmnm1.cn"
+  "os.bnmnm1.cn",
+  "ph-ph.gjnov.cn",
 ];
 
 // 當service worker在「安裝階段」時會觸發此事件
