@@ -394,7 +394,7 @@ function ProfileMission() {
                       index,
                       item.is_show,
                       item.sign,
-                      checkin[0].reward_type
+                      1 || checkin[0].reward_type
                     )
                   }
                 >
