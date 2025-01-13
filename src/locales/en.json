@@ -112,7 +112,8 @@
     "cancel": "cancel",
     "download_app": "app download",
     "download_app_description": "Scan the QR code to download the mobile app and receive free VIP",
-    "download_app_description_1": "*Only for new mobile users"
+    "download_app_description_1": "*Only for new mobile users",
+    "episode": "Episode {number}"
   },
   "Footer": {
     "user": {

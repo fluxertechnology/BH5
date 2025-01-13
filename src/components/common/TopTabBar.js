@@ -43,7 +43,7 @@ const StyledTabs = styled((props) => (
   />
 ))(({ theme }) => ({
   "& .MuiTabs-root": {
-    overflowX:"auto",
+    overflowX: "auto",
   },
   "& .MuiTabs-indicator": {
     display: "none",
@@ -57,6 +57,9 @@ const StyledTabs = styled((props) => (
   },
   "& .MuiTabs-flexContainer": {
     height: "100%",
+    display: "flex",
+    flexWrap: "nowrap", // Prevent line breaks
+    justifyContent: "start", // Align items at the start
   },
   "& .MuiTabs-indicatorSpan": {
     width: "100%",
@@ -67,9 +70,14 @@ const StyledTabs = styled((props) => (
     // height: "40px",
   },
   "& .MuiTabs-scroller": {
-    width: "auto",
-    flex: "none",
+    overflowX: "auto", // Allow horizontal scrolling
+    flexWrap: "nowrap", // Prevent tabs from wrapping into multiple rows
+    WebkitOverflowScrolling: "touch", // Smooth scrolling for mobile
   },
+  "& .Mui-disabled": {
+    display: "none" ,
+  }
+  
 }));
 const lang = Cookies.get("NEXT_LOCALE");
 
@@ -258,14 +266,14 @@ const TopTabBar = ({
                     key={labelKey}
                     className="top_bar_url_item"
                     style={{
-                      color: nowKey === labelKey ? '#fff': "#fff",
+                      color: nowKey === labelKey ? '#fff' : "#fff",
                       background: backgroundColor,
                       // padding: '10px',
                       borderRadius: '1.733vw',
                       // marginRight: '5px', 
-                      display: 'flex', 
-                      justifyContent:'center',
-                      alignItems:'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}
                     onClick={() => {
                       onClickTab(labelKey);
@@ -309,9 +317,10 @@ const TopTabBar = ({
       ) : (
         <TopTabBarElement
           type={type}
-          className={`${!disabledIndent && "w-full "} `}
+          className={`${!disabledIndent && "w-auto !overflow-x-auto"} `}
         >
-          <StyledTabs value={nowKey} onChange={handleChange} className={"max-w-[57.5vw] md:max-w-[65vw] !overflow-x-auto"}>
+          <StyledTabs value={nowKey} onChange={handleChange} className={"category_list"}  variant="scrollable"
+  scrollButtons="auto" >
             {labelListKey.map((labelKey, index) => {
 
               const bgColors = categoryColors[index % categoryColors.length] || ["#333333"];
@@ -482,7 +491,7 @@ export const TopTabBarElement = styled.div`
   justify-content: space-between;
   align-items: start;
   padding-top:3px;
-  height: ${({ type }) => (type === 1 ? sub_height  : main_height)}px;
+  height: ${({ type }) => (type === 1 ? sub_height : main_height)}px;
   background-color: #fff;
   padding-right: 5vw;
   padding-left: 5vw;
@@ -499,8 +508,14 @@ export const TopTabBarElement = styled.div`
     padding-left: 11.927vw;
   }
 
-  category_list{
+  .category_list{
     width: 57.5vw;
+    overflow-x:auto;
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      width: 65vw;
+      margin: auto 0;
+    }
   }
 
   img {
