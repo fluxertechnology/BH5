@@ -45,7 +45,7 @@ const HomePhotosPage = () => {
     tabBar.addEventListener("wheel", photoWheelEvent);
     window.addEventListener("scroll", scrollEvent);
     if (list[nowTab]?.page === 0 || list[nowTab] === undefined) {
-      updatePhotosData(nowTab, () => {});
+      updatePhotosData(nowTab, () => { });
     }
     return () => {
       tabBar.removeEventListener("wheel", photoWheelEvent);
@@ -55,7 +55,7 @@ const HomePhotosPage = () => {
   }, [nowTab]);
 
   useEffect(() => {
-    updatePhotosData(nowTab, () => {});
+    updatePhotosData(nowTab, () => { });
   }, []);
 
   function scrollEvent() {
@@ -97,7 +97,7 @@ const HomePhotosPage = () => {
   const clickTabEvent = (id) => {
     useGlobalDispatch(setNowTabList(id));
   };
-  const updatePhotosData = (cateId, scrollColdEnd = () => {}) => {
+  const updatePhotosData = (cateId, scrollColdEnd = () => { }) => {
     useGlobalDispatch(getPhotosDataAction(cateId, scrollColdEnd));
   };
   return (
@@ -159,6 +159,7 @@ const HomePhotosPage = () => {
               <ImageCarousel
                 adsKey={adsKeys.profile_interval}
                 threeInOneBanner={!isMobile}
+                size="banner_ads"
               />
             )}
           </div>
