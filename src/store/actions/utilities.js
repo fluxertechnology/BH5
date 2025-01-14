@@ -6,6 +6,7 @@ import {
 import callToast from "@/lib/services/toastCall";
 import store from "@/store";
 import { pushRoutes, replaceRoutes } from "./historyActions";
+import { openPopup } from "@/store/actions/user";
 import { buyContentAction, setOutOfQuotaDataAction } from "./outOfQuotaData";
 import { blockStateAction } from "./routesGuard";
 import { updateUserDataAction } from "./user";
@@ -127,7 +128,8 @@ export const checkinPageConditioncheckAction =
       if (checkOnPage) {
         dispatch(blockStateAction(true));
       }
-      useGlobalDispatch(pushRoutes(login));
+      // useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup('login'));
     } else {
       // 差距在 500 豪秒以內就不重覆扣除
       let nowTime = Date.now();

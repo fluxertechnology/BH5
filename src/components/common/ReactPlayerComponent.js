@@ -28,6 +28,7 @@ import { navigatorShare, postAddWatchHistory } from "@/store/actions/utilities";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { pushRoutes } from "@/store/actions/historyActions";
+import { openPopup } from "@/store/actions/user";
 import { getContinueWatchData } from "@/store/actions/pages/homeMainAction";
 
 export const PlyrVideoType = {
@@ -37,7 +38,7 @@ export const PlyrVideoType = {
   2: "video",
 };
 
-const MuiButton = muiStyled((props) => <Button {...props} />)(({}) => ({
+const MuiButton = muiStyled((props) => <Button {...props} />)(({ }) => ({
   "&.MuiButton-root": {
     color: "#fff",
     borderRadius: 35,
@@ -183,7 +184,8 @@ const ReactPlayerComponent = ({
   }
 
   const toLogin = () => {
-    useGlobalDispatch(pushRoutes(login));
+    // useGlobalDispatch(pushRoutes(login));
+    useGlobalDispatch(openPopup("login"));
   };
   const toAnimePage = (id, title, episode) => {
     useGlobalDispatch(
@@ -260,18 +262,18 @@ const ReactPlayerComponent = ({
           </section>
         ) : (
           <section className="react_player_container">
-               <ReactPlayer
-                ref={reactPlayerRef}
-                url={src}
-                onPause={plyrPause}
-                className="react_player"
-                onEnded={onPlayEnd}
-                loop={false}
-                controls
-                onProgress={onProgress}
-                playing
-              />
-              {showRecommendAnime && (
+            <ReactPlayer
+              ref={reactPlayerRef}
+              url={src}
+              onPause={plyrPause}
+              className="react_player"
+              onEnded={onPlayEnd}
+              loop={false}
+              controls
+              onProgress={onProgress}
+              playing
+            />
+            {showRecommendAnime && (
               <section className="g-flex">
                 <section className="react_player_next_container">
                   <section className="react_player_next_area ">

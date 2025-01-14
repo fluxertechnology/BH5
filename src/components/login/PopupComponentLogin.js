@@ -274,6 +274,7 @@ const PopupDialogLogin = () => {
     useGlobalDispatch(userFBLoginAction(props, callback));
   };
   const userLoginSuccess = () => {
+    useGlobalDispatch(closePopup());
     const breadcrumbsData = [...state.breadcrumbs];
     breadcrumbsData.reverse();
     for (let i = 0; i < breadcrumbsData.length; i++) {

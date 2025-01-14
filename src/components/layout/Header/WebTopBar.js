@@ -400,7 +400,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   const clearUserData = () => {
     useGlobalDispatch(userLoginOutAction());
     useGlobalDispatch(clearVipInfoAction());
-    useGlobalDispatch(backRoutes());
+    // useGlobalDispatch(backRoutes());
     useGlobalDispatch(userFBLoginOutAction());
     useGlobalDispatch(initPostData());
   };
