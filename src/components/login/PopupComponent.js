@@ -367,7 +367,7 @@ export const PopupDialogWrapper = styled.div`
         transform: translateY(0%);
       }
       @media (max-width: 768px) {
-        transform: translateY(-30%);
+        transform: translateY(-50%);
       }
     }
 

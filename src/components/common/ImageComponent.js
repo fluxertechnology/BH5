@@ -71,34 +71,34 @@ const ImageComponent = ({
       imgHeight={imgHeight}
       is_placeholder={imgRef.current?.src.includes('/images/imgPlaceholder')}
     >
-        <img
-          src={!lazyLoad ? (imgSrc || placeholderSrc) : placeholderSrc}
-          className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
-          data-src={ src|| placeholderSrc}
-          //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
-          alt={alt ?? "unknown-pic"}
-          title={title}
-          style={imgStyle}
-          onContextMenu={preventMenu}
-          onLoad={(e) => {
-            if (toFixSize) {
-              let img = document.createElement("img");
-              //setImgSrc(e.target.src);
-              img.src = e.target.src;
-              img.addEventListener("load", function () {
-                setFixHeight((img.height / img.width) * 100);
-                img.remove();
-              });
-            }
-          }}
-          onError={(e) => {
-            //setImgSrc("/images/imgPlaceholder/300x300.jpg");
-            e.target.src = placeholderSrc
-          }}
-          draggable="false"
-          {...props}
-          ref={imgRef}
-        />
+      <img
+        src={!lazyLoad ? (imgSrc || placeholderSrc) : placeholderSrc}
+        className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
+        data-src={src || placeholderSrc}
+        //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
+        alt={alt ?? "unknown-pic"}
+        title={title}
+        style={imgStyle}
+        onContextMenu={preventMenu}
+        onLoad={(e) => {
+          if (toFixSize) {
+            let img = document.createElement("img");
+            //setImgSrc(e.target.src);
+            img.src = e.target.src;
+            img.addEventListener("load", function () {
+              setFixHeight((img.height / img.width) * 100);
+              img.remove();
+            });
+          }
+        }}
+        onError={(e) => {
+          //setImgSrc("/images/imgPlaceholder/300x300.jpg");
+          e.target.src = placeholderSrc
+        }}
+        draggable="false"
+        {...props}
+        ref={imgRef}
+      />
 
       {isFree && <div className="free_tip">{t("Global.free")}</div>}
       {!!total_view_show && (
@@ -114,7 +114,10 @@ const ImageComponent = ({
         </div>
       )}
       {!!continueWatch && (
-        <div className="total_view">{"观看至第" + continueWatch + "集"}</div>
+        <>
+          <div className="total_view">{"观看至第" + continueWatch + "集"}</div>
+          <div className="cover" />
+        </>
       )}
     </ImageComponentElement>
   );
@@ -124,7 +127,7 @@ export default ImageComponent;
 
 const ImageComponentElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["is_cover", "img_border", "continueWatch", 'imgHeight', 'is_placeholder','height','width','border_radius'].includes(prop),
+    !["is_cover", "img_border", "continueWatch", 'imgHeight', 'is_placeholder', 'height', 'width', 'border_radius'].includes(prop),
 })`
   /*  */
   position: relative;
@@ -159,13 +162,13 @@ const ImageComponentElement = styled.div.withConfig({
     bottom: 0;
     left: 0;
     background-image: ${({ continueWatch }) =>
-      continueWatch
-        ? `linear-gradient(
+    continueWatch
+      ? `linear-gradient(
       to bottom,
       rgba(83, 76, 242, 0) 29%,
       #534cf2 121%
     )`
-        : `linear-gradient(to Top, #0006 0%, #0000 100%)`};
+      : `linear-gradient(to Top, #0006 0%, #0000 100%)`};
   }
 
   .free_tip {
@@ -193,6 +196,7 @@ const ImageComponentElement = styled.div.withConfig({
     justify-content: center;
     align-items: center;
     gap: 0.2em;
+    z-index:1;
     @media (max-width: 899px) {
       font-size: 0.8rem;
     }

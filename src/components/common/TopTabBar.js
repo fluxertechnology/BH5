@@ -596,7 +596,7 @@ export const H5TopTabBarElement = styled.div.withConfig({
         height:40px;
 
         @media (max-width: 768px) {
-          font-size: max(12px,1.891vw);
+          font-size:14.1825px;
           font-weight:700;
           width:103px;
           height:40px;
