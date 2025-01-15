@@ -466,7 +466,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     >
       <div className="search_bar">
         <div className="search_bar_item">
-          <Image
+          {/* <Image
             src={
               scroll
                 ? "/images/header/topbar/logo.png"
@@ -477,7 +477,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             alt="B次元 LOGO"
             className="logo cursor"
             onClick={() => clickItem(navList[0])}
-          />
+          /> */}
+          <div className="cursor-pointer" onClick={() => clickItem(navList[0])}>
+            <h1 className="logo">{t("Home.name")}</h1>
+          </div>
           {navList.map((navItem) => (
             navItem.component ? (
               <div
@@ -885,7 +888,11 @@ const TopsearchBarElement = styled.div.withConfig({
 
     .logo {
       width: 110px;
+      height: 35px;
       margin-right: 15px;
+      background: url('/images/header/topbar/logo.png') no-repeat left center;
+      background-size: contain;
+      color: transparent;
     }
     @keyframes fade-in {
       0% {
