@@ -30,6 +30,7 @@ export async function generateMetadata({ params }) {
 
         return {
             title: 'Error fetching data',
+            description: 'An error occurred while fetching the comic anime data.',
         };
     }
 
@@ -37,9 +38,11 @@ export async function generateMetadata({ params }) {
     
     // Assuming comicEp is available or defined elsewhere in the code
     const title = `${posts.data.title} | ${t('name')}`; 
+    const description = posts.data.description || ''; 
 
     return {
         title,
+        description,
     };
 }
 
