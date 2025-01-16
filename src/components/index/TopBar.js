@@ -106,14 +106,10 @@ const TopBar = () => {
   return (
     <TopBarElement main_height={state.navbar.mainHeight}>
       <div className="search_bar">
-        <div className="search_bar_logo ">
-          <Image
-            src="/images/header/topbar/logo.png"
-            width={150}
-            height={150}
-            alt="bh5_logo"
-            onClick={clickHome}
-          />
+        <div className="search_bar_logo">
+          <div onClick={clickHome} className="search_bar_logo_img">
+            <h1>{t('Home.name')}</h1>
+          </div>
         </div>
         <div className="search_bar_main">
           {/* <Searchbar
@@ -299,8 +295,13 @@ export const TopBarElement = styled.div.withConfig({
       }
       &_logo {
         flex: 30%;
-        img {
-          width: 72px;
+        &_img {
+          width: ${main_height * 1.20}px;
+          height:${main_height}px;
+          color: transparent;
+          background:url('/images/header/topbar/logo.png') no-repeat center;
+          background-size: contain;
+          margin:auto 0;
         }
       }
       &_main {
