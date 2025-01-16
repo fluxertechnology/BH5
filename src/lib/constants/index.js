@@ -858,6 +858,7 @@ export const requestUrlConstants = {
   postSearchHistory: "/banime/history/lists", //查詢觀看紀錄
   postContinueHistory: "/banime/history/readon", //查詢繼續看紀錄
   getIdleHome: "/mobileapi/anime/idlehome", //查詢觀看紀錄(閒置廣告)
+  getItemDetail:"/mobileapi/common/get_profile", //查询产品的基本信息（SEO)
 };
 // process
 // has_episode

@@ -1,35 +1,40 @@
 import { requestUrlConstants, apiUrl } from "@/lib/constants";
 import { getLocale, getTranslations } from "next-intl/server";
 
-const { postGetComicAnimeData } = requestUrlConstants;
+const { getItemDetail } = requestUrlConstants;
 
 export async function generateMetadata({ params }) {
     const locale = await getLocale();
-    const t = await getTranslations('Common');
+    const t = await getTranslations('Home');
 
-    const { comicEp, comicId } = await params;
+    const { comicId } = await params;
 
-    let formData = new FormData();
-    formData.append("aid", comicId);
-    formData.append("recommend", 1);
-    formData.append("episode", 1);
+    const queryParams = new URLSearchParams({
+        type: 'anime',
+        id: comicId,
+    });
 
-    const response = await fetch(`${apiUrl}/${postGetComicAnimeData}`, {  
-        method: "POST",
-        body: formData, 
+    const response = await fetch(`${apiUrl}/${getItemDetail}?${queryParams.toString()}`, {
+        method: "GET", 
     });
 
     if (!response.ok) {
-        console.error('Failed to fetch comic anime data:', response.statusText);
+        console.error('Failed to fetch comic anime data:', response.status, response.statusText);
+
+        const errorDetails = await response.text(); 
+        console.error('Error details:', errorDetails);
+
         return {
             title: 'Error fetching data',
+            description: 'An error occurred while fetching the comic anime data.',
         };
     }
 
     const posts = await response.json();
+    
+    const title = `${posts.data.title} | ${t('name')}` || `${t('Home.name')}`; 
+    const description = posts.data.description || ''; 
 
-    const title = `${posts.data.title}` || 'Default Title'; 
-    const description = `${posts.data.description}` || ''; 
 
     return {
         title,

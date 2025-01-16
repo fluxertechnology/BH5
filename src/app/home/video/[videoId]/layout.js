@@ -5,39 +5,41 @@ const { getItemDetail } = requestUrlConstants;
 
 export async function generateMetadata({ params }) {
     const locale = await getLocale();
-    const t = await getTranslations();
+    const t = await getTranslations('Home');
 
-    const { comicId,comicEp } = await params;
+    const { videoId } = await params;
 
+    // Create query parameters for the GET request
     const queryParams = new URLSearchParams({
-        type: 'anime',
-        id: comicId,
+        type: 'video',
+        id: videoId,
     });
 
+    // Use GET method with query parameters in the URL
     const response = await fetch(`${apiUrl}/${getItemDetail}?${queryParams.toString()}`, {
-        method: "GET", 
+        method: "GET", // Change to GET method
     });
 
     if (!response.ok) {
+        // Log the error status and status text
         console.error('Failed to fetch comic anime data:', response.status, response.statusText);
 
-        const errorDetails = await response.text(); 
+        // Try to log the response body in case it contains error details
+        const errorDetails = await response.text(); // Read the response body
         console.error('Error details:', errorDetails);
 
         return {
             title: 'Error fetching data',
-            description: 'An error occurred while fetching the comic anime data.',
         };
     }
 
     const posts = await response.json();
     
-    const title = `${t('Common.episode',{number:comicEp})} - ${posts.data.title} | ${t('Home.name')}` || `${t('Home.name')}`; 
-    const description = posts.data.description || ''; 
+    // Assuming comicEp is available or defined elsewhere in the code
+    const title = `${posts.data.title} | ${t('name')}`; 
 
     return {
         title,
-        description,
     };
 }
 
