@@ -40,6 +40,10 @@ const HomeTSMPageElement = styled.div`
     font-size: 1.5rem;
     padding-left: 12em;
     padding-bottom: 1em;
+    @media (max-width: 899px) {
+      padding: 0 1vw 5vw;
+      text-align:center;
+    }
   }
   pre {
     font-size: 1rem;
@@ -51,10 +55,11 @@ const HomeTSMPageElement = styled.div`
     overflow-x: hidden;
     max-height: 70vh;
     max-width: 70vw;
-    min-width: 1792px;
     @media (max-width: 899px) {
-      min-width: 100%;
-      max-width: unset;
+      min-width: 90%;
+      max-width: 90%;
+      margin:auto;
+      padding: 5vw;
     }
   }
 `;

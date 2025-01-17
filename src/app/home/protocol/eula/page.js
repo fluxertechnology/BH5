@@ -13,7 +13,7 @@ const HomeEULARender = () => {
   const { dispatch } = useGlobalContext();
 
   useEffect(() => {
-    dispatch({type: "RESET_NAVBAR"});
+    dispatch({ type: "RESET_NAVBAR" });
   }, []);
   return (
     <HomeEULAPageElement>
@@ -40,6 +40,10 @@ const HomeEULAPageElement = styled.div`
     font-size: 1.5rem;
     padding-left: 12em;
     padding-bottom: 1em;
+    @media (max-width: 899px) {
+      padding: 0 1vw 5vw;
+      text-align:center;
+    }
   }
   pre {
     font-size: 1rem;
@@ -52,8 +56,10 @@ const HomeEULAPageElement = styled.div`
     max-height: 70vh;
     max-width: 70vw;
     @media (max-width: 899px) {
-      min-width: 100%;
-      max-width: unset;
+      min-width: 90%;
+      max-width: 90%;
+      margin:auto;
+      padding: 5vw;
     }
   }
 `;
