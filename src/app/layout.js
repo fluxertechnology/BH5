@@ -14,6 +14,7 @@ export async function generateMetadata() {
   return {
     title: metadataTranslations.title,
     description: metadataTranslations.description,
+    keywords:"成人动漫, 里番, 本子, 工口, 绅士向, 成人漫画, H本, 成人动画, H游戏, 福利姬",
   };
 }
 
