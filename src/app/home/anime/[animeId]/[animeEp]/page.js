@@ -97,12 +97,12 @@ const HomeAnimesContent = () => {
       ? state.user.time === "-1" || Date.now() < state.user.time * 1000
         ? false
         : state.user.day_usedviewcount < state.user.day_maxviewcount
-        ? false
-        : animeData.total_free >= page
-        ? false
-        : animeData.buy_episode.indexOf(page) !== -1
-        ? false
-        : true
+          ? false
+          : animeData.total_free >= page
+            ? false
+            : animeData.buy_episode.indexOf(page) !== -1
+              ? false
+              : true
       : true;
   }
 
@@ -144,7 +144,7 @@ const HomeAnimesContent = () => {
 
   const nodeRef = useRef(null);
   return (
-    <HomeAnimesContentElement>
+    <HomeAnimesContentElement main_height={state.navbar.mainHeight}>
       <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
         <TopTitleBar
           showBack={true}
@@ -258,12 +258,12 @@ const HomeAnimesContent = () => {
           >
             {animeData.recommend_list
               ? animeData.recommend_list.map((data) => {
-                  return (
-                    <Grid item md={3} xs={6} key={data.id}>
-                      <CoverCubeItem data={data} isVideo type="animated" />
-                    </Grid>
-                  );
-                })
+                return (
+                  <Grid item md={3} xs={6} key={data.id}>
+                    <CoverCubeItem data={data} isVideo type="animated" />
+                  </Grid>
+                );
+              })
               : ""}
           </Grid>
         </div>
@@ -274,9 +274,13 @@ const HomeAnimesContent = () => {
 
 export default HomeAnimesContent;
 
-export const HomeAnimesContentElement = styled.div`
+export const HomeAnimesContentElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+})`
+${({ main_height }) => `
   /*  */
-  padding-bottom: 5%;
+  padding: ${main_height}px 0;
+
   .pick {
     padding-top: 10px;
     width: 100%;
@@ -380,4 +384,4 @@ export const HomeAnimesContentElement = styled.div`
       flex-wrap: wrap;
     }
   }
-`;
+`}`;

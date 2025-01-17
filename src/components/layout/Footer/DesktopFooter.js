@@ -245,7 +245,6 @@ let touchduration = 500;
 const QrCode = () => {
   const t = useTranslations();
   const [isHover, setIsHover] = useState(false);
-  // const intl = useIntl();
   function qrcodeStart(e) {
     timer = setTimeout(qrcodeLong, touchduration);
   }

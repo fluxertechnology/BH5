@@ -113,7 +113,7 @@ export const NovelCardElement = styled.div`
     &_body {
       padding: 5px;
       overflow: hidden;
-      height: 35px;
+      height: 45px;
       font-size: 16px;
       // line-height: 20px;
 
