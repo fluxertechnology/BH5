@@ -29,7 +29,7 @@ const HomeNovelsContent = () => {
   const [font_size, setFontSize] = useState(
     (typeof window !== undefined &&
       window.localStorage.getItem("novelsFontSize")) ||
-      16
+    16
   );
 
   const [share_ma] = useState(state.user.share_ma);
@@ -86,7 +86,7 @@ const HomeNovelsContent = () => {
     );
   };
   return (
-    <HomeNovelsContentElement>
+    <HomeNovelsContentElement main_height={state.navbar.mainHeight} sub_height={state.navbar.subHeight} >
       <TopBarContainer>
         <TopTitleBar
           title={novelData.title}
@@ -146,13 +146,13 @@ const HomeNovelsContent = () => {
 export default HomeNovelsContent;
 
 const HomeNovelsContentElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+  shouldForwardProp: (prop) => !["main_height", "sub_height"].includes(prop),
 })`
-  ${({ main_height }) => `
+  ${({ main_height, sub_height }) => `
 
     /*  */
     @media (min-width: 599px) {
-        padding: ${main_height}px ${padding}px 0;
+        padding: ${main_height + sub_height}px ${padding}px 0;
     }
     .share {
         position: fixed;
