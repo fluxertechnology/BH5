@@ -13,6 +13,7 @@ import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 import PostCardItem from "@/components/posts/PostCardItem";
 import callToast from "@/lib/services/toastCall.js";
 import { CSSTransition } from "react-transition-group";
+import { pushRoutes } from "@/store/actions/historyActions";
 
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { getPostListAction, postGetProfile } from '@/store/actions/pages/postsProfileAction.js'
