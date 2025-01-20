@@ -7,7 +7,10 @@ export const revalidate = 0;
 const appPath = path.join(process.cwd(), 'src/app');
 
 export async function GET(req) {
-  const currentDomain = `${req.headers.get('x-forwarded-proto') || 'http'}://${req.headers.get('host')}`;
+  // Retrieve the domain from the Request headers
+  const host = req.headers.get('host');
+  const protocol = req.headers.get('x-forwarded-proto') || 'http';
+  const currentDomain = `${protocol}://${host.split(':')[0]}`; // Remove port if present
 
   const sitemaps = getSitemapFromDir(appPath);
 
