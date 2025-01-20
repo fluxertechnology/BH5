@@ -141,8 +141,7 @@ const OriginalCarousel = ({
       </span>
       {isMobile ? (
         <div className="original_container">
-          <img
-            src={arrowDarkImg}
+          <ArrowBack
             className="h5_arrow_l"
             alt="bh5_arrow_left"
             onClick={() => onClickEvent("prev")}
@@ -267,8 +266,7 @@ const OriginalCarousel = ({
             </div>
           </div>
 
-          <img
-            src={arrowDarkImg}
+          <ArrowForward
             className="h5_arrow_r"
             alt="bh5_arrow_next"
             onClick={() => onClickEvent("next")}
@@ -558,10 +556,6 @@ const SlideCarouselElement = styled.div`
     &_r {
       flex: 0 0 8%;
       max-width: 30px;
-    }
-
-    &_l {
-      transform: scaleX(-1);
     }
   }
 
