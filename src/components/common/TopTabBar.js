@@ -512,9 +512,11 @@ export const TopTabBarElement = styled.div`
     width: 57.5vw;
     overflow-x:auto;
 
+    @media (min-width: 769px) and (max-width: 1536px) {
+      margin: auto 0;
+    }
     @media (min-width: 769px) and (max-width: 1024px) {
       width: 65vw;
-      margin: auto 0;
     }
   }
 
