@@ -1,5 +1,8 @@
 import { pageUrlConstants } from '@/lib/constants';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API_URL;
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 

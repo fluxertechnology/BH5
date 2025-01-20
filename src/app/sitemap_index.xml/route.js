@@ -1,8 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const appPath = path.join(process.cwd(), 'src/app');
+
 
 export async function GET() {
 	const sitemaps = getSitemapFromDir(appPath);
@@ -12,6 +16,9 @@ export async function GET() {
 	return new Response(sitemapIndexXML, {
 		headers: {
 			'Content-Type': 'application/xml',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
 		},
 	});
 }
