@@ -85,17 +85,26 @@ const HomeNovelsContent = () => {
       })
     );
   };
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        customComponent: () => (<TopBarContainer>
+          <TopTitleBar
+            title={novelData.title}
+            showBack={true}
+            show_back_color="#ffffff"
+            iconCallback={clickCollectEven}
+            iconState={novelData.is_collect}
+          />
+        </TopBarContainer>),
+      },
+    });
+  }, []);
   return (
     <HomeNovelsContentElement main_height={state.navbar.mainHeight} sub_height={state.navbar.subHeight} >
-      <TopBarContainer>
-        <TopTitleBar
-          title={novelData.title}
-          showBack={true}
-          show_back_color="#ffffff"
-          iconCallback={clickCollectEven}
-          iconState={novelData.is_collect}
-        />
-      </TopBarContainer>
+
       <div className="share" onClick={shareUrl}>
         <div className="share_label">
           <FontAwesomeIcon
