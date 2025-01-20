@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 export default function sitemap() {
-	const baseUrl = 'https://91bblili.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 	const appPath = path.join(process.cwd(), 'src/app');
 	const routes = getRoutesFromDir(appPath);

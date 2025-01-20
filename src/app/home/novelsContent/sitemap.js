@@ -1,6 +1,6 @@
 import { pageUrlConstants } from '@/lib/constants';
 
-const BASE_API = 'https://admin_bh5.kcpty.com';
+const BASE_API = process.env.NEXT_PUBLIC_BASE_API_URL;
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export default async function sitemap({ id }) {
