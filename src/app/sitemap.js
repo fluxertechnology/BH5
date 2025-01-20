@@ -1,13 +1,20 @@
 import fs from 'fs';
 import path from 'path';
+import { headers } from 'next/headers';
 
-export default function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+export default async function sitemap() {
+	const headersList = await headers();
+	const host = headersList.get('host');
+	const protocol = headersList.get('x-forwarded-proto') || 'http';
+	const siteUrl = `${protocol}://${host.split(':')[0]}`;
 
 	const appPath = path.join(process.cwd(), 'src/app');
 	const routes = getRoutesFromDir(appPath);
 	return routes.map((route) => ({
-		url: `${baseUrl}${route}`,
+		url: `${siteUrl}${route}`,
 		lastModified: new Date(),
 		//changeFrequency: 'monthly',
 		//priority: 0.8,

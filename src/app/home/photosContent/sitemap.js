@@ -11,9 +11,10 @@ export default async function sitemap({ id }) {
 		res.json()
 	);
 
+	const headersList = await headers();
 	const host = headersList.get('host');
-	const protocol = headersList.get('x-forwarded-proto');
-	const siteUrl = `${protocol}://${host}`;
+	const protocol = headersList.get('x-forwarded-proto') || 'http';
+	const siteUrl = `${protocol}://${host.split(':')[0]}`;
 
 	return datas.map((data) => ({
 		url: `${siteUrl}/home/photosContent/${data.id}`,
