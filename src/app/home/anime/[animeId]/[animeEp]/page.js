@@ -144,7 +144,7 @@ const HomeAnimesContent = () => {
 
   const nodeRef = useRef(null);
   return (
-    <HomeAnimesContentElement main_height={state.navbar.mainHeight}>
+    <HomeAnimesContentElement main_height={state.navbar.mainHeight} sub_height={state.navbar.subHeight}>
       <TopBarContainer not_fixed={true} show_shadow={false} z_index={9}>
         <TopTitleBar
           showBack={true}
@@ -275,11 +275,11 @@ const HomeAnimesContent = () => {
 export default HomeAnimesContent;
 
 export const HomeAnimesContentElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+  shouldForwardProp: (prop) => !["main_height","sub_height"].includes(prop),
 })`
-${({ main_height }) => `
+${({ main_height,sub_height }) => `
   /*  */
-  padding: ${main_height}px 0;
+  padding: ${main_height+sub_height}px 0;
 
   .pick {
     padding-top: 10px;
