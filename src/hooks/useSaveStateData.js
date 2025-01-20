@@ -48,7 +48,7 @@ function saveCatchData(storeData) {
 }
 
 function saveContentData(storeData) {
-  console.log('save content data')
+  // console.log('save content data')
   const data = JSON.stringify({
     homeData: storeData.homeData,
     homeAnimeData: storeData.homeAnimeData,

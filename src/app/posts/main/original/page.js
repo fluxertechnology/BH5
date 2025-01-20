@@ -16,7 +16,6 @@ import { postGetRecommendOriginal } from '@/store/actions/pages/postsMoreOrigina
 
 const PostsMoreOriginalPage = ({
 }) => {
-  console.log("PostsMoreOriginalPage", main_height);
     const t = useTranslations();
     const { isMobile } = useMediaQuery();
 

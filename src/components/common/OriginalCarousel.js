@@ -289,7 +289,7 @@ const OriginalCarousel = ({
               uid,
             } = item;
             return (
-              <p className="original_carousel_item" key={index}>
+              <div className="original_carousel_item" key={index}>
                 <div
                   className="original_carousel_card"
                   style={{
@@ -377,7 +377,7 @@ const OriginalCarousel = ({
                     }}
                   />
                 </div>
-              </p>
+              </div>
             );
           })}
         </div>

@@ -211,7 +211,6 @@ export default function HomeMainPage() {
     : labelList;
 
   const clickTabLabel = (key, dynamic) => {
-    console.log(key, "key");
     if (key === "ranking") {
       useGlobalDispatch(
         pushRoutes(home.pages.homeLeaderboard.pages.homeLeaderboardComic)
@@ -265,7 +264,7 @@ export default function HomeMainPage() {
         <article className="anime_continue_watch_history_area">
           <section className="home_Main_container home_Main_new_comic">
             <div className="home_Main_container_title">
-              <p className="home_Main_container_title_text">
+              <div className="home_Main_container_title_text">
                 <Image
                   className="home_Main_container_title_text_img"
                   src="/images/home/new.svg"
@@ -276,7 +275,7 @@ export default function HomeMainPage() {
                 <span className="home_Main_container_title_text_span">
                   {t("Home.continue_watch")}
                 </span>
-              </p>
+              </div>
             </div>
             <ContinueWatchSlideCarousel
               itemsAnime={localState.anime_watch_history}
@@ -292,7 +291,7 @@ export default function HomeMainPage() {
       <article className="comic_area">
         <section className="home_Main_container home_Main_new_comic">
           <div className="home_Main_container_title">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <Image
                 className="home_Main_container_title_text_img"
                 src="/images/home/new.svg"
@@ -306,7 +305,7 @@ export default function HomeMainPage() {
                   {t("Global.comics")}
                 </span>
               </span>
-            </p>
+            </div>
           </div>
           <SlideCarousel items={localState.weekComicList} />
         </section>
@@ -317,7 +316,7 @@ export default function HomeMainPage() {
         >
           <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
-              <p className="home_Main_container_title_text">
+              <div className="home_Main_container_title_text">
                 <Image
                   className="home_Main_container_title_text_img"
                   src="/images/home/manga.svg"
@@ -328,7 +327,7 @@ export default function HomeMainPage() {
                 <span className="home_Main_container_title_text_span">
                   {t("Home.popular_comic")}
                 </span>
-              </p>
+              </div>
               <div
                 className="home_Main_container_refresh"
                 onClick={() => {
@@ -367,7 +366,7 @@ export default function HomeMainPage() {
 
         <section className="home_Main_container home_Main_all_comic">
           <div className="home_Main_container_title g-flex-space-between">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <Image
                 className="home_Main_container_title_text_img"
                 src="/images/home/list.svg"
@@ -378,7 +377,7 @@ export default function HomeMainPage() {
               <span className="home_Main_container_title_text_span">
                 {t("Home.all_comic")}
               </span>
-            </p>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("all_comic_list")}
@@ -394,25 +393,25 @@ export default function HomeMainPage() {
       <article className="anime_area">
         <section className="home_Main_container home_Main_new_anime">
           <div className="home_Main_container_title">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t("Home.added_this_week")}
                 <span className="home_Main_container_title_text_span_marked">
                   {t("Global.animate")}
                 </span>
               </span>
-            </p>
+            </div>
           </div>
           <SlideCarousel items={localState.week_anime_list} type="animated" />
         </section>
 
         <section className="home_Main_container home_Main_rank_anime">
           <div className="home_Main_container_title g-flex-space-between">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t("Home.ranking.anime")}
               </span>
-            </p>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("anime_ranking")}
@@ -425,11 +424,11 @@ export default function HomeMainPage() {
 
         <section className="home_Main_container home_Main_hot_anime">
           <div className="home_Main_container_title">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t('Home.popular_animate')}
               </span>
-            </p>
+            </div>
             <div
               className="home_Main_container_refresh"
               onClick={() => {
@@ -444,11 +443,11 @@ export default function HomeMainPage() {
 
         <section className="home_Main_container home_Main_all_anime">
           <div className="home_Main_container_title g-flex-space-between">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t('Home.added_this_week_anime')}
               </span>
-            </p>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("all_anime_list")}
@@ -463,11 +462,11 @@ export default function HomeMainPage() {
       <article className="anime_area">
         <section className="home_Main_container home_Main_feature_game">
           <div className="home_Main_container_title g-flex-space-between ">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t('Game.label.featured_game')}
               </span>
-            </p>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("feature_game")}
@@ -480,7 +479,7 @@ export default function HomeMainPage() {
 
         <section className="home_Main_container home_Main_video">
           <div className="home_Main_container_title g-flex-space-between">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span mr-2">
                 {t('Global.video')}
               </span>
@@ -503,7 +502,7 @@ export default function HomeMainPage() {
                   })}
                 </StyledTabs>
               )}
-            </p>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("video")}
@@ -530,22 +529,12 @@ export default function HomeMainPage() {
               })}
             </StyledTabs>
           )}
-          {localState.video_category_list.map((category) => {
-            return (
-              <TabPanel
-                value={videoTabValue}
-                index={category.id}
-                key={category.id}
-              >
-                <SlideCarousel items={localState.video_list[category.id]} type="video" />
-              </TabPanel>
-            );
-          })}
+
         </section>
 
         <section className="home_Main_container home_Main_feature_photo">
           <div className="home_Main_container_title g-flex-space-between">
-            <p className="home_Main_container_title_text">
+            <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span mr-2">
                 {t('Navbar.top_navigator_meitu')}
               </span>
@@ -568,7 +557,7 @@ export default function HomeMainPage() {
                   })}
                 </StyledTabs>
               )}
-            </p>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("photo")}
@@ -614,11 +603,11 @@ export default function HomeMainPage() {
         >
           <section className={`${isMobile ? " w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
-              <p className="home_Main_container_title_text">
+              <div className="home_Main_container_title_text">
                 <span className="home_Main_container_title_text_span">
                   {t('Navbar.top_navigator_novel')}
                 </span>
-              </p>
+              </div>
               <p
                 className="home_Main_container_subtitle"
                 onClick={() => toDetailPage("novel_list")}

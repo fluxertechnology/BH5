@@ -85,7 +85,6 @@ const HomeCategoryPage = () => {
   }, [isInit]);
 
   function scrollEvent() {
-    console.log("scrollEvent");
     scrollBottomCallEvent((scrollColdEnd) => {
       getCategoryData(
         {

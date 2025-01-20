@@ -4,7 +4,6 @@ import { colors } from "@/lib/constants";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  console.log('children',children,index)
   return (
     <div
       role="tabpanel"

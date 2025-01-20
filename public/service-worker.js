@@ -29,7 +29,7 @@ self.addEventListener("activate", function (event) {
 });
 
 self.addEventListener("fetch", async (event) => {
-  console.log(fetchFilter(event),'to be fetched')
+  // console.log(fetchFilter(event),'to be fetched')
   if (fetchFilter(event)) event.waitUntil(handleImageRequest(event));
 });
 
@@ -230,7 +230,7 @@ function isValidImageExtension(extension) {
       if (!crypto && typeof require === "function") {
         try {
           crypto = require("crypto");
-        } catch (err) {}
+        } catch (err) { }
       }
 
       /*
@@ -244,14 +244,14 @@ function isValidImageExtension(extension) {
           if (typeof crypto.getRandomValues === "function") {
             try {
               return crypto.getRandomValues(new Uint32Array(1))[0];
-            } catch (err) {}
+            } catch (err) { }
           }
 
           // Use randomBytes method (NodeJS)
           if (typeof crypto.randomBytes === "function") {
             try {
               return crypto.randomBytes(4).readInt32LE();
-            } catch (err) {}
+            } catch (err) { }
           }
         }
 
@@ -261,13 +261,13 @@ function isValidImageExtension(extension) {
       };
 
       /*
-		 * Local polyfill of Object.create
+     * Local polyfill of Object.create
 
-		 */
+     */
       var create =
         Object.create ||
         (function () {
-          function F() {}
+          function F() { }
 
           return function (obj) {
             var subtype;
@@ -371,7 +371,7 @@ function isValidImageExtension(extension) {
            *         }
            *     });
            */
-          init: function () {},
+          init: function () { },
 
           /**
            * Copies properties into this object.
@@ -1346,7 +1346,7 @@ function isValidImageExtension(extension) {
      */
     var Utf16BE =
       (C_enc.Utf16 =
-      C_enc.Utf16BE =
+        C_enc.Utf16BE =
         {
           /**
            * Converts a word array to a UTF-16 BE string.
@@ -3014,7 +3014,7 @@ function isValidImageExtension(extension) {
         dataWords[nBitsLeft >>> 5] |= 0x1 << (24 - (nBitsLeft % 32));
         dataWords[
           ((Math.ceil((nBitsLeft + 1) / blockSizeBits) * blockSizeBits) >>> 5) -
-            1
+          1
         ] |= 0x80;
         data.sigBytes = dataWords.length * 4;
 
@@ -3097,15 +3097,15 @@ function isValidImageExtension(extension) {
   })(Math);
 
   /** @preserve
-	(c) 2012 by Cédric Mesnil. All rights reserved.
+  (c) 2012 by Cédric Mesnil. All rights reserved.
 
-	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-			- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-			- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+      - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+      - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	*/
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
 
   (function (Math) {
     // Shortcuts
@@ -4995,9 +4995,9 @@ function isValidImageExtension(extension) {
    * A noop padding strategy.
    */
   CryptoJS.pad.NoPadding = {
-    pad: function () {},
+    pad: function () { },
 
-    unpad: function () {},
+    unpad: function () { },
   };
 
   (function (undefined) {
