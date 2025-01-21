@@ -300,8 +300,8 @@ export default function HomeMainPage() {
               </div>
             </div>
             <ContinueWatchSlideCarousel
-              itemsAnime={localState.anime_watch_history}
-              itemsComic={localState.comic_watch_history}
+              itemsAnime={state.myWatchHistory.anime_video_list ?? []}
+              itemsComic={state.myWatchHistory.anime_comic_list ?? []}
               continueWatch
             />
           </section>

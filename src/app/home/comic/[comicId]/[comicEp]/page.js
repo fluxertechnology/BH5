@@ -86,7 +86,7 @@ const HomeComicListContentView = () => {
       // if(comic_view.length === 0) getComicViewPhotos(comicId, comicEp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.user.id]);
 
   function clickCollectEvent() {
     collectEvent(comicId);
