@@ -45,7 +45,7 @@ const HomeVideoContent = ({}) => {
     //   getFavorVideo();
     // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoId]);
+  }, [videoId,state.user.id]);
   useEffect(() => {
     if (videoData.url) {
       addMissionRecord(5);
