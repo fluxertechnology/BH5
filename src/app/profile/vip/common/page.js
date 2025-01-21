@@ -113,7 +113,7 @@ const ProfileBuyVipCommon = () => {
                       new Date(state.user.time * 1000)
                         .toLocaleDateString()
                         .toString() +
-                      t("Profile.buy.label.maturity")
+                      t("Profile.buy.label.maturity.")
                     : t("Profile.buy.label.maturity.vip")}
                 </p>
               </div>
