@@ -272,8 +272,9 @@ const ReactPlayerComponent = ({
               controls
               onProgress={onProgress}
               playing
+              light={<img src={img} alt={title ?? 'none'} style={{minHeight: '28.125vw'}} />}
             />
-            {showRecommendAnime && (
+            {showRecommendAnime && placeholderImg.src(
               <section className="g-flex">
                 <section className="react_player_next_container">
                   <section className="react_player_next_area ">

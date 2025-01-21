@@ -3,7 +3,6 @@ import { pageUrlConstants, requestUrlConstants } from "@/lib/constants";
 import { handleChangePage } from "@/lib/services/gtmEventHandle";
 import store from "@/store";
 import axiosRequest from "@/lib/services/axios";
-import { useRouter } from "next/navigation";
 const { home } = pageUrlConstants;
 const { postAddRecordMissionList } = requestUrlConstants;
 let timeClock;
@@ -16,7 +15,7 @@ let timeClock;
 
 export const pushRoutes = (routes) => {
   return function (dispatch) {
-    const { push } = useRouter();
+    const { push } = store.getState().router.useRouter;
     let path = routesPathMaker(routes?.path, routes?.dynamic);
     googleAnalytics(routes);
     scrollPage();
@@ -51,7 +50,7 @@ export const initRoutes = () => (dispatch) => {
  * @return {*}
  */
 export const replaceRoutes = (routes) => {
-  const { replace } = useRouter();
+  const { replace } = store.getState().router.useRouter;
 
   return function (dispatch) {
     googleAnalytics(routes);
@@ -67,7 +66,7 @@ export const replaceRoutes = (routes) => {
  * @return {*}
  */
 export const backRoutes = (number, not_clear_history = false) => {
-  const { push, back } = useRouter();
+  const { push, back } = store.getState().router.useRouter;
   return function (dispatch) {
     scrollPage();
     let breadcrumbs = store.getState().breadcrumbs;
