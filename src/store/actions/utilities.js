@@ -266,7 +266,7 @@ export const checkinPageConditioncheckAction =
                     pushRoutes({
                       name:
                         home.pages.homePhotosContent.name +
-                        homePhotosContentData[itemId].title,
+                        homePhotosContentData[itemId]?.title,
                       path: home.pages.homePhotosContent.path,
                       dynamic: {
                         photoId: itemId,
