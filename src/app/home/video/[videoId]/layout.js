@@ -29,15 +29,15 @@ export async function generateMetadata({ params }) {
         console.error('Error details:', errorDetails);
 
         return {
-            title: 'Error fetching data',
-            description: 'An error occurred while fetching the comic anime data.',
+            title: `${t('name')}`,
+            description: '',
         };
     }
 
     const posts = await response.json();
     
     // Assuming comicEp is available or defined elsewhere in the code
-    const title = `${posts.data.title} | ${t('name')}`; 
+    const title = posts.data?.title ? `${posts.data.title} | ${t('name')}` :`${t('name')}`; 
     const description = posts.data.description || ''; 
 
     return {

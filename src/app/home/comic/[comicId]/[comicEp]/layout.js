@@ -25,15 +25,15 @@ export async function generateMetadata({ params }) {
         console.error('Error details:', errorDetails);
 
         return {
-            title: 'Error fetching data',
-            description: 'An error occurred while fetching the comic anime data.',
+            title: `${t('Home.name')}`,
+            description: '',
         };
     }
 
     const posts = await response.json();
     
-    const title = `${t('Common.episode',{number:comicEp})} - ${posts.data.title} | ${t('Home.name')}` || `${t('Home.name')}`; 
-    const description = posts.data.description || ''; 
+    const title = posts.data?.title ? `${t('Common.episode',{number:comicEp})} - ${posts.data.title} | ${t('Home.name')}` : `${t('Home.name')}`; 
+    const description = posts.data?.description || ''; 
 
     return {
         title,

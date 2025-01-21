@@ -7,11 +7,11 @@ export async function generateMetadata({ params }) {
 
     const t = await getTranslations('Home');
 
-    const { comicId } = await params;
+    const { id } = await params;
 
     const queryParams = new URLSearchParams({
-        type: 'anime',
-        id: comicId,
+        type: 'profile',
+        id: id,
     });
 
     const response = await fetch(`${apiUrl}/${getItemDetail}?${queryParams.toString()}`, {
@@ -32,8 +32,8 @@ export async function generateMetadata({ params }) {
 
     const posts = await response.json();
     
-    const title = posts.data?.title? `${posts.data.title} | ${t('name')}` : `${t('name')}`; 
-    const description = posts.data?.description || ''; 
+    const title = posts.data?.nick_name ?`${posts.data?.nick_name} | ${t('name')}` : `${t('name')}`; 
+    const description = posts.data?.intro || ''; 
 
 
     return {

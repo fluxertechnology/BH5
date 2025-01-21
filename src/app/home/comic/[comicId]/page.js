@@ -90,12 +90,12 @@ const HomeComicListContent = () => {
         ? state.user.time === "-1" || Date.now() < state.user.time * 1000
           ? false
           : state.user.day_usedviewcount < state.user.day_maxviewcount
-          ? false
-          : comicData.total_free >= page
-          ? false
-          : comicData.buy_episode.indexOf(page) !== -1
-          ? false
-          : true
+            ? false
+            : comicData.total_free >= page
+              ? false
+              : comicData.buy_episode.indexOf(page) !== -1
+                ? false
+                : true
         : true,
     [comicId]
   );
@@ -158,6 +158,33 @@ const HomeComicListContent = () => {
       },
     });
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) {
+      let Element = document.getElementsByClassName("PCFooterElement");
+      if (Element.length) {
+        Element[0].style.setProperty("display", "none");
+      }
+    } else {
+      let Element = document.getElementsByClassName("BottomNavBarElement");
+      if (Element.length) {
+        Element[0].style.setProperty("display", "none");
+      }
+    }
+    return () => {
+      if (!isMobile) {
+        let Element = document.getElementsByClassName("PCFooterElement");
+        if (Element.length) {
+          Element[0].style.setProperty("display", "block");
+        }
+      } else {
+        let Element = document.getElementsByClassName("BottomNavBarElement");
+        if (Element.length) {
+          Element[0].style.setProperty("display", "block");
+        }
+      }
+    }
+  }, [isMobile])
 
   const nodeRef = useRef(null);
   return (
@@ -222,8 +249,8 @@ const HomeComicListContent = () => {
         <div className="body_tab fw-l mb-3 mt-2">
           {comicData.tag_gp
             ? comicData.tag_gp.map((title) => {
-                return <CategoryTab title={title} type={1} key={title} />;
-              })
+              return <CategoryTab title={title} type={1} key={title} />;
+            })
             : ""}
         </div>
 
@@ -285,68 +312,68 @@ const HomeComicListContent = () => {
         <div className="recommend_list">
           {comicData.recommend_list
             ? comicData.recommend_list.map((data) => {
-                return (
-                  <LinkComponent
-                    className="recommend_list_item fw-l"
-                    key={data.id}
-                    routes={{
-                      name:
-                        pageUrlConstants.home.pages.homeComicList.pages
-                          .homeComicListSwitch.pages.homeComicListContent.name +
-                        data.title,
-                      path: pageUrlConstants.home.pages.homeComicList.pages
-                        .homeComicListSwitch.pages.homeComicListContent.path,
-                      dynamic: {
-                        comicId: data.id,
-                      },
-                    }}
-                  >
-                    <div className="recommend_list_item_cover mr-3">
-                      <ImageComponent
-                        src={data.img}
-                        alt={data.title}
-                        title={data.title}
-                        height={145}
-                        is_cover={true}
-                        total_view={data.fake_total_view}
-                        total_view_show
-                      />
+              return (
+                <LinkComponent
+                  className="recommend_list_item fw-l"
+                  key={data.id}
+                  routes={{
+                    name:
+                      pageUrlConstants.home.pages.homeComicList.pages
+                        .homeComicListSwitch.pages.homeComicListContent.name +
+                      data.title,
+                    path: pageUrlConstants.home.pages.homeComicList.pages
+                      .homeComicListSwitch.pages.homeComicListContent.path,
+                    dynamic: {
+                      comicId: data.id,
+                    },
+                  }}
+                >
+                  <div className="recommend_list_item_cover mr-3">
+                    <ImageComponent
+                      src={data.img}
+                      alt={data.title}
+                      title={data.title}
+                      height={145}
+                      is_cover={true}
+                      total_view={data.fake_total_view}
+                      total_view_show
+                    />
+                  </div>
+                  <div className="recommend_list_item_container">
+                    <div className="recommend_list_item_container_title">
+                      <p className="recommend_list_item_container_title_text">
+                        {data.title}
+                      </p>
                     </div>
-                    <div className="recommend_list_item_container">
-                      <div className="recommend_list_item_container_title">
-                        <p className="recommend_list_item_container_title_text">
-                          {data.title}
+                    {data.description ? (
+                      <div className="recommend_list_item_container_description">
+                        <p className="recommend_list_item_container_description_text">
+                          {data.description}
                         </p>
                       </div>
-                      {data.description ? (
-                        <div className="recommend_list_item_container_description">
-                          <p className="recommend_list_item_container_description_text">
-                            {data.description}
-                          </p>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      <div className="recommend_list_item_container_number">
-                        <p className="recommend_list_item_container_number_text">
-                          {data.process
-                            ? t("Global.update_to")
-                            : t("Global.total")}
-                          {data.total_episode || 0}
-                          {t("Global.word")}
-                        </p>
-                      </div>
-                      <div className="recommend_list_item_container_tab">
-                        {data.tag_gp.map((title) => {
-                          return (
-                            <CategoryTab title={title} type={1} key={title} />
-                          );
-                        })}
-                      </div>
+                    ) : (
+                      ""
+                    )}
+                    <div className="recommend_list_item_container_number">
+                      <p className="recommend_list_item_container_number_text">
+                        {data.process
+                          ? t("Global.update_to")
+                          : t("Global.total")}
+                        {data.total_episode || 0}
+                        {t("Global.word")}
+                      </p>
                     </div>
-                  </LinkComponent>
-                );
-              })
+                    <div className="recommend_list_item_container_tab">
+                      {data.tag_gp.map((title) => {
+                        return (
+                          <CategoryTab title={title} type={1} key={title} />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </LinkComponent>
+              );
+            })
             : ""}
         </div>
       </div>
