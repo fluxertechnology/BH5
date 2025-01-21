@@ -61,7 +61,7 @@ const ProfileBuyVipVideo = () => {
     useGlobalDispatch(setVipInfoAction());
   };
   const buyVipMember = (vipInfo) => {
-    useGlobalDispatch(buyVipMemberAction(vipInfo, intl));
+    useGlobalDispatch(buyVipMemberAction(vipInfo, t));
   };
   const toBuyGoldPage = () => {
     useGlobalDispatch(
@@ -79,7 +79,7 @@ const ProfileBuyVipVideo = () => {
               new Date(state.vipInfoData.videovip_expired).valueOf()
                 ? t("Profile.buy.vip.video.card.maturity.until") +
                   state.vipInfoData.videovip_expired +
-                  t("Profile.buy.label.maturity")
+                  t("Profile.buy.label.maturity.")
                 : t("Profile.buy.vip.video.card.maturity.description")}
             </p>
           </div>

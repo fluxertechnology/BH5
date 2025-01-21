@@ -81,7 +81,7 @@ export const ListSideBarElement = styled.div.withConfig({
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: 94035;
   overflow: hidden;
   margin: auto;
   background-color: #0007;
