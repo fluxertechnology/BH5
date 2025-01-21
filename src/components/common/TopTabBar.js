@@ -317,7 +317,7 @@ const TopTabBar = ({
       ) : (
         <TopTabBarElement
           type={type}
-          className={`${!disabledIndent && "w-auto !overflow-x-auto"} `}
+          className={`${!disabledIndent && "w-auto"} `}
         >
           <StyledTabs value={nowKey} onChange={handleChange} className={"category_list"} variant="scrollable"
             scrollButtons="auto" >
@@ -535,7 +535,7 @@ export const TopTabBarElement = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    top: 34px;
+    top: 48px;
     width: 25em;
     border-radius: 5px;
     box-shadow: 0px 3px 6px 0px RGB(100, 100, 100, 0.36);
