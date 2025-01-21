@@ -24,11 +24,13 @@ import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCar
 
 import { AntTab, StyledTabs, TabPanel } from "@/components/common/MuiTabItem";
 import OriginalCarousel from "@/components/common/OriginalCarousel";
-
-
 import {
   refreshAnimeData,
 } from "@/store/actions/pages/homeMainAction";
+import {
+  postAttentionEventAction,
+  postScribeEventAction,
+} from "@/store/actions/pages/postCardItemAction";
 
 const { home } = pageUrlConstants;
 
@@ -232,6 +234,26 @@ export default function HomeMainPage() {
     }
     // useGlobalDispatch(pushRoutes(home.pages.homeMain.pages["home" + upCass + key.slice(1) + (key === "videos" ? "Select" : "")])); 經討論 暫時拔掉影片過度頁
   };
+
+  const postCardScribeMediaEvent = (data, type) => {
+		if (localState.user.id === 'guest') {
+			useGlobalDispatch(pushRoutes(login));
+		} else {
+			useGlobalDispatch(postScribeEventAction(data, type));
+		}
+	};
+	const postCardAttentionEvent = (data) => {
+		if (localState.user.id === 'guest') {
+			useGlobalDispatch(pushRoutes(login));
+		} else {
+			useGlobalDispatch(
+				postAttentionEventAction({
+					uid: data.uid,
+					is_attention: data.is_follow,
+				}),
+			);
+		}
+	};
 
   const TopTabBarComponent = () => {
     return (
@@ -636,8 +658,8 @@ export default function HomeMainPage() {
           >
             <OriginalCarousel
               items={localState.creation_list}
-              postCardScribeMediaEvent={localState.postCardScribeMediaEvent}
-              postCardAttentionEvent={localState.postCardAttentionEvent}
+              postCardScribeMediaEvent={postCardScribeMediaEvent}
+              postCardAttentionEvent={postCardAttentionEvent}
             />
           </section>
         </section>
