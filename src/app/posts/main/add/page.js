@@ -412,6 +412,7 @@ const PostsAddPage = () => {
         classNames="CSSTransition_opacity"
         unmountOnExit
         key="CSSTransition_show_pay_post_overload"
+        nodeRef={nodeRef}
       >
         <div className="float_cover">
           <div className="float_cover_container">

@@ -96,7 +96,7 @@ const ProfileMyorder = () => {
                 >
                   {data.order_type === "actual"
                     ? data.fahuoxinxi
-                    : intl.formatMessage({ id: "PROFILE.MY.ORDER.SUCCESS" })}
+                    : t('Profile.my.order.success')}
                 </p>
               </div>
             </LinkComponent>
