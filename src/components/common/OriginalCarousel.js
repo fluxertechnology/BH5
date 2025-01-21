@@ -80,6 +80,8 @@ const OriginalCarousel = ({
     setShowScribe(false);
     setTimeout(() => setSubscribeData({ id: -1 }), 500);
   }
+
+  const nodeRef = useRef(null);
   return (
     <SlideCarouselElement>
       <CSSTransition
@@ -88,6 +90,7 @@ const OriginalCarousel = ({
         classNames="CSSTransition_scribe"
         unmountOnExit
         key="CSSTransition_show_scribe"
+        nodeRef={nodeRef}
       >
         <div className="subscribe_cover" onClick={onClickClose}>
           <div
