@@ -529,6 +529,7 @@ export default function HomeMainPage() {
               })}
             </StyledTabs>
           )}
+
           {localState.video_category_list.map((category) => {
             return (
               <TabPanel
