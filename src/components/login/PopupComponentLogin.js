@@ -157,9 +157,9 @@ const PopupDialogLogin = () => {
     } else {
       setPhoneNumber("");
       setPassword("");
-      phoneNemberRef.current.value = "";
+      phoneNumberRef.current.value = "";
       passwordRef.current.value = "";
-      phoneNemberRef.current.focus();
+      phoneNumberRef.current.focus();
     }
   }
 
@@ -169,9 +169,9 @@ const PopupDialogLogin = () => {
     } else {
       setAccountId("");
       setPassword("");
-      phoneNemberRef.current.value = "";
+      phoneNumberRef.current.value = "";
       passwordRef.current.value = "";
-      phoneNemberRef.current.focus();
+      phoneNumberRef.current.focus();
     }
   }
   function judeType(type, format) {

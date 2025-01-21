@@ -76,7 +76,7 @@ const HomeAnimesContent = () => {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animeId, animeEp]);
+  }, [animeId, animeEp, state.user.id]);
 
   function clickPageEvent(number) {
     buyAnimes({
