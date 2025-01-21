@@ -1,4 +1,3 @@
-import { pageUrlConstants } from '@/lib/constants';
 import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
