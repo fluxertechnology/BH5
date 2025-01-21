@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import {useEffect} from 'react';
 import styled from "styled-components";
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
@@ -29,24 +30,35 @@ const ProfileWatchHistory = ({ children }) => {
     useGlobalDispatch(
       replaceRoutes(
         profile.pages.profileWatchHistory.pages[
-          "profileWatchHistory" + upCass + key.slice(1)
+        "profileWatchHistory" + upCass + key.slice(1)
         ]
       )
     );
   };
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        customComponent: () => (
+          <TopBarContainer>
+            <TopTitleBar
+              title={t("Profile.main.option.history.watch")}
+              showBack={true}
+              show_back_color="#ffffff"
+            />
+            <TopTabBar labelList={labelList} callback={clickTabLabel} />
+          </TopBarContainer>
+        ),
+      },
+    });
+  }, []);
+
   return (
     <ProfileWatchHistoryElement
       main_height={state.navbar.mainHeight}
       sub_height={state.navbar.subHeight}
     >
-      <TopBarContainer>
-        <TopTitleBar
-          title={t("Profile.main.option.history.watch")}
-          showBack={true}
-          show_back_color="#ffffff"
-        />
-        <TopTabBar labelList={labelList} callback={clickTabLabel} />
-      </TopBarContainer>
       {children}
     </ProfileWatchHistoryElement>
   );

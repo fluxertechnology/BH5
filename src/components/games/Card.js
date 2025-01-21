@@ -135,6 +135,8 @@ export const CardElement = styled.div.withConfig({
 
   .content {
     position: relative;
+    box-sizing:content-box;
+
     &_main {
       overflow: hidden;
       display: -webkit-box;

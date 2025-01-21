@@ -75,9 +75,9 @@ const StyledTabs = styled((props) => (
     WebkitOverflowScrolling: "touch", // Smooth scrolling for mobile
   },
   "& .Mui-disabled": {
-    display: "none" ,
+    display: "none",
   }
-  
+
 }));
 const lang = Cookies.get("NEXT_LOCALE");
 
@@ -319,8 +319,8 @@ const TopTabBar = ({
           type={type}
           className={`${!disabledIndent && "w-auto !overflow-x-auto"} `}
         >
-          <StyledTabs value={nowKey} onChange={handleChange} className={"category_list"}  variant="scrollable"
-  scrollButtons="auto" >
+          <StyledTabs value={nowKey} onChange={handleChange} className={"category_list"} variant="scrollable"
+            scrollButtons="auto" >
             {labelListKey.map((labelKey, index) => {
 
               const bgColors = categoryColors[index % categoryColors.length] || ["#333333"];
@@ -569,7 +569,7 @@ export const H5TopTabBarElement = styled.div.withConfig({
       height: ${({ type, drawer }) =>
     type === 1 ? (drawer ? "auto" : sub_height) : main_height}px;
       min-height: ${sub_height}px;
-
+      
       img {
         width: 25px;
         height: 25px;
@@ -587,7 +587,9 @@ export const H5TopTabBarElement = styled.div.withConfig({
       font-size: 16px;
       text-align: center;
       align-items: center;
-      white-space: nowrap; // Prevent items from wrapping
+      white-space: nowrap; 
+      height: ${({ drawer }) => (drawer ? "100%" : "auto")};
+
       &_item {
         display: flex;
         justifycontent: center;

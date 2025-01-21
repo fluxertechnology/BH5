@@ -26,13 +26,20 @@ const NavbarMore = ({ show = true }) => {
   const { state } = useGlobalContext();
   const { isMobile } = useMediaQuery();
   const [gameFloatStatus, setGameFloatStatus] = useState(false);
-  const { vendor, home } = pageUrlConstants;
+  const { profile, home } = pageUrlConstants;
   const GamePropsProvider = GameProps.Provider; // Moved here
   const t = useTranslations();
 
   const callback = (key, dynamic) => {
-    console.log(key, "key");
-    if (key === "ranking") {
+    if (key === "setting") {
+      useGlobalDispatch(
+        pushRoutes(profile.pages.profileSet)
+      );
+    } else if (key === "history") {
+      useGlobalDispatch(
+        pushRoutes(profile.pages.profileWatchHistory.pages.profileWatchHistoryComic)
+      );
+    }else if (key === "ranking") {
       useGlobalDispatch(
         pushRoutes(home.pages.homeLeaderboard.pages.homeLeaderboardComic)
       );
@@ -105,7 +112,7 @@ const NavbarMore = ({ show = true }) => {
       main_height={state.navbar.mainHeight}
       bottom_nav_height={state.navbar.bottomNavHeight}
       isMobile={isMobile}
-      className={state.navbar.isShowMore ? "open" : ""} 
+      className={state.navbar.isShowMore ? "open" : ""}
     >
       <div className={state.navbar.isShowMore ? "" : "hide"}>
         <div className="more_component">
@@ -119,9 +126,9 @@ const NavbarMore = ({ show = true }) => {
                   onMouseEnter={onMouseEnterEvent && onMouseEnterEvent}
                   onMouseLeave={onMouseEnterEvent && onMouseEnterEvent}
                   onClick={onClickEvent && onClickEvent}
-                  style={{ color: color, fontSize: 'max(10px,1.867vw)', fontWeight: '700' }}
+                  style={{ color: color, fontSize: 'max(12px,1.867vw)', fontWeight: '700' }}
                 >
-                  <Image src={icon} width={0} height={0} alt={name} style={{ width: '2.4vw', height: '2.4vw', marginRight: '1vw' }} />
+                  <Image src={icon} width={0} height={0} alt={name} style={{ width: '2.8vw', height: '2.8vw', marginRight: '1vw' }} />
                   {name}
                   {gameFloatStatus && index === 1 && (
                     <div className="float">
@@ -160,12 +167,12 @@ const NavbarMore = ({ show = true }) => {
             })}
           </div>
           <div className="function_list">
-            <div className="function_item">
-              <Image src={'/images/header/history.png'} width={20} height={20} alt={t("Navbar.bar_history")} className="function_item_img"/>
+            <div className="function_item" onClick={() => callback("history")}>
+              <Image src={'/images/header/history.png'} width={20} height={20} alt={t("Navbar.bar_history")} className="function_item_img" />
               <p>{t("Navbar.bar_history")}</p>
             </div>
-            <div className="function_item">
-              <Image src={'/images/header/setting.png'} width={20} height={20} alt={t("Profile.setting.info.index")} className="function_item_img"/>
+            <div className="function_item" onClick={() => callback("setting")}>
+              <Image src={'/images/header/setting.png'} width={20} height={20} alt={t("Profile.setting.info.index")} className="function_item_img" />
               <p>{t("Profile.setting.info.index")}</p>
             </div>
           </div>
@@ -232,7 +239,7 @@ const WrapperStyles = styled.div.withConfig({
   }
 
   .link_item:not(:last-child){
-    margin-bottom: 4.8vw;
+    margin-bottom: 3.6vw;
   }
 
   .search_result_wrapper {
@@ -262,7 +269,7 @@ const WrapperStyles = styled.div.withConfig({
   .function_item{
     display:flex;
     align-items:center;
-    font-size: max(10px,1.867vw);
+    font-size: max(12px,1.867vw);
     font-weight: 700;
     color: #000;
     margin-bottom: 4.8vw;

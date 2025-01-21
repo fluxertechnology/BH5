@@ -244,6 +244,7 @@ const HomeAnimesContent = () => {
         <ImageCarousel
           adsKey={adsKeys.anime_video_banner}
           threeInOneBanner={!isMobile}
+          size="banner_ads"
         />
       </div>
       <div className="recommend">

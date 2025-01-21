@@ -529,7 +529,17 @@ export default function HomeMainPage() {
               })}
             </StyledTabs>
           )}
-
+          {localState.video_category_list.map((category) => {
+            return (
+              <TabPanel
+                value={videoTabValue}
+                index={category.id}
+                key={category.id}
+              >
+                <SlideCarousel items={localState.video_list[category.id]} type="video" />
+              </TabPanel>
+            );
+          })}
         </section>
 
         <section className="home_Main_container home_Main_feature_photo">
