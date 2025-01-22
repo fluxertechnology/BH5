@@ -159,12 +159,6 @@ const SearchResult = ({ show = true }) => {
 		) {
 			updateSearchResult(`${searchInput}/${searchCategory}`);
 		}
-
-		const searchResultWrapper = document.querySelector(
-			'.search_result_wrapper',
-		);
-		searchResultWrapper.removeEventListener('scroll', scrollEvent);
-		searchResultWrapper.addEventListener('scroll', scrollEvent);
 	}, []);
 
 	useEffect(() => {
@@ -172,6 +166,14 @@ const SearchResult = ({ show = true }) => {
 			state.navbar.isShowSearch && state.homeSearchTabList.hotTab.length === 0
 		) {
 			getSearchTabData();
+		}
+
+		if (state.navbar.isShowSearch) {
+			const searchResultWrapper = document.querySelector(
+				'.search_result_wrapper',
+			);
+			searchResultWrapper.removeEventListener('scroll', scrollEvent);
+			searchResultWrapper.addEventListener('scroll', scrollEvent);
 		}
 	}, [state.navbar.isShowSearch]);
 
