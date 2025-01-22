@@ -78,15 +78,17 @@ const HomeComicListContentView = () => {
         }, 0);
       });
     } else {
+     setTimeout(() => {
       checkUser({
         id: comicData.id,
         jinbi: comicData.jinbi,
         episode: comicEp,
       });
+      }, 0);
       // if(comic_view.length === 0) getComicViewPhotos(comicId, comicEp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.user.id]);
+  }, [state.homeComicContentData[comicId], state.user.id]);
 
   function clickCollectEvent() {
     collectEvent(comicId);
@@ -177,6 +179,7 @@ const HomeComicListContentView = () => {
   }
 
   const checkUser = (data) => {
+    window.sessionStorage.setItem("saveTime", 0);
     useGlobalDispatch(
       checkinPageConditioncheckAction({
         itemId: data.id,
