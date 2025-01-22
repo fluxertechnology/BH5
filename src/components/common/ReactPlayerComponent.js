@@ -178,7 +178,7 @@ const ReactPlayerComponent = ({
         //3min
         progressTimmer = setTimeout(() => {
           // 執行 API 呼叫，將觀看進度儲存到伺服器
-          postAddWatchHistory(videoId, videoEp, e.playedSeconds);
+          postAddWatchHistoryHandler(videoId, videoEp, e.playedSeconds);
           getUpdateWatchHistory();
           // Your API call here...
         }, 1001); // 延遲 1 秒
@@ -206,7 +206,7 @@ const ReactPlayerComponent = ({
       })
     );
   };
-  const postAddWatchHistory = (id, episode, watchSecond) => {
+  const postAddWatchHistoryHandler = (id, episode, watchSecond) => {
     useGlobalDispatch(postAddWatchHistory(id, episode, watchSecond));
   };
   const getUpdateWatchHistory = () => {

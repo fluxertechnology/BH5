@@ -55,9 +55,12 @@ const AsideRecommend = ({ recommendList }) => {
                 },
               }}
             >
-              <ImageComponent src={data.avatar} height="2.344vw" width="2.344vw" border_radius="50px" alt={data.nick_name} draggable={false} />
+              <div className="flex items-center	">
+                <ImageComponent src={data.avatar} height="2.344vw" width="2.344vw" border_radius="50px" alt={data.nick_name} draggable={false} />
+                <p className="ml-[5px]">{data.nick_name}</p>
+              </div>
             </LinkComponent>
-            {data.nick_name}
+
           </div>
         ))}
         <LinkComponent
