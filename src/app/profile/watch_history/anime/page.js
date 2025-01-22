@@ -30,6 +30,7 @@ const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
 
   const getWatchHistory = (type) => {
     useGlobalDispatch(postSearchWatchHistoryAction(type));
+    console.log(type,'type');
   };
   return (
     <ProfileWatchHistoryElement>
@@ -39,7 +40,7 @@ const ProfileWatchHistoryAnime = ({ disabledScrollRefresh }) => {
             <Grid item md={12} xs={12} key={data.id}>
               <ParallelCoverCubeItem
                 data={data}
-                isVideo
+                isVideo = {true}
                 disabledBottomBorder={
                   index === state.myWatchHistory.anime_video_list.length - 1
                 }

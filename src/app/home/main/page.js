@@ -236,24 +236,24 @@ export default function HomeMainPage() {
   };
 
   const postCardScribeMediaEvent = (data, type) => {
-		if (localState.user.id === 'guest') {
-			useGlobalDispatch(pushRoutes(login));
-		} else {
-			useGlobalDispatch(postScribeEventAction(data, type));
-		}
-	};
-	const postCardAttentionEvent = (data) => {
-		if (localState.user.id === 'guest') {
-			useGlobalDispatch(pushRoutes(login));
-		} else {
-			useGlobalDispatch(
-				postAttentionEventAction({
-					uid: data.uid,
-					is_attention: data.is_follow,
-				}),
-			);
-		}
-	};
+    if (localState.user.id === 'guest') {
+      useGlobalDispatch(pushRoutes(login));
+    } else {
+      useGlobalDispatch(postScribeEventAction(data, type));
+    }
+  };
+  const postCardAttentionEvent = (data) => {
+    if (localState.user.id === 'guest') {
+      useGlobalDispatch(pushRoutes(login));
+    } else {
+      useGlobalDispatch(
+        postAttentionEventAction({
+          uid: data.uid,
+          is_attention: data.is_follow,
+        }),
+      );
+    }
+  };
 
   const TopTabBarComponent = () => {
     return (
@@ -287,21 +287,14 @@ export default function HomeMainPage() {
           <section className="home_Main_container home_Main_new_comic">
             <div className="home_Main_container_title">
               <div className="home_Main_container_title_text">
-                <Image
-                  className="home_Main_container_title_text_img"
-                  src="/images/home/new.svg"
-                  width={0}
-                  height={0}
-                  alt={t("Home.continue_watch")}
-                />
                 <span className="home_Main_container_title_text_span">
                   {t("Home.continue_watch")}
                 </span>
               </div>
             </div>
             <ContinueWatchSlideCarousel
-              itemsAnime={state.myWatchHistory.anime_video_list ?? []}
-              itemsComic={state.myWatchHistory.anime_comic_list ?? []}
+              itemsAnime={localState.anime_watch_history?? []}
+              itemsComic={localState.comic_watch_history?? []}
               continueWatch
             />
           </section>
@@ -314,13 +307,6 @@ export default function HomeMainPage() {
         <section className="home_Main_container home_Main_new_comic">
           <div className="home_Main_container_title">
             <div className="home_Main_container_title_text">
-              <Image
-                className="home_Main_container_title_text_img"
-                src="/images/home/new.svg"
-                width={0}
-                height={0}
-                alt={t("Home.added_this_week_comic")}
-              />
               <span className="home_Main_container_title_text_span">
                 {t("Home.added_this_week")}
                 <span className="home_Main_container_title_text_span_marked">
@@ -339,13 +325,6 @@ export default function HomeMainPage() {
           <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
               <div className="home_Main_container_title_text">
-                <Image
-                  className="home_Main_container_title_text_img"
-                  src="/images/home/manga.svg"
-                  width={0}
-                  height={0}
-                  alt={t("Home.popular_comic")}
-                />
                 <span className="home_Main_container_title_text_span">
                   {t("Home.popular_comic")}
                 </span>
@@ -389,13 +368,6 @@ export default function HomeMainPage() {
         <section className="home_Main_container home_Main_all_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <div className="home_Main_container_title_text">
-              <Image
-                className="home_Main_container_title_text_img"
-                src="/images/home/list.svg"
-                width={0}
-                height={0}
-                alt={t("Home.all_comic")}
-              />
               <span className="home_Main_container_title_text_span">
                 {t("Home.all_comic")}
               </span>

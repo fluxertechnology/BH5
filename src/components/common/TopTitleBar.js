@@ -80,13 +80,13 @@ const TopTitleBar = ({
             </div>
             <HomeIcon
               className="container_back_icon ml-4"
-              onClick={() => 
+              onClick={() =>
                 useGlobalDispatch(
                   pushRoutes(
                     home.pages.homeMain
                   )
-              )}
-            style={{ cursor: 'pointer', color: show_back_color }}
+                )}
+              style={{ cursor: 'pointer', color: show_back_color }}
             />
           </div>
         ) : (
@@ -94,9 +94,9 @@ const TopTitleBar = ({
         )}
 
         {title ? (
-          <h2 className="container_title">
-            <p className="container_title_text">{title}</p>
-          </h2>
+          <h1 className="container_title container_title_text">
+            {title}
+          </h1>
         ) : (
           ""
         )}

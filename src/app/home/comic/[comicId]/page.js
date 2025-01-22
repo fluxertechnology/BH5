@@ -233,9 +233,9 @@ const HomeComicListContent = () => {
           </div>
           <div className="header_container_description">
             <div className="header_container_description_title">
-              <p className="header_container_description_title_text fw-l">
+              <h1 className="header_container_description_title_text fw-l">
                 {comicData.title}
-              </p>
+              </h1>
             </div>
             <div className="header_container_description_text">
               <p className="header_container_description_text_p">

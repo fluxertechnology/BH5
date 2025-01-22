@@ -79,21 +79,24 @@ const ReactPlayerComponent = ({
   //動漫用useState
   const [showRecommendAnime, setShowRecommendAnime] = useState(false);
   const [recommendAnimeCounter, setRecommendAnimeCounter] = useState(15);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   useEffect(() => {
     recommendAnimeTimmer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearInterval(recommendTimmer); 
   }, [showRecommendAnime]);
 
   useEffect(() => {
-    if (type === "anime" && src)
+    if (type === "anime" && src && isPlayerReady) {
       if (reactPlayerRef.current) {
         if (animeLastWatchTime >= 180) {
           reactPlayerRef.current.seekTo(animeLastWatchTime);
         }
       }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animeLastWatchTime, src]);
+  }, [animeLastWatchTime, src, isPlayerReady]);
 
   function recommendAnimeTimmer() {
     setRecommendAnimeCounter(15);
@@ -271,8 +274,14 @@ const ReactPlayerComponent = ({
               loop={false}
               controls
               onProgress={onProgress}
+              onReady={() => {
+                setIsPlayerReady(true);
+                if (animeLastWatchTime >= 180) {
+                  reactPlayerRef.current.seekTo(animeLastWatchTime);
+                }
+              }}
               playing
-              light={<img src={img} alt={title ?? 'none'} style={{minHeight: '28.125vw'}} />}
+              light={<img src={img} alt={title ?? 'none'} style={{ minHeight: '28.125vw' }} />}
             />
             {showRecommendAnime && placeholderImg.src(
               <section className="g-flex">
@@ -401,7 +410,7 @@ const ReactPlayerComponent = ({
         ) : (
           ""
         )}
-        <div className="description_title fw-l">{title}</div>
+        <h1 className="description_title fw-l">{title}</h1>
         <div className="description_content mb-2">
           <div className="description_content_main">
             <div className="description_content_text fw-m">{description}</div>

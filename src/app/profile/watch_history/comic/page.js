@@ -11,7 +11,7 @@ import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 const ProfileWatchHistoryComic = ({ disabledScrollRefresh }) => {
   const { state } = useGlobalContext();
-  useEffect(() => getWatchHistory(), []);
+  useEffect(() => getWatchHistory(1), []);
 
   useEffect(() => {
     if (!disabledScrollRefresh) {

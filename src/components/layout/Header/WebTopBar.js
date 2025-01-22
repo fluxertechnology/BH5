@@ -457,6 +457,13 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     setIsLogin(state.user.id !== "guest");
   }, [state.user.id]);
 
+  // 特定页面显示H1标签
+  const routesToShowLogo = ['/posts/main', '/vendor'];
+
+  const shouldShowLogo =
+    location.startsWith('/home') ||
+    routesToShowLogo.includes(location);
+
   return (
     <TopsearchBarElement
       main_height={state.navbar.mainHeight}
@@ -467,20 +474,21 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       <div className="search_bar">
         <div className="search_bar_item">
           {/* <Image
-            src={
-              scroll
-                ? "/images/header/topbar/logo.png"
-                : "/images/header/topbar/logo.png"
-            }
-            width={110}
-            height={39}
-            alt="B次元 LOGO"
-            className="logo cursor"
-            onClick={() => clickItem(navList[0])}
-          /> */}
-          <div className="cursor-pointer" onClick={() => clickItem(navList[0])}>
-            <h1 className="logo">{t("Home.name")}</h1>
+              src={
+                scroll
+                  ? "/images/header/topbar/logo.png"
+                  : "/images/header/topbar/logo.png"
+              }
+              width={110}
+              height={39}
+              alt="B次元 LOGO"
+              className="logo cursor"
+              onClick={() => clickItem(navList[0])}
+            /> */}
+          <div className="cursor-pointer logo" onClick={() => clickItem(navList[0])}>
+            {shouldShowLogo && <h1 className="logo">{t("Home.name")}</h1>}
           </div>
+
           {navList.map((navItem) => (
             navItem.component ? (
               <div
@@ -661,12 +669,12 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               isPlaceholder={isPlaceholder}
               scroll={scroll}
             /> */}
-            <img 
+            <img
               src="/images/header/topbar/search.png"
               className="w-[25px] h-[25px]"
               alt="search"
               onClick={clickSearch}
-          />
+            />
           </div>
           <div className="search_bar_avatar_container">
             <div className="search_bar_avatar" onClick={clickAvatar}>
@@ -893,6 +901,7 @@ const TopsearchBarElement = styled.div.withConfig({
       background: url('/images/header/topbar/logo.png') no-repeat left center;
       background-size: contain;
       color: transparent;
+      user-select: none;
     }
     @keyframes fade-in {
       0% {

@@ -18,10 +18,12 @@ import { openPopup } from "@/store/actions/user";
 import { pageUrlConstants } from "@/lib/constants";
 const { home, profile, notice, login } = pageUrlConstants;
 import { updateRechargeStateAction } from "@/store/actions/config";
+import { usePathname } from "next/navigation";
 
 const TopBar = () => {
   const { state } = useGlobalContext();
 
+  const location = usePathname();
   const t = useTranslations();
   function handleShare() {
     navigatorShare({
@@ -102,13 +104,19 @@ const TopBar = () => {
       data: false,
     })
   }
+  // 特定页面显示H1标签
+  const routesToShowLogo = ['/posts/main', '/vendor'];
+
+  const shouldShowLogo =
+    location.startsWith('/home') ||
+    routesToShowLogo.includes(location);
 
   return (
     <TopBarElement main_height={state.navbar.mainHeight}>
       <div className="search_bar">
         <div className="search_bar_logo">
           <div onClick={clickHome} className="search_bar_logo_img">
-            <h1>{t('Home.name')}</h1>
+            {shouldShowLogo && <h1>{t('Home.name')}</h1>}
           </div>
         </div>
         <div className="search_bar_main">

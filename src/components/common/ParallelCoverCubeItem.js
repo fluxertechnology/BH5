@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 const ParallelCoverCubeItem = ({
   data,
-  isVideo,
+  isVideo = false,
   disabledBottomBorder = false,
 }) => {
   const t = useTranslations();
@@ -91,7 +91,7 @@ export default ParallelCoverCubeItem;
 
 export const ParallelCoverCubeIElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["disabledBottomBorder"].includes(prop),
+    !["disabledBottomBorder","isVideo"].includes(prop),
 })`
   /*  */
   &:hover {
