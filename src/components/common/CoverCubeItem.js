@@ -326,6 +326,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               cover={true}
               src={data.img}
               alt={data.title}
+              lazyLoad={false}
               title={data.title}
               isFree={
                 data.need_jinbi == 0 ||
@@ -338,6 +339,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
         ) : (
           <ImageComponent
             is_cover
+            lazyLoad={false}
             cover={true}
             src={data.img}
             alt={data.title}

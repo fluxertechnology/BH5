@@ -12,7 +12,7 @@ export const getSearchTabAction = () => {
       let hotTab = data.search_hot;
       let historyTab = data.search_history;
       
-      if(user.id === "guest") {
+      if(user.id === "guest" || historyTab.length === 0) {
         historyTab = JSON.parse(localStorage.getItem("historyTab")) || [];
       }
 

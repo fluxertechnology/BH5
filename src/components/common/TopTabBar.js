@@ -125,6 +125,7 @@ const TopTabBar = ({
   disabledIndent = false,
   type = 1, // 0 main tab 1 sub tab
   indexColumn = false,
+  isListOnly = false,
 }) => {
   const { isMobile } = useMediaQuery();
   const t = useTranslations();
@@ -317,7 +318,8 @@ const TopTabBar = ({
       ) : (
         <TopTabBarElement
           type={type}
-          className={`${!disabledIndent && "w-auto"} `}
+          className={`${!disabledIndent && "w-auto"}`}
+          isListOnly={isListOnly}
         >
           <StyledTabs value={nowKey} onChange={handleChange} className={"category_list"} variant="scrollable"
             scrollButtons="auto" >
@@ -343,7 +345,7 @@ const TopTabBar = ({
               );
             })}
           </StyledTabs>
-          <div className="g-center gap-3 my-auto">
+          <div className={`g-center gap-3 my-auto ${!isListOnly ? '':'display-none'}`}>
             {linkItems.map((data, index) => {
               const { onMouseEnterEvent, onClickEvent, color, icon, name } =
                 data;
@@ -484,7 +486,9 @@ const FeatureGameItemElement = styled.div`
 
 export default React.memo(TopTabBar, areEqual);
 
-export const TopTabBarElement = styled.div`
+export const TopTabBarElement = styled.div.withConfig({
+	shouldForwardProp: (prop) => !['isListOnly'].includes(prop) 
+})`
   /*  */
   position: relative;
   display: flex;
@@ -496,7 +500,8 @@ export const TopTabBarElement = styled.div`
   padding-right: 5vw;
   padding-left: 5vw;
   box-sizing: content-box;
-  width:initial;
+  width: ${({ isListOnly }) => !isListOnly ? 'initial' : '100%'};
+  padding: ${({ isListOnly }) => isListOnly ? '0 !important' : ''};
 
   @media (max-width: 1024px) {
     padding-right: 1vw;
@@ -548,6 +553,9 @@ export const TopTabBarElement = styled.div`
       padding: 5px 15px;
       width: 60%;
     }
+  }
+  .display-none {
+    display:none;
   }
 `;
 

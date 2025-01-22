@@ -1,7 +1,10 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext, useGlobalDispatch } from '@/store';
-import { updateSearchResultAction } from '@/store/actions/pages/homeSearchResultAction';
+import {
+	addHistoryTabAcion,
+	updateSearchResultAction,
+} from '@/store/actions/pages/homeSearchResultAction';
 import Grid from '@mui/material/Grid';
 import CoverCubeItem from '@/components/common/CoverCubeItem';
 import Image from 'next/image';
@@ -11,11 +14,60 @@ import {
 	itemScrollBottomCallEvent,
 	scrollCold,
 } from '@/lib/services/scrollEvent';
+import {
+	clearHistoryAction,
+	getSearchTabAction,
+} from '@/store/actions/pages/homeSearchMainAction';
+import LinkComponent from '@/components/common/LinkComponent';
+import {
+	adsKeys,
+	colors,
+	pageUrlConstants,
+	side_padding,
+} from '@/lib/constants';
+import Cookies from 'js-cookie';
+import Tab from '@mui/material/Tab';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+const { home } = pageUrlConstants;
 
 const SearchResult = ({ show = true }) => {
 	const { state } = useGlobalContext();
 	const { isMobile } = useMediaQuery();
 	const t = useTranslations();
+
+	const categoryList = {
+		SAC: {
+			name: t('Navbar.top_navigator_comic'),
+		},
+		SAV: {
+			name: t('Navbar.top_navigator_animate'),
+		},
+		SV: {
+			name: t('Navbar.top_navigator_video'),
+		},
+		SX: {
+			name: t('Navbar.top_navigator_novel'),
+		},
+		ST: {
+			name: t('Navbar.top_navigator_meitu'),
+		},
+	};
+
+	const categoryColors = [
+		['#ff487f', '#fa719a'], // Ani-Manga
+		['#33b7c3', '#7fc28f'], // Video
+		['#4aeba8', '#fcb423'], // Image
+		['#f80f6e', '#595292'], // Novel
+		['#1289e7', '#24e5c0'], // K-Comics
+		['#2065bc', '#923bde'], // Dojin
+		['#5eaeef', '#f3305f'], // 3D
+		['#ea2c38', '#ea9d3c'], // RANKS
+		['#0f74c7', '#7acfec'], // Free Watch
+		['#ffb321', '#ff8921'], // Customer Support
+		['#ff4b80', '#ff4b60'], // Download APP
+		['#ff4b80'], // PINK
+	];
 
 	const [isShow, setIsShow] = useState(show);
 	const [searchCategory, setSearchCategory] = useState('SAC');
@@ -26,6 +78,7 @@ const SearchResult = ({ show = true }) => {
 			useGlobalDispatch(
 				updateSearchResultAction(path[0], path[1], scrollColdEnd),
 			);
+			useGlobalDispatch(addHistoryTabAcion(path[0]));
 		}
 	};
 	const onSearchInputChange = (e) => {
@@ -38,6 +91,21 @@ const SearchResult = ({ show = true }) => {
 		}
 	};
 
+	const tabSearch = (tabName) => () => {
+		setSearchInput(tabName);
+		scrollCold(false);
+		updateSearchResult(`${tabName}/${searchCategory}`);
+	};
+
+	const categorySearch = (category) => {
+		setSearchCategory(category);
+		scrollCold(false);
+		updateSearchResult(`${searchInputRef.current.value}/${category}`);
+	};
+
+	const searchInputRef = useRef(null);
+	const searchCategoryRef = useRef(searchCategory);
+
 	const localState = useMemo(() => {
 		return {
 			isEnd: state.homeSearchResultData[searchInput]
@@ -47,19 +115,25 @@ const SearchResult = ({ show = true }) => {
 				? [...state.homeSearchResultData[searchInput][searchCategory].list]
 				: [],
 		};
-	}, [state.homeSearchResultData, state.router.location.pathname]);
+	}, [
+		state.homeSearchResultData,
+		searchCategory,
+		searchInput,
+	]);
 
-  const searchInputRef = useRef(null);
-  const searchCategoryRef = useRef(searchCategory);
 	function scrollEvent() {
-    itemScrollBottomCallEvent(
-      document.querySelector('.search_result_wrapper'),
-      (scrollColdEnd) => {
-        useGlobalDispatch(
-          updateSearchResultAction(searchInputRef.current.value, searchCategoryRef.current, scrollColdEnd),
-        );
-      },
-    );
+		itemScrollBottomCallEvent(
+			document.querySelector('.search_result_wrapper'),
+			(scrollColdEnd) => {
+				useGlobalDispatch(
+					updateSearchResultAction(
+						searchInputRef.current.value,
+						searchCategoryRef.current,
+						scrollColdEnd,
+					),
+				);
+			},
+		);
 	}
 
 	const closeSearch = () => {
@@ -85,17 +159,35 @@ const SearchResult = ({ show = true }) => {
 		searchResultWrapper.addEventListener('scroll', scrollEvent);
 	}, []);
 
+	useEffect(() => {
+		if (
+			state.navbar.isShowSearch && state.homeSearchTabList.hotTab.length === 0
+		) {
+			getSearchTabData();
+		}
+	}, [state.navbar.isShowSearch]);
+
+	const getSearchTabData = () => {
+		useGlobalDispatch(getSearchTabAction());
+	};
+
+	const clearHistory = () => {
+		useGlobalDispatch(clearHistoryAction());
+	};
+
 	return (
 		<SearchResultElement
 			main_height={state.navbar.mainHeight}
 			bottom_nav_height={state.navbar.bottomNavHeight}
 			isMobile={isMobile}
+			searchbar_height={(isMobile ? 200 : 210) +
+				(!!searchInput ? (isMobile ? 30 : 60) : 0)}
 		>
 			<div className={state.navbar.isShowSearch ? '' : 'hide'}>
 				<div className='search_bar'>
 					<div className='search_bar_content'>
 						<input
-              ref={searchInputRef}
+							ref={searchInputRef}
 							type='text'
 							className='search_content_input'
 							placeholder='搜寻你想要的...'
@@ -113,8 +205,82 @@ const SearchResult = ({ show = true }) => {
 							/>
 						</div>
 					</div>
-				</div>
 
+					<div className='tab_container'>
+						<div className='tab_container_header'>
+							<p className='tab_container_header_title'>
+								{t('Search.hot_search')}
+							</p>
+						</div>
+						<div className='tab_container_body'>
+							<Swiper
+								className='media_slider_container'
+								slidesPerView={20}
+							>
+								{state.homeSearchTabList.hotTab.map((tabName, index) => {
+									return (
+										<SwiperSlide
+											className='tab_container_body_tab'
+											onClick={tabSearch(tabName)}
+											key={`${tabName}-${index}`}
+										>
+											{tabName}
+										</SwiperSlide>
+									);
+								})}
+							</Swiper>
+						</div>
+					</div>
+
+					<div className='tab_container'>
+						<div className='tab_container_header'>
+							<p className='tab_container_header_title'>
+								{t('Search.search_history')}
+							</p>
+							<span
+								className='tab_container_header_clear'
+								onClick={clearHistory}
+							>
+								{t('Global.clean')}
+							</span>
+						</div>
+						<div className='history_tab_wrapper'>
+							<div className='tab_container_body'>
+								<Swiper
+									className='media_slider_container'
+									slidesPerView={20}
+								>
+									{state.homeSearchTabList.historyTab.map((tabName, index) => {
+										return (
+											<SwiperSlide
+												className='tab_container_body_tab'
+												onClick={tabSearch(tabName)}
+												key={`${tabName}-${index}`}
+											>
+												{tabName}
+											</SwiperSlide>
+										);
+									})}
+								</Swiper>
+							</div>
+						</div>
+					</div>
+
+					{!!searchInput &&
+						Object.keys(categoryList).map((category, index) => {
+							const bgColors = categoryColors[index % categoryColors.length] ||
+								['#333333'];
+							return (
+								<AntTab
+									key={category}
+									label={categoryList[category].name}
+									bgColors={bgColors}
+									onClick={() => categorySearch(category)}
+									className={category === searchCategory ? 'Mui-selected' : ''}
+								/>
+							);
+						})}
+				</div>
 				<div className='search_result_wrapper'>
 					<div
 						className={localState.list.length
@@ -161,14 +327,27 @@ const SearchResult = ({ show = true }) => {
 
 const SearchResultElement = styled.div.withConfig({
 	shouldForwardProp: (prop) =>
-		!['main_height', 'bottom_nav_height', 'isMobile'].includes(prop),
+		![
+			'main_height',
+			'bottom_nav_height',
+			'isMobile',
+			'searchbar_height',
+		]
+			.includes(prop),
 })`
-  ${({ main_height, bottom_nav_height, isMobile }) => `
+  ${(
+	{
+		main_height,
+		bottom_nav_height,
+		isMobile,
+		searchbar_height,
+	},
+) => `
     .hide {
         display: none;
     }
     .search_bar {
-        height: 65px;
+      height: ${isMobile ? `${searchbar_height}px` : `${searchbar_height}px`};
         padding: ${isMobile ? '15px 30px' : '10px 11.927vw'};
         position: fixed;
         top: ${main_height}px;
@@ -194,10 +373,12 @@ const SearchResultElement = styled.div.withConfig({
     .search_result_wrapper {
         position: fixed;
         z-index: 11;
-        top: ${main_height + 65}px;
+        top: calc(${main_height}px + ${
+	isMobile ? `${searchbar_height}px` : `${searchbar_height}px`
+});
         width: 100%;
         height: calc(100vh - ${
-	main_height + 65 + (isMobile ? bottom_nav_height : 0)
+	main_height + (isMobile ? bottom_nav_height : 0) + searchbar_height
 }px);
         background-color: rgba(0, 0, 0, 0.7);
         overflow-y: auto;
@@ -223,7 +404,123 @@ const SearchResultElement = styled.div.withConfig({
       align-items: center;
       padding: 10px 11.927vw;
     }
+
+    .tab_container {
+      background-color: #fff;
+      margin: ${isMobile ? '2px' : '10px'} 0;
+
+      &_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &_title {
+          padding-left:5px;
+          font-size: 18px;
+          font-weight: 900;
+          text-shadow: 0px 0px black;
+
+          @media (max-width: 750px) {
+            font-size: max(14px, 2.4vw);
+            margin-top: 2px;
+          }
+        }
+
+        &_clear {
+          cursor: pointer;
+          color: #fa719a;
+
+          @media (max-width: 750px) {
+            font-size: max(12px, 2.133vw);
+          }
+        }
+      }
+
+      &_body {
+        margin-top: 10px;
+
+        @media (max-width: 750px) {
+          margin-top: 0px;
+        }
+
+        &_tab {
+          font-size: max(12px, 0.833vw);
+          margin-right: max(10px, 0.625vw) !important;
+          min-width: fit-content;
+          cursor: pointer;
+          padding: 4px 12px;
+          padding:auto
+          height:25px;
+          line-height:25px;
+          text-decoration: none;
+          color: gray;
+          font-weight:600;
+          background-color: ${colors.back_grey};
+          border-radius:3px;
+          
+          @media (max-width: 750px) {
+            padding: 4px 6px;
+            margin: 3px 10px 10px 0;
+            font-size: max(12px, 2.133vw);
+          }
+        }
+      }
+    }
+
+    .history_tab_wrapper {
+      min-height: 40px;
+    }
   `}
 `;
 
 export default SearchResult;
+
+const lang = Cookies.get('NEXT_LOCALE');
+
+const AntTab = styled((props) => (
+	<Tab
+		disableRipple
+		{...Object.fromEntries(
+			Object.entries(props).filter(([key]) => key !== 'bgColors'),
+		)}
+	/>
+))(
+	({ theme, bgColors }) => {
+		const { isMobile } = useMediaQuery();
+		const backgroundColor = Array.isArray(bgColors) && bgColors.length === 2
+			? `linear-gradient(135deg, ${bgColors[0]}, ${bgColors[1]})`
+			: bgColors[0] || '#333333';
+
+		return {
+			textTransform: 'none',
+			minWidth: isMobile ? '0 !important' : 0,
+			padding: '0px !important',
+			fontSize: lang == 'en'
+				? 'max(10px,0.739vw) !important'
+				: 'max(12px,0.83vw) !important',
+			fontFamily: 'Microsoft YaHei !important',
+			fontWeight: '700  !important',
+			alignSelf: 'center !important',
+			width: 'max(50px,4vw) !important',
+			height: 'max(30px,1.6vw) !important',
+			minHeight: '20px !important',
+			borderRadius: '0.677vw !important',
+			background: backgroundColor, // Use `background` for gradient support
+			color: '#fff !important',
+			transition: '0.3s !important',
+			marginRight: isMobile ? '1.333vw !important' : '0.521vw !important',
+			[theme.breakpoints?.down('sm')]: {
+				width: 'auto',
+				fontSize: '14px',
+			},
+			'&:hover': {
+				color: colors.text_grey,
+				opacity: 1,
+			},
+			'&.Mui-selected': {
+				color: '#fff !important',
+				// fontWeight: theme.typography?.fontWeightMedium,
+			},
+		};
+	},
+);
