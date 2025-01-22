@@ -397,10 +397,9 @@ const SearchResultElement = styled.div.withConfig({
     }
     .search_result_container.with_content {
         padding: ${isMobile ? '0px 30px' : '15px 11.927vw'};
-    }
-    .search_result_container > div {
         background-color: #fff;
     }
+  
     .close_btn {
       cursor: pointer;
     }
