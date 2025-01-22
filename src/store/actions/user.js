@@ -15,7 +15,6 @@ const { home } = pageUrlConstants;
 export const userLoginAction =
   (params, callback = () => { }) =>
     (dispatch) => {
-      console.log("users login action");
       return utilitiesRequest
         .getLoginAction(params)
         .then((data) => {
@@ -37,6 +36,7 @@ export const userLoginAction =
               callback(check);
               if (check) {
                 setVipInfoAction(() => {
+                  window.localStorage.setItem("MinorsProhibitedDialog", Date.now());
                   if (window.location.pathname.startsWith("/login"))
                     dispatch(replaceRoutes(home.pages.homeMain));
                 })(dispatch)
