@@ -478,6 +478,13 @@ const SearchResultElement = styled.div.withConfig({
     .history_tab_wrapper {
       min-height: 40px;
     }
+
+    .search_result_container .MuiGrid-root {
+      margin-left: 0px;
+    }
+    .search_result_container .MuiGrid-item {
+      padding: 0px;
+    }
   `}
 `;
 
