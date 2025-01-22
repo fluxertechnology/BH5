@@ -74,7 +74,9 @@ const SearchResult = ({ show = true }) => {
 	const [searchInput, setSearchInput] = useState('');
 	const updateSearchResult = (pathneme, scrollColdEnd = () => {}) => {
 		let path = pathneme.split('/');
-		if (path[0] && path[1]) {
+		const category = window.localStorage.getItem('searchCategory');
+		const input = window.localStorage.getItem('searchInput');
+		if (input && category) {
 			useGlobalDispatch(
 				updateSearchResultAction(path[0], path[1], scrollColdEnd),
 			);
@@ -86,6 +88,7 @@ const SearchResult = ({ show = true }) => {
 	};
 	const onSearchInputKeydown = (e) => {
 		if (e.key === 'Enter') {
+			window.localStorage.setItem('searchInput', searchInputRef.current.value);
 			scrollCold(false);
 			updateSearchResult(`${searchInput}/${searchCategory}`);
 		}
@@ -94,11 +97,14 @@ const SearchResult = ({ show = true }) => {
 	const tabSearch = (tabName) => () => {
 		setSearchInput(tabName);
 		scrollCold(false);
+		window.localStorage.setItem('searchInput', tabName);
 		updateSearchResult(`${tabName}/${searchCategory}`);
 	};
 
 	const categorySearch = (category) => {
 		setSearchCategory(category);
+		window.localStorage.setItem('searchInput', searchInputRef.current.value);
+		window.localStorage.setItem('searchCategory', category);
 		scrollCold(false);
 		updateSearchResult(`${searchInputRef.current.value}/${category}`);
 	};
@@ -127,8 +133,8 @@ const SearchResult = ({ show = true }) => {
 			(scrollColdEnd) => {
 				useGlobalDispatch(
 					updateSearchResultAction(
-						searchInputRef.current.value,
-						searchCategoryRef.current,
+						window.localStorage.getItem('searchInput'),
+						window.localStorage.getItem('searchCategory'),
 						scrollColdEnd,
 					),
 				);
@@ -145,6 +151,8 @@ const SearchResult = ({ show = true }) => {
 	};
 
 	useEffect(() => {
+		window.localStorage.setItem('searchInput', searchInput);
+		window.localStorage.setItem('searchCategory', searchCategory);
 		if (
 			!state.homeSearchResultData[searchInput] ||
 			state.homeSearchResultData[searchInput][searchCategory]?.page === 0
