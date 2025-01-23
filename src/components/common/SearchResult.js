@@ -73,11 +73,20 @@ const SearchResult = ({ show = true }) => {
 	const [isShow, setIsShow] = useState(show);
 	const [searchCategory, setSearchCategory] = useState('SAC');
 	const [searchInput, setSearchInput] = useState('');
-	const updateSearchResult = (pathneme, scrollColdEnd = () => {}) => {
+	const updateSearchResult = (pathneme, scrollColdEnd = () => { }) => {
 		let path = pathneme.split('/');
 		const category = window.localStorage.getItem('searchCategory');
 		const input = window.localStorage.getItem('searchInput');
 		if (input && category) {
+			_paq.push(['trackSiteSearch',
+				// Search keyword searched for
+				path[0],
+				// Search category selected in your search engine. If you do not need this, set to false
+				path[1],
+				// Number of results on the Search results page. Zero indicates a 'No Result Search Keyword'. Set to false if you don't know
+				0
+			]);
+
 			useGlobalDispatch(
 				updateSearchResultAction(path[0], path[1], scrollColdEnd),
 			);
@@ -229,7 +238,7 @@ const SearchResult = ({ show = true }) => {
 						<div className='tab_container_body'>
 							<Swiper
 								className='media_slider_container'
-                slidesPerView={slidePerView}
+								slidesPerView={slidePerView}
 								loop={state.homeSearchTabList.hotTab.length > slidePerView}
 							>
 								{state.homeSearchTabList.hotTab.map((tabName, index) => {
@@ -264,7 +273,7 @@ const SearchResult = ({ show = true }) => {
 								<Swiper
 									className='media_slider_container'
 									slidesPerView={slidePerView}
-                  loop={state.homeSearchTabList.historyTab.length > slidePerView}
+									loop={state.homeSearchTabList.historyTab.length > slidePerView}
 								>
 									{state.homeSearchTabList.historyTab.map((tabName, index) => {
 										return (
@@ -389,13 +398,11 @@ const SearchResultElement = styled.div.withConfig({
     .search_result_wrapper {
         position: fixed;
         z-index: 11;
-        top: calc(${main_height}px + ${
-	isMobile ? `${searchbar_height}px` : `${searchbar_height}px`
-});
+        top: calc(${main_height}px + ${isMobile ? `${searchbar_height}px` : `${searchbar_height}px`
+		});
         width: 100%;
-        height: calc(100vh - ${
-	main_height + (isMobile ? bottom_nav_height : 0) + searchbar_height
-}px);
+        height: calc(100vh - ${main_height + (isMobile ? bottom_nav_height : 0) + searchbar_height
+		}px);
         background-color: rgba(0, 0, 0, 0.7);
         overflow-y: auto;
     }
