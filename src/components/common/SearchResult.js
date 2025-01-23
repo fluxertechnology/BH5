@@ -69,6 +69,7 @@ const SearchResult = ({ show = true }) => {
 		['#ff4b80'], // PINK
 	];
 
+	const [slidePerView, setSlidePerView] = useState(10);
 	const [isShow, setIsShow] = useState(show);
 	const [searchCategory, setSearchCategory] = useState('SAC');
 	const [searchInput, setSearchInput] = useState('');
@@ -151,6 +152,9 @@ const SearchResult = ({ show = true }) => {
 	};
 
 	useEffect(() => {
+		setSlidePerView(
+			typeof window !== 'undefined' ? Math.round(window.innerWidth / 96) : 10,
+		);
 		window.localStorage.setItem('searchInput', searchInput);
 		window.localStorage.setItem('searchCategory', searchCategory);
 		if (
@@ -225,7 +229,8 @@ const SearchResult = ({ show = true }) => {
 						<div className='tab_container_body'>
 							<Swiper
 								className='media_slider_container'
-								slidesPerView={20}
+                slidesPerView={slidePerView}
+								loop={state.homeSearchTabList.hotTab.length > slidePerView}
 							>
 								{state.homeSearchTabList.hotTab.map((tabName, index) => {
 									return (
@@ -258,7 +263,8 @@ const SearchResult = ({ show = true }) => {
 							<div className='tab_container_body'>
 								<Swiper
 									className='media_slider_container'
-									slidesPerView={20}
+									slidesPerView={slidePerView}
+                  loop={state.homeSearchTabList.historyTab.length > slidePerView}
 								>
 									{state.homeSearchTabList.historyTab.map((tabName, index) => {
 										return (
