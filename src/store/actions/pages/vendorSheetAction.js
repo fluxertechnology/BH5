@@ -27,7 +27,7 @@ export const submitOrderAction = function (data, t) {
       if (data.select_pay_type == 0) {
         axiosRequest.post(postGetVendorGoods, formData).then(resItemData => {
           _paq.push(['trackEcommerceOrder',
-            res.data, // (Required) orderId
+            res, // (Required) orderId
             resItemData.yue, // (Required) grandTotal (revenue)
             0, // (Optional) subTotal
             0, // (optional) tax
