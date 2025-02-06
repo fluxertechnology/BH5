@@ -45,7 +45,7 @@ const HomeNovelsContent = () => {
         // });
       }
     }
-  }, [novelId]);
+  }, [novelId,state.user.id]);
 
   function clickCollectEven() {
     clickCollect({

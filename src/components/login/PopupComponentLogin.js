@@ -275,15 +275,6 @@ const PopupDialogLogin = () => {
   };
   const userLoginSuccess = () => {
     useGlobalDispatch(closePopup());
-    const breadcrumbsData = [...state.breadcrumbs];
-    breadcrumbsData.reverse();
-    for (let i = 0; i < breadcrumbsData.length; i++) {
-      if (breadcrumbsData[i].path.indexOf("login") === -1) {
-        useGlobalDispatch(replaceRoutes(breadcrumbsData[i]));
-        return;
-      }
-    }
-    useGlobalDispatch(backRoutes());
   };
 
 
