@@ -9,9 +9,12 @@ import PopupDialog from '@/components/login/PopupComponent';
 import { useEffect, useState } from 'react';
 import { useGlobalContext, useGlobalDispatch } from '@/store';
 import { openPopup } from '@/store/actions/user';
+import { setUserAgent } from '@/hooks/useMediaQuery';
 
-const RootComponent = ({ children, locale }) => {
+const RootComponent = ({ children, locale, userAgent }) => {
 	const { state } = useGlobalContext();
+
+	setUserAgent(userAgent);
 
 	const [isClient, setIsClient] = useState(false);
 	useEffect(() => {
@@ -104,10 +107,6 @@ const RootComponent = ({ children, locale }) => {
 			});
 		}
 	}, [state.user.id, state.router.location.pathname, isClient]);
-
-	if (!isClient) {
-		return null;
-	}
 
 	return (
 		<>

@@ -25,6 +25,7 @@
     "aes-js": "^3.1.2",
     "autolinker": "^4.0.0",
     "axios": "^1.7.7",
+    "babel-plugin-styled-components": "^2.1.4",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
     "hls.js": "^1.5.18",
