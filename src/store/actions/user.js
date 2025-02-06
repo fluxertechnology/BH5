@@ -124,19 +124,19 @@ export const userFBLoginOutAction = () => {
   };
 };
 
-export const openPopup =
-  (popupType) =>
-    (dispatch) => {
-      document.getElementById("popup-dialog").style.display = "block";
-      document.getElementsByTagName("body")[0].style.overflow = "hidden";
+export const openPopup = (popupType) => (dispatch) => {
+	setTimeout(() => {
+		document.getElementById('popup-dialog').style.display = 'block';
+		document.getElementsByTagName('body')[0].style.overflow = 'hidden';
 
-      dispatch({
-        type: "UPDATE_POPUP_TYPE",
-        data: {
-          popupType,
-        },
-      });
-    };
+		dispatch({
+			type: 'UPDATE_POPUP_TYPE',
+			data: {
+				popupType,
+			},
+		});
+	}, 0);
+};
 
 export const closePopup = () => {
   return function () {
