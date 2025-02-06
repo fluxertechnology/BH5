@@ -57,7 +57,10 @@ function saveContentData(storeData) {
     homeComicViewData: storeData.homeComicViewData,
     homeComicContentData: storeData.homeComicContentData,
     homeAnimesViewData: storeData.homeAnimesViewData,
-    homeAnimesContentData: storeData.homeAnimesContentData,
+	homeAnimesContentData:  Object.entries(storeData.homeAnimesContentData).reduce((acc, [key, item]) => {
+	  acc[key] = {...item, recommend_list:[]}
+	  return acc;
+	}, {}),
     //homeSearchResultData: storeData.homeSearchResultData,
     homeVideo: storeData.homeVideo,
     homeLeaderBoard: storeData.homeLeaderBoard,
