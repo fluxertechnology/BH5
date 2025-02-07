@@ -63,7 +63,7 @@ const HomePhotosContent = () => {
 
     // 用 [1來用]
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photoId]);
+  }, [photoId,state.user.id]);
 
   useEffect(() => {
     if (photoData.miaoshu) {
