@@ -35,7 +35,12 @@ const ImageComponent = ({
 }) => {
   const t = useTranslations();
   const [fixHeight, setFixHeight] = useState(null);
-  const [imgSrc, setImgSrc] = useState(src);
+  const isClient = typeof window !== "undefined";
+  const initialSrc = isClient ? src : placeholderSrc;
+
+  const [imgSrc, setImgSrc] = useState(initialSrc);
+  const lazyLoadEnabled = typeof window !== "undefined";
+
   const placeholderSrc = (typeof placeholderImg === "object"
     ? placeholderImg.src
     : placeholderImg)
@@ -72,9 +77,9 @@ const ImageComponent = ({
       is_placeholder={imgRef.current?.src.includes('/images/imgPlaceholder')}
     >
       <img
-        src={!lazyLoad ? (imgSrc || placeholderSrc) : placeholderSrc}
-        className={`img ${imgSrc && lazyLoad ? "lazyload" : ""}`}
-        data-src={src || placeholderSrc}
+        src={!lazyLoadEnabled ? imgSrc : placeholderSrc}
+        className={`img ${imgSrc && lazyLoadEnabled ? "lazyload" : ""}`}
+        data-src={lazyLoadEnabled ? src || placeholderSrc : undefined}
         //blurDataURL={placeholderImg || "/images/imgPlaceholder/300x300.jpg"}
         alt={alt ?? "unknown-pic"}
         title={title}
