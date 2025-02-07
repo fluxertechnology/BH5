@@ -24,6 +24,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
 import useHTMLEvent from "@/hooks/useHTMLEvent";
 import NavbarMore from "@/components/common/NavbarMore";
+import WebVitals from "@/components/WebVitals";
 
 export default function GlobalComponent() {
   const { state, dispatch } = useGlobalContext();
@@ -120,6 +121,7 @@ export default function GlobalComponent() {
   const quotaRef = useRef(null);
   return (
     <div>
+	  <WebVitals />
       <MinorsProhibitedDialog />
       <AxiosCenter.RenderLoadingElement />
       <CSSTransition

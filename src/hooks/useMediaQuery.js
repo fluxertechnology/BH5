@@ -5,9 +5,14 @@ import { useEffect, useState } from "react";
  * @returns {Object} - An object containing booleans for isDesktop, isTablet, isMobile, isTouchDevice, and the window size.
  */
 
+let userAgent;
+
+export function setUserAgent(ua) {
+  userAgent = ua;
+}
+
 const useMediaQuery = () => {
-  const userAgent = navigator.userAgent;
-  const isMobileUA = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+  const isMobileUA = /mobile|webOS|android|iphone|ipad|ipod|blackberry|windows phone|phone/i.test(userAgent);
   const isTabletUA = /tablet|ipad/i.test(userAgent);
   const isDesktopUA = !isMobileUA && !isTabletUA;
 

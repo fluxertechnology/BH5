@@ -261,7 +261,7 @@ const ReactPlayerComponent = ({
             )}
 
             <div ref={reactPlayerRef} style={{ display: "none" }} />
-            <img src={img} className="ply_img" alt="請購買會員觀看影片" />
+            <img src="/images/imgPlaceholder/300x300.jpg" data-src={img || "/images/imgPlaceholder/300x300.jpg"} className="lazyload ply_img" alt="請購買會員觀看影片" />
           </section>
         ) : (
           <section className="react_player_container">
