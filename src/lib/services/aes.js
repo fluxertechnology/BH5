@@ -1,6 +1,10 @@
 import nacl from 'tweetnacl';
 import * as msgpack from '@msgpack/msgpack';
 
+if (!Symbol.dispose) {
+    Symbol.dispose = Symbol("Symbol.dispose");
+}
+
 // Generate a 32-byte secret key (store this securely!)
 const SECRET_KEY = Uint8Array.from([164,86,67,58,158,104,77,9,246,66,229,190,134,116,19,37,30,251,54,96,149,254,180,66,141,180,50,208,52,107,186,38]);
 // nacl.randomBytes(32);
