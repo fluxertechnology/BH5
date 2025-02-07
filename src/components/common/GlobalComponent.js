@@ -72,10 +72,6 @@ export default function GlobalComponent() {
         useRouter: router,
       },
     });
-
-    if (typeof window !== "undefined") {
-      useSaveStateData(state);
-    }
   }, [pathname, searchParams]);
 
   useEffect(() => {

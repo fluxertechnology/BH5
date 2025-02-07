@@ -8,7 +8,8 @@ import Script from 'next/script';
 import StyledComponentsRegistry from '@/components/common/StyledComponenstRegistry';
 
 import '@/styles/globals.scss';
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
+
 export async function generateMetadata() {
 	const messages = await getMessages();
 	const metadataTranslations = messages.Home;
@@ -26,6 +27,12 @@ export default async function RootLayout({ children }) {
 	const messages = await getMessages();
 	const headerList = await headers();
 	const userAgent = headerList.get('user-agent') || 'Android';
+
+	const cookiesList = await cookies();
+	const cookiesObj = cookiesList.getAll().reduce((acc, { name, value }) => {
+	  acc[name] = value;
+	  return acc;
+	}, {});
 
 	return (
 		<html lang={locale}>
@@ -62,7 +69,7 @@ export default async function RootLayout({ children }) {
 
 				<StyledComponentsRegistry>
 					<NextIntlClientProvider locale={locale} messages={messages}>
-						<GlobalProvider>
+						<GlobalProvider cookies={cookiesObj}>
 							<RootComponent locale={locale} userAgent={userAgent}>
 								{children}
 							</RootComponent>
