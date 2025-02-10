@@ -57,6 +57,7 @@ import {
   addMissionRecordAction,
   pushRoutes,
 } from "@/store/actions/historyActions";
+import { openPopup } from "@/store/actions/user";
 import {
   dismissPreventPageScroll,
   judeTotalViewUnit,
@@ -261,14 +262,14 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
 
   const postCardLikeEvent = (data) => {
     if (store.getState().user.id === "guest") {
-      useGlobalDispatch(pushRoutes(pageUrlConstants.login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(postCardLikeEventAction(data));
     }
   };
   const postCardAttentionEvent = (data) => {
     if (state.user.id === "guest") {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(postAttentionEventAction(data));
     }
@@ -281,7 +282,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
     pay_type = 1
   ) => {
     if (state.user.id === "guest") {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(
         postPayEventAction(data, gold, callback, action, pay_type)
@@ -296,7 +297,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
     action = 0
   ) => {
     if (state.user.id === "guest") {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(
         postPayEventAction(data, gold, callback, action, pay_type)
@@ -305,14 +306,14 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
   };
   const postCardScribeMediaEvent = (data, type) => {
     if (state.user.id === "guest") {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(postScribeEventAction(data, type));
     }
   };
   const postCardPaydownloadMediaEvent = (data, callback, isVideo) => {
     if (state.user.id === "guest") {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(
         // postPayEventAction(data, isVideo ? 3 : 1, callback, isVideo ? 2 : 1)
@@ -341,7 +342,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
   };
   const postAddWatchMountEventDispatch = (data) => {
     if (state.user.id === "guest") {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     } else {
       useGlobalDispatch(postAddWatchMountEvent(data));
     }
@@ -488,7 +489,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
         0
       );
     } else {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     }
   }
 
@@ -527,7 +528,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
       clickMediaContent();
       postAddWatchMountEventDispatch(postData);
     } else {
-      useGlobalDispatch(pushRoutes(login));
+      useGlobalDispatch(openPopup("login"));
     }
   }
 
