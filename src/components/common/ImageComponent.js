@@ -36,15 +36,16 @@ const ImageComponent = ({
   const t = useTranslations();
   const [fixHeight, setFixHeight] = useState(null);
   const isClient = typeof window !== "undefined";
-  const initialSrc = isClient ? src : placeholderSrc;
-
-  const [imgSrc, setImgSrc] = useState(initialSrc);
-  const lazyLoadEnabled = typeof window !== "undefined";
 
   const placeholderSrc = (typeof placeholderImg === "object"
     ? placeholderImg.src
     : placeholderImg)
     || "/images/imgPlaceholder/300x300.jpg"
+
+  const initialSrc = isClient ? src : placeholderSrc;
+
+  const [imgSrc, setImgSrc] = useState(initialSrc);
+  const lazyLoadEnabled = typeof window !== "undefined";
 
   function preventMenu(even) {
     var e = even || window.event;
