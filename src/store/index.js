@@ -2,10 +2,10 @@
 
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-// import rootReducer from '@/store/reducers';
+ import rootReducer from '@/store/reducers';
 import { useRouter } from 'next/navigation';
 import { decryptiedData } from '@/lib/services/aes';
-import rootReducer from '@/store/rootReducer';
+//import rootReducer from '@/store/rootReducer';
 
 const GlobalContext = createContext();
 
