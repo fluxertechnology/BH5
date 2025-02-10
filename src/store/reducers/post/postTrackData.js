@@ -4,9 +4,7 @@ import { postListDataLimit } from "./postListData";
 const local = typeof window !== "undefined" ? window.localStorage.getItem("contentData") : '{}';
 const postTrackData = function (
   state = {
-    postTrack: local
-      ? JSON.parse(decryptiedData(local))?.postTrackData?.postTrack
-      : [],
+    postTrack: [],
     page: 0,
     isNew: true,
     isDone: false,

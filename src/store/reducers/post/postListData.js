@@ -11,9 +11,7 @@ export const postListDataLimit = 20;
 const local = typeof window !== "undefined" ? window.localStorage.getItem("contentData") : '{}';
 const postListData = function (
   state = {
-    postList: local
-      ? JSON.parse(decryptiedData(local))?.postListData?.postList
-      : [],
+    postList: [],
     page: 0,
     isNew: true,
     isDone: false,

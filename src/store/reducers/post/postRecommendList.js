@@ -1,8 +1,6 @@
 import { decryptiedData } from "@/lib/services/aes";
 export const postListDataLimit = 20;
-const local = typeof window !== 'undefined' && window.localStorage.getItem("contentData")
-  ? JSON.parse(decryptiedData(window.localStorage.getItem("contentData")))
-  : [];
+const local = [];
 const postRecommendList = (
   state = {
     list: local.postRecommendList?.list || [],
