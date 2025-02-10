@@ -98,7 +98,8 @@ const AntTab = styled((props) => <Tab disableRipple {...Object.fromEntries(Objec
       width: "max(50px,5.365vw) !important",
       height: "max(30px,2.083vw) !important",
       minHeight: "20px !important",
-      borderRadius: "0.677vw !important",
+      maxHeight: "45px !important",
+      borderRadius: "min(13px,0.677vw) !important",
       background: backgroundColor, // Use `background` for gradient support
       color: "#fff !important",
       transition: "0.3s !important",

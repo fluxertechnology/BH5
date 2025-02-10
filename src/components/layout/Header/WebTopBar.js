@@ -902,6 +902,10 @@ const TopsearchBarElement = styled.div.withConfig({
       background-size: contain;
       color: transparent;
       user-select: none;
+      @media (min-width: 2048px) {
+        width: 170px;
+        height: 50px;
+      }
     }
     @keyframes fade-in {
       0% {
@@ -1004,6 +1008,9 @@ const TopsearchBarElement = styled.div.withConfig({
                 font-size: 14px;
                 font-weight: 600;
                 color: #000;
+                @media (min-width: 2048px) {
+                 font-size: min(18px,0.779vw);
+                }
               }
             }
 
@@ -1511,6 +1518,11 @@ const TopsearchBarElement = styled.div.withConfig({
         // background-color: #1a2950;
         // color: #fff;
         font-size: max(12px,0.833vw);
+      }
+    }
+    @media (min-width: 2048px) {
+      .search_bar_avatar_login {
+        font-size: 0.6vw;
       }
     }
   `}
