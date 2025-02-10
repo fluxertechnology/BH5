@@ -72,6 +72,10 @@ const path = require('path');
 const reducersPath = path.join(__dirname, '../src/store/reducers');
 const outputFilePath = path.join(__dirname, '../src/store/rootReducer.js');
 
+const importList = [];
+const exportList = [];
+const exportNameList = [];
+
 function extractCases(fileMap) {
 	const stateKey = fileMap[0];
 	const filePath = fileMap[1];
@@ -83,6 +87,24 @@ function extractCases(fileMap) {
 
 	if (!match) return '';
 
+	const exportMatches = content.match(/export const (\w+) = (.*?);/g);
+	const importMatches = content.match(
+		/import\s+{?(.*?)}?\s+from\s+["'](.*?)["']/g,
+	);
+	if (importMatches) {
+		importMatches.forEach((importMatch) => {
+			importList.push(importMatch);
+		});
+	}
+	if (exportMatches) {
+		exportMatches.forEach((exportMatch) => {
+			exportList.push(exportMatch);
+		});
+	}
+	const exportConstName = content.match(/export const (\w+) =/);
+	if (exportConstName) {
+		exportNameList.push(exportConstName[1]);
+	}
 	return match[1]
 		.replace(/state/g, `state.${stateKey}`)
 		.replace(/return /g, `state.${stateKey} =`)
@@ -90,8 +112,9 @@ function extractCases(fileMap) {
 		.split(/case\s+/)
 		.filter(Boolean)
 		.map((caseBlock) => {
-			return `case ${caseBlock.trim().replace(/^(.*?):/, '$1: {')
-				}\n return {...state}\n }`;
+			return `case ${
+				caseBlock.trim().replace(/^(.*?):/, '$1: {')
+			}\n return {...state}\n }`;
 		})
 		.join('\n\n');
 }
@@ -99,8 +122,13 @@ function extractCases(fileMap) {
 const allCases = Object.entries(fileList).map(extractCases).filter(Boolean)
 	.join('\n\n');
 
+const uniqueExportList = [...new Set(exportList)];
+const uniqueImportList = [...new Set(importList)].filter((e) =>
+	exportNameList.every((name) => !e.includes(name))
+);
 const rootReducerContent = `
-
+${uniqueImportList.join('\n')}
+${uniqueExportList.join('\n')}
 export default function rootReducer(state = {}, action) {
 
   switch (action.type) {
@@ -112,5 +140,8 @@ export default function rootReducer(state = {}, action) {
 }
 `;
 
-fs.writeFileSync(outputFilePath, rootReducerContent);
+fs.writeFileSync(
+	outputFilePath,
+	rootReducerContent,
+);
 console.log('✅ rootReducer.js generated successfully.');

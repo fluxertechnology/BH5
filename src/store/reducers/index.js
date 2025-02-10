@@ -184,32 +184,13 @@ const rootReducer = combineReducers({
 //   postRecommendList,
 // });
 
-// function combineReducers(reducers) {
-//   return function (state, action) {
-//     return Object.keys(reducers).reduce((nextState, key) => {
-//       nextState[key] = reducers[key](state[key], action);
-// 			console.log("nextState", nextState, key,action);
-//       return nextState;
-//     }, {});
-//   };
-// }
-
 function combineReducers(reducers) {
-	return function(state = {}, action) {
-		let hasChanged = false; // 追踪是否有任何 state 发生变化
-		const nextState = {};
-
-		Object.keys(reducers).forEach((key) => {
-			const prevStateForKey = state[key]; // 旧 state
-			const nextStateForKey = reducers[key](prevStateForKey, action); // 计算新 state
-
-			if (prevStateForKey !== nextStateForKey) {
-				hasChanged = true; // 只有当 state 变化时才更新
-			}
-			nextState[key] = nextStateForKey;
-		});
-
-		return hasChanged ? nextState : state; // 只有 state 变化时才返回新对象，减少重复渲染
+	return function (state, action) {
+		return Object.keys(reducers).reduce((nextState, key) => {
+			nextState[key] = reducers[key](state[key], action);
+			return nextState;
+		}, {});
 	};
 }
+
 export default rootReducer;

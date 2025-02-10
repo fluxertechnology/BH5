@@ -1,19 +1,18 @@
 import { encryptionData } from '@/lib/services/aes';
-import Cookies from 'js-cookie';
 
 function saveUserDate(storeData) {
 	const data = JSON.stringify({
 		user: storeData.user,
 		vipInfoData: storeData.vipInfoData,
 	});
-	Cookies.set('userData', encryptionData(data));
+	window.localStorage.setItem('userData', encryptionData(data));
 	if (process.env.NODE_ENV === 'development') {
 		window.localStorage.setItem('userDataOriginal', data);
 	}
 }
 
 function saveSystem(storeData) {
-	Cookies.set(
+	window.localStorage.setItem(
 		'systemData',
 		encryptionData(
 			JSON.stringify({
@@ -32,7 +31,7 @@ function saveSystem(storeData) {
 }
 
 function saveCatchData(storeData) {
-	Cookies.set(
+	window.localStorage.setItem(
 		'catchData',
 		encryptionData(
 			JSON.stringify({
@@ -49,7 +48,6 @@ function saveCatchData(storeData) {
 }
 
 function saveContentData(storeData) {
-	// console.log('save content data')
 	const data = JSON.stringify({
 		homeData: storeData.homeData,
 		homeAnimeData: storeData.homeAnimeData,
@@ -95,7 +93,7 @@ function saveContentData(storeData) {
 		profileDirectBuy: storeData.profileDirectBuy,
 		profileMission: storeData.profileMission,
 	});
-	Cookies.set('contentData', encryptionData(data));
+  window.localStorage.setItem('contentData', encryptionData(data));
 	if (process.env.NODE_ENV === 'development') {
 		window.localStorage.setItem('contentDataOriginal', data);
 	}
@@ -107,13 +105,13 @@ const useSaveStateData = (state) => {
 		// 快取目前資料，用來快速顯示畫面並過度獲取資料前的短暫空白狀態
 		var isOnIOS = navigator.userAgent.match(/iPad/i) ||
 			navigator.userAgent.match(/iPhone/i);
-		Cookies.set('lastInitTime', Date.now());
+		window.localStorage.setItem('lastInitTime', Date.now());
 		saveUserDate(state);
 		saveContentData(state);
 	} else {
 		var isOnIOS = navigator.userAgent.match(/iPad/i) ||
 			navigator.userAgent.match(/iPhone/i);
-		Cookies.set('lastInitTime', Date.now());
+		window.localStorage.setItem('lastInitTime', Date.now());
 		saveUserDate(state);
 		saveSystem(state);
 		saveCatchData(state);

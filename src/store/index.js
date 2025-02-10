@@ -2,10 +2,10 @@
 
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
- import rootReducer from '@/store/reducers';
+//import rootReducer from '@/store/reducers';
 import { useRouter } from 'next/navigation';
 import { decryptiedData } from '@/lib/services/aes';
-//import rootReducer from '@/store/rootReducer';
+import rootReducer from '@/store/rootReducer';
 
 const GlobalContext = createContext();
 
@@ -37,7 +37,7 @@ export function GlobalProvider({ children, cookies }) {
 			closeType: 'back', //關閉方式 back hidden
 			unit: 'gold',
 			avatarType: 'init',
-			callback: () => { },
+			callback: () => {},
 		},
 		homeData: {},
 		homeAnimeData: {},
@@ -290,11 +290,11 @@ export function GlobalProvider({ children, cookies }) {
 		navbar: {
 			isPlaceholder: false,
 			clickSearch: (e) => e.stopPropagation(),
-			clickAvatar: () => { },
-			clickNew: () => { },
+			clickAvatar: () => {},
+			clickNew: () => {},
 			newNotice: 0,
-			clickHome: () => { },
-			toPaymentPage: () => { },
+			clickHome: () => {},
+			toPaymentPage: () => {},
 			mainHeight: 72,
 			subHeight: 66.7,
 			subFontSize: 20,
@@ -316,22 +316,22 @@ export function GlobalProvider({ children, cookies }) {
 	let isInit = false;
 	let toInitData = {};
 
-	if (!isInit) {
+	if (!isInit && typeof window !== 'undefined') {
 		let nowTime = Date.now();
-		let lastTime = parseInt(cookies.lastInitTime || 0);
+		let lastTime = parseInt(localStorage.lastInitTime || 0);
 
 		// 相關儲存資料請在 index.js 設定
-		let userDate = cookies.userData
-			? JSON.parse(decryptiedData(cookies.userData))
+		let userDate = localStorage.userData
+			? JSON.parse(decryptiedData(localStorage.userData))
 			: {};
-		let systemData = cookies.systemData
-			? JSON.parse(decryptiedData(cookies.systemData))
+		let systemData = localStorage.systemData
+			? JSON.parse(decryptiedData(localStorage.systemData))
 			: {};
-		let catchData = cookies.catchData
-			? JSON.parse(decryptiedData(cookies.catchData))
+		let catchData = localStorage.catchData
+			? JSON.parse(decryptiedData(localStorage.catchData))
 			: {};
-		let contentData = cookies.contentData
-			? JSON.parse(decryptiedData(cookies.contentData))
+		let contentData = localStorage.contentData
+			? JSON.parse(decryptiedData(localStorage.contentData))
 			: {};
 		// console.log(cookies.userData,decryptiedData(cookies.userData),'userDate', userDate)
 
