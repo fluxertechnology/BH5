@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { decryptiedData } from '@/lib/services/aes';
 import rootReducer from '@/store/rootReducer';
+import { startTransition } from 'react';
 
 const GlobalContext = createContext();
 
@@ -384,15 +385,17 @@ export function useGlobalContext() {
 }
 
 export function useGlobalDispatch(callback) {
-	if (!context) useContext(GlobalContext);
-	if (typeof callback !== 'function' && !!callback.type) {
-		return context.dispatch(callback);
-	}
-	return callback((subCallback) => {
-		if (typeof subCallback !== 'function' && !!subCallback.type) {
-			return context.dispatch(subCallback);
+	startTransition(() => {
+		if (!context) useContext(GlobalContext);
+		if (typeof callback !== 'function' && !!callback.type) {
+				return context.dispatch(callback);
 		}
-		return subCallback(context.dispatch);
+		return callback((subCallback) => {
+			if (typeof subCallback !== 'function' && !!subCallback.type) {
+				return context.dispatch(subCallback);
+			}
+			return subCallback(context.dispatch);
+		});
 	});
 }
 
