@@ -45,7 +45,7 @@ const HomeNovelsContent = () => {
         // });
       }
     }
-  }, [novelId,state.user.id]);
+  }, [novelId, state.user.id]);
 
   function clickCollectEven() {
     clickCollect({
@@ -161,8 +161,9 @@ const HomeNovelsContentElement = styled.div.withConfig({
 
     /*  */
     @media (min-width: 599px) {
-        padding: ${main_height + sub_height}px ${padding}px 0;
+        padding: ${main_height + sub_height}px ${padding}px ${sub_height}px;
     }
+    padding: ${main_height }px 0;
     .share {
         position: fixed;
         bottom: 51px;
