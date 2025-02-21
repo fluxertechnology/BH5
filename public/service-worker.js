@@ -8,6 +8,8 @@ let __FILTER_DOMAIN = [
   "os.bnmnm1.cn",
   "ph-ph.gjnov.cn",
   "os-os.gjnov.cn",
+  "ph-ph.kawaiikingdoms.com",
+  "os-os.kawaiikingdoms.com",
 ];
 
 // 當service worker在「安裝階段」時會觸發此事件
