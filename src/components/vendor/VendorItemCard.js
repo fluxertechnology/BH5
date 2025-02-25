@@ -55,7 +55,7 @@ export const moneyAndGold = (money, yue, t) => {
     return (
       <div className="price">
         {yue}
-        <span className="price_small"> {t("Global.gold_money")}</span>
+        <span className="price_small"> {t("Global.money")}</span>
       </div>
     );
   } else if (money) {
