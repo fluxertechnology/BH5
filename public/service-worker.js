@@ -4,12 +4,10 @@ let __FILTER_DOMAIN = [
   "stbhubimage001.blob.core.windows.net",
   "ph.pklpubq.cn",
   "os.pklpubq.cn",
-  "ph.bnmnm1.cn",
-  "os.bnmnm1.cn",
-  "ph-ph.gjnov.cn",
-  "os-os.gjnov.cn",
   "ph-ph.kawaiikingdoms.com",
   "os-os.kawaiikingdoms.com",
+  "ph-ph.bacgmh.com",
+  "os-os.bacgmh.com",
 ];
 
 // 當service worker在「安裝階段」時會觸發此事件
