@@ -15,7 +15,10 @@
       "comic": "漫画排行榜",
       "anime": "动画排行榜"
     },
-    "eula_title": "B次元用户服务协议、动漫平台隐私政策"
+    "eula_title": "B次元用户服务协议、动漫平台隐私政策",
+    "page_number": "第 {page}/{totalPages}页",
+    "previous_page": "上一页",
+    "next_page": "下一页"
   },
   "Navbar": {
     "home": "首頁",

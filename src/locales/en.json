@@ -15,7 +15,10 @@
       "comic": "Ranking Comic",
       "anime": "Ranking Anime"
     },
-    "eula_title": "BHub User Service Agreement, Animation Platform Privacy Policy"
+    "eula_title": "BHub User Service Agreement, Animation Platform Privacy Policy",
+    "page_number": "Page {page}/{totalPages}",
+    "previous_page": "Previous Page",
+    "next_page": "Next Page"
   },
   "Navbar": {
     "home": "Home",
@@ -350,7 +353,7 @@
     "placeholder_donate_diamond": "Diamond Donate",
     "placeholder_think_again": "Cancel",
     "thx_support": "Thank you(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
-    "recommend_author":"Recommended Author"
+    "recommend_author": "Recommended Author"
   },
   "Profile": {
     "build": {
@@ -830,13 +833,13 @@
     "editDetails": "Edit Email and Password",
     "have_acc": "Already have BHub account? ",
     "no_acc": "Don't have BHub account? ",
-    "fast_register_title":"Quick Register",
-    "fast_register_subtitle":"Enjoy a large number of high-quality works",
-    "fast_register_email":"Register by Email",
-    "t_and_c_1":"By continuing, you agree to our",
-    "t_and_c_2":"Terms of Services",
-    "t_and_c_3":" and ",
-    "t_and_c_4":"Privacy Policy"
+    "fast_register_title": "Quick Register",
+    "fast_register_subtitle": "Enjoy a large number of high-quality works",
+    "fast_register_email": "Register by Email",
+    "t_and_c_1": "By continuing, you agree to our",
+    "t_and_c_2": "Terms of Services",
+    "t_and_c_3": " and ",
+    "t_and_c_4": "Privacy Policy"
   },
   "Personal": {
     "setting": "Personal Setting"

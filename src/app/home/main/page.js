@@ -24,15 +24,14 @@ import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCar
 
 import { AntTab, StyledTabs, TabPanel } from "@/components/common/MuiTabItem";
 import OriginalCarousel from "@/components/common/OriginalCarousel";
-import {
-  refreshAnimeData,
-} from "@/store/actions/pages/homeMainAction";
+import { refreshAnimeData } from "@/store/actions/pages/homeMainAction";
 import {
   postAttentionEventAction,
   postScribeEventAction,
 } from "@/store/actions/pages/postCardItemAction";
+import { vendorUrl } from "@/lib/constants/index.js";
 
-const { home } = pageUrlConstants;
+const { home, vendor } = pageUrlConstants;
 
 export default function HomeMainPage() {
   const t = useTranslations();
@@ -42,6 +41,8 @@ export default function HomeMainPage() {
   const [videoTabValue, setVideoTabValue] = useState();
   const [photoTabValue, setPhotoTabValue] = useState();
   const { isMobile } = useMediaQuery();
+
+  const [page, setPage] = useState(1);
 
   const localState = useMemo(() => {
     function fillDataArray(item, length) {
@@ -144,15 +145,18 @@ export default function HomeMainPage() {
       case "novel_list":
         url = home.pages.homeMain.pages.homeNovels.path;
         break;
-      // case "recommend_original":
-      //   url = home.pages.homeLeaderboard;
-      //   break;
-      //   ;
+      case "shop":
+        url = vendor.path;
+        break;
       default:
         break;
     }
     useGlobalDispatch(pushRoutes({ path: url, dynamic: category }));
   };
+
+  // useEffect(() => {
+  //   useGlobalDispatch(getVendorListAction());
+  // }, [isMobile]);
 
   let labelList = {
     anime: {
@@ -199,17 +203,17 @@ export default function HomeMainPage() {
   };
   labelList = isMobile
     ? {
-      ...labelList,
-      comic: {
-        name: t("Global.comics"),
-      },
-      animes: {
-        name: t("Global.animate"),
-      },
-      games: {
-        name: t("Game.label.game"),
-      },
-    }
+        ...labelList,
+        comic: {
+          name: t("Global.comics"),
+        },
+        animes: {
+          name: t("Global.animate"),
+        },
+        games: {
+          name: t("Game.label.game"),
+        },
+      }
     : labelList;
 
   const clickTabLabel = (key, dynamic) => {
@@ -236,21 +240,21 @@ export default function HomeMainPage() {
   };
 
   const postCardScribeMediaEvent = (data, type) => {
-    if (localState.user.id === 'guest') {
+    if (localState.user.id === "guest") {
       useGlobalDispatch(pushRoutes(login));
     } else {
       useGlobalDispatch(postScribeEventAction(data, type));
     }
   };
   const postCardAttentionEvent = (data) => {
-    if (localState.user.id === 'guest') {
+    if (localState.user.id === "guest") {
       useGlobalDispatch(pushRoutes(login));
     } else {
       useGlobalDispatch(
         postAttentionEventAction({
           uid: data.uid,
           is_attention: data.is_follow,
-        }),
+        })
       );
     }
   };
@@ -271,6 +275,30 @@ export default function HomeMainPage() {
     });
   }, []);
 
+  // 商城
+  function goToVendor() {
+    window.open(vendorUrl);
+  }
+
+  const pageSize = 4;
+
+  const list = useMemo(
+    () => state.vendorListData?.list || [],
+    [state.vendorListData]
+  );
+  const totalPages = useMemo(() => Math.ceil(list.length / pageSize), [list]);
+
+  const paginatedList = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return list.slice(start, start + pageSize);
+  }, [page, list]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages || 1);
+    }
+  }, [totalPages, page]);
+
   return (
     <HomeMainPageElement>
       <ImageCarousel
@@ -281,8 +309,8 @@ export default function HomeMainPage() {
       />
 
       {localState.user.id !== "guest" &&
-        (localState.anime_watch_history.length > 0 ||
-          localState.comic_watch_history.length) ? (
+      (localState.anime_watch_history.length > 0 ||
+        localState.comic_watch_history.length) ? (
         <article className="anime_continue_watch_history_area">
           <section className="home_Main_container home_Main_new_comic">
             <div className="home_Main_container_title">
@@ -293,8 +321,8 @@ export default function HomeMainPage() {
               </div>
             </div>
             <ContinueWatchSlideCarousel
-              itemsAnime={localState.anime_watch_history?? []}
-              itemsComic={localState.comic_watch_history?? []}
+              itemsAnime={localState.anime_watch_history ?? []}
+              itemsComic={localState.comic_watch_history ?? []}
               continueWatch
             />
           </section>
@@ -319,8 +347,9 @@ export default function HomeMainPage() {
         </section>
 
         <section
-          className={`home_Main_container home_Main_hot_comic ${isMobile ? " g-flex-column-start " : "g-start"
-            }  gap-3`}
+          className={`home_Main_container home_Main_hot_comic ${
+            isMobile ? " g-flex-column-start " : "g-start"
+          }  gap-3`}
         >
           <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
@@ -342,8 +371,9 @@ export default function HomeMainPage() {
           </section>
 
           <section
-            className={`home_main_container_ranking g-flex-column-start ${isMobile ? "w-100" : "f-35"
-              } `}
+            className={`home_main_container_ranking g-flex-column-start ${
+              isMobile ? "w-100" : "f-35"
+            } `}
           >
             <span className="home_Main_container_ranking_top g-flex-space-between  w-100 align-items-center px-3 py-1 ">
               <p className="home_Main_container_ranking_top_title fw-m">
@@ -357,8 +387,9 @@ export default function HomeMainPage() {
               </p>
             </span>
             <span
-              className={`g-flex-column-space-around h-100 ${isMobile && "w-100 g-overflow-auto"
-                } gap-2`}
+              className={`g-flex-column-space-around h-100 ${
+                isMobile && "w-100 g-overflow-auto"
+              } gap-2`}
             >
               <ComicRankingItem list={localState.rank_comic_list} />
             </span>
@@ -410,17 +441,21 @@ export default function HomeMainPage() {
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("anime_ranking")}
             >
-              {t('Common.see_all')}
+              {t("Common.see_all")}
             </p>
           </div>
-          <SlideCarousel items={localState.rank_anime_list} type="animated" rankStyle />
+          <SlideCarousel
+            items={localState.rank_anime_list}
+            type="animated"
+            rankStyle
+          />
         </section>
 
         <section className="home_Main_container home_Main_hot_anime">
           <div className="home_Main_container_title">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
-                {t('Home.popular_animate')}
+                {t("Home.popular_animate")}
               </span>
             </div>
             <div
@@ -439,14 +474,14 @@ export default function HomeMainPage() {
           <div className="home_Main_container_title g-flex-space-between">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
-                {t('Home.added_this_week_anime')}
+                {t("Home.added_this_week_anime")}
               </span>
             </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("all_anime_list")}
             >
-              {t('Common.see_all')}
+              {t("Common.see_all")}
             </p>
           </div>
           <SlideCarousel items={localState.all_anime_list} type="animated" />
@@ -458,14 +493,14 @@ export default function HomeMainPage() {
           <div className="home_Main_container_title g-flex-space-between ">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
-                {t('Game.label.featured_game')}
+                {t("Game.label.featured_game")}
               </span>
             </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("feature_game")}
             >
-              {t('Common.see_all')}
+              {t("Common.see_all")}
             </p>
           </div>
           <SlideCarousel items={localState.game_list} type="game" />
@@ -475,7 +510,7 @@ export default function HomeMainPage() {
           <div className="home_Main_container_title g-flex-space-between">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span mr-2">
-                {t('Global.video')}
+                {t("Global.video")}
               </span>
               {!isMobile && videoTabValue && (
                 <StyledTabs
@@ -501,7 +536,7 @@ export default function HomeMainPage() {
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("video")}
             >
-              {t('Common.see_all')}
+              {t("Common.see_all")}
             </p>
           </div>
           {isMobile && videoTabValue && (
@@ -531,7 +566,10 @@ export default function HomeMainPage() {
                 index={category.id}
                 key={category.id}
               >
-                <SlideCarousel items={localState.video_list[category.id]} type="video" />
+                <SlideCarousel
+                  items={localState.video_list[category.id]}
+                  type="video"
+                />
               </TabPanel>
             );
           })}
@@ -541,7 +579,7 @@ export default function HomeMainPage() {
           <div className="home_Main_container_title g-flex-space-between">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span mr-2">
-                {t('Navbar.top_navigator_meitu')}
+                {t("Navbar.top_navigator_meitu")}
               </span>
               {!isMobile && photoTabValue && (
                 <StyledTabs
@@ -549,17 +587,19 @@ export default function HomeMainPage() {
                   onChange={handlePhotoIndexChange}
                   aria-label="lab API tabs example"
                 >
-                  {[...localState.photo_category_list].reverse().map((category) => {
-                    if (localState.photo_list[category.id].length) {
-                      return (
-                        <AntTab
-                          label={category.title}
-                          value={category.id}
-                          key={category.id}
-                        />
-                      );
-                    }
-                  })}
+                  {[...localState.photo_category_list]
+                    .reverse()
+                    .map((category) => {
+                      if (localState.photo_list[category.id].length) {
+                        return (
+                          <AntTab
+                            label={category.title}
+                            value={category.id}
+                            key={category.id}
+                          />
+                        );
+                      }
+                    })}
                 </StyledTabs>
               )}
             </div>
@@ -567,7 +607,7 @@ export default function HomeMainPage() {
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("photo")}
             >
-              {t('Common.see_all')}
+              {t("Common.see_all")}
             </p>
           </div>
           {isMobile && photoTabValue && (
@@ -596,47 +636,111 @@ export default function HomeMainPage() {
                 index={category.id}
                 key={category.id}
               >
-                <SlideCarousel items={localState.photo_list[category.id]} type="photo" />
+                <SlideCarousel
+                  items={localState.photo_list[category.id]}
+                  type="photo"
+                />
               </TabPanel>
             );
           })}
         </section>
 
         <section
-          className={`home_Main_container home_Main_novel ${isMobile ? " g-flex-column-start column-reverse" : "g-start"
-            }  gap-3`}
+          className={`home_Main_container home_Main_novel ${
+            isMobile ? " g-flex-column-start column-reverse" : "g-start"
+          }  gap-3`}
         >
           <section className={`${isMobile ? " w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
               <div className="home_Main_container_title_text">
                 <span className="home_Main_container_title_text_span">
-                  {t('Navbar.top_navigator_novel')}
+                  {t("Navbar.top_navigator_novel")}
                 </span>
               </div>
               <p
                 className="home_Main_container_subtitle"
                 onClick={() => toDetailPage("novel_list")}
               >
-                {t('Common.see_all')}
+                {t("Common.see_all")}
               </p>
             </div>
             <ShowItem list={localState.novel_list} type="novel" />
           </section>
 
+          {/* 商城 */}
           <section
-            className={`home_main_container_ranking   ${isMobile ? " w-100" : "f-35"
-              }
-            } `}
+            className={`home_main_container_ranking ${
+              isMobile ? "w-100" : "f-35"
+            }`}
           >
-            <OriginalCarousel
-              items={localState.creation_list}
-              postCardScribeMediaEvent={postCardScribeMediaEvent}
-              postCardAttentionEvent={postCardAttentionEvent}
-            />
+            <div className="home_Main_container_title">
+              <div className="home_Main_container_title_text">
+                <span className="home_Main_container_title_text_span">
+                  {t("Navbar.bottom_navigator_mall")}
+                </span>
+              </div>
+              <p
+                className="home_Main_container_subtitle"
+                onClick={() => toDetailPage("shop")}
+              >
+                {t("Common.see_all")}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {paginatedList.map((item) => (
+                <div
+                  key={item.product_id}
+                  onClick={goToVendor}
+                  className="bg-white shadow rounded-2xl overflow-hidden transition hover:shadow-lg cursor-pointer"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.store_name}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-2">
+                    <h3 className="text-lg font-semibold truncate">
+                      {item.store_name}
+                    </h3>
+                    <p className="text-green-600 font-bold mt-1">
+                      ¥{item.price}
+                    </p>
+                    <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+                      {item.store_info}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex justify-center mt-6 space-x-2">
+              <div className="flex items-center justify-center gap-4 mt-6">
+                <button
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                  disabled={page <= 1}
+                >
+                  {t("Home.previous_page")}
+                </button>
+
+                <span className="px-2 py-2 text-gray-700">
+                  {t("Home.page_number", { page, totalPages })}
+                </span>
+
+                <button
+                  onClick={() =>
+                    setPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                  disabled={page >= totalPages}
+                >
+                  {t("Home.next_page")}
+                </button>
+              </div>
+            </div>
           </section>
         </section>
       </article>
-
     </HomeMainPageElement>
   );
 }
