@@ -686,7 +686,7 @@ export default function HomeMainPage() {
                 {t("Common.see_all")}
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2  gap-6">
               {paginatedList.map((item) => (
                 <div
                   key={item.product_id}
@@ -714,10 +714,10 @@ export default function HomeMainPage() {
             </div>
 
             <div className="flex justify-center mt-6 space-x-2">
-              <div className="flex items-center justify-center gap-4 mt-6">
+              <div className="flex items-center justify-center gap-2 mt-6">
                 <button
                   onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                  className="px-2 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
                   disabled={page <= 1}
                 >
                   {t("Home.previous_page")}
@@ -731,7 +731,7 @@ export default function HomeMainPage() {
                   onClick={() =>
                     setPage((prev) => Math.min(prev + 1, totalPages))
                   }
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                  className="px-2 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
                   disabled={page >= totalPages}
                 >
                   {t("Home.next_page")}
