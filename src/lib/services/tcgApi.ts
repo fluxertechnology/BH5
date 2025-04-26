@@ -8,7 +8,7 @@ class TcgClass {
    * 共用参数区
    */
   constructor() {
-    this.url = "http://www.url.com/doBusiness.do"; // API 连接
+    this.url = "http://localhost/doBusiness.do"; // API 连接
     this.merchant_code = ""; // 代理商号
     this.desKey = ""; // 加密金钥
     this.signKey = ""; // 加密签名档
@@ -321,6 +321,50 @@ class TcgClass {
   }
 
   /**
+   * Kick Out Lotto Member API 踢出彩票单个玩家接口
+   **/
+  async kickOutLottoMember(username: string): Promise<any> {
+    const kickOutParams = {
+      username: username,
+      method: "kom",
+    };
+    const result = await this.sendRequire(kickOutParams);
+    return result;
+  }
+
+  /**
+   * Fund Transfer Out All API 转出玩家所有余额接口
+   **/
+  async fundTransferOutAll(
+    username: string,
+    product_type: string,
+    fund_type: number,
+    reference_no: string,
+  ): Promise<any> {
+    const transferOutAllParams = {
+      username: username,
+      method: "ftoa",
+      product_type: product_type,
+      fund_type: fund_type,
+      reference_no: reference_no,
+    };
+    const result = await this.sendRequire(transferOutAllParams);
+    return result;
+  }
+
+  /**
+   * TCG Live API TCG直播接口
+   **/
+  async getLiveModelInfo(merchant_code: string): Promise<any> {
+    const liveModelParams = {
+      method: "gml",
+      merchant_code: merchant_code,
+    };
+    const result = await this.sendRequire(liveModelParams);
+    return result;
+  }
+
+  /**
    * 公用发送请求
    * @param {Object} sendParams
    * @return {Promise<any>}
@@ -342,6 +386,11 @@ class TcgClass {
     });
     const result = await response.text();
     console.log(result); // For debugging purposes
+    const isHTMLResult = result.includes("<html");
+    if (isHTMLResult) {
+      console.error("Received HTML response instead of JSON");
+      throw new Error("Invalid response from server");
+    }
     return result;
   }
 
@@ -387,7 +436,7 @@ class TcgClass {
    */
   pkcs5Unpad(text: string): string {
     const pad = text.charCodeAt(text.length - 1);
-    if (pad > text.length) return '';
+    if (pad > text.length) return "";
     if (
       text
         .slice(-pad)

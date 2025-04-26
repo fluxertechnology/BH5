@@ -946,3 +946,5 @@ export const searchTabName = {
   SX: "小說",
   ST: "美圖",
 };
+
+export const tcgAPIPath = '/api/tcg'

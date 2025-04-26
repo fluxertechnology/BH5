@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import ImageCarousel from "@/components/common/ImageCarousel";
-import { adsKeys, side_padding } from "@/lib/constants";
+import { adsKeys, side_padding, tcgAPIPath } from "@/lib/constants";
 import { useGlobalContext } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
@@ -64,6 +64,33 @@ const HomeTcgMainPage = () => {
       ],
     },
   ];
+
+  // Test API, it return sample data
+  const testAPI = async (method, data) => {
+    const response = await fetch(`${tcgAPIPath}/${method}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        testMode: true,
+        ...data,
+      }),
+    });
+    const jsonData = await response.json();
+    console.log(jsonData);
+  };
+
+  useEffect(() => {
+    // Test for Create / Register Player
+    testAPI("createUser", {
+      username: "phoenix",
+      password: "1q2w3e4r",
+    });
+
+    // Test for Get Balance
+    testAPI("getBalance", { username: "phoenix", product_type: 7 });
+  }, []);
 
   return (
     <HomeTcgMainPageElement>
@@ -147,7 +174,7 @@ export const HomeTcgMainPageElement = styled.div`
     gap: 16px;
     width: 100%;
     margin: 1vw 0;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
 
   .sidebar {
@@ -188,7 +215,7 @@ export const HomeTcgMainPageElement = styled.div`
     .feature-list {
       display: flex;
       gap: 12px;
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
 
       .feature-item {
         display: flex;
