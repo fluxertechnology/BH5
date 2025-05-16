@@ -25,6 +25,7 @@ import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCar
 import { AntTab, StyledTabs, TabPanel } from "@/components/common/MuiTabItem";
 import OriginalCarousel from "@/components/common/OriginalCarousel";
 import { refreshAnimeData } from "@/store/actions/pages/homeMainAction";
+import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js"
 import {
   postAttentionEventAction,
   postScribeEventAction,
@@ -154,9 +155,9 @@ export default function HomeMainPage() {
     useGlobalDispatch(pushRoutes({ path: url, dynamic: category }));
   };
 
-  // useEffect(() => {
-  //   useGlobalDispatch(getVendorListAction());
-  // }, [isMobile]);
+  useEffect(() => {
+    useGlobalDispatch(getVendorListAction());
+  }, [isMobile]);
 
   let labelList = {
     anime: {
