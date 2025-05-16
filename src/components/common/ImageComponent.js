@@ -56,6 +56,8 @@ const ImageComponent = ({
     return false;
   }
 
+  const [isError, setIsError] = useState(false);
+
   const imgRef = React.useRef(null);
   useEffect(() => {
     if (src !== imgSrc) {
@@ -99,6 +101,8 @@ const ImageComponent = ({
         }}
         onError={(e) => {
           //setImgSrc("/images/imgPlaceholder/300x300.jpg");
+          if (isError) return;
+          setIsError(true);
           e.target.src = placeholderSrc
         }}
         draggable="false"
