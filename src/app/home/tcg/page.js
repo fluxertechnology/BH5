@@ -4,9 +4,14 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import ImageCarousel from "@/components/common/ImageCarousel";
-import { adsKeys, side_padding, tcgAPIPath } from "@/lib/constants";
+import { adsKeys, side_padding } from "@/lib/constants";
 import { useGlobalContext } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import tcgAxios from "@/lib/services/tcgAxios";
+import productTypes from "@/lib/tcg/product_types";
+import gameTypes from "@/lib/tcg/game_types";
+import getLanguageCode from "@/lib/tcg/language_code";
+import toastCall from "@/lib/services/toastCall";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -65,31 +70,121 @@ const HomeTcgMainPage = () => {
     },
   ];
 
-  // Test API, it return sample data
-  const testAPI = async (method, data) => {
-    const response = await fetch(`${tcgAPIPath}/${method}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        testMode: true,
-        ...data,
-      }),
-    });
-    const jsonData = await response.json();
-    console.log(jsonData);
+  const [tcgUserName, setTcgUserName] = useState("");
+  const [tcgUserBalance, setTcgUserBalance] = useState(0);
+  const [tcgProductTypes, setTcgProductTypes] = useState(4);
+  const [tcgGameType, setTcgGameType] = useState("RNG");
+  const [tcgGameList, setTcgGameList] = useState([]);
+  const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
+  const [tcgTotalGames, setTcgTotalGames] = useState(0);
+  const tcgGamePageSize = 20;
+
+  const tcgUserSignup = async () => {
+    const payload = {
+      username: "test",
+      password: "Aa123123",
+    };
+    try {
+      const response = await tcgAxios.post(`/create_user`, payload);
+      if (response.data.status !== 0) {
+        toastCall(response.error_desc || "注册失败，请稍后再试");
+        return;
+      }
+      setTcgUserName(payload.username);
+      localStorage.setItem("tcgUserName", payload.username);
+      console.log("注册成功:", response.data);
+
+      tcgUserGetBalance();
+    } catch (error) {
+      console.error("注册失败:", error);
+    }
+  };
+
+  const tcgUserGetBalance = async () => {
+    if (!tcgUserName) {
+      return;
+    }
+    const payload = {
+      username: tcgUserName,
+      product_type: tcgProductTypes,
+    };
+    try {
+      const response = await tcgAxios.post(`/get_balance`, payload);
+      if (response.data.status !== 0) {
+        toastCall(response.error_desc || "获取用户余额失败，请稍后再试");
+        return;
+      }
+      setTcgUserBalance(response.data.balance);
+      console.log("用户余额:", response.data);
+    } catch (error) {
+      console.error("获取用户余额失败:", error);
+    }
+  };
+
+  const tcgGetGameList = async (page = 1) => {
+    const payload = {
+      product_type: tcgProductTypes,
+      platform: "all",
+      client_type: "all",
+      game_type: tcgGameType,
+      page,
+      page_size: tcgGamePageSize,
+      language: getLanguageCode(),
+    };
+
+    try {
+      const response = await tcgAxios.post(`/getGameList`, payload);
+      if (response.data.status !== 0) {
+        toastCall(response.error_desc || "获取游戏列表失败，请稍后再试");
+        return;
+      }
+      setTcgGameList(response.data.games || []);
+      setTcgTotalGames(response.data?.page_info?.totalCount ?? 0);
+    } catch (error) {
+      console.error("获取游戏列表失败:", error);
+    }
+  };
+
+  const tcgGetGameUrl = async (gameCode) => {
+    if (!tcgUserName) {
+      toastCall("请先注册或登录TCG用户");
+      return;
+    }
+    const payload = {
+      username: tcgUserName,
+      product_type: tcgProductTypes,
+      game_mode: 0, // 会员帐户类型（1 =真实，0 =测试）
+      game_code: gameCode,
+      platform: "html5",
+    };
+    try {
+      const response = await tcgAxios.post(`/getLaunchGameRng`, payload);
+      if (response.data.status !== 0) {
+        toastCall(response.error_desc || "获取游戏链接失败，请稍后再试");
+        return;
+      }
+      window.open(response.data.game_url, "_blank");
+    } catch (error) {
+      console.error("获取游戏链接失败:", error);
+      toastCall("获取游戏链接失败，请稍后再试");
+    }
   };
 
   useEffect(() => {
-    // Test for Create / Register Player
-    testAPI("createUser", {
-      username: "phoenix",
-      password: "1q2w3e4r",
-    });
+    tcgUserGetBalance();
+    tcgGetGameList();
+  }, [tcgUserName, tcgProductTypes]);
 
-    // Test for Get Balance
-    testAPI("getBalance", { username: "phoenix", product_type: 7 });
+  useEffect(() => {
+    tcgGetGameList(tcgGameCurrentPage);
+  }, [tcgGameCurrentPage]);
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem("tcgUserName");
+    if (storedUserName) {
+      console.log("从本地存储获取的用户名:", storedUserName);
+      setTcgUserName(storedUserName);
+    }
   }, []);
 
   return (
@@ -108,8 +203,100 @@ const HomeTcgMainPage = () => {
         <div className="sidebar">
           <div className="user-feature-header">
             <div className="user-info">
-              <div className="user-name">{userInfo.name}</div>
-              <div className="user-money">{userInfo.money}</div>
+              {!tcgUserName ? (
+                <>
+                  <div className="user-name">游客</div>
+                  <button
+                    className="border border-1 p-2"
+                    onClick={tcgUserSignup}
+                  >
+                    注册TCG用户
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="user-name">{tcgUserName}</div>
+                  <div className="user-money">余额: ¥{tcgUserBalance}</div>
+                </>
+              )}
+            </div>
+
+            <div>
+              厂商
+              {productTypes.map((type, index) => (
+                <button
+                  key={index}
+                  className={`border border-1 p-2 m-1 ${
+                    tcgProductTypes === type.product_type
+                      ? "bg-blue-500 text-white"
+                      : ""
+                  }`}
+                  onClick={() => setTcgProductTypes(type.product_type)}
+                >
+                  {type.product_name}
+                </button>
+              ))}
+            </div>
+
+            <div>
+              游戏类型
+              {Object.entries(gameTypes).map(([key, value], index) => (
+                <button
+                  key={index}
+                  className={`border border-1 p-2 m-1 ${
+                    tcgGameType === key ? "bg-blue-500 text-white" : ""
+                  }`}
+                  onClick={() => setTcgGameType(key)}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {tcgGameList.map((game, index) => (
+                <div
+                  key={index}
+                  className="game-item p-4 border rounded shadow hover:shadow-lg cursor-pointer text-center"
+                  onClick={() => tcgGetGameUrl(game.tcgGameCode)}
+                >
+                  <div className="icon text-2xl">🎮</div>
+                  <div className="title text-sm font-medium mt-2">
+                    {game.gameName}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex justify-center items-center gap-2">
+              <button
+                onClick={() =>
+                  setTcgCurrentPage((prev) => Math.max(prev - 1, 1))
+                }
+                disabled={tcgGameCurrentPage === 1}
+                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+              >
+                上一页
+              </button>
+              <span className="text-gray-700">
+                第 {tcgGameCurrentPage} 页 / 共{" "}
+                {Math.ceil(tcgTotalGames / tcgGamePageSize)}页
+              </span>
+              <button
+                onClick={() =>
+                  setTcgCurrentPage((prev) =>
+                    prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      ? prev + 1
+                      : prev,
+                  )
+                }
+                disabled={
+                  tcgGameCurrentPage >=
+                  Math.ceil(tcgTotalGames / tcgGamePageSize)
+                }
+                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+              >
+                下一页
+              </button>
             </div>
 
             <div className="feature-list">
