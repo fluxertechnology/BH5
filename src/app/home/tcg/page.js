@@ -6,13 +6,18 @@ import styled from "styled-components";
 import Image from "next/image";
 import ImageCarousel from "@/components/common/ImageCarousel";
 import { adsKeys, side_padding } from "@/lib/constants";
-import { useGlobalContext } from "@/store";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import tcgAxios from "@/lib/services/tcgAxios";
 import productTypes from "@/lib/tcg/product_types";
 import gameTypes from "@/lib/tcg/game_types";
 import getLanguageCode from "@/lib/tcg/language_code";
 import toastCall from "@/lib/services/toastCall";
+import { PopupDialogWrapper } from "@/components/login/PopupComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import IconInput from "@/components/login/IconInputComponent";
+import { openPopup } from "@/store/actions/user";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -30,6 +35,7 @@ const HomeTcgMainPage = () => {
     { title: "记录", icon: "📜", url: "#" },
   ];
 
+  const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgUserName, setTcgUserName] = useState("");
   const [tcgUserBalance, setTcgUserBalance] = useState(0);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
@@ -39,24 +45,27 @@ const HomeTcgMainPage = () => {
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 20;
 
-  const tcgUserSignup = async () => {
+  const tcgGetUserName = async () => {
+    const userId = state.user.id;
+    if (!userId || userId === "guest") {
+      return;
+    }
     const payload = {
-      username: "test",
-      password: "Aa123123",
+      bh5_user_id: userId,
     };
     try {
-      const response = await tcgAxios.post(`/create_user`, payload);
+      const response = await tcgAxios.post(`/get_user`, payload);
       if (response.data.status !== 0) {
-        toastCall(response.error_desc || "注册失败，请稍后再试");
+        console.log(
+          response.data.error_desc ||
+            response.data.message ||
+            "获取TCG用户名失败，请稍后再试",
+        );
         return;
       }
-      setTcgUserName(payload.username);
-      localStorage.setItem("tcgUserName", payload.username);
-      console.log("注册成功:", response.data);
-
-      tcgUserGetBalance();
+      setTcgUserName(response.data.tcg_username);
     } catch (error) {
-      console.error("注册失败:", error);
+      console.error("获取TCG用户名失败:", error);
     }
   };
 
@@ -71,7 +80,7 @@ const HomeTcgMainPage = () => {
     try {
       const response = await tcgAxios.post(`/get_balance`, payload);
       if (response.data.status !== 0) {
-        toastCall(response.error_desc || "获取用户余额失败，请稍后再试");
+        toastCall(response.data.error_desc || "获取用户余额失败，请稍后再试");
         return;
       }
       setTcgUserBalance(response.data.balance);
@@ -95,7 +104,7 @@ const HomeTcgMainPage = () => {
     try {
       const response = await tcgAxios.post(`/getGameList`, payload);
       if (response.data.status !== 0) {
-        toastCall(response.error_desc || "获取游戏列表失败，请稍后再试");
+        toastCall(response.data.error_desc || "获取游戏列表失败，请稍后再试");
         return;
       }
       setTcgGameList(response.data.games || []);
@@ -120,7 +129,7 @@ const HomeTcgMainPage = () => {
     try {
       const response = await tcgAxios.post(`/getLaunchGameRng`, payload);
       if (response.data.status !== 0) {
-        toastCall(response.error_desc || "获取游戏链接失败，请稍后再试");
+        toastCall(response.data.error_desc || "获取游戏链接失败，请稍后再试");
         return;
       }
       window.open(response.data.game_url, "_blank");
@@ -128,6 +137,15 @@ const HomeTcgMainPage = () => {
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
     }
+  };
+
+  const handleTcgSignup = () => {
+    if (!state.user.id || state.user.id === "guest") {
+      toastCall("请先登录或注册账号");
+      useGlobalDispatch(openPopup("login"));
+      return;
+    }
+    setIsOpenLogin(true);
   };
 
   useEffect(() => {
@@ -144,11 +162,7 @@ const HomeTcgMainPage = () => {
   }, [tcgUserName, tcgProductTypes, tcgGameType]);
 
   useEffect(() => {
-    const storedUserName = localStorage.getItem("tcgUserName");
-    if (storedUserName) {
-      console.log("从本地存储获取的用户名:", storedUserName);
-      setTcgUserName(storedUserName);
-    }
+    tcgGetUserName();
   }, []);
 
   return (
@@ -173,7 +187,7 @@ const HomeTcgMainPage = () => {
                     <div className="user-name">游客</div>
                     <button
                       className="border border-1 p-2"
-                      onClick={tcgUserSignup}
+                      onClick={handleTcgSignup}
                     >
                       注册TCG用户
                     </button>
@@ -283,7 +297,7 @@ const HomeTcgMainPage = () => {
                   setTcgCurrentPage((prev) =>
                     prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
                       ? prev + 1
-                      : prev
+                      : prev,
                   )
                 }
                 disabled={
@@ -298,6 +312,13 @@ const HomeTcgMainPage = () => {
           </div>
         </div>
       </div>
+      <TcgRegisterPopupModal
+        open={isOpenLogin}
+        onRegisterSuccess={() => {
+          tcgGetUserName();
+          setIsOpenLogin(false);
+        }}
+      />
     </HomeTcgMainPageElement>
   );
 };
@@ -482,3 +503,109 @@ export const HomeTcgMainPageElement = styled.div`
     }
   }
 `;
+
+export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
+  const { state } = useGlobalContext();
+  const [isOpen, setIsOpen] = useState(open);
+  const [usernameRef] = useState(null);
+  const [userpasswordRef] = useState(null);
+  const [tcgUserName, setTcgUserName] = useState("");
+  const [tcgUserPassword, setTcgUserPassword] = useState("");
+
+  const closeModal = () => {
+    setTcgUserName("");
+    setTcgUserPassword("");
+    setIsOpen(false);
+  };
+
+  const handleUserNameChange = (e) => {
+    setTcgUserName(e.target.value);
+  };
+
+  const tcgUserSignup = async () => {
+    const userId = state.user.id;
+    if (userId === "guest") {
+      useGlobalDispatch(openPopup("login"));
+      return;
+    }
+    const payload = {
+      bh5_user_id: userId,
+      username: tcgUserName,
+      password: tcgUserPassword,
+    };
+    try {
+      const response = await tcgAxios.post(`/create_user`, payload);
+      if (response.data.status !== 0) {
+        toastCall(
+          response.data.error_desc ||
+            response.data.message ||
+            "注册失败，请稍后再试",
+        );
+        return;
+      }
+      console.log("注册成功:", response.data);
+      onRegisterSuccess();
+    } catch (error) {
+      console.error("注册失败:", error);
+    }
+  };
+
+  useEffect(() => {
+    setIsOpen(open);
+  }, [open]);
+  return (
+    <div style={{ display: isOpen ? "block" : "none" }}>
+      <PopupDialogWrapper>
+        <div className="card-container">
+          <div className="close-cont" onClick={closeModal}>
+            <FontAwesomeIcon
+              className="close-icon"
+              icon={faX}
+              style={{ color: "#434343" }}
+            />
+          </div>
+          <div className="card-header">
+            <h3 className="title-text">注册</h3>
+            <p className="subtitle-text hidden">
+              have account?
+              <span className="green cursor-pointer">Login</span>
+            </p>
+          </div>
+          <div>
+            <div className="form-item">
+              <label className="form-label">用户名</label>
+              <div className="input_content_box">
+                <IconInput
+                  ref={usernameRef}
+                  name="tcgUserName"
+                  inputType="text"
+                  value={tcgUserName}
+                  callback={handleUserNameChange}
+                  placeholder="请输入用户名"
+                  enterKeyHint="next"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="form-item">
+            <label className="form-label">密码</label>
+            <div className="input_content_box">
+              <IconInput
+                ref={userpasswordRef}
+                name="tcgUserPassword"
+                inputType="password"
+                value={tcgUserPassword}
+                callback={(e) => setTcgUserPassword(e.target.value)}
+                placeholder="请输入密码"
+                enterKeyHint="done"
+              />
+            </div>
+            <div className="btn-wrapper mt-3" onClick={tcgUserSignup}>
+              <button className="submit-btn">注册</button>
+            </div>
+          </div>
+        </div>
+      </PopupDialogWrapper>
+    </div>
+  );
+};
