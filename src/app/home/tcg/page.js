@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
+import Image from "next/image";
 import ImageCarousel from "@/components/common/ImageCarousel";
 import { adsKeys, side_padding } from "@/lib/constants";
 import { useGlobalContext } from "@/store";
@@ -23,51 +24,10 @@ const HomeTcgMainPage = () => {
   // 假数据
   const userInfo = { name: "用户姓名", money: "¥1000" }; // 用户信息
   const features = [
-    { title: "充值", icon: "💰" },
-    { title: "提现", icon: "💵" },
-    { title: "优惠", icon: "🎁" },
-    { title: "记录", icon: "📜" },
-  ];
-  const categories = [
-    {
-      title: "热门游戏",
-      games: [
-        "快1",
-        "百家乐",
-        "捕鱼",
-        "龙虎",
-        "轮盘",
-        "PC28",
-        "牛牛",
-        "时时彩",
-      ],
-    },
-    {
-      title: "新游戏",
-      games: [
-        "快2",
-        "百家乐",
-        "捕鱼",
-        "龙虎",
-        "轮盘",
-        "PC28",
-        "牛牛",
-        "时时彩",
-      ],
-    },
-    {
-      title: "经典游戏",
-      games: [
-        "快3",
-        "百家乐",
-        "捕鱼",
-        "龙虎",
-        "轮盘",
-        "PC28",
-        "牛牛",
-        "时时彩",
-      ],
-    },
+    { title: "存款", icon: "💰", url: "#" },
+    { title: "提现", icon: "💵", url: "#" },
+    { title: "优惠", icon: "🎁", url: "#" },
+    { title: "记录", icon: "📜", url: "#" },
   ];
 
   const [tcgUserName, setTcgUserName] = useState("");
@@ -171,13 +131,17 @@ const HomeTcgMainPage = () => {
   };
 
   useEffect(() => {
-    tcgUserGetBalance();
-    tcgGetGameList();
-  }, [tcgUserName, tcgProductTypes]);
+    setTcgCurrentPage(1);
+  }, [tcgProductTypes, tcgGameType]);
 
   useEffect(() => {
     tcgGetGameList(tcgGameCurrentPage);
   }, [tcgGameCurrentPage]);
+
+  useEffect(() => {
+    tcgUserGetBalance();
+    tcgGetGameList();
+  }, [tcgUserName, tcgProductTypes, tcgGameType]);
 
   useEffect(() => {
     const storedUserName = localStorage.getItem("tcgUserName");
@@ -202,23 +166,39 @@ const HomeTcgMainPage = () => {
         {/* 左侧用户信息和功能列表 */}
         <div className="sidebar">
           <div className="user-feature-header">
-            <div className="user-info">
-              {!tcgUserName ? (
-                <>
-                  <div className="user-name">游客</div>
-                  <button
-                    className="border border-1 p-2"
-                    onClick={tcgUserSignup}
+            <div className="user-panel">
+              <div className="user-info">
+                {!tcgUserName ? (
+                  <>
+                    <div className="user-name">游客</div>
+                    <button
+                      className="border border-1 p-2"
+                      onClick={tcgUserSignup}
+                    >
+                      注册TCG用户
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="user-name">{tcgUserName}</div>
+                    <div className="user-money">余额: ¥{tcgUserBalance}</div>
+                  </>
+                )}
+              </div>
+              <div className="feature-list">
+                {features.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`feature-item ${
+                      activeFeatureIndex === index ? "active" : ""
+                    }`}
+                    onClick={() => setActiveFeatureIndex(index)}
                   >
-                    注册TCG用户
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div className="user-name">{tcgUserName}</div>
-                  <div className="user-money">余额: ¥{tcgUserBalance}</div>
-                </>
-              )}
+                    <div className="icon">{item.icon}</div>
+                    <div className="title">{item.title}</div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div>
@@ -253,20 +233,37 @@ const HomeTcgMainPage = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {tcgGameList.map((game, index) => (
-                <div
-                  key={index}
-                  className="game-item p-4 border rounded shadow hover:shadow-lg cursor-pointer text-center"
-                  onClick={() => tcgGetGameUrl(game.tcgGameCode)}
-                >
-                  <div className="icon text-2xl">🎮</div>
-                  <div className="title text-sm font-medium mt-2">
-                    {game.gameName}
+            {tcgGameList && tcgGameList.length > 0 ? (
+              <div className="game-list">
+                {tcgGameList.map((game, index) => (
+                  <div
+                    key={index}
+                    className="game-item p-2 border rounded shadow hover:shadow-lg cursor-pointer text-center"
+                    onClick={() => tcgGetGameUrl(game.tcgGameCode)}
+                  >
+                    <div className="icon text-2xl">
+                      <div className="relative rounded-md overflow-hidden icon">
+                        <Image
+                          className="object-contain"
+                          src={`https://images.b240784.com:42666/TCG_GAME_ICONS/${game.productCode}/EN/${game.tcgGameCode}.png`}
+                          height={64}
+                          width={64}
+                          alt="collect"
+                          onError={(e) => {
+                            e.currentTarget.src = "";
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="title text-sm font-medium mt-2">
+                      {game.gameName}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-gray-500 py-8">暂无游戏</div>
+            )}
             <div className="mt-4 flex justify-center items-center gap-2">
               <button
                 onClick={() =>
@@ -286,7 +283,7 @@ const HomeTcgMainPage = () => {
                   setTcgCurrentPage((prev) =>
                     prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
                       ? prev + 1
-                      : prev,
+                      : prev
                   )
                 }
                 disabled={
@@ -297,46 +294,6 @@ const HomeTcgMainPage = () => {
               >
                 下一页
               </button>
-            </div>
-
-            <div className="feature-list">
-              {features.map((item, index) => (
-                <div
-                  key={index}
-                  className={`feature-item ${
-                    activeFeatureIndex === index ? "active" : ""
-                  }`}
-                  onClick={() => setActiveFeatureIndex(index)}
-                >
-                  <div className="icon">{item.icon}</div>
-                  <div className="title">{item.title}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="category-game-list">
-            <div className="category-list">
-              {categories.map((category, index) => (
-                <div
-                  key={index}
-                  className={`category-item ${
-                    activeCategoryIndex === index ? "active" : ""
-                  }`}
-                  onClick={() => setActiveCategoryIndex(index)}
-                >
-                  <div className="category-title">{category.title}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="game-list">
-              {categories[activeCategoryIndex].games.map((game, index) => (
-                <div key={index} className="game-item">
-                  <div className="icon">🎲</div>
-                  <div className="title">{game}</div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -381,53 +338,64 @@ export const HomeTcgMainPageElement = styled.div`
     gap: 20px;
     width: 100%;
 
-    .user-info {
+    .user-panel {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      text-align: center;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      background: linear-gradient(to bottom right, #dbd3de, #dadfde);
 
-      .user-name {
-        font-size: 18px;
-        font-weight: bold;
-      }
-
-      .user-money {
-        margin-top: 5px;
-        font-size: 16px;
-        color: #ff9900;
-      }
-    }
-
-    .feature-list {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-
-      .feature-item {
+      .user-info {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding: 12px;
-        border: 2px solid transparent;
-        border-radius: 10px;
-        background-color: #fff;
-        cursor: pointer;
-        transition: all 0.3s;
-        min-width: 60px;
+        text-align: center;
+        border-right: 1px solid #ccc7cd;
+        padding-right: 2rem;
+        margin-right: 2rem;
 
-        .icon {
-          font-size: 24px;
-        }
-        .title {
-          margin-top: 6px;
-          font-size: 14px;
+        .user-name {
+          font-size: 18px;
+          font-weight: bold;
         }
 
-        &.active {
-          border-color: #ff9900;
-          background-color: #fff7e6;
+        .user-money {
+          margin-top: 5px;
+          font-size: 16px;
+          color: #ff9900;
+        }
+      }
+
+      .feature-list {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        .feature-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 12px;
+          border: 2px solid transparent;
+          border-radius: 10px;
+          background-color: #fff;
+          cursor: pointer;
+          transition: all 0.3s;
+          min-width: 60px;
+
+          .icon {
+            font-size: 24px;
+          }
+          .title {
+            margin-top: 6px;
+            font-size: 14px;
+          }
+
+          &.active {
+            border-color: #ff9900;
+            background-color: #fff7e6;
+          }
         }
       }
     }
@@ -487,7 +455,7 @@ export const HomeTcgMainPageElement = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: start;
       background: #fafafa;
       padding: 16px;
       border-radius: 10px;

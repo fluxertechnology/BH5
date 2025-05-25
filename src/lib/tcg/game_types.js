@@ -1,7 +1,7 @@
 const gameTypes = {
-  all: "全部",
-  FISH: "捕鱼",
+  // All: "全部",
   RNG: "电子",
+  FISH: "捕鱼",
   PVP: "棋牌",
   LIVE: "真人",
   SPORTS: "体育",
