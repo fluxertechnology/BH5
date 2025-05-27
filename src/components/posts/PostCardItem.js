@@ -979,7 +979,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
                 {
                   // 金幣+訂閱解鎖都有的話
                   on_subscribe === 1 && price > 0 && (
-                    <span className="unblock">－或以金币解锁单则贴文－</span>
+                    <span className="unblock">－或以精钻解锁单则贴文－</span>
                   )
                 }
                 {price > 0 && ( // 金幣解鎖

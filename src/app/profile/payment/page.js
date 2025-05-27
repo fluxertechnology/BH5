@@ -385,7 +385,7 @@ const ProfilePayment = () => {
         >
           <div className="float_cover_container">
             <div className="float_cover_header">
-              <div className="float_cover_header_left">兑换金币</div>
+              <div className="float_cover_header_left">兑换{t("Global.gold_money")}</div>
               <div
                 className="float_cover_header_right cursor"
                 onClick={() => goHistory(profile.pages.profileTransferRecord)}

@@ -41,7 +41,7 @@ const PictureCard = ({ data, total_view_show }) => {
           <div className="card_body_title">{data.title}</div>
           <div className="card_body_heart">
             <Image className="card_body_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
-            {data.need_jinbi}金币
+            {data.need_jinbi}精钻
           </div>
         </div>
       </div>

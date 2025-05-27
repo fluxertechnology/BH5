@@ -27,7 +27,7 @@ const OutOfQuotaPortal = () => {
   );
 
   function judgeUnit() {
-    return state.outOfQuotaData.unit === "gold" ? "金币" : "精钻";
+    return state.outOfQuotaData.unit === "gold" ? "精钻" : "钻石";
   }
   function onClick() {
     buyContent(() => {

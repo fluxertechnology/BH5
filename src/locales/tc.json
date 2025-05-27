@@ -41,7 +41,7 @@
     "top_navigator_free_watch": "免费看",
     "top_navigator_float_signin": "立即签到",
     "top_navigator_float_invite": "复制推广连结",
-    "top_navigator_float_invite_description": "好友成功注册b次元可获得金币和vip",
+    "top_navigator_float_invite_description": "好友成功注册b次元可获得精钻和vip",
     "top_navigator_float_invite_description1": "邀请码",
     "bottom_navigator_index": "首页",
     "bottom_navigator_dynamic": "动态",
@@ -69,7 +69,7 @@
   },
   "Common": {
     "error": "出了點問題！",
-    "money": "精钻",
+    "money": "钻石",
     "see_all": "看全部",
     "dollar": "元",
     "pending": "待审核",
@@ -91,7 +91,7 @@
     "setting": "aa 设置",
     "total": "全",
     "more": "更多",
-    "gold_money": "金币",
+    "gold_money": "精钻",
     "number_plays": "k 播放",
     "refresh": "换一换",
     "animate": "动画",
@@ -188,14 +188,14 @@
         "choice": {
           "coupon": "选择优惠券"
         },
-        "gold_money_once": "金币1次",
+        "gold_money_once": "精钻1次",
         "payment": "支付方式",
         "buy": {
           "discount": {
             "game": "购买游戏即可享有折扣"
           },
           "money": "精钻购买",
-          "gold_money": "金币购买",
+          "gold_money": "精钻购买",
           "confirm": "确定购买 "
         },
         "coupon": "优惠券",
@@ -218,7 +218,7 @@
     }
   },
   "Global": {
-    "money": "精钻",
+    "money": "钻石",
     "see_all": "看全部",
     "dollar": "元",
     "status": {
@@ -247,7 +247,7 @@
     "setting": "Aa 设置",
     "total": "全",
     "more": "更多",
-    "gold_money": "金币",
+    "gold_money": "精钻",
     "number_plays": "k 播放",
     "refresh": "换一换",
     "animate": "动画",
@@ -383,7 +383,7 @@
         }
       },
       "reduce": "立减",
-      "gold_money_once": "金币1次",
+      "gold_money_once": "精钻1次",
       "buy": {
         "only_mall_consume": "仅适用于商城消费",
         "remains": "剩于",
@@ -518,12 +518,12 @@
       "redeem_record": "兑换记录",
       "deduct": "扣除",
       "exchange_captions": "兑换说明",
-      "captions_1": "1.1 精钻可兑换 100 金币",
-      "captions_2": " 2.兑换完成会直接加进您的金币中，可用于观看漫画、动画、打赏或购买部分商城商品等",
+      "captions_1": "1.1 精钻可兑换 100 精钻",
+      "captions_2": " 2.兑换完成会直接加进您的精钻中，可用于观看漫画、动画、打赏或购买部分商城商品等",
       "captions_3": "3.精钻一经兑换后不得退还或取消",
       "redeem": {
         "": "兑换",
-        "title": "金币兑换成功",
+        "title": "精钻兑换成功",
         "content": "祝您有个愉快的体验",
         "continue_redeem": "继续兑换",
         "watch_now": "看片去"
@@ -613,7 +613,7 @@
         "everyday": "每日签到",
         "now": "立即签到",
         "click": {
-          "award": "每天点击签到奖励获得金币奖励"
+          "award": "每天点击签到奖励获得精钻奖励"
         }
       },
       "invite_friend": "邀请好友",
@@ -665,7 +665,7 @@
       }
     },
     "payment": {
-      "own_gold": "我的金币",
+      "own_gold": "我的精钻",
       "": "我的精钻",
       "charge": {
         "history": "充值纪录",
@@ -673,14 +673,14 @@
         "own_money": "当前拥有精钻",
         "history_clear": "笔笔纪录清晰",
         "unsuccess_description": "如订单被拒绝，点击已拒绝查看拒绝原因",
-        "gold": "金币充值",
+        "gold": "精钻充值",
         "drill": "精钻充值"
       },
       "own_account": "我的帐户",
-      "description": "100金币=1元、1精钻=1元，精钻可购买约炮资讯和VIP尊荣会员，其他则用金币购买。如有疑问请与客服联络",
+      "description": "100精钻=1元、1精钻=1元，精钻可购买约炮资讯和VIP尊荣会员，其他则用精钻购买。如有疑问请与客服联络",
       "transfer": {
         "direct_purchase": "VIP直购",
-        "gold": "兑换金币",
+        "gold": "兑换精钻",
         "with_draw": "申请提现",
         "with_draw_content": "领取您的收益"
       },

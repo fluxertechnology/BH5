@@ -190,7 +190,7 @@ const PostsAddPage = () => {
     }
     if (pay_option) {
       if (payMoney !== null && payMoney < 5) {
-        callToast("金币最少要 5 个喔  ♫.(◕∠◕).♫");
+        callToast("精钻最少要 5 个喔  ♫.(◕∠◕).♫");
         return null;
       }
       if (payDiamond === null && payMoney === null) {
@@ -660,7 +660,7 @@ const PostsAddPage = () => {
                       payDiamond !== null && " disabled"
                     }`}
                     type="number"
-                    placeholder="请在此输入解锁贴文金币(最少为5金币)"
+                    placeholder="请在此输入解锁贴文精钻(最少为5精钻)"
                     min={5}
                     max={10000}
                     value={payMoney}
@@ -789,8 +789,8 @@ const PostsAddPage = () => {
       <div className="description">
         <h3 className="description_title">规格说明</h3>
         <p className="description_text">付费贴文：</p>
-        <p className="description_text">1.设定贴文金币或精钻其一并發布</p>
-        <p className="description_text">2.若有其他用户解锁即可获得金币或精钻</p>
+        <p className="description_text">1.设定贴文精钻或精钻其一并發布</p>
+        <p className="description_text">2.若有其他用户解锁即可获得精钻或精钻</p>
         <p className="description_text">订阅贴文：</p>
         <p className="description_text">1.申请成为创作者即可开启订阅功能</p>
         <p className="description_text">

@@ -172,7 +172,7 @@ const AsideGuide = ({ labelList, callback, floatBtnClick, user, showTip }) => {
                         )
                     }
                 >
-                    想赚取金币或精钻，立即开通VIP或成为原创主
+                    想赚取精钻或精钻，立即开通VIP或成为原创主
                 </div>
                 <div className="wava_button_container" onClick={floatBtnClick}>
                     <WavaButton className="wava_button">
