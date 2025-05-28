@@ -91,7 +91,7 @@ const OutOfQuotaPortal = () => {
       >
         <div className="show">
           <div className="show_container">
-            <div className="show_container_cover" style={{ display: "none" }}>
+            <div className="show_container_cover">
               <Image
                 className="show_container_cover_girl"
                 src="/images/outOfQuota/outQuotaGirl.png"
