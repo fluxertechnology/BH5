@@ -10,9 +10,11 @@ const loading = "/images/shared/axiosLoading.svg";
 import { nowLang } from "@/i18n/Metronici18n";
 const axiosItem = axios.create({
   baseURL: apiUrl,
-  // headers: { "Content-Type": "multipart/form-data"},
+  headers: { 
+    "Content-Type": "multipart/form-data"
+  },
   headers: {
-    "Content-Type": "multipart/form-data",
+    //"Content-Type": "multipart/form-data",
     // "Content-Language": nowLang.selectedLang || nowLang || "en",
     "Content-Language": nowLang || "en",
   }, // 這裡沒改好本地API 沒事 正式會掛
@@ -141,7 +143,7 @@ class AxiosCenter {
     }
   }
 
-  get(url, params, errMsg = null) {
+  get(url, params, errMsg = null, customHeaders = {}) {
     let vm = this;
     return new Promise((resolve, reject) => {
       vm._showLoading();
@@ -149,6 +151,7 @@ class AxiosCenter {
         url,
         method: "get",
         params,
+        headers: customHeaders,
       })
         .then((data) => {
           resolve(data);
@@ -195,7 +198,7 @@ class AxiosCenter {
    * @return {Promise}
    * @memberof AxiosCenter
    */
-  post(url, formData, errMsg = null, passMsg = false) {
+  post(url, formData, errMsg = null, passMsg = false, customHeaders = {}) {
     let vm = this;
     return new Promise((resolve, reject) => {
       vm._showLoading();
@@ -203,6 +206,7 @@ class AxiosCenter {
         url,
         method: "post",
         data: formData,
+        headers: customHeaders,
       })
         .then((data) => {
           resolve(data);

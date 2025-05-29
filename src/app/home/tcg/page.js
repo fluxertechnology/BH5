@@ -18,6 +18,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import IconInput from "@/components/login/IconInputComponent";
 import { openPopup } from "@/store/actions/user";
+import axiosRequest from "@/lib/services/axios";
+import { nowLang } from "@/i18n/Metronici18n";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -43,7 +45,7 @@ const HomeTcgMainPage = () => {
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
-  const tcgGamePageSize = 20;
+  const tcgGamePageSize = 100;
 
   const tcgGetUserName = async () => {
     const userId = state.user.id;
@@ -91,30 +93,44 @@ const HomeTcgMainPage = () => {
   };
 
   const tcgGetGameList = async (page = 1) => {
+    const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
+    console.log(lang, "lang");
     const payload = {
-      product_type: tcgProductTypes,
-      platform: "all",
-      client_type: "all",
       game_type: tcgGameType,
       page,
       page_size: tcgGamePageSize,
-      language: getLanguageCode(),
     };
 
     try {
-      const response = await tcgAxios.post(`/getGameList`, payload);
-      if (response.data.status !== 0) {
-        toastCall(response.data.error_desc || "获取游戏列表失败，请稍后再试");
+      const response = await axiosRequest.post(
+        "/appapi/tcg/get_game_list",
+        payload,
+        null,
+        false,
+        {
+          "Content-Type": "application/json",
+          "Content-Language": lang,
+        },
+      );
+      if (!response || response.length === 0) {
         return;
       }
-      setTcgGameList(response.data.games || []);
-      setTcgTotalGames(response.data?.page_info?.totalCount ?? 0);
+      setTcgGameList(response || []);
     } catch (error) {
       console.error("获取游戏列表失败:", error);
     }
   };
 
+  const getGameCode = (url) => {
+    const match = url.match(/\/([A-Z0-9]+)\.png$/i);
+    return match ? match[1] : null;
+  };
+
   const tcgGetGameUrl = async (gameCode) => {
+    if (!gameCode) {
+      console.error("游戏代码不能为空");
+      return;
+    }
     if (!tcgUserName) {
       toastCall("请先注册或登录TCG用户");
       return;
@@ -181,7 +197,7 @@ const HomeTcgMainPage = () => {
         <div className="sidebar">
           <div className="user-feature-header">
             <div className="user-panel">
-              <div className="user-info">
+              <div className="user-info m-2 p-0">
                 {!tcgUserName ? (
                   <>
                     <div className="user-name">游客</div>
@@ -215,99 +231,52 @@ const HomeTcgMainPage = () => {
               </div>
             </div>
 
-            <div>
-              厂商
-              {productTypes.map((type, index) => (
-                <button
-                  key={index}
-                  className={`border border-1 p-2 m-1 ${
-                    tcgProductTypes === type.product_type
-                      ? "bg-blue-500 text-white"
-                      : ""
-                  }`}
-                  onClick={() => setTcgProductTypes(type.product_type)}
-                >
-                  {type.product_name}
-                </button>
-              ))}
-            </div>
-
-            <div>
-              游戏类型
-              {Object.entries(gameTypes).map(([key, value], index) => (
-                <button
-                  key={index}
-                  className={`border border-1 p-2 m-1 ${
-                    tcgGameType === key ? "bg-blue-500 text-white" : ""
-                  }`}
-                  onClick={() => setTcgGameType(key)}
-                >
-                  {value}
-                </button>
-              ))}
-            </div>
-
-            {tcgGameList && tcgGameList.length > 0 ? (
-              <div className="game-list">
-                {tcgGameList.map((game, index) => (
-                  <div
+            <div className="flex w-full gap-2">
+              <div className="flex flex-col w-[15%]">
+                {Object.entries(gameTypes).map(([key, value], index) => (
+                  <button
                     key={index}
-                    className="game-item p-2 border rounded shadow hover:shadow-lg cursor-pointer text-center"
-                    onClick={() => tcgGetGameUrl(game.tcgGameCode)}
+                    className={`border border-1 p-2 m-1 ${
+                      tcgGameType === key ? "bg-blue-500 text-white" : ""
+                    }`}
+                    onClick={() => setTcgGameType(key)}
                   >
-                    <div className="icon text-2xl">
-                      <div className="relative rounded-md overflow-hidden icon">
-                        <Image
-                          className="object-contain"
-                          src={`https://images.b240784.com:42666/TCG_GAME_ICONS/${game.productCode}/EN/${game.tcgGameCode}.png`}
-                          height={64}
-                          width={64}
-                          alt="collect"
-                          onError={(e) => {
-                            e.currentTarget.src = "";
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="title text-sm font-medium mt-2">
-                      {game.gameName}
-                    </div>
-                  </div>
+                    {value}
+                  </button>
                 ))}
               </div>
-            ) : (
-              <div className="text-center text-gray-500 py-8">暂无游戏</div>
-            )}
-            <div className="mt-4 flex justify-center items-center gap-2">
-              <button
-                onClick={() =>
-                  setTcgCurrentPage((prev) => Math.max(prev - 1, 1))
-                }
-                disabled={tcgGameCurrentPage === 1}
-                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-              >
-                上一页
-              </button>
-              <span className="text-gray-700">
-                第 {tcgGameCurrentPage} 页 / 共{" "}
-                {Math.ceil(tcgTotalGames / tcgGamePageSize)}页
-              </span>
-              <button
-                onClick={() =>
-                  setTcgCurrentPage((prev) =>
-                    prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
-                      ? prev + 1
-                      : prev,
-                  )
-                }
-                disabled={
-                  tcgGameCurrentPage >=
-                  Math.ceil(tcgTotalGames / tcgGamePageSize)
-                }
-                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-              >
-                下一页
-              </button>
+
+              {tcgGameList && tcgGameList.length > 0 ? (
+                <div className="w-[85%] flex flex-wrap">
+                  {tcgGameList.map((game, index) => (
+                    <div
+                      key={index}
+                      className="w-1/3 mt-2 game-item p-2 border rounded shadow hover:shadow-lg cursor-pointer text-center"
+                      onClick={() => tcgGetGameUrl(getGameCode(game.img))}
+                    >
+                      <div className="icon text-2xl">
+                        <div className="relative rounded-md overflow-hidden icon flex justify-center">
+                          <Image
+                            className="object-contain"
+                            src={game.img.replace("/zh/", "/EN/")}
+                            height={64}
+                            width={64}
+                            alt="collect"
+                            onError={(e) => {
+                              e.currentTarget.src = "";
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="title text-sm font-medium mt-2">
+                        {game.name}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center text-gray-500 py-8">暂无游戏</div>
+              )}
             </div>
           </div>
         </div>
