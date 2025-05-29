@@ -48,6 +48,8 @@ const HomeTcgMainPage = () => {
   const tcgGamePageSize = 100;
 
   const tcgGetUserName = async () => {
+    setTcgUserName("test123");
+    return;
     const userId = state.user.id;
     if (!userId || userId === "guest") {
       return;
@@ -196,7 +198,7 @@ const HomeTcgMainPage = () => {
         {/* 左侧用户信息和功能列表 */}
         <div className="sidebar">
           <div className="user-feature-header">
-            <div className="user-panel">
+            <div className="user-panel w-full flex justify-center">
               <div className="user-info m-2 p-0">
                 {!tcgUserName ? (
                   <>
@@ -205,7 +207,7 @@ const HomeTcgMainPage = () => {
                       className="border border-1 p-2"
                       onClick={handleTcgSignup}
                     >
-                      注册TCG用户
+                      注册
                     </button>
                   </>
                 ) : (
