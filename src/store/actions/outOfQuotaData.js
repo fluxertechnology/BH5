@@ -184,7 +184,7 @@ export const buyContentAction = (callback = () => {}) => {
             useGlobalDispatch({
               type: "CLOSE_OUTOFQUOTAPORTAL",
             });
-            callToast("金币不足前往充值");
+            callToast("精钻不足前往充值");
             useGlobalDispatch(pushRoutes(profile.pages.profilePayment));
           }
         } else {

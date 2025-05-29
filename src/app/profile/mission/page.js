@@ -408,7 +408,7 @@ function ProfileMission() {
                     height={35}
                   />
                   <label>
-                    {item.completion ? "签到成功" : item.sign + "金币"}
+                    {item.completion ? "签到成功" : item.sign + "精钻"}
                   </label>
                 </section>
               ))}

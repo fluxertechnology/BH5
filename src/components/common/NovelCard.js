@@ -57,7 +57,7 @@ const NovelCard = ({ data, total_view_show }) => {
             height={0}
             alt="heart"
           />
-          {data.need_jinbi}金币
+          {data.need_jinbi}精钻
         </div>
       </div>
     </NovelCardElement>

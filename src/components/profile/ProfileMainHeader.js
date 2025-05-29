@@ -78,6 +78,14 @@ const ProfileMainHeader = ({
     }
   };
 
+  function formatDate(date) {
+    const formattedDate = new Date(date * 1000);
+    const day = String(formattedDate.getDate()).padStart(2, '0');
+    const month = String(formattedDate.getMonth() + 1).padStart(2, '0');
+    const year = formattedDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
   function judgeMembershipExpiration() {
     if (id !== "guest") {
       if (time !== "-1" || Date.now() > time * 1000) {
@@ -147,6 +155,31 @@ const ProfileMainHeader = ({
       text: t("Profile.buy.label.premium_icon"),
     },
   ];
+
+  const openVipCommonPage = (e) => {
+    e.stopPropagation();
+    useGlobalDispatch(
+      pushRoutes(
+        pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
+      )
+    );
+  }
+
+  const getReadSource = () => {
+    return state.breadcrumbs
+      .slice()
+      .reverse()
+      .find(item => item.path.startsWith('/home') && item.path !== '/home/main');
+  }
+
+  const continueReadSource = (e) => {
+    e.stopPropagation();
+    const matchedPaths = state.breadcrumbs
+    .slice()
+    .reverse()
+    .filter(item => item.path.startsWith('/home') && item.path !== '/home/main');
+    useGlobalDispatch(pushRoutes(matchedPaths[0]));
+  }
   return (
     <ProfileMainHeaderElement isMobile={isMobile}>
       <LinkComponent
@@ -210,21 +243,36 @@ const ProfileMainHeader = ({
             ""
           )}
           {id !== "guest" ? (
-            <div className="profile_header_info_detill_time">
-              {time === "-1" || Date.now() < time * 1000 ? (
-                <Image
-                  className="profile_header_info_detill_time_crown"
-                  src="/images/icons/crown.png"
-                  width={0}
-                  height={0}
-                  alt="crown"
-                />
+            <div className="profile_header_info_detill_time flex-col !items-start">
+              {true||time === "-1" || Date.now() < time * 1000 ? (
+                <>
+                  <div className="flex">
+                    <Image
+                      className="profile_header_info_detill_time_crown"
+                      src="/images/icons/crown.png"
+                      width={0}
+                      height={0}
+                      alt="crown"
+                    />
+                  <span className="profile_header_info_detill_time_text fw-m">
+                    {formatDate(time)}
+                  </span>
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <button className="p-2 text-sm border border-[#FA719A]" onClick={openVipCommonPage}>查看VIP权益</button>
+                {
+                  getReadSource() ? (
+                    <button className="p-2 text-sm border border-[#FA719A]" onClick={continueReadSource}>繼續閱讀漫畫</button>
+                  ) :
+                  <></>
+                }
+                </div>
+                </>
               ) : (
-                ""
+                <span className="profile_header_info_detill_time_text fw-m">
+                  {membershipDate} {expiringSoon&&`(${t("Profile.main.label.member_expiring_soon")})`}
+                </span>
               )}
-              <span className="profile_header_info_detill_time_text fw-m">
-                {membershipDate} {expiringSoon&&`(${t("Profile.main.label.member_expiring_soon")})`}
-              </span>
             </div>
           ) : (
             ""

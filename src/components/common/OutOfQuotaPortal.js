@@ -23,10 +23,11 @@ const OutOfQuotaPortal = () => {
   const { state } = useGlobalContext();
 
   const [showBuyBoard, setShowBuyBoard] = useState(
-    state.outOfQuotaData.showBuy
+    state.outOfQuotaData.showBuy,
   );
+
   function judgeUnit() {
-    return state.outOfQuotaData.unit === "gold" ? "金币" : "精钻";
+    return state.outOfQuotaData.unit === "gold" ? "精钻" : "钻石";
   }
   function onClick() {
     buyContent(() => {
@@ -69,7 +70,9 @@ const OutOfQuotaPortal = () => {
     useGlobalDispatch({
       type: "CLOSE_OUTOFQUOTAPORTAL",
     });
-    useGlobalDispatch(pushRoutes(pageUrlConstants.profile.pages.profilePayment));
+    useGlobalDispatch(
+      pushRoutes(pageUrlConstants.profile.pages.profilePayment),
+    );
   };
   const addMissionRecord = (mission_id) => {
     useGlobalDispatch(addMissionRecordAction(mission_id));
@@ -119,12 +122,12 @@ const OutOfQuotaPortal = () => {
                 </p>
               </div>
               <div className="show_container_content_button">
-                {/* <div
+                <div
                   className="show_container_content_button_btn"
                   onClick={() => setShowBuyBoard(true)}
                 >
                   {`${judgeUnit()}支付`}
-                </div> */}
+                </div>
                 <div
                   className="show_container_content_button_btn highlight"
                   onClick={() => toBuyVipPage(state.outOfQuotaData.buy_type)}
