@@ -10,12 +10,10 @@ const loading = "/images/shared/axiosLoading.svg";
 import { nowLang } from "@/i18n/Metronici18n";
 const axiosItem = axios.create({
   baseURL: apiUrl,
-  headers: { 
-    "Content-Type": "multipart/form-data"
-  },
   headers: {
     //"Content-Type": "multipart/form-data",
     // "Content-Language": nowLang.selectedLang || nowLang || "en",
+     "Content-Type": "multipart/form-data",
     "Content-Language": nowLang || "en",
   }, // 這裡沒改好本地API 沒事 正式會掛
 });

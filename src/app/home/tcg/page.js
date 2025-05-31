@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import Image from "next/image";
 import ImageCarousel from "@/components/common/ImageCarousel";
-import { adsKeys, side_padding } from "@/lib/constants";
+import { adsKeys, side_padding, apiUrl } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import tcgAxios from "@/lib/services/tcgAxios";
@@ -14,12 +14,11 @@ import gameTypes from "@/lib/tcg/game_types";
 import getLanguageCode from "@/lib/tcg/language_code";
 import toastCall from "@/lib/services/toastCall";
 import { PopupDialogWrapper } from "@/components/login/PopupComponent";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import IconInput from "@/components/login/IconInputComponent";
 import { openPopup } from "@/store/actions/user";
-import axiosRequest from "@/lib/services/axios";
 import { nowLang } from "@/i18n/Metronici18n";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX, faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -37,6 +36,7 @@ const HomeTcgMainPage = () => {
     { title: "记录", icon: "📜", url: "#" },
   ];
 
+  const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgUserName, setTcgUserName] = useState("");
   const [tcgUserBalance, setTcgUserBalance] = useState(0);
@@ -95,8 +95,6 @@ const HomeTcgMainPage = () => {
   };
 
   const tcgGetGameList = async (page = 1) => {
-    const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
-    console.log(lang, "lang");
     const payload = {
       game_type: tcgGameType,
       page,
@@ -104,56 +102,85 @@ const HomeTcgMainPage = () => {
     };
 
     try {
-      const response = await axiosRequest.post(
-        "/appapi/tcg/get_game_list",
-        payload,
-        null,
-        false,
-        {
+      const response = await fetch(`${apiUrl}/appapi/tcg/get_game_list`, {
+        method: "POST",
+        headers: {
           "Content-Type": "application/json",
           "Content-Language": lang,
         },
-      );
-      if (!response || response.length === 0) {
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+
+      if (data.code === 0) {
+        toastCall(data.msg || "获取游戏列表失败，请稍后再试");
         return;
       }
-      setTcgGameList(response || []);
+
+      setTcgTotalGames(data.data.total || 0);
+      setTcgGameList(data.data.value || []);
     } catch (error) {
       console.error("获取游戏列表失败:", error);
     }
   };
 
-  const getGameCode = (url) => {
-    const match = url.match(/\/([A-Z0-9]+)\.png$/i);
-    return match ? match[1] : null;
-  };
-
-  const tcgGetGameUrl = async (gameCode) => {
-    if (!gameCode) {
-      console.error("游戏代码不能为空");
-      return;
-    }
-    if (!tcgUserName) {
-      toastCall("请先注册或登录TCG用户");
+  const tcgGetGameUrl = async (gameId) => {
+    console.log("获取游戏链接，游戏ID:", gameId);
+    if (!gameId) {
       return;
     }
     const payload = {
-      username: tcgUserName,
-      product_type: tcgProductTypes,
-      game_mode: 0, // 会员帐户类型（1 =真实，0 =测试）
-      game_code: gameCode,
-      platform: "html5",
+      uid: state.user.id,
+      game_id: gameId,
+      platform: isMobile ? "html5" : "html5-desktop",
     };
+
     try {
-      const response = await tcgAxios.post(`/getLaunchGameRng`, payload);
-      if (response.data.status !== 0) {
-        toastCall(response.data.error_desc || "获取游戏链接失败，请稍后再试");
+      const response = await fetch(`${apiUrl}/appapi/tcg/launch_game_by_auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": lang,
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (data.code === 0) {
+        toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
       }
-      window.open(response.data.game_url, "_blank");
+      window.open(data.data.url, "_blank");
     } catch (error) {
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
+    }
+  };
+
+  const tcgTransferOutAll = async (e, gameId) => {
+    e.stopPropagation();
+    console.log("转出游戏ID:", gameId);
+    try {
+      const response = await fetch(`${apiUrl}/appapi/tcg/transfer_out_by_all`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": lang,
+        },
+        body: JSON.stringify({
+          uid: state.user.id,
+          game_id: gameId,
+        }),
+      });
+      const data = await response.json();
+      if (data.code === 0) {
+        toastCall(data.msg || "转出失败，请稍后再试");
+        return;
+      }
+      toastCall("转出成功");
+      console.log("转出成功:", data);
+    } catch (error) {
+      console.error("转出失败:", error);
+      toastCall("转出失败，请稍后再试");
     }
   };
 
@@ -253,9 +280,18 @@ const HomeTcgMainPage = () => {
                   {tcgGameList.map((game, index) => (
                     <div
                       key={index}
-                      className="w-1/3 mt-2 game-item p-2 border rounded shadow hover:shadow-lg cursor-pointer text-center"
-                      onClick={() => tcgGetGameUrl(getGameCode(game.img))}
+                      className="w-1/3 mt-2 relative game-item p-2 border rounded shadow hover:shadow-lg cursor-pointer text-center"
+                      onClick={() => tcgGetGameUrl(game.id)}
                     >
+                      <div
+                        className="absolute z-[100] right-[10] border"
+                        onClick={(e) => tcgTransferOutAll(e, game.id)}
+                      >
+                        <FontAwesomeIcon
+                          className="list_container_card_footer_icon"
+                          icon={faArrowRightArrowLeft}
+                        />
+                      </div>
                       <div className="icon text-2xl">
                         <div className="relative rounded-md overflow-hidden icon flex justify-center">
                           <Image
