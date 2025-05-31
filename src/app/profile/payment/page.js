@@ -75,7 +75,7 @@ const ProfilePayment = () => {
 
   useEffect(() => {
     let Element = document.getElementsByClassName("PCFooterElement");
-    if (!isMobile && Element.length)  {
+    if (!isMobile && Element.length) {
       if (showTransfer) {
         Element[0].style.setProperty("display", "none");
       } else {
@@ -100,7 +100,7 @@ const ProfilePayment = () => {
               show_back_color="#ffffff"
             />
           </TopBarContainer>
-        )
+        ),
       },
     });
   }, []);
@@ -113,44 +113,66 @@ const ProfilePayment = () => {
               {t("Profile.payment.own_account")}
             </p>
           </div>
-          <div className="info_container_content_account">
-            {infoData?.map((value) => {
-              return (
-                <div
-                  className="info_container_content_account_card ml-3"
-                  key={value.text}
-                >
-                  <div className="info_container_content_account_card_header">
-                    <div className="info_container_content_account_card_header_icon">
-                      <Image
-                        className="info_container_content_account_card_header_icon_img"
-                        src={value.icon}
-                        width={0}
-                        height={0}
-                        alt={value.text}
-                      />
-                    </div>
-                  </div>
-                  <div className="info_container_content_account_card_body">
-                    <div className="info_container_content_account_card_body_amount">
-                      {value.data}
-                    </div>
-                    <div className="info_container_content_account_card_body_description ">
-                      {value.text}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="flex py-[5vw] mx-3 lg:max-w-[26vw] md:!mx-auto">
+            <div className="flex-1 flex justify-center">
+              <Image
+                src="/images/icons/diamond.png"
+                width={100}
+                height={100}
+                alt="diamond icon"
+                className="w-[80%] md:w-full !h-full md:w-[6.042vw] md:h-[4.844vw] max-w-[190px]"
+              />
+            </div>
+            <div className="flex-1 flex flex-col items-center">
+              <p className="text-[4.8vw] md:text-[24px] text-[#666666]">
+                -- 总精钻 --
+              </p>
+              <p className="text-[12.667vw] md:text-[55px] text-[#f04c7e] font-bold">
+                {state.user.sign}
+              </p>
+            </div>
           </div>
-          <div className="info_container_content_description">
-            <p className="info_container_content_description_text">
-              {t("Profile.payment.description")}
+          <div className="h-[1px] bg-[#cdcdcd]" />
+          <div className="text-[12px] text-[#666666] py-[20px] flex flex-col gap-1">
+            <p>1美金=10精钻</p>
+            <p>
+              精钻可购买VIP尊荣会员与黄游，钻石可用于游戏中使用，其他则用金币购买，如有疑问请与客服联络
             </p>
           </div>
         </div>
       </div>
-      <div className="payment_container">
+
+      <div className="w-full h-[min(80px,15.333vw)] md:max-w-[65%] xl:max-w-[42%] md:mx-auto flex gap-3 px-[20px]">
+        <LinkComponent
+          className="w-full rounded-[10px] bg-gradient-to-t from-[rgba(253,140,79,0.9999999999999999)] to-[rgba(250,114,154,0.996078431372549)] flex items-center gap-3 p-[2vw]"
+          routes={profile.pages.profileDirectBuyVip}
+        >
+          <Image
+            className="payment_container_buttonbox_button_content_img h-[min(70px,10.667vw)] !w-[min(70px,10.667vw)]"
+            src="/images/profile/vip_buy_icon.png"
+            width={0}
+            height={0}
+            alt="vip"
+          />
+          <p className="text-[min(30px,4.8vw)] text-white font-bold">VIP直购</p>
+        </LinkComponent>
+        <LinkComponent
+          className="w-full rounded-[10px] bg-gradient-to-t from-[rgba(253,140,79,0.9999999999999999)] to-[rgba(250,114,154,0.996078431372549)] flex items-center gap-3 p-[2vw]"
+          routes={profile.pages.profileDirectBuyVip}
+        >
+          <Image
+            className="payment_container_buttonbox_button_content_img h-[min(70px,10.667vw)] !w-[min(70px,10.667vw)]"
+            src="/images/profile/diamond_buy_icon.png"
+            width={0}
+            height={0}
+            alt="vip"
+          />
+          <p className="text-[min(30px,4.8vw)] text-white font-bold">
+            精钻充值
+          </p>
+        </LinkComponent>
+      </div>
+      <div className="payment_container !hidden">
         <div className="payment_container_buttonbox">
           <LinkComponent
             className="payment_container_buttonbox_button"
@@ -385,7 +407,9 @@ const ProfilePayment = () => {
         >
           <div className="float_cover_container">
             <div className="float_cover_header">
-              <div className="float_cover_header_left">兑换{t("Global.gold_money")}</div>
+              <div className="float_cover_header_left">
+                兑换{t("Global.gold_money")}
+              </div>
               <div
                 className="float_cover_header_right cursor"
                 onClick={() => goHistory(profile.pages.profileTransferRecord)}
@@ -495,10 +519,11 @@ export const ProfilePaymentElement = styled.div.withConfig({
         z-index: 1;
         padding: ${padding}px;
         margin-bottom: 70px;
-        background-color: ${colors.dark_pink};
+        //background-color: ${colors.dark_pink};
+        background-image: url("/images/profile/topup_bg.png");
 
         &_content {
-        padding: 2%;
+        padding: 4%;
         margin-bottom: -70px;
         box-sizing: border-box;
         background-color: #fff;
@@ -508,8 +533,9 @@ export const ProfilePaymentElement = styled.div.withConfig({
 
         &_title {
             font-size: 20px;
-            font-weight: 900;
+            font-weight: 600;
             margin-left: 1%;
+            margin-top: 10px;
         }
 
         &_account {
@@ -628,6 +654,7 @@ export const ProfilePaymentElement = styled.div.withConfig({
     }
 
     .list_container {
+      margin-top: 20px;
         padding: 0 1%;
         &_card {
         display: flex;
