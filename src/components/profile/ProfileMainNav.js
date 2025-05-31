@@ -16,12 +16,20 @@ const ProfileMainNav = ({ sign, money }) => {
     <ProfileMainNavElement isBrowser={!isMobile}>
       <div className="profile_container">
         <div className="w-full flex gap-2 p-[20px] md:hidden">
-          <button className="flex-1 h-[16.8vw] bg-[url(/images/profile/topup_button.png)] bg-cover">
-            <span className="text-[5.867vw] text-white pl-[12vw]">充值</span>
-          </button>
-          <button className="flex-1 bg-[url(/images/profile/withdraw_button.png)] bg-cover">
-            <span className="text-[5.867vw] text-white pl-[12vw]">提現</span>
-          </button>
+          <LinkComponent
+            className="flex-1 flex items-center justify-end h-[16.8vw] bg-[url(/images/profile/topup_button.png)] bg-cover pr-[8vw]"
+            routes={pageUrlConstants.profile.pages.profilePayment}
+          >
+            <span className="flex justify-end text-[5.867vw] text-white">
+              充值
+            </span>
+          </LinkComponent>
+          <LinkComponent
+            className="flex-1 flex items-center justify-end h-[16.8vw] bg-[url(/images/profile/withdraw_button.png)] bg-cover pr-[8vw]"
+            routes={pageUrlConstants.profile.pages.profilePayment}
+          >
+            <span className="text-[5.867vw] text-white">提現</span>
+          </LinkComponent>
         </div>
 
         <div className="profile_container_header !block">
@@ -52,20 +60,23 @@ const ProfileMainNav = ({ sign, money }) => {
                   {typeof sign === "number" ? sign : "---"}
                 </p>
               </div>
-              <div className="w-[170px] flex flex-col gap-2 hidden md:block">
-                <button className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover">
-                  <span className="text-[5.867vw] md:text-[22px] text-white pl-[40px]">
+              <div className="w-[170px] hidden md:block">
+                <LinkComponent
+                  className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
+                  routes={pageUrlConstants.profile.pages.profilePayment}
+                >
+                  <span className="text-[5.867vw] md:text-[22px] text-white">
                     我要充值
                   </span>
-                </button>
-                <button className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover">
-                  <span className="text-[5.867vw] md:text-[22px] text-white pl-[40px]">
+                </LinkComponent>
+                <button className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]">
+                  <span className="text-[5.867vw] md:text-[22px] text-white">
                     我要提现
                   </span>
                 </button>
               </div>
             </div>
-            <button className="w-full h-[70px] md:h-[30px] text-[3.646vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+            <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
               可提现：{typeof sign === "number" ? sign : "---"}精钻
             </button>
           </div>
