@@ -15,7 +15,16 @@ const ProfileMainNav = ({ sign, money }) => {
   return (
     <ProfileMainNavElement isBrowser={!isMobile}>
       <div className="profile_container">
-        <div className="profile_container_header">
+        <div className="w-full flex gap-2 p-[20px] md:hidden">
+          <button className="flex-1 h-[16.8vw] bg-[url(/images/profile/topup_button.png)] bg-cover">
+            <span className="text-[5.867vw] text-white pl-[12vw]">充值</span>
+          </button>
+          <button className="flex-1 bg-[url(/images/profile/withdraw_button.png)] bg-cover">
+            <span className="text-[5.867vw] text-white pl-[12vw]">提現</span>
+          </button>
+        </div>
+
+        <div className="profile_container_header !block">
           <h3 className="profile_container_header_title">
             <span className="profile_container_header_title_text ">
               <Image
@@ -28,8 +37,73 @@ const ProfileMainNav = ({ sign, money }) => {
               {t("Profile.main.nav.my_account")}
             </span>
           </h3>
+          <div className="w-full md:w-[608px] mx-auto">
+            <div className="w-full h-[30.667vw] md:h-[135px] rounded-t-[10px] bg-gradient-to-t from-[#f9ecd8] via-[#fdfbf5] to-[#fdfbf5] flex items-center justify-center gap-8 md:gap-4">
+              <Image
+                src="/images/icons/diamond.png"
+                width={100}
+                height={100}
+                alt="diamond icon"
+                className="w-[25.733vw] h-[20.667vw] md:w-[6.042vw] md:h-[4.844vw]"
+              />
+              <div className="md:flex md:flex-col md:items-center">
+                <p className="text-[4.8vw] md:text-[24px]">-- 总精钻 --</p>
+                <p className="text-[12.667vw] md:text-[55px] text-[#f04c7e] font-bold">
+                  {typeof sign === "number" ? sign : "---"}
+                </p>
+              </div>
+              <div className="w-[170px] flex flex-col gap-2 hidden md:block">
+                <button className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover">
+                  <span className="text-[5.867vw] md:text-[22px] text-white pl-[40px]">
+                    我要充值
+                  </span>
+                </button>
+                <button className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover">
+                  <span className="text-[5.867vw] md:text-[22px] text-white pl-[40px]">
+                    我要提现
+                  </span>
+                </button>
+              </div>
+            </div>
+            <button className="w-full h-[70px] md:h-[30px] text-[3.646vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+              可提现：{typeof sign === "number" ? sign : "---"}精钻
+            </button>
+          </div>
+
+          <div className="profile_container_currency !hidden">
+            <div className="profile_container_currency_gold">
+              <Image
+                className="profile_container_currency_gold_icon"
+                src="/images/icons/bag_gold.svg"
+                width={0}
+                height={0}
+                alt="gold"
+              />
+              <p className="profile_container_currency_gold_show">
+                {t("Global.gold_money")}：
+                <span className="profile_container_currency_gold_show_amount">
+                  {typeof sign === "number" ? sign : "---"}
+                </span>
+              </p>
+            </div>
+            <div className="profile_container_currency_money">
+              <Image
+                className="profile_container_currency_money_icon"
+                src="/images/icons/bag_money.svg"
+                width={0}
+                height={0}
+                alt="money"
+              />
+              <p className="profile_container_currency_money_show">
+                {t("Global.money")}：
+                <span className="profile_container_currency_gold_show_amount">
+                  {money ? parseInt(money) : "---"}
+                </span>
+              </p>
+            </div>
+          </div>
           <LinkComponent
-            className="profile_container_header_recharge"
+            className="profile_container_header_recharge !hidden"
             routes={pageUrlConstants.profile.pages.profilePayment}
           >
             <Image
@@ -41,38 +115,6 @@ const ProfileMainNav = ({ sign, money }) => {
             />
             {t("Profile.main.nav.charge")}
           </LinkComponent>
-        </div>
-        <div className="profile_container_currency">
-          <div className="profile_container_currency_gold">
-            <Image
-              className="profile_container_currency_gold_icon"
-              src="/images/icons/bag_gold.svg"
-              width={0}
-              height={0}
-              alt="gold"
-            />
-            <p className="profile_container_currency_gold_show">
-              {t("Global.gold_money")}：
-              <span className="profile_container_currency_gold_show_amount">
-                {typeof sign === "number" ? sign : "---"}
-              </span>
-            </p>
-          </div>
-          <div className="profile_container_currency_money">
-            <Image
-              className="profile_container_currency_money_icon"
-              src="/images/icons/bag_money.svg"
-              width={0}
-              height={0}
-              alt="money"
-            />
-            <p className="profile_container_currency_money_show">
-              {t("Global.money")}：
-              <span className="profile_container_currency_gold_show_amount">
-                {money ? parseInt(money) : "---"}
-              </span>
-            </p>
-          </div>
         </div>
         <Divider className="profile_container_divider" />
       </div>
