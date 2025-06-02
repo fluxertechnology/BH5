@@ -19,21 +19,31 @@ import { openPopup } from "@/store/actions/user";
 import { nowLang } from "@/i18n/Metronici18n";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { pageUrlConstants } from "@/lib/constants";
+import { pushRoutes } from "@/store/actions/historyActions";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
   const { isMobile } = useMediaQuery();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0); // 当前选中的类别
-  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0); // 当前选中的功能按钮
+  const [activeFeatureIndex, setActiveFeatureIndex] = useState(10); // 当前选中的功能按钮
 
   // 假数据
   const userInfo = { name: "用户姓名", money: "¥1000" }; // 用户信息
   const features = [
-    { title: "存款", icon: "💰", url: "#" },
-    { title: "提现", icon: "💵", url: "#" },
-    { title: "优惠", icon: "🎁", url: "#" },
-    { title: "记录", icon: "📜", url: "#" },
+    {
+      title: "存款",
+      icon: "💰",
+      url: pageUrlConstants.profile.pages.profilePayment,
+    },
+    {
+      title: "提现",
+      icon: "💵",
+      url: pageUrlConstants.profile.pages.profileWithdraw,
+    },
+    { title: "优惠", icon: "🎁", url: pageUrlConstants.promotions },
+    { title: "记录", icon: "📜", url: pageUrlConstants.transactionHistory },
   ];
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
@@ -225,7 +235,7 @@ const HomeTcgMainPage = () => {
         {/* 左侧用户信息和功能列表 */}
         <div className="sidebar">
           <div className="user-feature-header">
-            <div className="user-panel w-full flex justify-center">
+            <div className="user-panel w-full md:w-auto flex justify-center">
               <div className="user-info m-2">
                 {!tcgUserName ? (
                   <>
@@ -251,7 +261,10 @@ const HomeTcgMainPage = () => {
                     className={`feature-item ${
                       activeFeatureIndex === index ? "active" : ""
                     }`}
-                    onClick={() => setActiveFeatureIndex(index)}
+                    onClick={() => {
+                      // setActiveFeatureIndex(index);
+                      useGlobalDispatch(pushRoutes(item.url));
+                    }}
                   >
                     <div className="icon">{item.icon}</div>
                     <div className="title">{item.title}</div>
@@ -260,27 +273,44 @@ const HomeTcgMainPage = () => {
               </div>
             </div>
 
-            <div className="flex w-full gap-2">
-              <div className="flex flex-col w-[15%]">
-                {Object.entries(gameTypes).map(([key, value], index) => (
-                  <button
-                    key={index}
-                    className={`border border-1 p-2 m-1 ${
-                      tcgGameType === key ? "bg-blue-500 text-white" : ""
-                    }`}
-                    onClick={() => setTcgGameType(key)}
-                  >
-                    {value}
-                  </button>
-                ))}
+            <div className="flex w-full gap-2 mb-6">
+              <div className="w-auto md:w-[15%]">
+                <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap">
+                  {Object.entries(gameTypes).map(
+                    ([key, { label, icon }], index) => (
+                      <div
+                        key={index}
+                        className={`inline-block md:block m-1 rounded-lg border ${
+                          tcgGameType === key
+                            ? "border-blue-500"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        <button
+                          className={`flex flex-col md:flex-row items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
+                            tcgGameType === key
+                              ? "bg-blue-500 text-white"
+                              : "bg-white"
+                          }`}
+                          onClick={() => setTcgGameType(key)}
+                        >
+                          <span className="text-xl">{icon}</span>
+                          <span className="text-sm md:text-base whitespace-nowrap">
+                            {label}
+                          </span>
+                        </button>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
 
               {tcgGameList && tcgGameList.length > 0 ? (
-                <div className="w-[85%] flex flex-wrap">
+                <div className="w-[85%] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 p-2">
                   {tcgGameList.map((game, index) => (
                     <div
                       key={index}
-                      className="w-1/3 mt-2 relative game-item p-2 border rounded shadow hover:shadow-lg cursor-pointer text-center"
+                      className="relative game-item p-2 border rounded-lg shadow hover:shadow-lg cursor-pointer text-center"
                       onClick={() => tcgGetGameUrl(game.id)}
                     >
                       <div
@@ -520,6 +550,7 @@ export const HomeTcgMainPageElement = styled.div`
       .feature-list {
         justify-content: space-between;
         flex-wrap: nowrap !important;
+        gap:1.5vw !important;
 
         .feature-item {
           padding: 2vw !important;

@@ -306,6 +306,11 @@ export const pageUrlConstants = {
         path: "/profile/payment",
         login: true,
       },
+      profileWithdraw: {
+        name: "提款頁",
+        path: "/profile/withdraw",
+        login: true,
+      },
       profileDirectBuyVip: {
         name: "直購VIP頁面",
         path: "/profile/direct_buy_vip",

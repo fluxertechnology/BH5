@@ -1,11 +1,11 @@
 const gameTypes = {
-  // All: "全部",
-  RNG: "电子",
-  FISH: "捕鱼",
-  PVP: "棋牌",
-  LIVE: "真人",
-  SPORTS: "体育",
-  ELOTT: "盘口彩票",
+  // All: { label: "全部", icon: "🎰" },
+  RNG: { label: "电子", icon: "🎰" },
+  FISH: { label: "捕鱼", icon: "🐟" },
+  PVP: { label: "棋牌", icon: "🃏" },
+  LIVE: { label: "真人", icon: "🧍" },
+  SPORTS: { label: "体育", icon: "⚽" },
+  ELOTT: { label: "盘口彩票", icon: "🎯" },
 };
 
 export default gameTypes;
