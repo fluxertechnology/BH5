@@ -221,7 +221,7 @@ const HomeTcgMainPage = () => {
   }, []);
 
   return (
-    <HomeTcgMainPageElement>
+    <HomeTcgMainPageElement main_height={state.navbar.mainHeight}>
       {/* 顶部轮播图 */}
       <ImageCarousel
         adsKey={adsKeys.search_interval}
@@ -362,8 +362,12 @@ const HomeTcgMainPage = () => {
 
 export default HomeTcgMainPage;
 
-export const HomeTcgMainPageElement = styled.div`
+export const HomeTcgMainPageElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["main_height"].includes(prop),
+})`
+  ${({ main_height }) => `
   padding: 0 ${side_padding}px;
+  padding-top: ${main_height}px;
 
   .carousel {
     margin-top: 16px;
@@ -560,6 +564,7 @@ export const HomeTcgMainPageElement = styled.div`
       }
     }
   }
+  `}
 `;
 
 export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
