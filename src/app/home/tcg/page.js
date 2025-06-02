@@ -73,7 +73,7 @@ const HomeTcgMainPage = () => {
         console.log(
           response.data.error_desc ||
             response.data.message ||
-            "获取TCG用户名失败，请稍后再试"
+            "获取TCG用户名失败，请稍后再试",
         );
         return;
       }
@@ -223,12 +223,12 @@ const HomeTcgMainPage = () => {
   return (
     <HomeTcgMainPageElement>
       {/* 顶部轮播图 */}
-      <div className="carousel">
-        <ImageCarousel
-          adsKey={adsKeys.search_interval}
-          threeInOneBanner={!isMobile}
-        />
-      </div>
+      <ImageCarousel
+        adsKey={adsKeys.search_interval}
+        threeInOneBanner={!isMobile}
+        size="banner_animated"
+        is_cover
+      />
 
       {/* 主体内容 */}
       <div className="content-grid">
@@ -300,7 +300,7 @@ const HomeTcgMainPage = () => {
                           </span>
                         </button>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -550,7 +550,7 @@ export const HomeTcgMainPageElement = styled.div`
       .feature-list {
         justify-content: space-between;
         flex-wrap: nowrap !important;
-        gap:1.5vw !important;
+        gap: 1.5vw !important;
 
         .feature-item {
           padding: 2vw !important;
@@ -597,7 +597,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }
