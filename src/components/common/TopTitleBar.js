@@ -5,7 +5,7 @@ import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
 import { colors, padding, pageUrlConstants } from "@/lib/constants";
 
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -63,7 +63,7 @@ const TopTitleBar = ({
     >
       <div className="container">
         {showBack ? (
-          <div>
+          <div className="btn-list">
             <div
               className="container_back"
               onClick={() => {
@@ -80,13 +80,8 @@ const TopTitleBar = ({
             </div>
             <HomeIcon
               className="container_back_icon ml-4"
-              onClick={() =>
-                useGlobalDispatch(
-                  pushRoutes(
-                    home.pages.homeMain
-                  )
-                )}
-              style={{ cursor: 'pointer', color: show_back_color }}
+              onClick={() => useGlobalDispatch(pushRoutes(home.pages.homeMain))}
+              style={{ cursor: "pointer", color: show_back_color }}
             />
           </div>
         ) : (
@@ -94,9 +89,7 @@ const TopTitleBar = ({
         )}
 
         {title ? (
-          <h1 className="container_title container_title_text">
-            {title}
-          </h1>
+          <h1 className="container_title container_title_text">{title}</h1>
         ) : (
           ""
         )}
@@ -156,11 +149,12 @@ export const TopTitleBarElement = styled.div.withConfig({
       margin-right: 0.5em;
       cursor: pointer;
       position: absolute;
+      z-index: 9;
     }
 
     &_back {
       background-color: ${({ show_back_color }) =>
-    show_back_color === "#fff" ? "#0007" : "transparent"};
+        show_back_color === "#fff" ? "#0007" : "transparent"};
       border-radius: 50%;
 
       &_icon {
@@ -187,7 +181,12 @@ export const TopTitleBarElement = styled.div.withConfig({
         text-align: ${({ text_align }) => text_align};
         letter-spacing: 1px;
         font-weight: 700;
-        padding: 1% 5%;
+        // padding: 1% 5%;
+        position: absolute;
+        width: auto;
+        left: 50%;
+        transform: translateX(-50%);
+
         @media (min-width: 899px) {
           padding: 0;
           font-size: 18px;

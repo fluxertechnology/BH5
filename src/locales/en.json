@@ -767,6 +767,9 @@
       "third_month": "Three Months VIP",
       "one_year": "One Year VIP",
       "choice_buy_long": "Selected"
+    },
+    "withdraw": {
+      "title": "Withdraw"
     }
   },
   "Search": {

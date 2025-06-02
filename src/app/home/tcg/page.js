@@ -63,7 +63,7 @@ const HomeTcgMainPage = () => {
         console.log(
           response.data.error_desc ||
             response.data.message ||
-            "获取TCG用户名失败，请稍后再试",
+            "获取TCG用户名失败，请稍后再试"
         );
         return;
       }
@@ -226,7 +226,7 @@ const HomeTcgMainPage = () => {
         <div className="sidebar">
           <div className="user-feature-header">
             <div className="user-panel w-full flex justify-center">
-              <div className="user-info m-2 p-0">
+              <div className="user-info m-2">
                 {!tcgUserName ? (
                   <>
                     <div className="user-name">游客</div>
@@ -508,6 +508,26 @@ export const HomeTcgMainPageElement = styled.div`
     .category-game-list {
       flex-direction: column;
     }
+
+    .user-panel {
+      padding: 2vw 1vw !important;
+
+      .user-info {
+        padding-right: 2vw !important;
+        margin-right: 2vw !important;
+      }
+
+      .feature-list {
+        justify-content: space-between;
+        flex-wrap: nowrap !important;
+
+        .feature-item {
+          padding: 2vw !important;
+          min-width: 12vw !important;
+          width: inherit;
+        }
+      }
+    }
   }
 `;
 
@@ -546,7 +566,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试",
+            "注册失败，请稍后再试"
         );
         return;
       }

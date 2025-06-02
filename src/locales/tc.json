@@ -769,6 +769,9 @@
       "third_month": "三个月vip",
       "one_year": "一年vip",
       "choice_buy_long": "已选择"
+    },
+    "withdraw":{
+      "title":"提现"
     }
   },
   "Search": {
