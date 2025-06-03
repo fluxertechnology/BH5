@@ -50,7 +50,7 @@ const HomeTcgMainPage = () => {
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
-  const [tcgUserName, setTcgUserName] = useState("");
+  const [tcgUserName, setTcgUserName] = useState(state.user.id);
   const [tcgUserBalance, setTcgUserBalance] = useState(0);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
   const [tcgGameType, setTcgGameType] = useState("RNG");
@@ -209,17 +209,11 @@ const HomeTcgMainPage = () => {
   }, [tcgProductTypes, tcgGameType]);
 
   useEffect(() => {
-    tcgGetGameList(tcgGameCurrentPage);
-  }, [tcgGameCurrentPage]);
-
-  useEffect(() => {
+    console.log("当前语言:", lang);
     //tcgUserGetBalance();
     tcgGetGameList();
-  }, [tcgUserName, tcgProductTypes, tcgGameType]);
+  }, [tcgGameType, tcgGameCurrentPage]);
 
-  useEffect(() => {
-    setTcgUserName(state.user.id);
-  }, [state.user.id]);
 
  useEffect(() => {
     useGlobalDispatch({
