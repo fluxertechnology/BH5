@@ -21,6 +21,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { pageUrlConstants } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
+import TopTitleBar from "@/components/common/TopTitleBar";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -218,6 +220,16 @@ const HomeTcgMainPage = () => {
   useEffect(() => {
     setTcgUserName(state.user.id);
   }, [state.user.id]);
+
+ useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      key: "customComponent",
+      data: {
+        customComponent: () => false,
+      }
+    });
+  }, []);
 
   return (
     <HomeTcgMainPageElement main_height={state.navbar.mainHeight}>
