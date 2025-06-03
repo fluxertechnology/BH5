@@ -283,7 +283,7 @@ const ProfilePayment = () => {
         {/* 兌換金幣 */}
         {isMobile ? (
           <LinkComponent
-            className="list_container_card"
+            className="list_container_card !hidden"
             routes={{
               name: profile.pages.profileTransferCoin.name,
               path: profile.pages.profileTransferCoin.path,
@@ -321,7 +321,7 @@ const ProfilePayment = () => {
           </LinkComponent>
         ) : (
           <div
-            className="list_container_card cursor"
+            className="list_container_card cursor !hidden"
             onClick={onOpenFloatCover}
           >
             <div className="list_container_card_body">
