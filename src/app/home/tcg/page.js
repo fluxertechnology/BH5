@@ -58,7 +58,6 @@ const HomeTcgMainPage = () => {
   const tcgGamePageSize = 100;
 
   const tcgGetUserName = async () => {
-    setTcgUserName("test123");
     return;
     const userId = state.user.id;
     if (!userId || userId === "guest") {
@@ -212,13 +211,13 @@ const HomeTcgMainPage = () => {
   }, [tcgGameCurrentPage]);
 
   useEffect(() => {
-    tcgUserGetBalance();
+    //tcgUserGetBalance();
     tcgGetGameList();
   }, [tcgUserName, tcgProductTypes, tcgGameType]);
 
   useEffect(() => {
-    tcgGetUserName();
-  }, []);
+    setTcgUserName(state.user.id);
+  }, [state.user.id]);
 
   return (
     <HomeTcgMainPageElement main_height={state.navbar.mainHeight}>
@@ -249,7 +248,7 @@ const HomeTcgMainPage = () => {
                   </>
                 ) : (
                   <>
-                    <div className="user-name">{tcgUserName}</div>
+                    <div className="user-name truncate w-20">{tcgUserName}</div>
                     <div className="user-money">余额: ¥{tcgUserBalance}</div>
                   </>
                 )}
