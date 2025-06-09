@@ -140,14 +140,16 @@ const HomeTcgMainPage = () => {
     if (!gameId) {
       return;
     }
+
+    const isGuest = state.user.id === "guest";
+    const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
-      uid: state.user.id,
+      uid: isGuest ? guestUid : state.user.id,
       game_id: gameId,
       platform: isMobile ? "html5" : "html5-desktop",
     };
 
-
-    const apiPath = payload.uid === 'guest' ? 'launch_game' : 'launch_game_by_auth';
+    const apiPath = isGuest ? "launch_game" : "launch_game_by_auth";
     try {
       const response = await fetch(`${apiUrl}/appapi/tcg/${apiPath}`, {
         method: "POST",
@@ -161,6 +163,9 @@ const HomeTcgMainPage = () => {
       if (data.code === 0) {
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
+      }
+      if (data.data?.uid) {
+        localStorage.setItem("guestTcgUID", data.data.uid);
       }
       window.open(data.data.url, "_blank");
     } catch (error) {
@@ -216,14 +221,13 @@ const HomeTcgMainPage = () => {
     tcgGetGameList();
   }, [tcgGameType, tcgGameCurrentPage]);
 
-
- useEffect(() => {
+  useEffect(() => {
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       key: "customComponent",
       data: {
         customComponent: () => false,
-      }
+      },
     });
   }, []);
 
