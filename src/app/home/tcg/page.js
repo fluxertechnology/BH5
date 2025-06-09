@@ -146,8 +146,10 @@ const HomeTcgMainPage = () => {
       platform: isMobile ? "html5" : "html5-desktop",
     };
 
+
+    const apiPath = payload.uid === 'guest' ? 'launch_game' : 'launch_game_by_auth';
     try {
-      const response = await fetch(`${apiUrl}/appapi/tcg/launch_game_by_auth`, {
+      const response = await fetch(`${apiUrl}/appapi/tcg/${apiPath}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -319,7 +321,7 @@ const HomeTcgMainPage = () => {
                       onClick={() => tcgGetGameUrl(game.id)}
                     >
                       <div
-                        className="absolute z-[100] right-[10] border"
+                        className={`absolute z-[100] right-[10] border ${state.user.id === "guest" ? "hidden" : ""}`}
                         onClick={(e) => tcgTransferOutAll(e, game.id)}
                       >
                         <FontAwesomeIcon
