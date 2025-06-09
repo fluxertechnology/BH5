@@ -53,7 +53,7 @@ const HomeTcgMainPage = () => {
   const [tcgUserName, setTcgUserName] = useState(state.user.id);
   const [tcgUserBalance, setTcgUserBalance] = useState(0);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
-  const [tcgGameType, setTcgGameType] = useState("RNG");
+  const [tcgGameType, setTcgGameType] = useState("HOT");
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
@@ -107,7 +107,7 @@ const HomeTcgMainPage = () => {
 
   const tcgGetGameList = async (page = 1) => {
     const payload = {
-      game_type: tcgGameType,
+      game_type: tcgGameType === 'HOT' ? '' : tcgGameType,
       page,
       page_size: tcgGamePageSize,
     };
