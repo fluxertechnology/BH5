@@ -13,6 +13,7 @@ import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { pushRoutes } from "@/store/actions/historyActions";
 import { dailyLoginAction } from "@/store/actions/pages/profileMainAction";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { getProfileMissionPrice } from "@/lib/services/price";
 
 const badge_lv_1 = "/images/profile/badge_bg_lv_1.png";
 const badge_lv_3 = "/images/profile/badge_lv_3.png";
@@ -60,11 +61,7 @@ const ProfileShareMission = () => {
       {
         icon: letterIcon,
         title: t("Profile.permission.signin.everyday"),
-        gold:
-          config.signinbegin +
-          "-" +
-          config.signinend +
-          t("Global.gold_money"),
+        gold: getProfileMissionPrice(t, 'signin_everyday', config),
         description: t("Profile.permission.signin.click.award"),
         button: t("Profile.permission.signin.now"),
         buttonEvent: dailyEvent,
@@ -72,7 +69,7 @@ const ProfileShareMission = () => {
       {
         icon: pencilIcon,
         title: t("Profile.permission.invite_friend"),
-        gold: config.sharefjb + t("Global.gold_money"),
+        gold: getProfileMissionPrice(t, 'invite_friend', config),
         description: ("Profile.permission.invite_friend_signin"),
         button: ("Profile.permission.invite.now"),
         buttonEvent: gosharef,

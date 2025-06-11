@@ -35,6 +35,7 @@ import { initPostData } from "@/store/actions/pages/postMainAction";
 import { postSearchWatchHistoryAction } from "@/store/actions/pages/profileWatchHistory";
 import ProfileWatchHistoryAnimeHandle from "@/app/profile/watch_history/anime/page";
 import ProfileWatchHistoryComicHandle from "@/app/profile/watch_history/comic/page";
+import { getProfileMissionPrice } from "@/lib/services/price";
 
 const { home, post, social, vendor, profile, notice, login } = pageUrlConstants;
 const areEqual = (pre, next) => {
@@ -312,11 +313,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       {
         icon: "/images/icons/coin.svg",
         title: t("Profile.permission.signin.everyday"),
-        content:
-          state.config.signinbegin +
-          "-" +
-          state.config.signinend +
-          t("Global.gold_money"),
+        content: getProfileMissionPrice(t, 'signin_everyday', state.config),
         description: t("Profile.permission.signin.click.award"),
         button: t(
           state.user.id === "guest"

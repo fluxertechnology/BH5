@@ -7,6 +7,7 @@ import { colors, pageUrlConstants } from "@/lib/constants";
 import LinkComponent from "@/components/common/LinkComponent";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { getPriceUnit, getUserPremiumDiamond } from "@/lib/services/price";
 
 const ProfileMainNav = ({ sign, money }) => {
   const { isMobile } = useMediaQuery();
@@ -57,7 +58,7 @@ const ProfileMainNav = ({ sign, money }) => {
               <div className="md:flex md:flex-col md:items-center">
                 <p className="text-[4.8vw] md:text-[24px]">-- 总精钻 --</p>
                 <p className="text-[12.667vw] md:text-[55px] text-[#f04c7e] font-bold">
-                  {typeof sign === "number" ? sign : "---"}
+                  {getUserPremiumDiamond(t, { sign, money })}
                 </p>
               </div>
               <div className="w-[170px] hidden md:block">
@@ -77,7 +78,7 @@ const ProfileMainNav = ({ sign, money }) => {
               </div>
             </div>
             <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
-              可提现：{typeof sign === "number" ? sign : "---"}精钻
+              可提现：{getUserPremiumDiamond(t, { sign, money })}
             </button>
           </div>
 
@@ -91,9 +92,9 @@ const ProfileMainNav = ({ sign, money }) => {
                 alt="gold"
               />
               <p className="profile_container_currency_gold_show">
-                {t("Global.gold_money")}：
+                {getPriceUnit(t)}：
                 <span className="profile_container_currency_gold_show_amount">
-                  {typeof sign === "number" ? sign : "---"}
+                  {getUserPremiumDiamond(t, { sign, money }) ?? "---"}
                 </span>
               </p>
             </div>
@@ -106,9 +107,9 @@ const ProfileMainNav = ({ sign, money }) => {
                 alt="money"
               />
               <p className="profile_container_currency_money_show">
-                {t("Global.money")}：
+                {getPriceUnit(t)}：
                 <span className="profile_container_currency_gold_show_amount">
-                  {money ? parseInt(money) : "---"}
+                  {getUserPremiumDiamond(t, { sign, money }) ?? "---"}
                 </span>
               </p>
             </div>

@@ -3,6 +3,7 @@ import axiosRequest from "@/lib/services/axios";
 import callToast from "@/lib/services/toastCall";
 import { updateUserDataAction } from "@/store/actions/user";
 import store from "@/store";
+import { getPremiumDiamond, getPriceUnit } from "@/lib/services/price";
 
 export const dailyLoginAction = (t) => {
   return function (dispatch) {
@@ -16,7 +17,7 @@ export const dailyLoginAction = (t) => {
       )
       .then((data) => {
         callToast(
-          t("Toast.success_redemptioned") + data + t("Global.gold_money")
+          t("Toast.success_redemptioned") + getPremiumDiamond(t, data, true) + getPriceUnit(t),
         );
         dispatch(updateUserDataAction());
       });

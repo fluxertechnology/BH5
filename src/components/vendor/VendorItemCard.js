@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import ImageComponent from "@/components/common/ImageComponent";
 import { apiUrl, pageUrlConstants, colors } from "@/lib/constants/index.js";
+import { getPremiumDiamond, getPriceUnit, getPremiumDiamondWithBoth } from "@/lib/services/price";
 
 const { vendor } = pageUrlConstants;
 
@@ -41,28 +42,26 @@ const VendorItemCard = ({ data }) => {
 };
 
 export const moneyAndGold = (money, yue, t) => {
+  // money: 金币, yue: 精钻 
   if (yue && money) {
     return (
       <div className="price">
-        {yue}
-        <span className="price_small"> {t("Global.money")}</span>
-        <span> / </span>
-        {money}
-        <span className="price_small"> {t("Global.gold_money")}</span>
+        {getPremiumDiamondWithBoth(t, money, yue, false)}
+        <span className="price_small"> {getPriceUnit(t)}</span>
       </div>
     );
   } else if (yue) {
     return (
       <div className="price">
-        {yue}
-        <span className="price_small"> {t("Global.money")}</span>
+        {getPremiumDiamond(t, yue, false, false)}
+        <span className="price_small"> {getPriceUnit(t)}</span>
       </div>
     );
   } else if (money) {
     return (
       <div className="price">
-        {money}
-        <span className="price_small">{t("Global.gold_money")}</span>
+        {getPremiumDiamond(t, money, true, false)}
+        <span className="price_small">{getPriceUnit(t)}</span>
       </div>
     );
   } else {

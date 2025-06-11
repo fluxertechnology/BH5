@@ -123,6 +123,7 @@ export const checkinPageConditioncheckAction =
       breadcrumbs,
       router,
     } = storeData;
+    //itemType 0 小說 1 美圖 2 漫畫 3 動畫 4 影片
     if (user.id === "guest" && itemType !== 3 && itemType !== 4) {
       //影片先註掉
       if (checkOnPage) {

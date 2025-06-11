@@ -24,6 +24,8 @@ import { buyDownloadPhotoAction } from "@/store/actions/pages/homePhotosContentA
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { getPriceUnit, getUserPremiumDiamond } from "@/lib/services/price";
+
 let mouseMoveBasePoint = 0;
 let move = 0;
 
@@ -339,9 +341,9 @@ const HomePhotosContent = () => {
                 <p className="bottom_nav_download_card_header_money m-1">
                   {t("Navbar.bottom_download_own")}
                   <span className="bottom_nav_download_card_header_money_inset">
-                    {parseInt(state.user.money) || 0}
+                    {getUserPremiumDiamond(t, state.user)}
                   </span>
-                  {t("Global.money")}
+                  {getPriceUnit(t)}
                 </p>
                 <LinkComponent
                   className="bottom_nav_download_card_header_buy"
@@ -359,7 +361,7 @@ const HomePhotosContent = () => {
                   <span className="bottom_nav_download_card_body_btn_text">
                     5
                   </span>
-                  {t("Global.money")}
+                  {getPriceUnit(t)}
                 </div>
               </div>
             </div>

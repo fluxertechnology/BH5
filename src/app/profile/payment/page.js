@@ -23,6 +23,7 @@ import ProfileTransferCoinPage from "@/app/profile/transfer/page.js";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { pushRoutes } from "@/store/actions/historyActions";
+import { getPriceUnit, getUserPremiumDiamond } from "@/lib/services/price";
 
 const { profile } = pageUrlConstants;
 
@@ -35,12 +36,12 @@ const ProfilePayment = () => {
   const [infoData, setInfoData] = useState(() => [
     {
       icon: "/images/icons/bag_gold.svg",
-      data: state.user.sign,
+      data: getUserPremiumDiamond(t, state.user, 'sign'),
       text: t("Profile.payment.own_gold"),
     },
     {
       icon: "/images/icons/bag_money.svg",
-      data: state.user.money,
+      data: getUserPremiumDiamond(t, state.user, 'money'),
       text: t("Profile.payment."),
     },
   ]);
@@ -62,12 +63,12 @@ const ProfilePayment = () => {
     setInfoData([
       {
         icon: "/images/icons/bag_gold.svg",
-        data: state.user.sign,
+        data: getUserPremiumDiamond(t, state.user),
         text: t("Profile.payment.own_gold"),
       },
       {
         icon: "/images/icons/bag_money.svg",
-        data: state.user.money,
+        data: getUserPremiumDiamond(t, state.user),
         text: t("Profile.payment."),
       },
     ]);
@@ -128,7 +129,7 @@ const ProfilePayment = () => {
                 -- 总精钻 --
               </p>
               <p className="text-[12.667vw] md:text-[55px] text-[#f04c7e] font-bold">
-                {state.user.sign}
+                {getUserPremiumDiamond(t, state.user)}
               </p>
             </div>
           </div>
@@ -189,7 +190,7 @@ const ProfilePayment = () => {
                 src="/images/profile/payment_bipink.svg"
                 width={0}
                 height={0}
-                alt={t("Global.gold_money")}
+                alt={getPriceUnit(t)}
               />
               <span className="payment_container_buttonbox_button_content_span">
                 {t("Profile.payment.charge.gold")}
@@ -207,7 +208,7 @@ const ProfilePayment = () => {
                 src="/images/profile/payment_vip.svg.svg"
                 width={0}
                 height={0}
-                alt={t("Global.gold_money")}
+                alt={getPriceUnit(t)}
               />
               <span className="payment_container_buttonbox_button_content_span">
                 {t("Profile.payment.transfer.direct_purchase")}
@@ -230,7 +231,7 @@ const ProfilePayment = () => {
                 src="/images/profile/payment_rmbwhtie.svg"
                 width={0}
                 height={0}
-                alt={t("Global.money")}
+                alt={getPriceUnit(t)}
               />
               <span className="payment_container_buttonbox_button_content_span">
                 {t("Profile.payment.charge.drill")}
@@ -297,7 +298,7 @@ const ProfilePayment = () => {
                     src="/images/profile/transfer_bicoin.svg"
                     width={0}
                     height={0}
-                    alt={t("Global.gold_money")}
+                    alt={getPriceUnit(t)}
                   />
                 </div>
                 <div className="list_container_card_body_item_body">
@@ -332,7 +333,7 @@ const ProfilePayment = () => {
                     src="/images/profile/transfer_bicoin.svg"
                     width={0}
                     height={0}
-                    alt={t("Global.gold_money")}
+                    alt={getPriceUnit(t)}
                   />
                 </div>
                 <div className="list_container_card_body_item_body">
@@ -408,7 +409,7 @@ const ProfilePayment = () => {
           <div className="float_cover_container">
             <div className="float_cover_header">
               <div className="float_cover_header_left">
-                兑换{t("Global.gold_money")}
+                兑换{getPriceUnit(t)}
               </div>
               <div
                 className="float_cover_header_right cursor"

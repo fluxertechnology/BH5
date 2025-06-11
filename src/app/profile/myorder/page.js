@@ -12,6 +12,7 @@ import LinkComponent from "@/components/common/LinkComponent";
 import { apiUrl, pageUrlConstants } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { getMyOrderListAction } from "@/store/actions/pages/profileMyorderAction";
+import { getMyOrderPrice } from "@/lib/services/price";
 
 const { profile } = pageUrlConstants;
 
@@ -84,8 +85,8 @@ const ProfileMyorder = () => {
                   {data.title}
                 </h3>
                 <p className={styles.myorder_container_item_info_price}>
-                  {~~data.amount}{" "}
-                  {data.paytype ? t("Global.gold_money") : t("Global.money")}
+                  {getMyOrderPrice(t, data).amount}{" "}
+                  {getMyOrderPrice(t, data).unit}
                 </p>
                 <p
                   className={cx(styles.myorder_container_item_info_state, {

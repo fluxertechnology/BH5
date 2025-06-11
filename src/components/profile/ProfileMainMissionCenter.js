@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { getProfileMissionPrice } from "@/lib/services/price";
 
 const ProfileMainMissionCenter = ({
   optionEvent,
@@ -31,8 +32,7 @@ const ProfileMainMissionCenter = ({
       {
         icon: "/images/profile/icon_letter.svg",
         title: t("Profile.permission.signin.everyday"),
-        gold:
-          config.signinbegin + "-" + config.signinend + t("Global.gold_money"),
+        gold: getProfileMissionPrice(t, "signin_everyday", config),
         description: t("Profile.permission.signin.click.award"),
         button: t("Profile.permission.signin.now"),
         buttonEvent: dailyEvent,
@@ -40,7 +40,7 @@ const ProfileMainMissionCenter = ({
       {
         icon: "/images/profile/icon_pencil.svg",
         title: t("Profile.permission.invite_friend"),
-        gold: config.sharefjb + t("Global.gold_money"),
+        gold: getProfileMissionPrice(t, "invite_friend", config),
         description: t("Profile.permission.invite_friend_signin"),
         button: t("Profile.permission.invite_now"),
         buttonEvent: gosharef,
