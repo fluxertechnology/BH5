@@ -53,7 +53,7 @@ const HomeTcgMainPage = () => {
   const [tcgUserName, setTcgUserName] = useState(state.user.id);
   const [tcgUserBalance, setTcgUserBalance] = useState(0);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
-  const [tcgGameType, setTcgGameType] = useState("RNG");
+  const [tcgGameType, setTcgGameType] = useState("HOT");
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
@@ -107,7 +107,7 @@ const HomeTcgMainPage = () => {
 
   const tcgGetGameList = async (page = 1) => {
     const payload = {
-      game_type: tcgGameType,
+      game_type: tcgGameType === 'HOT' ? '' : tcgGameType,
       page,
       page_size: tcgGamePageSize,
     };
@@ -140,14 +140,18 @@ const HomeTcgMainPage = () => {
     if (!gameId) {
       return;
     }
+
+    const isGuest = state.user.id === "guest";
+    const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
-      uid: state.user.id,
+      uid: isGuest ? guestUid : state.user.id,
       game_id: gameId,
       platform: isMobile ? "html5" : "html5-desktop",
     };
 
+    const apiPath = isGuest ? "launch_game" : "launch_game_by_auth";
     try {
-      const response = await fetch(`${apiUrl}/appapi/tcg/launch_game_by_auth`, {
+      const response = await fetch(`${apiUrl}/appapi/tcg/${apiPath}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,6 +163,9 @@ const HomeTcgMainPage = () => {
       if (data.code === 0) {
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
+      }
+      if (data.data?.uid) {
+        localStorage.setItem("guestTcgUID", data.data.uid);
       }
       window.open(data.data.url, "_blank");
     } catch (error) {
@@ -214,14 +221,13 @@ const HomeTcgMainPage = () => {
     tcgGetGameList();
   }, [tcgGameType, tcgGameCurrentPage]);
 
-
- useEffect(() => {
+  useEffect(() => {
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       key: "customComponent",
       data: {
         customComponent: () => false,
-      }
+      },
     });
   }, []);
 
@@ -319,7 +325,7 @@ const HomeTcgMainPage = () => {
                       onClick={() => tcgGetGameUrl(game.id)}
                     >
                       <div
-                        className="absolute z-[100] right-[10] border"
+                        className={`absolute z-[100] right-[10] border ${state.user.id === "guest" ? "hidden" : ""}`}
                         onClick={(e) => tcgTransferOutAll(e, game.id)}
                       >
                         <FontAwesomeIcon

@@ -1,5 +1,5 @@
 const gameTypes = {
-  // All: { label: "全部", icon: "🎰" },
+  HOT: { label: "热门游戏", icon: "🔥" },
   RNG: { label: "电子", icon: "🎰" },
   FISH: { label: "捕鱼", icon: "🐟" },
   PVP: { label: "棋牌", icon: "🃏" },
