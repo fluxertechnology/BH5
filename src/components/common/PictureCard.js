@@ -6,7 +6,7 @@ import { colors } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { getPremiumDiamond } from "@/lib/services/price";
+import { getPrice } from "@/lib/services/price";
 
 const PictureCard = ({ data, total_view_show }) => {
   const t = useTranslations();
@@ -44,7 +44,7 @@ const PictureCard = ({ data, total_view_show }) => {
           <div className="card_body_title">{data.title}</div>
           <div className="card_body_heart">
             <Image className="card_body_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
-            {getPremiumDiamond(t, data.need_jinbi, true)}
+            {getPrice(t, data)}
           </div>
         </div>
       </div>
