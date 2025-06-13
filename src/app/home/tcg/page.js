@@ -74,7 +74,7 @@ const HomeTcgMainPage = () => {
         console.log(
           response.data.error_desc ||
             response.data.message ||
-            "获取TCG用户名失败，请稍后再试"
+            "获取TCG用户名失败，请稍后再试",
         );
         return;
       }
@@ -186,7 +186,13 @@ const HomeTcgMainPage = () => {
         },
         body: JSON.stringify({
           uid: state.user.id,
-          game_id: gameId,
+          ...(gameId === "all"
+            ? {
+                type: "all",
+              }
+            : {
+                game_id: gameId,
+              }),
         }),
       });
       const data = await response.json();
@@ -260,7 +266,17 @@ const HomeTcgMainPage = () => {
                 ) : (
                   <>
                     <div className="user-name truncate w-20">{tcgUserName}</div>
-                    <div className="user-money">余额: ¥{tcgUserBalance}</div>
+                    <div className="user-money">
+                      余额: ¥{tcgUserBalance}
+                      <Image
+                        src="/images/icons/refresh.png"
+                        alt="refresh"
+                        width={14}
+                        height={14}
+                        className="inline-block cursor-pointer ml-2"
+                        onClick={(e) => tcgTransferOutAll(e, "all")}
+                      />
+                    </div>
                   </>
                 )}
               </div>
@@ -310,7 +326,7 @@ const HomeTcgMainPage = () => {
                           </span>
                         </button>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -385,19 +401,19 @@ const HomeTcgMainPage = () => {
                   {
                     length: Math.min(
                       isMobile ? 3 : 5,
-                      Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      Math.ceil(tcgTotalGames / tcgGamePageSize),
                     ),
                   },
                   (_, i) => {
                     const totalPages = Math.ceil(
-                      tcgTotalGames / tcgGamePageSize
+                      tcgTotalGames / tcgGamePageSize,
                     );
                     let startPage = Math.max(
                       1,
                       Math.min(
                         tcgGameCurrentPage - Math.floor((isMobile ? 3 : 5) / 2),
-                        totalPages - (isMobile ? 2 : 4)
-                      )
+                        totalPages - (isMobile ? 2 : 4),
+                      ),
                     );
                     const page = startPage + i;
 
@@ -416,7 +432,7 @@ const HomeTcgMainPage = () => {
                         {page}
                       </button>
                     );
-                  }
+                  },
                 )}
 
                 {/* 下一页 */}
@@ -425,7 +441,7 @@ const HomeTcgMainPage = () => {
                     setTcgCurrentPage((prev) =>
                       prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
                         ? prev + 1
-                        : prev
+                        : prev,
                     )
                   }
                   disabled={
@@ -441,7 +457,7 @@ const HomeTcgMainPage = () => {
                 <button
                   onClick={() =>
                     setTcgCurrentPage(
-                      Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      Math.ceil(tcgTotalGames / tcgGamePageSize),
                     )
                   }
                   disabled={
@@ -712,7 +728,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }
