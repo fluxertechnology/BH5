@@ -268,7 +268,7 @@ const HomeTcgMainPage = () => {
                 {features.map((item, index) => (
                   <div
                     key={index}
-                    className={`feature-item ${
+                    className={`feature-item w-20 h-20 ${
                       activeFeatureIndex === index ? "active" : ""
                     }`}
                     onClick={() => {
@@ -316,7 +316,7 @@ const HomeTcgMainPage = () => {
               </div>
 
               {tcgGameList && tcgGameList.length > 0 ? (
-                <div className="w-[85%] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 p-2">
+                <div className="w-[85%] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3 p-2">
                   {tcgGameList.map((game, index) => (
                     <div
                       key={index}
@@ -552,7 +552,6 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
           background-color: #fff;
           cursor: pointer;
           transition: all 0.3s;
-          min-width: 60px;
 
           .icon {
             font-size: 24px;
