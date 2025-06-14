@@ -9,9 +9,7 @@ import { adsKeys, side_padding, apiUrl } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import tcgAxios from "@/lib/services/tcgAxios";
-import productTypes from "@/lib/tcg/product_types";
 import gameTypes from "@/lib/tcg/game_types";
-import getLanguageCode from "@/lib/tcg/language_code";
 import toastCall from "@/lib/services/toastCall";
 import { PopupDialogWrapper } from "@/components/login/PopupComponent";
 import IconInput from "@/components/login/IconInputComponent";
@@ -21,8 +19,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { pageUrlConstants } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
-import TopBarContainer from "@/components/layout/Header/TopBarContainer";
-import TopTitleBar from "@/components/common/TopTitleBar";
+import { useIframe } from "@/hooks/useIframe";
+import FullPageIframe from "@/components/common/FullPageIframe";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -58,6 +56,9 @@ const HomeTcgMainPage = () => {
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 100;
+
+  const [currentGameId, setCurrentGameId] = useState(null);
+  const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
   const tcgGetUserName = async () => {
     return;
@@ -167,11 +168,26 @@ const HomeTcgMainPage = () => {
       if (data.data?.uid) {
         localStorage.setItem("guestTcgUID", data.data.uid);
       }
-      window.open(data.data.url, "_blank");
+      //window.open(data.data.url, "_blank");
+      setCurrentGameId(gameId);
+      openIframe(data.data.url);
     } catch (error) {
       console.error("获取游戏链接失败:", error);
+      {
+        /* Optional Header or Just Close Button */
+      }
       toastCall("获取游戏链接失败，请稍后再试");
     }
+  };
+
+  const tcgGameExit = async () => {
+    await tcgTransferOutAll(
+      {
+        stopPropagation: () => {},
+      },
+      currentGameId,
+    );
+    closeIframe();
   };
 
   const tcgTransferOutAll = async (e, gameId) => {
@@ -479,6 +495,13 @@ const HomeTcgMainPage = () => {
           tcgGetUserName();
           setIsOpenLogin(false);
         }}
+      />
+
+      <FullPageIframe
+        url={currentUrl}
+        isOpen={isOpen}
+        onClose={tcgGameExit}
+        title=""
       />
     </HomeTcgMainPageElement>
   );
