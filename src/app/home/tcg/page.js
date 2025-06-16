@@ -21,12 +21,12 @@ import { pageUrlConstants } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
 import { useIframe } from "@/hooks/useIframe";
 import FullPageIframe from "@/components/common/FullPageIframe";
+import { getUserPremiumDiamond } from "@/lib/services/price";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
   const { isMobile } = useMediaQuery();
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0); // 当前选中的类别
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(10); // 当前选中的功能按钮
 
   // 假数据
@@ -48,8 +48,6 @@ const HomeTcgMainPage = () => {
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
-  const [tcgUserName, setTcgUserName] = useState(state.user.id);
-  const [tcgUserBalance, setTcgUserBalance] = useState(0);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
   const [tcgGameType, setTcgGameType] = useState("HOT");
   const [tcgGameList, setTcgGameList] = useState([]);
@@ -63,6 +61,7 @@ const HomeTcgMainPage = () => {
 
   const [currentGameId, setCurrentGameId] = useState(null);
   const [currentGameUrl, setCurrentGameUrl] = useState("");
+  const [currentGameProductType, setCurrentGameProductType] = useState("");
 
   const tcgGetGameList = async (page = 1) => {
     const payload = {
@@ -129,6 +128,7 @@ const HomeTcgMainPage = () => {
 
       setCurrentGameId(gameId);
       setCurrentGameUrl(data.data.url);
+      setCurrentGameProductType(data.data.product_type || "");
       if (isGuest) {
         setIsTipsOpen(true);
       } else {
@@ -162,6 +162,7 @@ const HomeTcgMainPage = () => {
         },
         body: JSON.stringify({
           uid: state.user.id,
+          product_type: currentGameProductType,
           ...(gameId === "all"
             ? {
                 type: "all",
@@ -182,15 +183,6 @@ const HomeTcgMainPage = () => {
       console.error("转出失败:", error);
       toastCall("转出失败，请稍后再试");
     }
-  };
-
-  const handleTcgSignup = () => {
-    if (!state.user.id || state.user.id === "guest") {
-      toastCall("请先登录或注册账号");
-      useGlobalDispatch(openPopup("login"));
-      return;
-    }
-    setIsOpenLogin(true);
   };
 
   const openGame = (gameUrl = null) => {
@@ -255,32 +247,18 @@ const HomeTcgMainPage = () => {
           <div className="user-feature-header">
             <div className="user-panel w-full md:w-auto flex justify-center">
               <div className="user-info m-2">
-                {!tcgUserName ? (
-                  <>
-                    <div className="user-name">游客</div>
-                    <button
-                      className="border border-1 p-2"
-                      onClick={handleTcgSignup}
-                    >
-                      注册
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="user-name truncate w-20">{tcgUserName}</div>
-                    <div className="user-money">
-                      余额: ¥{tcgUserBalance}
-                      <Image
-                        src="/images/icons/refresh.png"
-                        alt="refresh"
-                        width={14}
-                        height={14}
-                        className="inline-block cursor-pointer ml-2"
-                        onClick={(e) => tcgTransferOutAll(e, "all")}
-                      />
-                    </div>
-                  </>
-                )}
+                <div className="user-name truncate w-20">{state.user.id}</div>
+                <div className="user-money">
+                  余额: {getUserPremiumDiamond(t, state.user)}
+                  <Image
+                    src="/images/icons/refresh.png"
+                    alt="refresh"
+                    width={14}
+                    height={14}
+                    className="inline-block cursor-pointer ml-2"
+                    onClick={(e) => tcgTransferOutAll(e, "all")}
+                  />
+                </div>
               </div>
               <div className="feature-list">
                 {features.map((item, index) => (
@@ -367,7 +345,7 @@ const HomeTcgMainPage = () => {
                         </div>
                       </div>
                       <div className="title text-sm font-medium mt-2">
-                        {game.name}
+                        {game.name} {game.product_type ? `[${game.product_type}]` : ""}
                       </div>
                     </div>
                   ))}
