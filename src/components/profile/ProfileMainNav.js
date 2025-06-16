@@ -57,7 +57,7 @@ const ProfileMainNav = ({ sign, money }) => {
               />
               <div className="md:flex md:flex-col md:items-center">
                 <p className="text-[4.8vw] md:text-[24px]">-- 总精钻 --</p>
-                <p className="text-[12.667vw] md:text-[55px] text-[#f04c7e] font-bold">
+                <p className="text-[8vw] md:text-[45px] text-[#f04c7e] font-bold">
                   {getUserPremiumDiamond(t, { sign, money })}
                 </p>
               </div>
