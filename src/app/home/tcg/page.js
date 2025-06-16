@@ -57,54 +57,12 @@ const HomeTcgMainPage = () => {
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 100;
 
-  const [currentGameId, setCurrentGameId] = useState(null);
   const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
-  const tcgGetUserName = async () => {
-    return;
-    const userId = state.user.id;
-    if (!userId || userId === "guest") {
-      return;
-    }
-    const payload = {
-      bh5_user_id: userId,
-    };
-    try {
-      const response = await tcgAxios.post(`/get_user`, payload);
-      if (response.data.status !== 0) {
-        console.log(
-          response.data.error_desc ||
-            response.data.message ||
-            "获取TCG用户名失败，请稍后再试",
-        );
-        return;
-      }
-      setTcgUserName(response.data.tcg_username);
-    } catch (error) {
-      console.error("获取TCG用户名失败:", error);
-    }
-  };
+  const [isTipsOpen, setIsTipsOpen] = useState(false);
 
-  const tcgUserGetBalance = async () => {
-    if (!tcgUserName) {
-      return;
-    }
-    const payload = {
-      username: tcgUserName,
-      product_type: tcgProductTypes,
-    };
-    try {
-      const response = await tcgAxios.post(`/get_balance`, payload);
-      if (response.data.status !== 0) {
-        toastCall(response.data.error_desc || "获取用户余额失败，请稍后再试");
-        return;
-      }
-      setTcgUserBalance(response.data.balance);
-      console.log("用户余额:", response.data);
-    } catch (error) {
-      console.error("获取用户余额失败:", error);
-    }
-  };
+  const [currentGameId, setCurrentGameId] = useState(null);
+  const [currentGameUrl, setCurrentGameUrl] = useState("");
 
   const tcgGetGameList = async (page = 1) => {
     const payload = {
@@ -168,14 +126,16 @@ const HomeTcgMainPage = () => {
       if (data.data?.uid) {
         localStorage.setItem("guestTcgUID", data.data.uid);
       }
-      //window.open(data.data.url, "_blank");
+
       setCurrentGameId(gameId);
-      openIframe(data.data.url);
+      setCurrentGameUrl(data.data.url);
+      if (isGuest) {
+        setIsTipsOpen(true);
+      } else {
+        openGame(data.data.url);
+      }
     } catch (error) {
       console.error("获取游戏链接失败:", error);
-      {
-        /* Optional Header or Just Close Button */
-      }
       toastCall("获取游戏链接失败，请稍后再试");
     }
   };
@@ -231,6 +191,32 @@ const HomeTcgMainPage = () => {
       return;
     }
     setIsOpenLogin(true);
+  };
+
+  const openGame = (gameUrl = null) => {
+    const isGuest = state.user.id === "guest";
+    if (!isGuest) {
+    }
+    setIsTipsOpen(false);
+    console.log("打开游戏链接:", gameUrl || currentGameUrl);
+    //const win = window.open(data.data.url, "_blank");
+    //if (win) {
+    //  const checkClosed = setInterval(async () => {
+    //    if (win.closed) {
+    //       await tcgTransferOutAll(
+    //        {
+    //          stopPropagation: () => {},
+    //        },
+    //        gameId,
+    //      );
+    //      clearInterval(checkClosed);
+    //    }
+    //  }, 500);
+    //} else {
+    //  alert("Popup blocked. Please allow popups for this site.");
+    //}
+    //window.open(data.data.url, "_blank");
+    openIframe(gameUrl || currentGameUrl);
   };
 
   useEffect(() => {
@@ -492,8 +478,16 @@ const HomeTcgMainPage = () => {
       <TcgRegisterPopupModal
         open={isOpenLogin}
         onRegisterSuccess={() => {
-          tcgGetUserName();
           setIsOpenLogin(false);
+        }}
+      />
+      <TcgTipsModal
+        open={isTipsOpen}
+        onClose={() => {
+          setIsTipsOpen(false);
+        }}
+        onOpenGame={() => {
+          openGame();
         }}
       />
 
@@ -636,6 +630,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       border-radius: 10px;
       cursor: pointer;
       text-align: center;
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
       transition: background-color 0.3s;
       flex-shrink: 0;
       min-width: 100px;
@@ -814,6 +809,49 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
             </div>
             <div className="btn-wrapper mt-3" onClick={tcgUserSignup}>
               <button className="submit-btn">注册</button>
+            </div>
+          </div>
+        </div>
+      </PopupDialogWrapper>
+    </div>
+  );
+};
+
+const TcgTipsModal = ({ open, onClose, onOpenGame }) => {
+  const [isOpen, setIsOpen] = useState(open);
+
+  useEffect(() => {
+    setIsOpen(open);
+  }, [open]);
+  return (
+    <div style={{ display: isOpen ? "block" : "none" }}>
+      <PopupDialogWrapper>
+        <div className="card-container">
+          <div className="close-cont" onClick={onClose}>
+            <FontAwesomeIcon
+              className="close-icon"
+              icon={faX}
+              style={{ color: "#434343" }}
+            />
+          </div>
+          <div className="card-header">
+            <h3 className="title-text">温馨提示</h3>
+          </div>
+          <div className="card-body">
+            <p>您尚未創建帳號，請先前往創建帳號並且綁定信箱。</p>
+            <div className="flex gap-2 mt-3">
+              <button className="submit-btn" onClick={onOpenGame}>
+                继续游戏
+              </button>
+              <button
+                className="submit-btn"
+                onClick={() => {
+                  useGlobalDispatch(openPopup("login"));
+                  onClose();
+                }}
+              >
+                前往创建账号
+              </button>
             </div>
           </div>
         </div>
