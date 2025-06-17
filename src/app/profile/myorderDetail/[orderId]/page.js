@@ -13,6 +13,7 @@ import { getMyorderDetailAction } from "@/store/actions/pages/profileMyorderDeta
 import LinkComponent from "@/components/common/LinkComponent";
 import { useParams } from "next/navigation";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { getMyOrderPrice } from "@/lib/services/price";
 
 const ProfileMyorderDetail = () => {
   const { state } = useGlobalContext();
@@ -95,13 +96,13 @@ const ProfileMyorderDetail = () => {
           </div>
           <div className={styles.myorder_detail_container_price_amount}>
             <p className={styles.myorder_detail_container_price_amount_text}>
-              {parseInt(goodsData.amount || 0)}
+              {getMyOrderPrice(t, goodsData).amount}
               <span
                 className={
                   styles.myorder_detail_container_price_amount_text_unit
                 }
               >
-                {goodsData.paytype ? t("Global.gold_money") : t("Global.money")}
+                {getMyOrderPrice(t, goodsData).unit}
               </span>
             </p>
           </div>

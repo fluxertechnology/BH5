@@ -16,6 +16,7 @@ import playIcon from "@public/images/shared/play.svg";
 import { collectComicAnimeAction } from "@/store/actions/comicAnimeActionData";
 import { toggleVideoCollectAction } from "@/store/actions/pages/homeVideoContentAction";
 import Image from "next/image";
+import { getPrice } from "@/lib/services/price";
 
 const { home } = pageUrlConstants;
 const Props = createContext("");
@@ -95,8 +96,16 @@ const CoverCubeItem = ({
 export default CoverCubeItem;
 
 export const CoverCubeItemElement = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['rankStyle','floatCardWidth','externalControlPosition','isVideo','continueWatch','type'].includes(prop) ,
-  })`
+  shouldForwardProp: (prop) =>
+    ![
+      "rankStyle",
+      "floatCardWidth",
+      "externalControlPosition",
+      "isVideo",
+      "continueWatch",
+      "type",
+    ].includes(prop),
+})`
   /*  */
   position: ${({ externalControlPosition }) =>
     !externalControlPosition && "relative"};
@@ -267,8 +276,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
         &_text {
           font-size: 14px;
           color: ${colors.dark_pink};
-          display:flex;
-          align-items:center;
+          display: flex;
+          align-items: center;
           @media (max-width: 899px) {
             font-size: 12px;
           }
@@ -410,10 +419,10 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                         <div className="item_footer_description">
                           <p className="item_footer_description_text">
                             {data.process === 1
-                              ? t('Global.update_to')
-                              : t('Global.total')}
+                              ? t("Global.update_to")
+                              : t("Global.total")}
                             {data.total_episode}
-                            {t('Global.word')}
+                            {t("Global.word")}
                           </p>
                         </div>
                       )}
@@ -440,29 +449,20 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               )}
 
               {/* 判斷免費欄位不是顯示免費才能show */}
-              {!rankStyle &&
-                !disabledPrice &&
-                (data.limit_free_time == "0" ||
-                data.need_jinbi ||
-                data.jinbi ? (
-                  <div className="item_footer_gold">
-                    <p className="item_footer_gold_text">
-                      <Image
-                        className="item_footer_gold_text_icon"
-                        src={heartIcon}
-                        width={0}
-                        height={0}
-                        alt="heart"
-                      />
-                      {data.need_jinbi || data.jinbi}
-                      {t('Global.gold_money')}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="item_footer_gold">
-                    <p className="item_footer_gold_text">&nbsp;</p>
-                  </div>
-                ))}
+              {!rankStyle && !disabledPrice && (
+                <div className="item_footer_gold">
+                  <p className="item_footer_gold_text">
+                    <Image
+                      className="item_footer_gold_text_icon"
+                      src={heartIcon}
+                      width={0}
+                      height={0}
+                      alt="heart"
+                    />
+                    {getPrice(t, data)}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </Links>

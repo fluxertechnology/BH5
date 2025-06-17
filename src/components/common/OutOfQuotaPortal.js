@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-
+import { useTranslations } from "next-intl";
 import { CSSTransition } from "react-transition-group";
 import CloseComponent, {
   CloseComponentElement,
@@ -17,10 +17,12 @@ import {
 } from "@/store/actions/historyActions";
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { getOutOfQuotaPrice, getPriceUnit, getPremiumDiamond, getUserPremiumDiamond } from "../../lib/services/price";
 
 let typeStr = ["小说", "美图", "漫画", "动画"];
 const OutOfQuotaPortal = () => {
   const { state } = useGlobalContext();
+  const t = useTranslations();
 
   const [showBuyBoard, setShowBuyBoard] = useState(
     state.outOfQuotaData.showBuy,
@@ -126,7 +128,7 @@ const OutOfQuotaPortal = () => {
                   className="show_container_content_button_btn"
                   onClick={() => setShowBuyBoard(true)}
                 >
-                  {`${judgeUnit()}支付`}
+                  {`${getPriceUnit(t)}支付`}
                 </div>
                 <div
                   className="show_container_content_button_btn highlight"
@@ -167,7 +169,7 @@ const OutOfQuotaPortal = () => {
                       }需要付费才可继续观看`}
                 </p>
                 <p className="buy_content_card_description_text">
-                  金额：{state.outOfQuotaData.gold} {judgeUnit()}
+                  金额：{getOutOfQuotaPrice(t, state.outOfQuotaData)}
                 </p>
               </div>
               <div className="buy_content_card_button">
@@ -194,13 +196,13 @@ const OutOfQuotaPortal = () => {
                 <p className="buy_content_recharge_gold_text">
                   当前拥有：
                   <span className="buy_content_recharge_gold_text_span pr-1">
-                    {`${
+                    {getUserPremiumDiamond(t, state.user)}
+                    {/* {`${
                       state.outOfQuotaData.unit === "gold"
-                        ? state.user.sign
-                        : state.user.money
-                    }`}
+                        ? getPremiumDiamond(t, state.user.sign, true)
+                        : getPremiumDiamond(t, state.user.money, false)
+                    }`} */}
                   </span>
-                  {judgeUnit()}
                 </p>
               </div>
               <div className="buy_content_recharge_btn" onClick={toBuyGoldPage}>

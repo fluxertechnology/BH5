@@ -25,6 +25,7 @@ import { backRoutes } from "@/store/actions/historyActions";
 import { submitOrderAction } from "@/store/actions/pages/vendorSheetAction";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { useParams } from "next/navigation";
+import { getPriceUnit } from "@/lib/services/price";
 
 const { postGetCouponListUrl } = requestUrlConstants;
 
@@ -355,8 +356,9 @@ const VendorSheetRender = () => {
                         </span>
                         <span className="sheet_coupon_container_body_item_header_type">
                           {data.discount_unit === 0
-                            ? t("Global.gold_money")
-                            : t("Global.money")}
+                            ? getPriceUnit(t) // 金幣
+                            : getPriceUnit(t) // 精鑽
+                          }
                           {t("Global.label.buy.discount")}
                         </span>
                       </div>
@@ -615,7 +617,7 @@ const VendorSheetRender = () => {
                           )
                       : goodsData.yue}
                   </span>
-                  {t("Global.money")}
+                  {getPriceUnit(t)}
                 </>
               ) : (
                 <>
@@ -629,7 +631,7 @@ const VendorSheetRender = () => {
                           )
                       : goodsData.mone}
                   </span>
-                  {t("Global.gold_money")}
+                  {getPriceUnit(t)}
                 </>
               )}
             </span>

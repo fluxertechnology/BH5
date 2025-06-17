@@ -20,6 +20,7 @@ import ProfileEditPage from "@/app/profile/edit/page";
 import { updateUserAvatarAction } from "@/store/actions/pages/profileEditInfoAction";
 import { setOutOfQuotaDataAction } from "@/store/actions/outOfQuotaData";
 import { backRoutes } from "@/store/actions/historyActions";
+import { getAvatarPrice, getPriceUnit } from "@/lib/services/price";
 
 const ProfileEditAvatarLayout = ({
   children,
@@ -152,19 +153,19 @@ const ProfileEditAvatar = () => {
    * @param { integer } type
    * @param { integer } is_pay 0=lock , 1=unlock
    */
-  function judgingAvatarPiceAndUnit(amount, type, is_pay) {
-    if (is_pay === 0 || amount !== 0) {
-      let typeValue =
-        type === 1
-          ? t("Global.gold_money")
-          : type === 2
-          ? t("Global.money")
-          : "";
-      if (amount === 0) return t("Global.free");
-      return amount + typeValue;
-    }
-    return t("Social.detail.info.label.unlocked");
-  }
+  // function judgingAvatarPiceAndUnit(amount, type, is_pay) {
+  //   if (is_pay === 0 || amount !== 0) {
+  //     let typeValue =
+  //       type === 1
+  //         ? t("Global.gold_money")
+  //         : type === 2
+  //         ? t("Global.money")
+  //         : "";
+  //     if (amount === 0) return t("Global.free");
+  //     return amount + typeValue;
+  //   }
+  //   return t("Social.detail.info.label.unlocked");
+  // }
 
   function userUpload() {
     setSelectImgIndex(-1);
@@ -290,7 +291,7 @@ const ProfileEditAvatar = () => {
                     }`,
                   }}
                 />
-                10 {t("Global.money")}
+                10 {getPriceUnit(t)}
               </label>
               {avatar_list.map((item, index) => {
                 if (item.status === 1) {
@@ -316,11 +317,12 @@ const ProfileEditAvatar = () => {
                           {...item}
                         />
                       </span>
-                      {judgingAvatarPiceAndUnit(
+                      {getAvatarPrice(t, item)}
+                      {/* {judgingAvatarPiceAndUnit(
                         item.amount,
                         item.type,
                         item.is_pay
-                      )}
+                      )} */}
                       {!item.is_pay && !item.is_free ? (
                         <Image
                           className="avatar_list_main_item_lock_icon"

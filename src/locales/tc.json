@@ -91,7 +91,7 @@
     "setting": "aa 设置",
     "total": "全",
     "more": "更多",
-    "gold_money": "精钻",
+    "gold_money": "金幣",
     "number_plays": "k 播放",
     "refresh": "换一换",
     "animate": "动画",
@@ -218,6 +218,7 @@
     }
   },
   "Global": {
+    "premium_diamond": "精钻",
     "money": "钻石",
     "see_all": "看全部",
     "dollar": "元",
@@ -247,7 +248,7 @@
     "setting": "Aa 设置",
     "total": "全",
     "more": "更多",
-    "gold_money": "精钻",
+    "gold_money": "金幣",
     "number_plays": "k 播放",
     "refresh": "换一换",
     "animate": "动画",
@@ -518,7 +519,7 @@
       "redeem_record": "兑换记录",
       "deduct": "扣除",
       "exchange_captions": "兑换说明",
-      "captions_1": "1.1 精钻可兑换 100 精钻",
+      "captions_1": "1.1 金幣可兑换 100 精钻",
       "captions_2": " 2.兑换完成会直接加进您的精钻中，可用于观看漫画、动画、打赏或购买部分商城商品等",
       "captions_3": "3.精钻一经兑换后不得退还或取消",
       "redeem": {

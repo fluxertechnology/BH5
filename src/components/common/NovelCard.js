@@ -7,8 +7,12 @@ import errorImg from "@public/images/imgPlaceholder/fail404.jpg";
 import { colors } from "@/lib/constants";
 import Image from "next/image";
 import { useGlobalDispatch } from "@/store";
+import { getPrice } from "@/lib/services/price";
+import { useTranslations } from "next-intl";
 
 const NovelCard = ({ data, total_view_show }) => {
+  const t = useTranslations();
+
   const toNovelPage = (data) => {
     useGlobalDispatch(
       checkinPageConditioncheckAction({
@@ -57,7 +61,7 @@ const NovelCard = ({ data, total_view_show }) => {
             height={0}
             alt="heart"
           />
-          {data.need_jinbi}精钻
+          {getPrice(t, data)}
         </div>
       </div>
     </NovelCardElement>

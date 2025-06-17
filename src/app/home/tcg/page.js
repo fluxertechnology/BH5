@@ -9,9 +9,7 @@ import { adsKeys, side_padding, apiUrl } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import tcgAxios from "@/lib/services/tcgAxios";
-import productTypes from "@/lib/tcg/product_types";
 import gameTypes from "@/lib/tcg/game_types";
-import getLanguageCode from "@/lib/tcg/language_code";
 import toastCall from "@/lib/services/toastCall";
 import { PopupDialogWrapper } from "@/components/login/PopupComponent";
 import IconInput from "@/components/login/IconInputComponent";
@@ -21,14 +19,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { pageUrlConstants } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
-import TopBarContainer from "@/components/layout/Header/TopBarContainer";
-import TopTitleBar from "@/components/common/TopTitleBar";
+import { useIframe } from "@/hooks/useIframe";
+import FullPageIframe from "@/components/common/FullPageIframe";
+import { getPremiumDiamond } from "@/lib/services/price";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
   const { isMobile } = useMediaQuery();
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0); // 当前选中的类别
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(10); // 当前选中的功能按钮
 
   // 假数据
@@ -50,8 +48,6 @@ const HomeTcgMainPage = () => {
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
-  const [tcgUserName, setTcgUserName] = useState(state.user.id);
-  const [tcgUserBalance, setTcgUserBalance] = useState(0);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
   const [tcgGameType, setTcgGameType] = useState("HOT");
   const [tcgGameList, setTcgGameList] = useState([]);
@@ -59,51 +55,13 @@ const HomeTcgMainPage = () => {
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 100;
 
-  const tcgGetUserName = async () => {
-    return;
-    const userId = state.user.id;
-    if (!userId || userId === "guest") {
-      return;
-    }
-    const payload = {
-      bh5_user_id: userId,
-    };
-    try {
-      const response = await tcgAxios.post(`/get_user`, payload);
-      if (response.data.status !== 0) {
-        console.log(
-          response.data.error_desc ||
-            response.data.message ||
-            "获取TCG用户名失败，请稍后再试",
-        );
-        return;
-      }
-      setTcgUserName(response.data.tcg_username);
-    } catch (error) {
-      console.error("获取TCG用户名失败:", error);
-    }
-  };
+  const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
-  const tcgUserGetBalance = async () => {
-    if (!tcgUserName) {
-      return;
-    }
-    const payload = {
-      username: tcgUserName,
-      product_type: tcgProductTypes,
-    };
-    try {
-      const response = await tcgAxios.post(`/get_balance`, payload);
-      if (response.data.status !== 0) {
-        toastCall(response.data.error_desc || "获取用户余额失败，请稍后再试");
-        return;
-      }
-      setTcgUserBalance(response.data.balance);
-      console.log("用户余额:", response.data);
-    } catch (error) {
-      console.error("获取用户余额失败:", error);
-    }
-  };
+  const [isTipsOpen, setIsTipsOpen] = useState(false);
+
+  const [currentGameId, setCurrentGameId] = useState(null);
+  const [currentGameUrl, setCurrentGameUrl] = useState("");
+  const [currentGameProductType, setCurrentGameProductType] = useState("");
 
   const tcgGetGameList = async (page = 1) => {
     const payload = {
@@ -167,11 +125,34 @@ const HomeTcgMainPage = () => {
       if (data.data?.uid) {
         localStorage.setItem("guestTcgUID", data.data.uid);
       }
-      window.open(data.data.url, "_blank");
+
+      if (!data.data?.url) {
+        toastCall("获取游戏链接失败，请稍后再试");
+        return;
+      }
+
+      setCurrentGameId(gameId);
+      setCurrentGameUrl(data.data.url);
+      setCurrentGameProductType(data.data.product_type || "");
+      if (isGuest) {
+        setIsTipsOpen(true);
+      } else {
+        openGame(data.data.url);
+      }
     } catch (error) {
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
     }
+  };
+
+  const tcgGameExit = async () => {
+    await tcgTransferOutAll(
+      {
+        stopPropagation: () => {},
+      },
+      currentGameId,
+    );
+    closeIframe();
   };
 
   const tcgTransferOutAll = async (e, gameId) => {
@@ -186,6 +167,7 @@ const HomeTcgMainPage = () => {
         },
         body: JSON.stringify({
           uid: state.user.id,
+          product_type: currentGameProductType,
           ...(gameId === "all"
             ? {
                 type: "all",
@@ -208,13 +190,30 @@ const HomeTcgMainPage = () => {
     }
   };
 
-  const handleTcgSignup = () => {
-    if (!state.user.id || state.user.id === "guest") {
-      toastCall("请先登录或注册账号");
-      useGlobalDispatch(openPopup("login"));
-      return;
+  const openGame = (gameUrl = null) => {
+    const isGuest = state.user.id === "guest";
+    if (!isGuest) {
     }
-    setIsOpenLogin(true);
+    setIsTipsOpen(false);
+    console.log("打开游戏链接:", gameUrl || currentGameUrl);
+    //const win = window.open(data.data.url, "_blank");
+    //if (win) {
+    //  const checkClosed = setInterval(async () => {
+    //    if (win.closed) {
+    //       await tcgTransferOutAll(
+    //        {
+    //          stopPropagation: () => {},
+    //        },
+    //        gameId,
+    //      );
+    //      clearInterval(checkClosed);
+    //    }
+    //  }, 500);
+    //} else {
+    //  alert("Popup blocked. Please allow popups for this site.");
+    //}
+    //window.open(data.data.url, "_blank");
+    openIframe(gameUrl || currentGameUrl);
   };
 
   useEffect(() => {
@@ -253,32 +252,18 @@ const HomeTcgMainPage = () => {
           <div className="user-feature-header">
             <div className="user-panel w-full md:w-auto flex justify-center">
               <div className="user-info m-2">
-                {!tcgUserName ? (
-                  <>
-                    <div className="user-name">游客</div>
-                    <button
-                      className="border border-1 p-2"
-                      onClick={handleTcgSignup}
-                    >
-                      注册
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="user-name truncate w-20">{tcgUserName}</div>
-                    <div className="user-money">
-                      余额: ¥{tcgUserBalance}
-                      <Image
-                        src="/images/icons/refresh.png"
-                        alt="refresh"
-                        width={14}
-                        height={14}
-                        className="inline-block cursor-pointer ml-2"
-                        onClick={(e) => tcgTransferOutAll(e, "all")}
-                      />
-                    </div>
-                  </>
-                )}
+                <div className="user-name truncate w-20">{state.user.id}</div>
+                <div className="user-money">
+                  余额: {getPremiumDiamond(t, state.user.money, false)}
+                  <Image
+                    src="/images/icons/refresh.png"
+                    alt="refresh"
+                    width={14}
+                    height={14}
+                    className="inline-block cursor-pointer ml-2"
+                    onClick={(e) => tcgTransferOutAll(e, "all")}
+                  />
+                </div>
               </div>
               <div className="feature-list">
                 {features.map((item, index) => (
@@ -339,17 +324,6 @@ const HomeTcgMainPage = () => {
                       className="relative game-item p-2 border rounded-lg shadow hover:shadow-lg cursor-pointer text-center max-h-[108px]"
                       onClick={() => tcgGetGameUrl(game.id)}
                     >
-                      <div
-                        className={`absolute z-[100] right-[10] border ${
-                          state.user.id === "guest" ? "hidden" : ""
-                        }`}
-                        onClick={(e) => tcgTransferOutAll(e, game.id)}
-                      >
-                        <FontAwesomeIcon
-                          className="list_container_card_footer_icon"
-                          icon={faArrowRightArrowLeft}
-                        />
-                      </div>
                       <div className="icon text-2xl">
                         <div className="relative rounded-md overflow-hidden icon flex justify-center">
                           <Image
@@ -365,7 +339,8 @@ const HomeTcgMainPage = () => {
                         </div>
                       </div>
                       <div className="title text-sm font-medium mt-2">
-                        {game.name}
+                        {game.name}{" "}
+                        {game.product_type ? `[${game.product_type}]` : ""}
                       </div>
                     </div>
                   ))}
@@ -476,9 +451,24 @@ const HomeTcgMainPage = () => {
       <TcgRegisterPopupModal
         open={isOpenLogin}
         onRegisterSuccess={() => {
-          tcgGetUserName();
           setIsOpenLogin(false);
         }}
+      />
+      <TcgTipsModal
+        open={isTipsOpen}
+        onClose={() => {
+          setIsTipsOpen(false);
+        }}
+        onOpenGame={() => {
+          openGame();
+        }}
+      />
+
+      <FullPageIframe
+        url={currentUrl}
+        isOpen={isOpen}
+        onClose={tcgGameExit}
+        title=""
       />
     </HomeTcgMainPageElement>
   );
@@ -612,6 +602,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       border-radius: 10px;
       cursor: pointer;
       text-align: center;
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
       transition: background-color 0.3s;
       flex-shrink: 0;
       min-width: 100px;
@@ -790,6 +781,49 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
             </div>
             <div className="btn-wrapper mt-3" onClick={tcgUserSignup}>
               <button className="submit-btn">注册</button>
+            </div>
+          </div>
+        </div>
+      </PopupDialogWrapper>
+    </div>
+  );
+};
+
+const TcgTipsModal = ({ open, onClose, onOpenGame }) => {
+  const [isOpen, setIsOpen] = useState(open);
+
+  useEffect(() => {
+    setIsOpen(open);
+  }, [open]);
+  return (
+    <div style={{ display: isOpen ? "block" : "none" }}>
+      <PopupDialogWrapper>
+        <div className="card-container">
+          <div className="close-cont" onClick={onClose}>
+            <FontAwesomeIcon
+              className="close-icon"
+              icon={faX}
+              style={{ color: "#434343" }}
+            />
+          </div>
+          <div className="card-header">
+            <h3 className="title-text">温馨提示</h3>
+          </div>
+          <div className="card-body">
+            <p>您尚未創建帳號，請先前往創建帳號並且綁定信箱。</p>
+            <div className="flex gap-2 mt-3">
+              <button className="submit-btn" onClick={onOpenGame}>
+                继续游戏
+              </button>
+              <button
+                className="submit-btn"
+                onClick={() => {
+                  useGlobalDispatch(openPopup("login"));
+                  onClose();
+                }}
+              >
+                前往创建账号
+              </button>
             </div>
           </div>
         </div>

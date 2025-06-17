@@ -83,9 +83,9 @@
     "list": "directory",
     "clean": "clear",
     "setting": "aa setting",
-    "total": "全",
+    "total": "Total",
     "more": "more",
-    "gold_money": "Premium Diamond",
+    "gold_money": "Coins",
     "number_plays": "k plays",
     "refresh": "Change",
     "animate": "animation",
@@ -218,6 +218,7 @@
     }
   },
   "Global": {
+    "premium_diamond": "Premium Diamond",
     "money": "Diamond",
     "see_all": "See All",
     "dollar": "Dollar",
@@ -247,7 +248,7 @@
     "setting": "Aa",
     "total": "Total ",
     "more": "More",
-    "gold_money": " Premium Diamond",
+    "gold_money": "Coins",
     "number_plays": "Play",
     "refresh": "Reload",
     "animate": "Anime",

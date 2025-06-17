@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { colors } from "@/lib/constants";
+import { getPriceUnit } from "@/lib/services/price";
 
 const BundleCouponComponent = ({
   title,
@@ -39,8 +40,9 @@ const BundleCouponComponent = ({
           </span>
           <span className="card_header_type">
             {discount_unit === 0
-              ? t("Global.gold_money")
-              : t("Global.money")}
+              ? getPriceUnit(t) // 金币
+              : getPriceUnit(t) // 精钻
+            }
             {t("Global.label.buy.discount")}
           </span>
         </div>

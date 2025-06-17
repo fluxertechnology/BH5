@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ImageComponent from "@/components/common/ImageComponent";
 import { apiUrl, colors, pageUrlConstants } from "@/lib/constants";
 import LinkComponent from "@/components/common/LinkComponent";
+import { getPriceUnit, getPremiumDiamond, getPremiumDiamondWithBoth } from "@/lib/services/price";
 
 const { vendor } = pageUrlConstants;
 
@@ -56,25 +57,22 @@ export const moneyAndGold = (money, yue) => {
   if (yue && money) {
     return (
       <div className="price">
-        {yue}
-        <span className="price_small"> {t("Global.money")}</span>
-        <span> / </span>
-        {money}
-        <span className="price_small"> {t("Global.gold_money")}</span>
+        {getPremiumDiamondWithBoth(t, money, yue, false)}
+        <span className="price_small">{getPriceUnit(t)}</span>
       </div>
     );
   } else if (yue) {
     return (
       <div className="price">
-        {yue}
-        <span className="price_small"> {t("Global.money")}</span>
+        {getPremiumDiamond(t, yue, false, false)}
+        <span className="price_small"> {getPriceUnit(t)}</span>
       </div>
     );
   } else if (money) {
     return (
       <div className="price">
-        {money}
-        <span className="price_small">{t("Global.gold_money")}</span>
+        {getPremiumDiamond(t, money, true, false)}
+        <span className="price_small">{getPriceUnit(t)}</span>
       </div>
     );
   } else {

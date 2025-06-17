@@ -69,6 +69,7 @@ import LinkComponent from "@/components/common/LinkComponent";
 import IconEventComponent from "@/components/common/IconEventComponent";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import Image from "next/image";
+import { getPremiumDiamond, getPriceUnit } from "@/lib/services/price";
 
 const { post, login } = pageUrlConstants;
 
@@ -818,7 +819,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
                 <span className="media_slider_footer_container_btn_text">
                   {t("Global.action.always_save")}
                   {thumb[swiperNumber]?.indexOf("mp4") === -1 ? 1 : 3}{" "}
-                  {t("Global.money")}
+                  {getPriceUnit(t)}
                 </span>
               </div>
               <div className="media_slider_footer_container_recharge">
@@ -1001,7 +1002,7 @@ const PostCardItem = ({ postData, index, showFollow = true }) => {
                       alt="iconCoin"
                     />
                     <span className="post_card_body_media_cover_container_text">
-                      {price} {t("Global.money")}｜ {t("Post.unlock_watch")}
+                      {getPremiumDiamond(t, price, false)} ｜ {t("Post.unlock_watch")}
                     </span>
                   </div>
                 )}

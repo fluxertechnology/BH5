@@ -19,6 +19,7 @@ import {
   getTransferMoneyRule,
   postTransferMoney,
 } from "@/store/actions/pages/profileTransferCoinAction";
+import { getUserPremiumDiamond } from "@/lib/services/price";
 
 const MuiButton = muiStyled((props) => <Button {...props} />)(
   ({ disabled }) => ({
@@ -181,8 +182,7 @@ const ProfileTransferCoinRender = () => {
                     </div>
                     <div className="transfer_container_exchange_item_bottom_description">
                       {t("Profile.transfer.deduct")}
-                      {data.money}
-                      {t("Global.money")}
+                      {getUserPremiumDiamond(t, data)}
                     </div>
                   </div>
                 </CardActionArea>

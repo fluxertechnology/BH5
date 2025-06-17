@@ -31,6 +31,7 @@ import {
   postAddCheckInAction,
   postGetRewardAction,
 } from "@/store/actions/pages/profileMissionAction";
+import { getPremiumDiamondForSign, getProfileMissionRewardPrice } from "@/lib/services/price";
 const { profile } = pageUrlConstants;
 
 const moneyIcon = "/images/icons/money.svg";
@@ -367,8 +368,7 @@ function ProfileMission() {
               <div className="content">
                 获得
                 <label className="content_money">
-                  {floatStatus.amount}
-                  {floatStatus.type && t(judgeRewardType(floatStatus.type))}
+                  {getProfileMissionRewardPrice(t, floatStatus.type, floatStatus.amount, true)}
                 </label>
               </div>
               <WavaButton className="button">
@@ -408,7 +408,7 @@ function ProfileMission() {
                     height={35}
                   />
                   <label>
-                    {item.completion ? "签到成功" : item.sign + "精钻"}
+                    {item.completion ? "签到成功" : getPremiumDiamondForSign(t, item.sign)}
                   </label>
                 </section>
               ))}
@@ -751,23 +751,23 @@ const judgeCompletionStatus = (type) => {
       break;
   }
 };
-const judgeRewardType = (type) => {
-  //1金幣 2精鑽 3 vip天數 4 商城優惠卷 5 個人頭像
-  switch (type) {
-    case 1:
-      return "Global.gold_money";
-    case 2:
-      return "Global.money";
-    case 3:
-      return "Profile.permission.vip_day";
-    case 4:
-      return "Profile.permission.shop_coupon";
-    case 5:
-      return "Profile.permission.personal_avatar";
-    default:
-      break;
-  }
-};
+// const judgeRewardType = (type) => {
+//   //1金幣 2精鑽 3 vip天數 4 商城優惠卷 5 個人頭像
+//   switch (type) {
+//     case 1:
+//       return "Global.gold_money";
+//     case 2:
+//       return "Global.money";
+//     case 3:
+//       return "Profile.permission.vip_day";
+//     case 4:
+//       return "Profile.permission.shop_coupon";
+//     case 5:
+//       return "Profile.permission.personal_avatar";
+//     default:
+//       break;
+//   }
+// };
 const WeekList = ({
   id,
   name,
@@ -805,8 +805,7 @@ const WeekList = ({
         </div>
         <div className="week_list_description">{description}</div>
         <div className="week_list_award">
-          +{reward_quantity}
-          {t(judgeRewardType(reward_type))}
+          {getProfileMissionRewardPrice(t, reward_type, reward_quantity)}
         </div>
       </section>
       <WavaButton className={`week_list_button ${judgeStatus()} cursor`}>
@@ -895,9 +894,7 @@ const NewBieList = ({
     <NewBieListElement>
       <div className="bie_list_title">{name}</div>
       <div className="bie_list_award">
-        +{reward_quantity}
-        &nbsp;
-        {t(judgeRewardType(reward_type))}
+        {getProfileMissionRewardPrice(t, reward_type, reward_quantity)}
       </div>
       <WavaButton className={`bie_list_button ${completionStatus} cursor`}>
         <span

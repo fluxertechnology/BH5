@@ -13,6 +13,7 @@ import {
   buyVipMemberAction,
   setVipInfoAction,
 } from "@/store/actions/pages/profileBuyVipCommonAction";
+import { getPriceUnit } from "@/lib/services/price";
 
 const videoCardBack = "/images/profile/buyvip_videocard.svg";
 const videoCardBackArr = [videoCardBack];
@@ -261,7 +262,7 @@ const ProfileCardItem = ({
       <div className="price">
         <p className="price_text fw-m ">
           {price} &nbsp;
-          <label className="price_money fw-xl">{t("Global.money")}</label>
+          <label className="price_money fw-xl">{getPriceUnit(t)}</label>
           <label className="fw-s">/</label>
           <label className="price_unit_day fw-xl">
             {t("Global.label.day")}
