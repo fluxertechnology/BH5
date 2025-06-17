@@ -339,8 +339,7 @@ const HomeTcgMainPage = () => {
                         </div>
                       </div>
                       <div className="title text-sm font-medium mt-2">
-                        {game.name}{" "}
-                        {game.product_type ? `[${game.product_type}]` : ""}
+                        {game.name}
                       </div>
                     </div>
                   ))}
