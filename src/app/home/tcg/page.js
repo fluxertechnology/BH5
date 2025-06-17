@@ -21,7 +21,7 @@ import { pageUrlConstants } from "@/lib/constants";
 import { pushRoutes } from "@/store/actions/historyActions";
 import { useIframe } from "@/hooks/useIframe";
 import FullPageIframe from "@/components/common/FullPageIframe";
-import { getUserPremiumDiamond } from "@/lib/services/price";
+import { getPremiumDiamond } from "@/lib/services/price";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -124,6 +124,11 @@ const HomeTcgMainPage = () => {
       }
       if (data.data?.uid) {
         localStorage.setItem("guestTcgUID", data.data.uid);
+      }
+
+      if (!data.data?.url) {
+        toastCall("获取游戏链接失败，请稍后再试");
+        return;
       }
 
       setCurrentGameId(gameId);
@@ -249,7 +254,7 @@ const HomeTcgMainPage = () => {
               <div className="user-info m-2">
                 <div className="user-name truncate w-20">{state.user.id}</div>
                 <div className="user-money">
-                  余额: {getUserPremiumDiamond(t, state.user)}
+                  余额: {getPremiumDiamond(t, state.user.money, false)}
                   <Image
                     src="/images/icons/refresh.png"
                     alt="refresh"
@@ -319,17 +324,6 @@ const HomeTcgMainPage = () => {
                       className="relative game-item p-2 border rounded-lg shadow hover:shadow-lg cursor-pointer text-center max-h-[108px]"
                       onClick={() => tcgGetGameUrl(game.id)}
                     >
-                      <div
-                        className={`absolute z-[100] right-[10] border ${
-                          state.user.id === "guest" ? "hidden" : ""
-                        }`}
-                        onClick={(e) => tcgTransferOutAll(e, game.id)}
-                      >
-                        <FontAwesomeIcon
-                          className="list_container_card_footer_icon"
-                          icon={faArrowRightArrowLeft}
-                        />
-                      </div>
                       <div className="icon text-2xl">
                         <div className="relative rounded-md overflow-hidden icon flex justify-center">
                           <Image
@@ -345,7 +339,8 @@ const HomeTcgMainPage = () => {
                         </div>
                       </div>
                       <div className="title text-sm font-medium mt-2">
-                        {game.name} {game.product_type ? `[${game.product_type}]` : ""}
+                        {game.name}{" "}
+                        {game.product_type ? `[${game.product_type}]` : ""}
                       </div>
                     </div>
                   ))}
