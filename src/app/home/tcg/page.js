@@ -69,6 +69,7 @@ const HomeTcgMainPage = () => {
   const [currentGameId, setCurrentGameId] = useState(null);
   const [currentGameUrl, setCurrentGameUrl] = useState("");
   const [currentGameProductType, setCurrentGameProductType] = useState("");
+  const [isLoadingGameUrl, setIsLoadingGameUrl] = useState(false);
 
   const tcgGetGameList = async (page = 1) => {
     const payload = {
@@ -100,11 +101,17 @@ const HomeTcgMainPage = () => {
     }
   };
 
-  const tcgGetGameUrl = async (gameId) => {
+  const tcgGetGameUrl = async (gameId, confirm = true) => {
+    setCurrentGameId(gameId);
+    if (!confirm) {
+      setIsTipsOpen(true);
+      return;
+    }
     console.log("获取游戏链接，游戏ID:", gameId);
     if (!gameId) {
       return;
     }
+    setIsLoadingGameUrl(true);
 
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
@@ -138,17 +145,14 @@ const HomeTcgMainPage = () => {
         return;
       }
 
-      setCurrentGameId(gameId);
       setCurrentGameUrl(data.data.url);
       setCurrentGameProductType(data.data.product_type || "");
-      if (isGuest) {
-        setIsTipsOpen(true);
-      } else {
-        openGame(data.data.url);
-      }
+      openIframe(data.data.url);
     } catch (error) {
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
+    } finally {
+      setIsLoadingGameUrl(false);
     }
   };
 
@@ -198,10 +202,9 @@ const HomeTcgMainPage = () => {
   };
 
   const openGame = (gameUrl = null) => {
-    const isGuest = state.user.id === "guest";
-    if (!isGuest) {
-    }
     setIsTipsOpen(false);
+    tcgGetGameUrl(currentGameId, true);
+    return;
     console.log("打开游戏链接:", gameUrl || currentGameUrl);
     //const win = window.open(data.data.url, "_blank");
     //if (win) {
@@ -303,7 +306,7 @@ const HomeTcgMainPage = () => {
                     alt="refresh"
                     width={24}
                     height={24}
-                    className="inline-block cursor-pointer refresh-icon"
+                    className={`inline-block cursor-pointer refresh-icon ${state.user.id === "guest" ? "hidden" : ""}`}
                     onClick={(e) => tcgTransferOutAll(e, "all")}
                   />
                 </div>
@@ -377,7 +380,9 @@ const HomeTcgMainPage = () => {
                     <div
                       key={index}
                       className="relative game-item border cursor-pointer text-center "
-                      onClick={() => tcgGetGameUrl(game.id)}
+                      onClick={() =>
+                        tcgGetGameUrl(game.id, state.user.id !== "guest")
+                      }
                     >
                       <div className="icon text-2xl">
                         <div className="relative rounded-md overflow-hidden icon flex justify-center">
@@ -394,8 +399,7 @@ const HomeTcgMainPage = () => {
                         </div>
                       </div>
                       <div className="title text-sm font-medium mt-2">
-                        {game.name}{" "}
-                        {game.product_type ? `[${game.product_type}]` : ""}
+                        {game.name}
                       </div>
                     </div>
                   ))}
@@ -517,6 +521,7 @@ const HomeTcgMainPage = () => {
         onOpenGame={() => {
           openGame();
         }}
+        isLoading={isLoadingGameUrl}
       />
 
       <FullPageIframe
@@ -1022,7 +1027,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
   );
 };
 
-const TcgTipsModal = ({ open, onClose, onOpenGame }) => {
+const TcgTipsModal = ({ open, onClose, onOpenGame, isLoading }) => {
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
@@ -1045,11 +1050,32 @@ const TcgTipsModal = ({ open, onClose, onOpenGame }) => {
           <div className="card-body">
             <p>您尚未創建帳號，請先前往創建帳號並且綁定信箱。</p>
             <div className="flex gap-2 mt-3">
-              <button className="submit-btn" onClick={onOpenGame}>
-                继续游戏
+              <button className="submit-btn p-3" onClick={onOpenGame}>
+                {isLoading && (
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                )}
+                {isLoading ? "加载中..." : "继续游戏"}
               </button>
               <button
-                className="submit-btn"
+                className="submit-btn p-3"
                 onClick={() => {
                   useGlobalDispatch(openPopup("login"));
                   onClose();
