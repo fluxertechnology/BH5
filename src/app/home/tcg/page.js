@@ -29,21 +29,28 @@ const HomeTcgMainPage = () => {
   const { isMobile } = useMediaQuery();
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(10); // 当前选中的功能按钮
 
-  // 假数据
-  const userInfo = { name: "用户姓名", money: "¥1000" }; // 用户信息
   const features = [
     {
       title: "存款",
-      icon: "💰",
+      icon: "user-panel-saving",
       url: pageUrlConstants.profile.pages.profilePayment,
     },
     {
       title: "提现",
-      icon: "💵",
-      url: pageUrlConstants.profile.pages.profileWithdraw,
+      icon: "user-panel-withdraw",
+      // url: pageUrlConstants.profile.pages.profileWithdraw,
+      url: pageUrlConstants.profile.pages.profilePaymentWithDraw,
     },
-    { title: "优惠", icon: "🎁", url: pageUrlConstants.promotions },
-    { title: "记录", icon: "📜", url: pageUrlConstants.transactionHistory },
+    {
+      title: "优惠",
+      icon: "user-panel-offer",
+      url: pageUrlConstants.promotions,
+    },
+    {
+      title: "记录",
+      icon: "user-panel-record",
+      url: pageUrlConstants.transactionHistory,
+    },
   ];
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
@@ -150,7 +157,7 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId,
+      currentGameId
     );
     closeIframe();
   };
@@ -238,19 +245,55 @@ const HomeTcgMainPage = () => {
   return (
     <HomeTcgMainPageElement main_height={state.navbar.mainHeight}>
       {/* 顶部轮播图 */}
-      <ImageCarousel
+      {/* <ImageCarousel
         adsKey={adsKeys.search_interval}
         threeInOneBanner={!isMobile}
         size="banner_animated"
         is_cover
-      />
+      /> */}
 
       {/* 主体内容 */}
       <div className="content-grid">
         {/* 左侧用户信息和功能列表 */}
         <div className="sidebar">
           <div className="user-feature-header">
-            <div className="user-panel w-full md:w-auto flex justify-center">
+            <div className="user-panel">
+              {!isMobile && (
+                <div className="w-auto">
+                  <div className="flex type-list">
+                    {Object.entries(gameTypes).map(
+                      ([key, { label, icon }], index) => (
+                        <div
+                          key={index}
+                          className={`inline-block md:block m-1 rounded-lg border ${
+                            tcgGameType === key
+                              ? "border-blue-500"
+                              : "border-gray-300"
+                          }`}
+                        >
+                          <button
+                            className={`flex flex-col md:flex-row items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full type-item ${
+                              tcgGameType === key ? "active" : ""
+                            }`}
+                            onClick={() => setTcgGameType(key)}
+                          >
+                            <Image
+                              src={`/images/tcg/${icon}.png`}
+                              alt={label}
+                              width={128}
+                              height={128}
+                              className="inline-block type-item--image"
+                            />
+                            <span className="md:text-base whitespace-nowrap">
+                              {label}
+                            </span>
+                          </button>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
               <div className="user-info m-2">
                 <div className="user-name truncate w-20">{state.user.id}</div>
                 <div className="user-money">
@@ -258,9 +301,9 @@ const HomeTcgMainPage = () => {
                   <Image
                     src="/images/icons/refresh.png"
                     alt="refresh"
-                    width={14}
-                    height={14}
-                    className="inline-block cursor-pointer ml-2"
+                    width={24}
+                    height={24}
+                    className="inline-block cursor-pointer refresh-icon"
                     onClick={(e) => tcgTransferOutAll(e, "all")}
                   />
                 </div>
@@ -269,7 +312,7 @@ const HomeTcgMainPage = () => {
                 {features.map((item, index) => (
                   <div
                     key={index}
-                    className={`feature-item w-20 h-20 ${
+                    className={`feature-item ${
                       activeFeatureIndex === index ? "active" : ""
                     }`}
                     onClick={() => {
@@ -277,7 +320,13 @@ const HomeTcgMainPage = () => {
                       useGlobalDispatch(pushRoutes(item.url));
                     }}
                   >
-                    <div className="icon">{item.icon}</div>
+                    <Image
+                      src={`/images/tcg/${item.icon}.png`}
+                      alt={item.title}
+                      width={128}
+                      height={128}
+                      className="feature-item--image"
+                    />
                     <div className="title">{item.title}</div>
                   </div>
                 ))}
@@ -285,49 +334,55 @@ const HomeTcgMainPage = () => {
             </div>
 
             <div className="flex w-full gap-2 mb-6">
-              <div className="w-auto md:w-[15%]">
-                <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap">
-                  {Object.entries(gameTypes).map(
-                    ([key, { label, icon }], index) => (
-                      <div
-                        key={index}
-                        className={`inline-block md:block m-1 rounded-lg border ${
-                          tcgGameType === key
-                            ? "border-blue-500"
-                            : "border-gray-300"
-                        }`}
-                      >
-                        <button
-                          className={`flex flex-col md:flex-row items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
+              {isMobile && (
+                <div className="w-auto md:w-[15%]">
+                  <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap type-list">
+                    {Object.entries(gameTypes).map(
+                      ([key, { label, icon }], index) => (
+                        <div
+                          key={index}
+                          className={`inline-block md:block m-1 rounded-lg border ${
                             tcgGameType === key
-                              ? "bg-blue-500 text-white"
-                              : "bg-white"
+                              ? "border-blue-500"
+                              : "border-gray-300"
                           }`}
-                          onClick={() => setTcgGameType(key)}
                         >
-                          <span className="text-xl">{icon}</span>
-                          <span className="text-sm md:text-base whitespace-nowrap">
-                            {label}
-                          </span>
-                        </button>
-                      </div>
-                    ),
-                  )}
+                          <button
+                            className={`flex flex-col md:flex-row items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full type-item ${
+                              tcgGameType === key ? "active" : ""
+                            }`}
+                            onClick={() => setTcgGameType(key)}
+                          >
+                            <Image
+                              src={`/images/tcg/${icon}.png`}
+                              alt={label}
+                              width={128}
+                              height={128}
+                              className="inline-block type-item--image"
+                            />
+                            <span className="md:text-base whitespace-nowrap">
+                              {label}
+                            </span>
+                          </button>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {tcgGameList && tcgGameList.length > 0 ? (
-                <div className="w-[85%] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-3 p-2">
+                <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 game-list">
                   {tcgGameList.map((game, index) => (
                     <div
                       key={index}
-                      className="relative game-item p-2 border rounded-lg shadow hover:shadow-lg cursor-pointer text-center max-h-[108px]"
+                      className="relative game-item border cursor-pointer text-center "
                       onClick={() => tcgGetGameUrl(game.id)}
                     >
                       <div className="icon text-2xl">
                         <div className="relative rounded-md overflow-hidden icon flex justify-center">
                           <Image
-                            className="object-contain"
+                            className="icon-img"
                             src={game.img.replace("/zh/", "/EN/")}
                             height={64}
                             width={64}
@@ -376,19 +431,19 @@ const HomeTcgMainPage = () => {
                   {
                     length: Math.min(
                       isMobile ? 3 : 5,
-                      Math.ceil(tcgTotalGames / tcgGamePageSize),
+                      Math.ceil(tcgTotalGames / tcgGamePageSize)
                     ),
                   },
                   (_, i) => {
                     const totalPages = Math.ceil(
-                      tcgTotalGames / tcgGamePageSize,
+                      tcgTotalGames / tcgGamePageSize
                     );
                     let startPage = Math.max(
                       1,
                       Math.min(
                         tcgGameCurrentPage - Math.floor((isMobile ? 3 : 5) / 2),
-                        totalPages - (isMobile ? 2 : 4),
-                      ),
+                        totalPages - (isMobile ? 2 : 4)
+                      )
                     );
                     const page = startPage + i;
 
@@ -407,7 +462,7 @@ const HomeTcgMainPage = () => {
                         {page}
                       </button>
                     );
-                  },
+                  }
                 )}
 
                 {/* 下一页 */}
@@ -416,7 +471,7 @@ const HomeTcgMainPage = () => {
                     setTcgCurrentPage((prev) =>
                       prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
                         ? prev + 1
-                        : prev,
+                        : prev
                     )
                   }
                   disabled={
@@ -432,7 +487,7 @@ const HomeTcgMainPage = () => {
                 <button
                   onClick={() =>
                     setTcgCurrentPage(
-                      Math.ceil(tcgTotalGames / tcgGamePageSize),
+                      Math.ceil(tcgTotalGames / tcgGamePageSize)
                     )
                   }
                   disabled={
@@ -493,7 +548,6 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     justify-content: center;
     gap: 16px;
     width: 100%;
-    margin: 1vw 0;
     flex-wrap: wrap;
   }
 
@@ -509,36 +563,35 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
-    border-radius: 10px;
-    padding: 10px;
+    // border-radius: 10px;
+    // padding: 10px;
     gap: 20px;
     width: 100%;
 
     .user-panel {
       display: flex;
       align-items: center;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      background: linear-gradient(to bottom right, #dbd3de, #dadfde);
+      // border-radius: 0.5rem;
 
       .user-info {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        border-right: 1px solid #ccc7cd;
-        padding-right: 2rem;
+        // border-right: 1px solid #ccc7cd;
+        // padding-right: 2rem;
         margin-right: 2rem;
+        font-family: "Microsoft YaHei";
+        color: rgb(255, 255, 255);
+        font-size: 18px;
 
         .user-name {
-          font-size: 18px;
           font-weight: bold;
         }
 
         .user-money {
+          filter: brightness(0) invert(1);
           margin-top: 5px;
-          font-size: 16px;
-          color: #ff9900;
         }
       }
 
@@ -555,7 +608,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
           padding: 12px;
           border: 2px solid transparent;
           border-radius: 10px;
-          background-color: #fff;
+          background-color: #f3f3f3;
           cursor: pointer;
           transition: all 0.3s;
 
@@ -563,8 +616,10 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
             font-size: 24px;
           }
           .title {
-            margin-top: 6px;
-            font-size: 14px;
+            font-family: "Microsoft YaHei";
+            color: rgb(51, 51, 51);
+            line-height: 1;
+            text-align: center;
           }
 
           &.active {
@@ -620,10 +675,9 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
   .game-list {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 16px;
+    // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     justify-content: center;
-    max-width: 1000px;
+    // max-width: 1000px;
     margin: 0 auto;
     width: 100%;
 
@@ -632,11 +686,11 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       flex-direction: column;
       align-items: center;
       justify-content: start;
-      background: #fafafa;
-      max-height: 108px;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      // background: #fafafa;
+      // max-height: 108px;
+      // padding: 16px;
+      // border-radius: 10px;
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
       .icon {
         font-size: 30px;
@@ -649,7 +703,99 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
   }
 
+  @media (min-width: 769px) {
+
+    .user-panel{
+        justify-content: space-between !important;
+        background: linear-gradient(to right, #ffffff,#d18fd7,#873fdb);
+        width: 100%;
+        padding: 0.63vw 11.98vw;
+    }
+
+    .user-info {
+
+      .user-name {
+      }
+
+      .user-money {
+        margin-top: 5px;
+
+        .refresh-icon{
+          height:0.78vw;
+          width:0.78vw;
+          margin-left:  0.63vw;
+        }
+      }
+    }
+
+    .type-list{
+      .type-item{
+        height:2.08vw;
+        min-width:6.77vw;  
+        border-radius:0.26vw;
+        font-size: 0.83vw;
+        font-weight: 700;
+        font-family: "Microsoft YaHei";
+        color: #333333;
+        background: #f3f3f3;
+
+        &.active {
+          background: linear-gradient(to right, #335fc2,#863fdb);
+          color: rgb(255, 255, 255);
+        }
+
+        .type-item--image{
+          height: 1.56vw;
+          width: auto;
+        }
+      }
+    }
+
+    .feature-list {
+
+      .feature-item {
+        width: 3.65vw;
+        height: 4.38vw;
+        padding: 0 !important;
+
+        .feature-item--image{
+          height: 2.4vw;
+          width: auto;
+        }
+
+        .title{
+          font-size: 0.83vw !important;
+          margin-top: 0.13vw !important;
+        }
+      }
+    }
+
+    .game-list {
+      gap: 2.08vw 0.83vw;
+      max-width: 76.04vw;
+      width: 76.04vw;
+      .game-item {
+
+        .icon{
+          .icon-img{
+              height: 8.85vw;
+              width: 8.85vw;
+              border-radius: 0.67vw;
+          }
+        }
+
+        .title{
+          font-size: 0.73vw;
+        }
+
+      }
+    }
+
+  }
   @media (max-width: 768px) {
+
+
+
     .content-grid {
       flex-direction: column;
       margin-bottom: 67px;
@@ -659,27 +805,114 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       flex-direction: column;
     }
 
-    .user-panel {
-      padding: 2vw 1vw !important;
+  
+    .user-feature-header{
+      padding: 0 2.67vw;
+      margin : 4vw 0 12.8vw;
 
-      .user-info {
-        padding-right: 2vw !important;
-        margin-right: 2vw !important;
-      }
+      .user-panel {
+        padding: 2vw 1vw !important;
+        background: linear-gradient(to bottom right, #ee51ab, #873fdb);
+        background: url('/images/tcg/user-panel-bg.png') no-repeat center center !important;
+        background-size: cover !important;
+        border-radius: 0.67vw;
+        justify-content:center;
+        width: 100%;
 
-      .feature-list {
-        justify-content: space-between;
-        flex-wrap: nowrap !important;
-        gap: 1.5vw !important;
+        .user-info {
+          line-height: 0.917;
+          padding-right: 2rem;
+          .user-name{
+            font-size: 3.2vw;
+          }
+          .user-money{
+            font-size: 3.2vw;
+            display:flex;
+            align-items:center;
 
-        .feature-item {
-          padding: 2vw !important;
-          min-width: 12vw !important;
-          width: inherit;
+            .refresh-icon{
+              height:3.2vw;
+              width:3.2vw;
+              margin-left:  3.2vw;
+            }
+          }
+        }
+
+        .feature-list {
+          justify-content: space-between;
+          flex-wrap: nowrap !important;
+          gap: 1.5vw !important;
+
+          .feature-item {
+            width: 13.25vw !important;
+            height: 16.93vw !important;
+            padding: 0 !important;
+
+            .feature-item--image{
+              height: 8vw;
+              width: auto;
+            }
+
+            .title{
+              font-size: 2.93vw !important;
+              margin-top: 1.13vw !important;
+            }
+          }
         }
       }
     }
-  }
+
+    .game-list {
+      gap: 0 2.13vw;
+      width:71.87vw;
+      max-width:71.87vw;
+      position:relative;
+      margin: 0 0 0 auto;
+
+      .game-item {
+        width: 22.67vw;
+        height: 38.53vw;
+
+        .icon{
+          .icon-img{
+              height: 22.67vw;
+              width: 100%;
+              border-radius: 0.67vw;
+          }
+        }
+
+        .title{
+          // font-size: 4.45vw;
+          font-family: "Microsoft YaHei";
+          color: rgb(51, 51, 51);
+          font-weight: bold;
+        }
+
+      }
+    }
+
+    .type-list{
+      .type-item{
+        height:20.67vw;  
+        width:20.67vw;  
+        background: url('/images/tcg/type-inactive.png') no-repeat !important;
+        font-size: 3.2vw;
+        font-weight: 700;
+        font-family: "Microsoft YaHei";
+        color: #333333;
+
+        &.active {
+          background: url('/images/tcg/type-active.png') no-repeat !important;
+          color: rgb(255, 255, 255);
+        }
+
+        .type-item--image{
+          height: 11.47vw;
+          width: auto;
+        }
+      }
+    }
+  
   `}
 `;
 
@@ -718,7 +951,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试",
+            "注册失败，请稍后再试"
         );
         return;
       }

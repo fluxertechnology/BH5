@@ -29,46 +29,60 @@ const BottomNavBar = () => {
   const { state } = useGlobalContext();
   const new_coupon_notification = state.user.new_coupon_notification;
   const { isMobile } = useMediaQuery();
-  
+
   let [navList, setNavList] = useState(() => [
     {
-      cname: t("Navbar.bottom_navigator_index"),
-      name: home.pages.homeMain.name,
-      path: home.pages.homeMain.path,
-      image: "/images/header/bottomNav/home_pre_btn.png",
-      activeImage: "/images/header/bottomNav/home_selected_btn.png",
+      cname: t("Navbar.bottom_navigator_comic"),
+      name: home.pages.homeMain.pages.homeAnime.name,
+      path: home.pages.homeMain.pages.homeAnime.path,
+      image: "/images/header/bottomNav/comic_selected_btn.png",
+      activeImage: "/images/header/bottomNav/comic_selected_btn.png",
+    },
+    {
+      cname: t("Navbar.bottom_navigator_game"),
+      name: home.pages.homeTcg.name,
+      path: home.pages.homeTcg.path,
+      image: "/images/header/bottomNav/game_selected_btn.png",
+      activeImage: "/images/header/bottomNav/game_selected_btn.png",
+    },
+    {
+      cname: t("Navbar.bottom_navigator_video"),
+      name: home.pages.homeMain.pages.homeVideos.name,
+      path: home.pages.homeMain.pages.homeVideos.path,
+      image: "/images/header/bottomNav/video_selected_btn.png",
+      activeImage: "/images/header/bottomNav/feed_selected_btn.png",
+    },
+    {
+      cname: t("Navbar.bottom_navigator_mall"),
+      name: vendor.name,
+      path: vendor.path,
+      image: "/images/header/bottomNav/store_selected_btn.png",
+      activeImage: "/images/header/bottomNav/store_selected_btn.png",
     },
     {
       cname: t("Navbar.bottom_navigator_dynamic"),
       name: post.pages.postMain.name,
       path: post.pages.postMain.path,
-      image: "/images/header/bottomNav/feed_pre_btn.png",
-      activeImage: "/images/header/bottomNav/feed_selected_btn.png",
+      image: "/images/header/bottomNav/media_selected_btn.png",
+      activeImage: "/images/header/bottomNav/media_selected_btn.png",
+    },
+    {
+      cname: t("Navbar.bottom_navigator_live"),
+      name: home.pages.homeMain.pages.homeStreams.name,
+      path: home.pages.homeMain.pages.homeStreams.path,
+      image: "/images/header/bottomNav/live_selected_btn.png",
+      activeImage: "/images/header/bottomNav/live_selected_btn.png",
     },
     // {
-    //   cname: intl.formatMessage({ id: "BOTTOM.NAVIGATOR.AND_CHILL" }),
-    //   name: social.name,
-    //   path: social.path,
-    //   image: socialIcon,
-    //   activeImage: socialIconSelected,
+    //   cname: t("Navbar.bottom_navigator_my"),
+    //   name: profile.name,
+    //   path: profile.path,
+    //   image: "/images/header/bottomNav/info_pre_btn.png",
+    //   activeImage: "/images/header/bottomNav/info_selected_btn.png",
+    //   decoration: {
+    //     show: new_coupon_notification,
+    //   },
     // },
-    {
-      cname: t("Navbar.bottom_navigator_mall"),
-      name: vendor.name,
-      path: vendor.path,
-      image: "/images/header/bottomNav/shop_pre_btn.png",
-      activeImage: "/images/header/bottomNav/shop_selected_btn.png",
-    },
-    {
-      cname: t("Navbar.bottom_navigator_my"),
-      name: profile.name,
-      path: profile.path,
-      image: "/images/header/bottomNav/info_pre_btn.png",
-      activeImage: "/images/header/bottomNav/info_selected_btn.png",
-      decoration: {
-        show: new_coupon_notification,
-      },
-    },
   ]);
 
   useEffect(() => {
@@ -82,7 +96,11 @@ const BottomNavBar = () => {
   };
 
   return (
-    <BottomNavBarElement ref={root} show_bottom_nav={isMobile && state.navbar.isShowFooter} className={"BottomNavBarElement"}>
+    <BottomNavBarElement
+      ref={root}
+      show_bottom_nav={isMobile && state.navbar.isShowFooter}
+      className={"BottomNavBarElement"}
+    >
       <div className="bottom_nav">
         {navList.map((data, index) => {
           return (
@@ -96,7 +114,13 @@ const BottomNavBar = () => {
               <WavaButton
                 className={
                   "bottom_nav_item_btn " +
-                  (index == 1 ? location.indexOf(data.path) !== -1 ? "active" : "" : location == data.path ? "active" : "")
+                  (index == 1
+                    ? location.indexOf(data.path) !== -1
+                      ? "active"
+                      : ""
+                    : location == data.path
+                    ? "active"
+                    : "")
                 }
                 currentRefs={[root]}
               >
@@ -104,7 +128,13 @@ const BottomNavBar = () => {
                   <Image
                     className={"bottom_nav_item_btn_icon_img"}
                     src={
-                      index == 1 ? location.indexOf(data.path) !== -1 ? data.activeImage : data.image : location == data.path ? data.activeImage : data.image
+                      index == 1
+                        ? location.indexOf(data.path) !== -1
+                          ? data.activeImage
+                          : data.image
+                        : location == data.path
+                        ? data.activeImage
+                        : data.image
                     }
                     width={30}
                     height={30}
@@ -134,7 +164,7 @@ export const bottom_nav_height = 62;
 
 const BottomNavBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["show_bottom_nav"].includes(prop),
-  })`
+})`
   /*  */
   position: fixed;
   right: 0;
@@ -171,6 +201,7 @@ const BottomNavBarElement = styled.div.withConfig({
             height: 100%;
             vertical-align: middle;
             transition: 0.3s;
+            object-fit:contain;
           }
 
           &_dot {

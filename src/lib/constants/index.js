@@ -55,7 +55,7 @@ export const shortTermTimestamp = 30 * 60 * 1000;
 export const apiUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 // 判斷哪個網址圖片可以正常連線沒被封，可以的記錄下來之後就連那個
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   for (let i = 0; i < apiDomain.length; i++) {
     let img = document.createElement("img");
     img.src = apiDomain[i] + "/downzai/assets/images/test.jpg";
@@ -708,6 +708,11 @@ export const pageUrlConstants = {
           },
         },
       },
+      homeTcg: {
+        name: "游戏",
+        path: "/home/tcg",
+        bottomNav: true,
+      },
     },
   },
   start: {
@@ -863,7 +868,7 @@ export const requestUrlConstants = {
   postSearchHistory: "/banime/history/lists", //查詢觀看紀錄
   postContinueHistory: "/banime/history/readon", //查詢繼續看紀錄
   getIdleHome: "/mobileapi/anime/idlehome", //查詢觀看紀錄(閒置廣告)
-  getItemDetail:"/mobileapi/common/get_profile", //查询产品的基本信息（SEO)
+  getItemDetail: "/mobileapi/common/get_profile", //查询产品的基本信息（SEO)
 };
 // process
 // has_episode
@@ -952,4 +957,4 @@ export const searchTabName = {
   ST: "美圖",
 };
 
-export const tcgAPIPath = '/api/tcg'
+export const tcgAPIPath = "/api/tcg";
