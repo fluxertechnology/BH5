@@ -26,7 +26,7 @@ import { getPremiumDiamond } from "@/lib/services/price";
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isDesktop } = useMediaQuery();
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(10); // 当前选中的功能按钮
 
   const features = [
@@ -261,21 +261,21 @@ const HomeTcgMainPage = () => {
         <div className="sidebar">
           <div className="user-feature-header">
             <div className="user-panel">
-              {!isMobile && (
+              {isDesktop && (
                 <div className="w-auto">
                   <div className="flex type-list">
                     {Object.entries(gameTypes).map(
                       ([key, { label, icon }], index) => (
                         <div
                           key={index}
-                          className={`inline-block md:block m-1 rounded-lg border ${
+                          className={`inline-block m-1 rounded-lg border ${
                             tcgGameType === key
                               ? "border-blue-500"
                               : "border-gray-300"
                           }`}
                         >
                           <button
-                            className={`flex flex-col md:flex-row items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full type-item ${
+                            className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
                               tcgGameType === key ? "active" : ""
                             }`}
                             onClick={() => setTcgGameType(key)}
@@ -287,9 +287,7 @@ const HomeTcgMainPage = () => {
                               height={128}
                               className="inline-block type-item--image"
                             />
-                            <span className="md:text-base whitespace-nowrap">
-                              {label}
-                            </span>
+                            <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
                       )
@@ -306,7 +304,9 @@ const HomeTcgMainPage = () => {
                     alt="refresh"
                     width={24}
                     height={24}
-                    className={`inline-block cursor-pointer refresh-icon ${state.user.id === "guest" ? "hidden" : ""}`}
+                    className={`inline-block cursor-pointer refresh-icon ${
+                      state.user.id === "guest" ? "hidden" : ""
+                    }`}
                     onClick={(e) => tcgTransferOutAll(e, "all")}
                   />
                 </div>
@@ -337,21 +337,14 @@ const HomeTcgMainPage = () => {
             </div>
 
             <div className="flex w-full gap-2 mb-6">
-              {isMobile && (
-                <div className="w-auto md:w-[15%]">
+              {!isDesktop && (
+                <div className="w-auto">
                   <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap type-list">
                     {Object.entries(gameTypes).map(
                       ([key, { label, icon }], index) => (
-                        <div
-                          key={index}
-                          className={`inline-block md:block m-1 rounded-lg border ${
-                            tcgGameType === key
-                              ? "border-blue-500"
-                              : "border-gray-300"
-                          }`}
-                        >
+                        <div key={index} className="inline-block type-item">
                           <button
-                            className={`flex flex-col md:flex-row items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full type-item ${
+                            className={`flex flex-col items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
                               tcgGameType === key ? "active" : ""
                             }`}
                             onClick={() => setTcgGameType(key)}
@@ -375,7 +368,7 @@ const HomeTcgMainPage = () => {
               )}
 
               {tcgGameList && tcgGameList.length > 0 ? (
-                <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 game-list">
+                <div className="grid game-list">
                   {tcgGameList.map((game, index) => (
                     <div
                       key={index}
@@ -398,9 +391,7 @@ const HomeTcgMainPage = () => {
                           />
                         </div>
                       </div>
-                      <div className="title text-sm font-medium mt-2">
-                        {game.name}
-                      </div>
+                      <div className="title font-medium mt-2">{game.name}</div>
                     </div>
                   ))}
                 </div>
@@ -459,7 +450,7 @@ const HomeTcgMainPage = () => {
                         onClick={() => setTcgCurrentPage(page)}
                         className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
                           page === tcgGameCurrentPage
-                            ? "bg-gray-300 font-bold"
+                            ? "bg-[#ff367a] text-white font-bold"
                             : ""
                         }`}
                       >
@@ -567,7 +558,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     // border-radius: 10px;
     // padding: 10px;
     gap: 20px;
@@ -649,13 +640,6 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     gap: 12px;
     width: 200px;
 
-    @media (max-width: 768px) {
-      flex-direction: row;
-      width: 100%;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-
     .category-item {
       padding: 12px;
       background-color: #f5f5f5;
@@ -708,7 +692,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 1025px) {
 
     .user-panel{
         justify-content: space-between !important;
@@ -724,6 +708,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
       .user-money {
         margin-top: 5px;
+        font-size: 0.83vw;
 
         .refresh-icon{
           height:0.78vw;
@@ -743,6 +728,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
         font-family: "Microsoft YaHei";
         color: #333333;
         background: #f3f3f3;
+        flex-direction: row;
 
         &.active {
           background: linear-gradient(to right, #335fc2,#863fdb);
@@ -757,6 +743,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
 
     .feature-list {
+      gap:0.36vw !important;
 
       .feature-item {
         width: 3.65vw;
@@ -779,6 +766,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       gap: 2.08vw 0.83vw;
       max-width: 76.04vw;
       width: 76.04vw;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+
       .game-item {
 
         .icon{
@@ -797,9 +786,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
 
   }
-  @media (max-width: 768px) {
-
-
+  @media (max-width: 1024px) {
 
     .content-grid {
       flex-direction: column;
@@ -873,6 +860,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       max-width:71.87vw;
       position:relative;
       margin: 0 0 0 auto;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
 
       .game-item {
         width: 22.67vw;
@@ -891,24 +879,29 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
           font-family: "Microsoft YaHei";
           color: rgb(51, 51, 51);
           font-weight: bold;
+          font-size:3.2vw;
         }
 
       }
     }
 
     .type-list{
-      .type-item{
-        height:20.67vw;  
-        width:20.67vw;  
-        background: url('/images/tcg/type-inactive.png') no-repeat !important;
-        font-size: 3.2vw;
-        font-weight: 700;
-        font-family: "Microsoft YaHei";
-        color: #333333;
 
-        &.active {
-          background: url('/images/tcg/type-active.png') no-repeat !important;
-          color: rgb(255, 255, 255);
+      .type-item{
+        height: 20.67vw;
+        width: 20.67vw;
+        margin-bottom: 1.07vw;
+
+        button {
+          height: 100%;
+          width: 100%;
+          background: url('/images/tcg/type-inactive.png') no-repeat center center !important;
+          background-size: cover !important;
+
+          &.active {
+            background: url('/images/tcg/type-active.png') no-repeat center center !important;
+            background-size: cover !important;
+          }
         }
 
         .type-item--image{
