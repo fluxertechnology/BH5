@@ -337,7 +337,7 @@ const HomeTcgMainPage = () => {
                             width={64}
                             alt="collect"
                             placeholder="blur"
-                            blurDataURL="/images/imgPlaceholder/avatar.png"
+                            blurDataURL="/images/imgPlaceholder/300x300.jpg"
                             onError={(e) => {
                               //e.currentTarget.src = game.img.replace("/zh/", "/EN/")
                             }}
