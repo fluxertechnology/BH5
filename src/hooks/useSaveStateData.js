@@ -63,7 +63,7 @@ function saveContentData(storeData) {
 			}, {}),
 		//homeSearchResultData: storeData.homeSearchResultData,
 		homeVideo: storeData.homeVideo,
-		homeLeaderBoard: storeData.homeLeaderBoard,
+		//homeLeaderBoard: storeData.homeLeaderBoard,
 		homeVideoList: storeData.homeVideoList,
 		homeVideoContent: storeData.homeVideoContent,
 		homeNovelsList: storeData.homeNovelsList,
@@ -118,5 +118,17 @@ const useSaveStateData = (state) => {
 		saveContentData(state);
 	}
 };
+
+export const useCleanStateData = () => {
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('userData');
+    window.localStorage.removeItem('userDataOriginal');
+    window.localStorage.removeItem('contentData');
+    window.localStorage.removeItem('contentDataOriginal');
+    window.localStorage.removeItem('systemData');
+    window.localStorage.removeItem('catchData');
+    window.localStorage.removeItem('lastInitTime');
+  }
+}
 
 export default useSaveStateData;
