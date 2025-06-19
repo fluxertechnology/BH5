@@ -387,19 +387,22 @@ const HomeTcgMainPage = () => {
                       <div className="icon text-2xl">
                         <div className="relative rounded-md overflow-hidden icon flex justify-center">
                           <Image
-                            className="icon-img"
+                            className="icon-img object-contain"
+                            key={game.id}
                             src={game.img.replace("/zh/", "/EN/")}
                             height={64}
                             width={64}
                             alt="collect"
+                            placeholder="blur"
+                            blurDataURL="/images/imgPlaceholder/300x300.jpg"
                             onError={(e) => {
-                              e.currentTarget.src = "";
+                              //e.currentTarget.src = game.img.replace("/zh/", "/EN/")
                             }}
                           />
                         </div>
                       </div>
                       <div className="title text-sm font-medium mt-2">
-                        {game.name}
+                        {game.name}{" "}
                       </div>
                     </div>
                   ))}
