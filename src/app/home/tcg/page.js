@@ -22,6 +22,7 @@ import { pushRoutes } from "@/store/actions/historyActions";
 import { useIframe } from "@/hooks/useIframe";
 import FullPageIframe from "@/components/common/FullPageIframe";
 import { getPremiumDiamond } from "@/lib/services/price";
+import LoadingComponent from "@/components/common/LoadingComponent";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -69,6 +70,7 @@ const HomeTcgMainPage = () => {
   const [currentGameId, setCurrentGameId] = useState(null);
   const [currentGameUrl, setCurrentGameUrl] = useState("");
   const [currentGameProductType, setCurrentGameProductType] = useState("");
+  const [isLoadingTransferOutAll, setIsLoadingTransferOutAll] = useState(false);
   const [isLoadingGameUrl, setIsLoadingGameUrl] = useState(false);
 
   const tcgGetGameList = async (page = 1) => {
@@ -168,6 +170,7 @@ const HomeTcgMainPage = () => {
 
   const tcgTransferOutAll = async (e, gameId) => {
     e.stopPropagation();
+    setIsLoadingTransferOutAll(true);
     console.log("转出游戏ID:", gameId);
     try {
       const response = await fetch(`${apiUrl}/appapi/tcg/transfer_out_by_all`, {
@@ -195,9 +198,12 @@ const HomeTcgMainPage = () => {
       }
       toastCall("转出成功");
       console.log("转出成功:", data);
+      window.location.reload();
     } catch (error) {
       console.error("转出失败:", error);
       toastCall("转出失败，请稍后再试");
+    } finally {
+      setIsLoadingTransferOutAll(false);
     }
   };
 
@@ -296,7 +302,7 @@ const HomeTcgMainPage = () => {
                 </div>
               )}
               <div className="user-info m-2">
-                <div className="user-name truncate w-20">{state.user.id}</div>
+                <div className="user-name truncate w-20">{state.user.id === 'guest' ? 'guest' : state.user.nick_name}</div>
                 <div className="user-money">
                   余额: {getPremiumDiamond(t, state.user.money, false)}
                   <Image
@@ -524,6 +530,8 @@ const HomeTcgMainPage = () => {
         onClose={tcgGameExit}
         title=""
       />
+
+      <LoadingComponent isLoading={isLoadingTransferOutAll} />
     </HomeTcgMainPageElement>
   );
 };
