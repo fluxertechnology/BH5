@@ -417,7 +417,9 @@ const HomeTcgMainPage = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center text-gray-500 py-8">暂无游戏</div>
+                <div className="flex items-center justify-center h-full min-h-[50vh] w-full">
+                  <div className="text-center text-gray-500 py-8">暂无游戏</div>
+                </div>
               )}
             </div>
             <div className="pagination-controls my-6 flex justify-center">
