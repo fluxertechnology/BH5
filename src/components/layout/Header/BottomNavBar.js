@@ -160,7 +160,7 @@ const BottomNavBar = () => {
 
 export default React.memo(BottomNavBar, areEqual);
 
-export const bottom_nav_height = 62;
+export const bottom_nav_height = 88; //62
 
 const BottomNavBarElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["show_bottom_nav"].includes(prop),
@@ -179,6 +179,9 @@ const BottomNavBarElement = styled.div.withConfig({
   box-shadow: 0 -1px 2px 0 rgb(0 0 0 / 30%);
   .bottom_nav {
     display: flex;
+    align-items: center;
+    position: relative;
+    height: inherit;
     &_item {
       cursor: pointer;
       user-select: none;
@@ -201,7 +204,7 @@ const BottomNavBarElement = styled.div.withConfig({
             height: 100%;
             vertical-align: middle;
             transition: 0.3s;
-            object-fit:contain;
+            object-fit: contain;
           }
 
           &_dot {

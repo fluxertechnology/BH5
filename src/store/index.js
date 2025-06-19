@@ -304,7 +304,7 @@ export function GlobalProvider({ children, cookies }) {
 			isShowFooter: true,
 			isShowSearch: false,
 			isShowMore: false,
-			bottomNavHeight: 62,
+			bottomNavHeight: 88,
 			customComponent: () => false,
 			prependComponent: () => <></>,
 			appendComponent: () => <></>,
