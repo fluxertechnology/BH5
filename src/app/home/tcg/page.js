@@ -198,7 +198,9 @@ const HomeTcgMainPage = () => {
       }
       toastCall("转出成功");
       console.log("转出成功:", data);
-      window.location.reload();
+      if (gameId === "all") {
+        window.location.reload();
+      }
     } catch (error) {
       console.error("转出失败:", error);
       toastCall("转出失败，请稍后再试");
