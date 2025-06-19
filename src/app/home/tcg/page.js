@@ -23,6 +23,7 @@ import { useIframe } from "@/hooks/useIframe";
 import FullPageIframe from "@/components/common/FullPageIframe";
 import { getPremiumDiamond } from "@/lib/services/price";
 import LoadingComponent from "@/components/common/LoadingComponent";
+import { updateUserDataAction } from "@/store/actions/user";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -163,7 +164,7 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId
+      currentGameId,
     );
     closeIframe();
   };
@@ -198,9 +199,14 @@ const HomeTcgMainPage = () => {
       }
       toastCall("转出成功");
       console.log("转出成功:", data);
-      if (gameId === "all") {
-        window.location.reload();
-      }
+      useGlobalDispatch(
+        updateUserDataAction(() => {
+          console.log("用户数据更新成功", gameId);
+          if (gameId === "all") {
+            window.location.reload();
+          }
+        }),
+      );
     } catch (error) {
       console.error("转出失败:", error);
       toastCall("转出失败，请稍后再试");
@@ -298,13 +304,15 @@ const HomeTcgMainPage = () => {
                             <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
               )}
               <div className="user-info m-2">
-                <div className="user-name truncate w-20">{state.user.id === 'guest' ? 'guest' : state.user.nick_name}</div>
+                <div className="user-name truncate w-20">
+                  {state.user.id === "guest" ? "guest" : state.user.nick_name}
+                </div>
                 <div className="user-money">
                   余额: {getPremiumDiamond(t, state.user.money, false)}
                   <Image
@@ -369,7 +377,7 @@ const HomeTcgMainPage = () => {
                             </span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -437,19 +445,19 @@ const HomeTcgMainPage = () => {
                   {
                     length: Math.min(
                       isMobile ? 3 : 5,
-                      Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      Math.ceil(tcgTotalGames / tcgGamePageSize),
                     ),
                   },
                   (_, i) => {
                     const totalPages = Math.ceil(
-                      tcgTotalGames / tcgGamePageSize
+                      tcgTotalGames / tcgGamePageSize,
                     );
                     let startPage = Math.max(
                       1,
                       Math.min(
                         tcgGameCurrentPage - Math.floor((isMobile ? 3 : 5) / 2),
-                        totalPages - (isMobile ? 2 : 4)
-                      )
+                        totalPages - (isMobile ? 2 : 4),
+                      ),
                     );
                     const page = startPage + i;
 
@@ -468,7 +476,7 @@ const HomeTcgMainPage = () => {
                         {page}
                       </button>
                     );
-                  }
+                  },
                 )}
 
                 {/* 下一页 */}
@@ -477,7 +485,7 @@ const HomeTcgMainPage = () => {
                     setTcgCurrentPage((prev) =>
                       prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
                         ? prev + 1
-                        : prev
+                        : prev,
                     )
                   }
                   disabled={
@@ -493,7 +501,7 @@ const HomeTcgMainPage = () => {
                 <button
                   onClick={() =>
                     setTcgCurrentPage(
-                      Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      Math.ceil(tcgTotalGames / tcgGamePageSize),
                     )
                   }
                   disabled={
@@ -962,7 +970,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }
