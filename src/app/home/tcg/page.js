@@ -372,7 +372,7 @@ const HomeTcgMainPage = () => {
                               height={128}
                               className="inline-block type-item--image"
                             />
-                            <span className="md:text-base whitespace-nowrap">
+                            <span className={`md:text-base whitespace-nowrap ${tcgGameType === key ? 'text-white' : 'text-black'}`}>
                               {label}
                             </span>
                           </button>
