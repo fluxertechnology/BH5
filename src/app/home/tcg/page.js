@@ -60,7 +60,7 @@ const HomeTcgMainPage = () => {
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
-  const tcgGamePageSize = 100;
+  const tcgGamePageSize = 30;
 
   const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
@@ -298,7 +298,7 @@ const HomeTcgMainPage = () => {
                 </div>
               )}
               <div className="user-info m-2">
-                <div className="user-name truncate w-20">{state.user.id}</div>
+                <div className="user-name truncate w-20">{state.user.nick_name}</div>
                 <div className="user-money">
                   余额: {getPremiumDiamond(t, state.user.money, false)}
                   <Image
@@ -381,7 +381,7 @@ const HomeTcgMainPage = () => {
                       key={index}
                       className="relative game-item border cursor-pointer text-center "
                       onClick={() =>
-                        tcgGetGameUrl(game.id, state.user.id !== "guest")
+                        tcgGetGameUrl(game.id, state.user.id !== "Guest")
                       }
                     >
                       <div className="icon text-2xl">
@@ -943,7 +943,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
   };
 
   const tcgUserSignup = async () => {
-    const userId = state.user.id;
+    const userId = state.user.nickname;
     if (userId === "guest") {
       useGlobalDispatch(openPopup("login"));
       return;
