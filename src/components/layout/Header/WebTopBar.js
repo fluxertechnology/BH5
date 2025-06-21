@@ -29,7 +29,11 @@ import ImageComponent from "@/components/common/ImageComponent";
 
 import { dailyLoginAction } from "@/store/actions/pages/profileMainAction";
 import callToast from "@/lib/services/toastCall";
-import { userFBLoginOutAction, userLoginOutAction, openPopup } from "@/store/actions/user";
+import {
+  userFBLoginOutAction,
+  userLoginOutAction,
+  openPopup,
+} from "@/store/actions/user";
 import { clearVipInfoAction } from "@/store/actions/pages/profileBuyVipCommonAction";
 import { initPostData } from "@/store/actions/pages/postMainAction";
 import { postSearchWatchHistoryAction } from "@/store/actions/pages/profileWatchHistory";
@@ -107,7 +111,7 @@ const QrCodeElement = styled.div.withConfig({
   display: flex;
   align-items: center;
 
-  @media (max-width: 1023px){
+  @media (max-width: 1023px) {
     display: none;
   }
 
@@ -119,7 +123,8 @@ const QrCodeElement = styled.div.withConfig({
     white-space: nowrap;
     font-size: 12px;
     border-radius: 4px;
-    // border: solid 2px ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
+    // border: solid 2px ${({ scroll }) =>
+      scroll ? colors.text_grey : "#fff"};
     padding: 4px 0.417vw;
     // color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
 
@@ -216,26 +221,41 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   const [navList] = useState(() => [
     {
-      intlKey: "Navbar.bottom_navigator_index",
+      intlKey: "Navbar.bottom_navigator_comic",
       name: home.pages.homeMain.name,
       path: home.pages.homeMain.path,
       image: "/images/header/home.svg",
       activeImage: "/images/header/home_selected_btn.png",
+      child: [
+        {
+          intlKey: "Navbar.top_navigator_comic",
+          name: home.pages.homeMain.pages.homeAnime.name,
+          path: home.pages.homeMain.pages.homeAnime.path,
+        },
+        {
+          intlKey: "Navbar.top_navigator_novel",
+          name: home.pages.homeMain.pages.homeNovels.name,
+          path: home.pages.homeMain.pages.homeNovels.path,
+        },
+        {
+          intlKey: "Navbar.top_navigator_meitu",
+          name: home.pages.homeMain.pages.homePhotos.name,
+          path: home.pages.homeMain.pages.homePhotos.path,
+        },
+      ],
     },
     {
-      intlKey: "Navbar.bottom_navigator_dynamic",
-      name: post.pages.postMain.name,
-      path: post.pages.postMain.path,
+      intlKey: "Navbar.bottom_navigator_game",
+      name: home.pages.homeTcg.name,
+      path: home.pages.homeTcg.path,
       image: "/images/header/feed.svg",
       activeImage: "/images/header/feed_selected_btn.png",
     },
-    // {
-    //   cname: intl.formatMessage({ id: "BOTTOM.NAVIGATOR.AND_CHILL" }),
-    //   name: social.name,
-    //   path: social.path,
-    //   image: socialIcon,
-    //   activeImage: socialIconSelected,
-    // },
+    {
+      intlKey: "Navbar.bottom_navigator_video",
+      name: home.pages.homeMain.pages.homeVideos.name,
+      path: home.pages.homeMain.pages.homeVideos.path,
+    },
     {
       intlKey: "Navbar.bottom_navigator_mall",
       name: vendor.name,
@@ -244,23 +264,33 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       activeImage: "/images/header/shop_selected_btn.png",
     },
     {
-      intlKey: "Common.history",
-      name: "",
-      path: "",
-      component: "history",
+      intlKey: "Navbar.bottom_navigator_dynamic",
+      name: post.pages.postMain.name,
+      path: post.pages.postMain.path,
     },
     {
-      intlKey: "Common.charge_1",
-      name: "Payment",
-      path: "/payment",
-      component: "recharge",
+      intlKey: "Navbar.bottom_navigator_live",
+      name: home.pages.homeMain.pages.homeStreams.name,
+      path: home.pages.homeMain.pages.homeStreams.path,
     },
-    {
-      intlKey: "Global.action.download_app",
-      name: "Download QR Code",
-      path: "",
-      component: "qrcode",
-    },
+    // {
+    //   intlKey: "Common.history",
+    //   name: "",
+    //   path: "",
+    //   component: "history",
+    // },
+    // {
+    //   intlKey: "Common.charge_1",
+    //   name: "Payment",
+    //   path: "/payment",
+    //   component: "recharge",
+    // },
+    // {
+    //   intlKey: "Global.action.download_app",
+    //   name: "Download QR Code",
+    //   path: "",
+    //   component: "qrcode",
+    // },
   ]);
 
   useEffect(() => {
@@ -313,7 +343,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       {
         icon: "/images/icons/coin.svg",
         title: t("Profile.permission.signin.everyday"),
-        content: getProfileMissionPrice(t, 'signin_everyday', state.config),
+        content: getProfileMissionPrice(t, "signin_everyday", state.config),
         description: t("Profile.permission.signin.click.award"),
         button: t(
           state.user.id === "guest"
@@ -345,8 +375,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       state.user.time === "-1"
         ? t("Profile.buy.watch.forever_1")
         : Date.now() > state.user.time * 1000
-          ? t("Profile.main.vip.maturity")
-          : new Date(state.user.time * 1000).toLocaleDateString().toString();
+        ? t("Profile.main.vip.maturity")
+        : new Date(state.user.time * 1000).toLocaleDateString().toString();
     setMembershipDate(variable);
   }, [state.user.time]);
   useEffect(() => {
@@ -358,8 +388,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       ? "/images/header/topbar/switch_lang_dark.svg"
       : "/images/header/topbar/switch_lang_en_dark.svg"
     : lang === "tc"
-      ? "/images/header/topbar/switch_lang.svg"
-      : "/images/header/topbar/switch_lang_en.svg";
+    ? "/images/header/topbar/switch_lang.svg"
+    : "/images/header/topbar/switch_lang_en.svg";
 
   async function saveUrl() {
     // navigatorShare({
@@ -392,6 +422,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   };
 
   const clickItem = (routes) => {
+    console.log(routes);
     useGlobalDispatch(pushRoutes(routes));
   };
   const clearUserData = () => {
@@ -403,10 +434,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   };
   const clickSearch = () => {
     useGlobalDispatch({
-      type: 'UPDATE_NAVBAR',
-      key: 'isShowSearch',
+      type: "UPDATE_NAVBAR",
+      key: "isShowSearch",
       data: true,
-    })
+    });
     // useGlobalDispatch(pushRoutes(home.pages.homeSearch));
   };
   const clickService = () => {
@@ -455,11 +486,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
   }, [state.user.id]);
 
   // 特定页面显示H1标签
-  const routesToShowLogo = ['/posts/main', '/vendor'];
+  const routesToShowLogo = ["/posts/main", "/vendor"];
 
   const shouldShowLogo =
-    location.startsWith('/home') ||
-    routesToShowLogo.includes(location);
+    location.startsWith("/home") || routesToShowLogo.includes(location);
 
   return (
     <TopsearchBarElement
@@ -482,45 +512,49 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               className="logo cursor"
               onClick={() => clickItem(navList[0])}
             /> */}
-          <div className="cursor-pointer logo" onClick={() => clickItem(navList[0])}>
+          <div
+            className="cursor-pointer logo"
+            onClick={() => clickItem(navList[0])}
+          >
             {shouldShowLogo && <h1 className="logo">{t("Home.name")}</h1>}
           </div>
 
-          {navList.map((navItem) => (
+          {navList.map((navItem) =>
             navItem.component ? (
-              <div
-                className="search_bar_nav cursor"
-                key={navItem.name}
-              >
-                {navItem.component === "qrcode" && (<QrCode scroll={scroll} />)}
-                {navItem.component === "history" && (<div className="search_bar_history">
-                  <div className="search_bar_nav_item_btn">
-                    <div
-                      className="search_bar_nav_item_btn_title_text"
-                    >
-                      {t("Navbar.bar_history")}
+              <div className="search_bar_nav cursor" key={navItem.name}>
+                {navItem.component === "qrcode" && <QrCode scroll={scroll} />}
+                {navItem.component === "history" && (
+                  <div className="search_bar_history">
+                    <div className="search_bar_nav_item_btn">
+                      <div className="search_bar_nav_item_btn_title_text">
+                        {t("Navbar.bar_history")}
+                      </div>
+                    </div>
+                    <div className="search_bar_history_cover">
+                      <TabContext value={tabValue}>
+                        <Box className="search_bar_history_tab_container">
+                          <TabList
+                            onChange={handleChange}
+                            aria-label="lab API tabs example"
+                          >
+                            <Tab label="H漫" value={1} />
+                            <Tab label="番剧" value={0} />
+                          </TabList>
+                        </Box>
+                        <TabPanel value={1}>
+                          <ProfileWatchHistoryComicHandle
+                            disabledScrollRefresh
+                          />
+                        </TabPanel>
+                        <TabPanel value={0}>
+                          <ProfileWatchHistoryAnimeHandle
+                            disabledScrollRefresh
+                          />
+                        </TabPanel>
+                      </TabContext>
                     </div>
                   </div>
-                  <div className="search_bar_history_cover">
-                    <TabContext value={tabValue}>
-                      <Box className="search_bar_history_tab_container">
-                        <TabList
-                          onChange={handleChange}
-                          aria-label="lab API tabs example"
-                        >
-                          <Tab label="H漫" value={1} />
-                          <Tab label="番剧" value={0} />
-                        </TabList>
-                      </Box>
-                      <TabPanel value={1}>
-                        <ProfileWatchHistoryComicHandle disabledScrollRefresh />
-                      </TabPanel>
-                      <TabPanel value={0}>
-                        <ProfileWatchHistoryAnimeHandle disabledScrollRefresh />
-                      </TabPanel>
-                    </TabContext>
-                  </div>
-                </div>)}
+                )}
                 {navItem.component === "recharge" ? (
                   <div className="search_bar_recharge">
                     {/* Button */}
@@ -572,7 +606,9 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                         className="search_bar_recharge_button_light"
                         onClick={clickVip}
                       >
-                        <WavaButton>{t("Navbar.bar_recharge_button_1")}</WavaButton>
+                        <WavaButton>
+                          {t("Navbar.bar_recharge_button_1")}
+                        </WavaButton>
                       </div>
                     </div>
                   </div>
@@ -581,30 +617,58 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                 )}
               </div>
             ) : (
-              <div
-                className="search_bar_nav cursor"
-                key={navItem.name}
-                style={{
-                  animation: scroll ? "1s recharge-move 2" : "",
-                }}
-                onClick={() => {
-                  clickItem(navItem);
-                }}
-              >
-                <WavaButton
-                  className={
-                    "search_bar_nav_item_btn " +
-                    (location.indexOf(navItem.path) !== -1 ? "active" : "")
-                  }
+              <div className="search_bar_nav cursor" key={navItem.name}>
+                <div
+                  className="search_bar_nav_item"
+                  onClick={() => clickItem(navItem)}
                 >
-                  <div className="search_bar_nav_item_cover" />
-                  <div className="search_bar_nav_item_btn_title_text">
-                    {t(navItem.intlKey)}
-                  </div>
-                </WavaButton>
+                  <WavaButton
+                    className={
+                      "search_bar_nav_item_btn" +
+                      (location.indexOf(navItem.path) !== -1 ||
+                      (navItem?.child &&
+                        navItem.child.some(
+                          (child) => location.indexOf(child.path) !== -1
+                        ))
+                        ? " active"
+                        : "")
+                    }
+                  >
+                    <div className="search_bar_nav_item_cover" />
+                    <div className="search_bar_nav_item_btn_title_text">
+                      {t(navItem.intlKey)}
+                    </div>
+                  </WavaButton>
+
+                  {navItem?.child && (
+                    <div className="search_bar_nav_item_dropdown_menu">
+                      {navItem.child.map((childItem, index) => (
+                        <div
+                          key={index}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            clickItem(childItem);
+                          }}
+                        >
+                          <WavaButton className="search_bar_nav_item_dropdown_item">
+                            <span
+                              className={`search_bar_nav_item_dropdown_item_dot${
+                                location.indexOf(childItem.path) !== -1
+                                  ? " active"
+                                  : ""
+                              }`}
+                            />
+
+                            <span>{t(childItem.intlKey)}</span>
+                          </WavaButton>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )
-          ))}
+          )}
           {/* <div className="search_bar_recharge">
             <div className="search_bar_nav_item_btn">
               <div className="search_bar_nav_item_btn_title_text" onClick={toPaymentPage}>
@@ -680,9 +744,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                 <ImageComponent
                   is_cover={true}
                   src={state.user.avatar}
+                  height="20"
+                  width="20"
                   background_color="transparent"
-                  border_radius="50%"
-                  placeholderImg="/images/imgPlaceholder/avatar.png"
+                  placeholderImg="/images/imgPlaceholder/avatar_1.png"
                 />
               ) : (
                 <div className="search_bar_avatar_login bg-[#000]">
@@ -720,7 +785,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                       </div>
                       <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
                         {state.user.time === "-1" ||
-                          Date.now() < state.user.time * 1000 ? (
+                        Date.now() < state.user.time * 1000 ? (
                           <Image
                             className="search_bar_avatar_cover_user_info_crown"
                             src="/images/icons/crown.png"
@@ -757,19 +822,19 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               {/* </div> */}
             </div>
           </div>
-          {!isLogin &&
-            <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}>
+          {!isLogin && (
+            <div
+              className="search_bar_avatar"
+              onClick={() => useGlobalDispatch(openPopup("register"))}
+            >
               <div className="search_bar_avatar_login bg-[#e8e8e8] text-[#000]">
                 {t("Login.register")}
               </div>
             </div>
-
-          }
-          <div className="search_bar_news" onClick={clickNew}>
+          )}
+          {/* <div className="search_bar_news" onClick={clickNew}>
             <Image
-              src={
-                "/images/header/topbar/notification.png"
-              }
+              src={"/images/header/topbar/notification.png"}
               width={26}
               height={28}
               alt="news"
@@ -780,13 +845,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             ) : (
               ""
             )}
-          </div>
+          </div> */}
 
-          <div className="search_bar_task ">
+          {/* <div className="search_bar_task ">
             <Image
-              src={
-                "/images/header/topbar/checkin.png"
-              }
+              src={"/images/header/topbar/checkin.png"}
               width={28}
               height={28}
               alt="task"
@@ -829,23 +892,19 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                 </React.Fragment>
               ))}
             </div>
-          </div>
-          <div className="search_bar_service" onClick={clickService}>
+          </div> */}
+          {/* <div className="search_bar_service" onClick={clickService}>
             <Image
               width={31}
               height={25}
-              src={
-                "/images/header/topbar/customer_service.png"
-              }
+              src={"/images/header/topbar/customer_service.png"}
               alt="service"
               className="search_bar_service_img"
             />
-          </div>
+          </div> */}
           <div className="search_bar_switch">
             <Image
-              src={
-                "/images/header/topbar/translation.png"
-              }
+              src={"/images/header/topbar/translation.png"}
               width={35}
               height={35}
               alt="switch"
@@ -865,7 +924,6 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </TopsearchBarElement>
@@ -873,7 +931,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 };
 
 const TopsearchBarElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["scroll", "main_height", "is_login"].includes(prop),
+  shouldForwardProp: (prop) =>
+    !["scroll", "main_height", "is_login"].includes(prop),
 })`
   ${({ main_height, scroll, is_login }) => `
     /*  */
@@ -968,6 +1027,7 @@ const TopsearchBarElement = styled.div.withConfig({
       &_nav {
         white-space: nowrap;
         margin-right: 0.5em;
+        position:relative;
 
         &_item {
           position: relative;
@@ -1012,15 +1072,90 @@ const TopsearchBarElement = styled.div.withConfig({
             }
 
             &.active {
+              position: relative; 
               cursor: default;
               transform-origin: bottom center;
               font-size: 16px;
               text-shadow: 0.09px 0px ${colors.text_grey};
-              border-bottom: 2px solid ${colors.dark_pink};
+              overflow: visible;
+
+              // 添加倒三角形
+              &::after {
+                content: "";
+                position: absolute;
+                bottom: -4px; // 与按钮底部间距
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 4px solid ${colors.dark_pink}; // 三角颜色
+              }
 
               .search_bar_nav_item_cover {
                 display: block;
               }
+            }
+          }
+
+          &:hover .search_bar_nav_item_dropdown_menu {
+            display: block;
+          }
+
+          &_dropdown_menu {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            padding: 6px 0;
+            z-index: 99;
+            display: none;
+            min-width: 73px;
+
+            &::before {
+              content: "";
+              position: absolute;
+              bottom: 100%;
+              height: 35px; 
+              left: 0;
+              right: 0;
+              z-index: 1;
+            }
+          }
+
+          &:hover &_dropdown_menu {
+            display: block;
+          }
+
+          &_dropdown_item {
+            padding: 6px 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+            display:flex;
+            align-items:center;
+
+            &_dot {
+              width: 4px;
+              height: 4px;
+              border-radius: 50%;
+              background-color: #d0d0d2; 
+              flex-shrink: 0;
+              margin-right: 8px;
+              
+              &.active {
+                background-color: ${colors.dark_pink}; 
+                transform: scale(1.4); 
+              }
+
+            }
+
+            &:hover {
+              background-color: #f0f0f0;
             }
           }
         }
@@ -1043,8 +1178,8 @@ const TopsearchBarElement = styled.div.withConfig({
         align-self: center;
         margin-left: 0;
         width: auto;
-        min-width: ${is_login ? main_height * 0.55 : main_height * 0.875}px;
-        height: ${is_login ? main_height * 0.55 : main_height * 0.375}px;
+        min-width: ${is_login ? main_height * 0.45 : main_height * 0.875}px;
+        height: ${is_login ? main_height * 0.45 : main_height * 0.375}px;
         font-size: 14px;
         color: #fff;
         font-weight: 900;
