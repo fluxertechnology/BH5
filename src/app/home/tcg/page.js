@@ -57,7 +57,7 @@ const HomeTcgMainPage = () => {
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
-  const [tcgProductTypes, setTcgProductTypes] = useState(4);
+  const [tcgProductTypes, setTcgProductTypes] = useState(0);
   const [tcgProductTypesList, setTcgProductTypesList] = useState([]);
   const [tcgProductTypesDisplay, setTcgProductTypesDisplay] = useState([]);
   const [tcgGameType, setTcgGameType] = useState("HOT");
@@ -97,7 +97,7 @@ const HomeTcgMainPage = () => {
       }));
 
       setTcgProductTypesList(typeList);
-      setTcgProductTypesDisplay(typeList);
+      setTcgProductTypesDisplay([]);
     } catch (error) {
       console.error("获取产品类型失败:", error);
       toastCall("获取产品类型失败，请稍后再试");
@@ -105,9 +105,12 @@ const HomeTcgMainPage = () => {
   };
 
   const tcgGetGameList = async (page = 1) => {
+    const isHot = tcgGameType === "HOT";
     const payload = {
-      product_type: tcgProductTypes,
-      game_type: tcgGameType === "HOT" ? "" : tcgGameType,
+      ...(!isHot && {
+        product_type: tcgProductTypes,
+        game_type: tcgGameType,
+      }),
       page,
       page_size: tcgGamePageSize,
     };
@@ -276,12 +279,12 @@ const HomeTcgMainPage = () => {
       const isIncluded = m.game_type.includes(tcgGameType.toUpperCase());
       return {
         ...m,
-        display: tcgGameType === "HOT" || isIncluded,
+        display: tcgGameType !== "HOT" && isIncluded,
       };
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
-    setTcgProductTypes(displayList[0]?.product_type || 4);
+    setTcgProductTypes(displayList[0]?.product_type || 0);
   }, [tcgGameType]);
 
   useEffect(() => {
