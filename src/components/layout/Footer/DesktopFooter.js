@@ -279,8 +279,8 @@ const QrCode = () => {
             className={"search_bar_nav_item_btn_img"}
             src={
               isHover
-                ? "/images/footer/app_download_dark.svg"
-                : "/images/footer/app_download.svg"
+                ? "/images/footer/app_download_dark.png"
+                : "/images/footer/app_download.png"
             }
             alt={"app_download"}
           />
@@ -290,7 +290,14 @@ const QrCode = () => {
         </div>
         <div className="qrcode_float">
           <ol>
-            <li>{t("Global.action.download_app_description")}</li>
+            <li>
+              {" "}
+              {t("Global.action.download_app_description")
+                .split("\n")
+                .map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+            </li>
             <li>
               <QRCode
                 className="share_info_qrcode_item_img"
@@ -378,8 +385,8 @@ const FriendSocial = () => {
         className={"search_bar_nav_item_btn_img"}
         src={
           isHover
-            ? "/images/footer/friend_socrial_dark.svg"
-            : "/images/footer/friend_socrial.svg"
+            ? "/images/footer/friend_socrial_dark.png"
+            : "/images/footer/friend_socrial.png"
         }
         alt={"friend_socrial"}
       />
