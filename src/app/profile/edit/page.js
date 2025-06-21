@@ -23,6 +23,7 @@ import {
   updateUserAvatarAction,
 } from "@/store/actions/pages/profileEditInfoAction";
 import { backRoutes } from "@/store/actions/historyActions";
+import { useCleanStateData } from "@/hooks/useSaveStateData";
 
 const ProfileEditInfo = ({ children }) => {
   const { state } = useGlobalContext();
@@ -185,6 +186,7 @@ const ProfileEditInfo = ({ children }) => {
         className="profile_loginout"
         onClick={() => {
           window.localStorage.clear();
+          useCleanStateData();
           clearUserData();
           deleteData();
         }}

@@ -58,6 +58,8 @@ const HomeTcgMainPage = () => {
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgProductTypes, setTcgProductTypes] = useState(4);
+  const [tcgProductTypesList, setTcgProductTypesList] = useState([]);
+  const [tcgProductTypesDisplay, setTcgProductTypesDisplay] = useState([]);
   const [tcgGameType, setTcgGameType] = useState("HOT");
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
@@ -74,8 +76,37 @@ const HomeTcgMainPage = () => {
   const [isLoadingTransferOutAll, setIsLoadingTransferOutAll] = useState(false);
   const [isLoadingGameUrl, setIsLoadingGameUrl] = useState(false);
 
+  const tcgGetProductTypes = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/appapi/tcg/get_product`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": lang,
+        },
+        body: "",
+      });
+      const data = await response.json();
+      if (data.code === 0) {
+        toastCall(data.msg || "获取产品类型失败，请稍后再试");
+        return;
+      }
+      const typeList = data.data.map((m) => ({
+        ...m,
+        product_type: parseInt(m.product_type),
+      }));
+
+      setTcgProductTypesList(typeList);
+      setTcgProductTypesDisplay(typeList);
+    } catch (error) {
+      console.error("获取产品类型失败:", error);
+      toastCall("获取产品类型失败，请稍后再试");
+    }
+  };
+
   const tcgGetGameList = async (page = 1) => {
     const payload = {
+      product_type: tcgProductTypes,
       game_type: tcgGameType === "HOT" ? "" : tcgGameType,
       page,
       page_size: tcgGamePageSize,
@@ -241,15 +272,25 @@ const HomeTcgMainPage = () => {
   };
 
   useEffect(() => {
+    const typeList = tcgProductTypesList.map((m) => {
+      const isIncluded = m.game_type.includes(tcgGameType.toUpperCase());
+      return {
+        ...m,
+        display: tcgGameType === "HOT" || isIncluded,
+      };
+    });
+    const displayList = typeList.filter((m) => m.display);
+    setTcgProductTypesDisplay(displayList);
+    setTcgProductTypes(displayList[0]?.product_type || 4);
+  }, [tcgGameType]);
+
+  useEffect(() => {
     setTcgCurrentPage(1);
+    tcgGetGameList(tcgGameCurrentPage);
   }, [tcgProductTypes, tcgGameType]);
 
   useEffect(() => {
-    //tcgUserGetBalance();
-    tcgGetGameList(tcgGameCurrentPage);
-  }, [tcgGameType, tcgGameCurrentPage]);
-
-  useEffect(() => {
+    tcgGetProductTypes();
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       key: "customComponent",
@@ -352,7 +393,7 @@ const HomeTcgMainPage = () => {
               </div>
             </div>
 
-            <div className="flex w-full gap-2 mb-6">
+            <div className="w-full gap-2 mb-6">
               {!isDesktop && (
                 <div className="w-auto">
                   <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap type-list">
@@ -372,13 +413,35 @@ const HomeTcgMainPage = () => {
                               height={128}
                               className="inline-block type-item--image"
                             />
-                            <span className="md:text-base whitespace-nowrap">
+                            <span
+                              className={`md:text-base whitespace-nowrap ${tcgGameType === key ? "text-white" : "text-black"}`}
+                            >
                               {label}
                             </span>
                           </button>
                         </div>
                       ),
                     )}
+                  </div>
+                </div>
+              )}
+
+              {tcgProductTypesDisplay && tcgProductTypesDisplay.length > 0 && (
+                <div className="w-full">
+                  <div className="flex justify-center my-3">
+                    {tcgProductTypesDisplay.map((type, index) => (
+                      <div
+                        key={index}
+                        className={`px-3 py-2 cursor-pointer ${
+                          tcgProductTypes === type.product_type
+                            ? "font-extrabold"
+                            : ""
+                        }`}
+                        onClick={() => setTcgProductTypes(type.product_type)}
+                      >
+                        {type.product_code}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
