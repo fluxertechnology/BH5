@@ -439,7 +439,9 @@ const HomeTcgMainPage = () => {
                 {tcgProductTypesDisplay &&
                   tcgProductTypesDisplay.length > 0 && (
                     <div className="w-auto">
-                      <div className={`product-type-container ${tcgGameType} ${!isDesktop && '!justify-start'}`}>
+                      <div
+                        className={`product-type-container ${tcgGameType} ${!isDesktop && "!grid grid-cols-2 !justify-start"}`}
+                      >
                         {tcgProductTypesDisplay.map((type, index) => (
                           <div
                             key={index}
@@ -447,7 +449,7 @@ const HomeTcgMainPage = () => {
                               tcgProductTypes === type.product_type
                                 ? "font-extrabold"
                                 : ""
-                            }`}
+                            } ${!isDesktop && "!w-[100%]"}`}
                             onClick={() =>
                               setTcgProductTypes(type.product_type)
                             }
@@ -478,20 +480,17 @@ const HomeTcgMainPage = () => {
                               tcgGetGameUrl(game.id, state.user.id !== "guest")
                             }
                           >
-                            <div className="icon text-2xl">
-                              <div className="relative rounded-md overflow-hidden icon flex justify-center">
-                                <Image
-                                  key={game.id}
+                            <div className="icon text-2xl w-full">
+                              <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
+                                <ImageComponent
                                   className="icon-img"
-                                  src={game.img.replace("/zh/", "/EN/")}
-                                  height={64}
+                                  key={game.id}
                                   width={64}
-                                  placeholder="blur"
-                                  blurDataURL="/images/imgPlaceholder/300x300.jpg"
-                                  alt="collect"
-                                  onError={(e) => {
-                                    e.currentTarget.src = "";
-                                  }}
+                                  height={64}
+                                  is_cover={true}
+                                  src={game.img.replace("/zh/", "/EN/")}
+                                  alt={game.name}
+                                  draggable="false"
                                 />
                               </div>
                             </div>
