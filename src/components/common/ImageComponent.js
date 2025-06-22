@@ -6,17 +6,17 @@ import { colors } from "@/lib/constants";
 import viewIcon from "@public/images/icons/view.svg";
 import { judeTotalViewUnit } from "@/store/actions/utilities";
 import Image from "next/image";
-import 'lazysizes';
+import "lazysizes";
 
 const ImageComponent = ({
   cover = false,
   src,
-
+  key,
   alt,
   title,
   height = 100,
   width = 100,
-  imgHeight = '',
+  imgHeight = "",
   border_radius = "5px",
   placeholderImg = "",
   is_cover = false,
@@ -37,10 +37,10 @@ const ImageComponent = ({
   const [fixHeight, setFixHeight] = useState(null);
   const isClient = typeof window !== "undefined";
 
-  const placeholderSrc = (typeof placeholderImg === "object"
-    ? placeholderImg.src
-    : placeholderImg)
-    || "/images/imgPlaceholder/300x300.jpg"
+  const placeholderSrc =
+    (typeof placeholderImg === "object"
+      ? placeholderImg.src
+      : placeholderImg) || "/images/imgPlaceholder/300x300.jpg";
 
   const initialSrc = isClient ? src : placeholderSrc;
 
@@ -61,12 +61,13 @@ const ImageComponent = ({
   const imgRef = React.useRef(null);
   useEffect(() => {
     if (src !== imgSrc) {
-      setImgSrc(src)
+      setImgSrc(src);
     }
-  }, [src])
+  }, [src]);
 
   return (
     <ImageComponentElement
+      key={key || src}
       className={className}
       style={style}
       height={fixHeight || height}
@@ -77,9 +78,10 @@ const ImageComponent = ({
       img_border={img_border}
       continueWatch={continueWatch}
       imgHeight={imgHeight}
-      is_placeholder={imgRef.current?.src.includes('/images/imgPlaceholder')}
+      is_placeholder={imgRef.current?.src.includes("/images/imgPlaceholder")}
     >
       <img
+        key={key || src}
         src={!lazyLoadEnabled ? imgSrc : placeholderSrc}
         className={`img ${imgSrc && lazyLoadEnabled ? "lazyload" : ""}`}
         data-src={lazyLoadEnabled ? src || placeholderSrc : undefined}
@@ -100,10 +102,14 @@ const ImageComponent = ({
           }
         }}
         onError={(e) => {
-          //setImgSrc("/images/imgPlaceholder/300x300.jpg");
           if (isError) return;
           setIsError(true);
-          e.target.src = placeholderSrc
+          e.target.src = placeholderSrc;
+
+          //setIsError(false);
+          setTimeout(() => setIsError(false), 100);
+
+          //setImgSrc("/images/imgPlaceholder/300x300.jpg");
         }}
         draggable="false"
         {...props}
@@ -120,7 +126,7 @@ const ImageComponent = ({
             alt="b次元观看数"
             title="b次元观看数"
           />
-          {total_view > 0 ? judeTotalViewUnit(total_view) : ''}
+          {total_view > 0 ? judeTotalViewUnit(total_view) : ""}
         </div>
       )}
       {!!continueWatch && (
@@ -137,13 +143,28 @@ export default ImageComponent;
 
 const ImageComponentElement = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !["is_cover", "img_border", "continueWatch", 'imgHeight', 'is_placeholder', 'height', 'width', 'border_radius'].includes(prop),
+    ![
+      "is_cover",
+      "img_border",
+      "continueWatch",
+      "imgHeight",
+      "is_placeholder",
+      "height",
+      "width",
+      "border_radius",
+    ].includes(prop),
 })`
   /*  */
   position: relative;
   overflow: hidden;
-  padding-bottom: ${({ height }) => typeof height === "string" && !(/^-?\d+(\.\d+)?$/.test(height)) ? height : `${height}%`};
-  padding-right: ${({ width }) => typeof width === "string" && !(/^-?\d+(\.\d+)?$/.test(width)) ? width : `${width}%`};
+  padding-bottom: ${({ height }) =>
+    typeof height === "string" && !/^-?\d+(\.\d+)?$/.test(height)
+      ? height
+      : `${height}%`};
+  padding-right: ${({ width }) =>
+    typeof width === "string" && !/^-?\d+(\.\d+)?$/.test(width)
+      ? width
+      : `${width}%`};
   width: 100%;
   background-color: ${({ background_color }) => background_color};
   border-radius: ${({ border_radius }) => border_radius};
@@ -159,7 +180,7 @@ const ImageComponentElement = styled.div.withConfig({
     bottom: 0;
     left: 0;
     width: 100%;
-    height: ${({ imgHeight }) => !!imgHeight ? imgHeight : '100%'};
+    height: ${({ imgHeight }) => (!!imgHeight ? imgHeight : "100%")};
     vertical-align: middle;
     object-fit: ${({ is_cover = false }) => (is_cover ? "cover" : "contain")};
     -webkit-touch-callout: none;
@@ -172,13 +193,13 @@ const ImageComponentElement = styled.div.withConfig({
     bottom: 0;
     left: 0;
     background-image: ${({ continueWatch }) =>
-    continueWatch
-      ? `linear-gradient(
+      continueWatch
+        ? `linear-gradient(
       to bottom,
       rgba(83, 76, 242, 0) 29%,
       #534cf2 121%
     )`
-      : `linear-gradient(to Top, #0006 0%, #0000 100%)`};
+        : `linear-gradient(to Top, #0006 0%, #0000 100%)`};
   }
 
   .free_tip {
@@ -206,7 +227,7 @@ const ImageComponentElement = styled.div.withConfig({
     justify-content: center;
     align-items: center;
     gap: 0.2em;
-    z-index:1;
+    z-index: 1;
     @media (max-width: 899px) {
       font-size: 0.8rem;
     }

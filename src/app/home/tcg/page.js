@@ -199,7 +199,7 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId
+      currentGameId,
     );
     closeIframe();
   };
@@ -240,7 +240,7 @@ const HomeTcgMainPage = () => {
           if (gameId === "all") {
             window.location.reload();
           }
-        })
+        }),
       );
     } catch (error) {
       console.error("转出失败:", error);
@@ -285,7 +285,7 @@ const HomeTcgMainPage = () => {
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
-    setTcgProductTypes(0);
+    setTcgProductTypes(displayList[0]?.product_type || 0);
   }, [tcgGameType]);
 
   useEffect(() => {
@@ -349,7 +349,7 @@ const HomeTcgMainPage = () => {
                             <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -397,7 +397,9 @@ const HomeTcgMainPage = () => {
               </div>
             </div>
 
-            <div className="w-full gap-2 mb-6 flex">
+            <div
+              className={`w-full gap-2 mb-6 ${isDesktop ? "block" : "flex"}`}
+            >
               {!isDesktop && (
                 <div className="w-auto">
                   <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap type-list">
@@ -428,177 +430,183 @@ const HomeTcgMainPage = () => {
                             </span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
               )}
-              {tcgProductTypesDisplay &&
-                tcgProductTypesDisplay.length > 0 &&
-                tcgProductTypes == 0 && (
-                  <div className="w-auto">
-                    <div className={`product-type-container ${tcgGameType}`}>
-                      {tcgProductTypesDisplay.map((type, index) => (
-                        <div
-                          key={index}
-                          className={`cursor-pointer product_type ${
-                            tcgProductTypes === type.product_type
-                              ? "font-extrabold"
-                              : ""
-                          }`}
-                          onClick={() => setTcgProductTypes(type.product_type)}
-                        >
-                          <ImageComponent
-                            // width={354}
-                            // height={146}
-                            is_cover={true}
-                            className="product_type_img"
-                            src={`/images/tcg/${tcgGameType}/${type.product_code}.png`}
-                            alt={type.product_code}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-              {tcgGameType === "HOT" || tcgProductTypes ? (
-                tcgGameList && tcgGameList.length > 0 ? (
-                  <div>
-                    <div className="grid game-list">
-                      {tcgGameList.map((game, index) => (
-                        <div
-                          key={index}
-                          className="relative game-item border cursor-pointer text-center "
-                          onClick={() =>
-                            tcgGetGameUrl(game.id, state.user.id !== "guest")
-                          }
-                        >
-                          <div className="icon text-2xl">
-                            <div className="relative rounded-md overflow-hidden icon flex justify-center">
-                              <Image
-                                key={game.id}
-                                className="icon-img"
-                                src={game.img.replace("/zh/", "/EN/")}
-                                height={64}
-                                width={64}
-                                placeholder="blur"
-                                blurDataURL="/images/imgPlaceholder/300x300.jpg"
-                                alt="collect"
-                                onError={(e) => {
-                                  e.currentTarget.src = "";
-                                }}
-                              />
-                            </div>
+              <div className="flex flex-col gap-3">
+                {tcgProductTypesDisplay &&
+                  tcgProductTypesDisplay.length > 0 && (
+                    <div className="w-auto">
+                      <div className={`product-type-container ${tcgGameType} ${!isDesktop && '!justify-start'}`}>
+                        {tcgProductTypesDisplay.map((type, index) => (
+                          <div
+                            key={index}
+                            className={`cursor-pointer product_type ${
+                              tcgProductTypes === type.product_type
+                                ? "font-extrabold"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              setTcgProductTypes(type.product_type)
+                            }
+                          >
+                            <ImageComponent
+                              // width={354}
+                              // height={146}
+                              is_cover={true}
+                              className="product_type_img"
+                              src={`/images/tcg/${tcgGameType}/${type.product_code}.png`}
+                              alt={type.product_code}
+                            />
                           </div>
-                          <div className="title font-medium mt-2">
-                            {game.name}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="pagination-controls my-6 flex justify-center">
-                      <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2">
-                        {/* 首页 */}
-                        <button
-                          onClick={() => setTcgCurrentPage(1)}
-                          disabled={tcgGameCurrentPage === 1}
-                          className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                        >
-                          &laquo;
-                        </button>
-
-                        {/* 上一页 */}
-                        <button
-                          onClick={() =>
-                            setTcgCurrentPage((prev) => Math.max(1, prev - 1))
-                          }
-                          disabled={tcgGameCurrentPage === 1}
-                          className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                        >
-                          ‹
-                        </button>
-
-                        {/* 页码 */}
-                        {Array.from(
-                          {
-                            length: Math.min(
-                              isMobile ? 3 : 5,
-                              Math.ceil(tcgTotalGames / tcgGamePageSize)
-                            ),
-                          },
-                          (_, i) => {
-                            const totalPages = Math.ceil(
-                              tcgTotalGames / tcgGamePageSize
-                            );
-                            let startPage = Math.max(
-                              1,
-                              Math.min(
-                                tcgGameCurrentPage -
-                                  Math.floor((isMobile ? 3 : 5) / 2),
-                                totalPages - (isMobile ? 2 : 4)
-                              )
-                            );
-                            const page = startPage + i;
-
-                            if (page > totalPages) return null;
-
-                            return (
-                              <button
-                                key={page}
-                                onClick={() => setTcgCurrentPage(page)}
-                                className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
-                                  page === tcgGameCurrentPage
-                                    ? "bg-[#ff367a] text-white font-bold"
-                                    : ""
-                                }`}
-                              >
-                                {page}
-                              </button>
-                            );
-                          }
-                        )}
-
-                        {/* 下一页 */}
-                        <button
-                          onClick={() =>
-                            setTcgCurrentPage((prev) =>
-                              prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
-                                ? prev + 1
-                                : prev
-                            )
-                          }
-                          disabled={
-                            tcgGameCurrentPage >=
-                            Math.ceil(tcgTotalGames / tcgGamePageSize)
-                          }
-                          className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                        >
-                          ›
-                        </button>
-
-                        {/* 尾页 */}
-                        <button
-                          onClick={() =>
-                            setTcgCurrentPage(
-                              Math.ceil(tcgTotalGames / tcgGamePageSize)
-                            )
-                          }
-                          disabled={
-                            tcgGameCurrentPage >=
-                            Math.ceil(tcgTotalGames / tcgGamePageSize)
-                          }
-                          className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                        >
-                          &raquo;
-                        </button>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center text-gray-500 py-8">暂无游戏</div>
-                )
-              ) : null}
+                  )}
+
+                {tcgGameType === "HOT" || tcgProductTypes ? (
+                  tcgGameList && tcgGameList.length > 0 ? (
+                    <div>
+                      <div className="grid game-list">
+                        {tcgGameList.map((game, index) => (
+                          <div
+                            key={index}
+                            className="relative game-item border cursor-pointer text-center "
+                            onClick={() =>
+                              tcgGetGameUrl(game.id, state.user.id !== "guest")
+                            }
+                          >
+                            <div className="icon text-2xl">
+                              <div className="relative rounded-md overflow-hidden icon flex justify-center">
+                                <Image
+                                  key={game.id}
+                                  className="icon-img"
+                                  src={game.img.replace("/zh/", "/EN/")}
+                                  height={64}
+                                  width={64}
+                                  placeholder="blur"
+                                  blurDataURL="/images/imgPlaceholder/300x300.jpg"
+                                  alt="collect"
+                                  onError={(e) => {
+                                    e.currentTarget.src = "";
+                                  }}
+                                />
+                              </div>
+                            </div>
+                            <div className="title font-medium mt-2">
+                              {game.name}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="pagination-controls my-6 flex justify-center">
+                        <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2">
+                          {/* 首页 */}
+                          <button
+                            onClick={() => setTcgCurrentPage(1)}
+                            disabled={tcgGameCurrentPage === 1}
+                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                          >
+                            &laquo;
+                          </button>
+
+                          {/* 上一页 */}
+                          <button
+                            onClick={() =>
+                              setTcgCurrentPage((prev) => Math.max(1, prev - 1))
+                            }
+                            disabled={tcgGameCurrentPage === 1}
+                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                          >
+                            ‹
+                          </button>
+
+                          {/* 页码 */}
+                          {Array.from(
+                            {
+                              length: Math.min(
+                                isMobile ? 3 : 5,
+                                Math.ceil(tcgTotalGames / tcgGamePageSize),
+                              ),
+                            },
+                            (_, i) => {
+                              const totalPages = Math.ceil(
+                                tcgTotalGames / tcgGamePageSize,
+                              );
+                              let startPage = Math.max(
+                                1,
+                                Math.min(
+                                  tcgGameCurrentPage -
+                                    Math.floor((isMobile ? 3 : 5) / 2),
+                                  totalPages - (isMobile ? 2 : 4),
+                                ),
+                              );
+                              const page = startPage + i;
+
+                              if (page > totalPages) return null;
+
+                              return (
+                                <button
+                                  key={page}
+                                  onClick={() => setTcgCurrentPage(page)}
+                                  className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
+                                    page === tcgGameCurrentPage
+                                      ? "bg-[#ff367a] text-white font-bold"
+                                      : ""
+                                  }`}
+                                >
+                                  {page}
+                                </button>
+                              );
+                            },
+                          )}
+
+                          {/* 下一页 */}
+                          <button
+                            onClick={() =>
+                              setTcgCurrentPage((prev) =>
+                                prev <
+                                Math.ceil(tcgTotalGames / tcgGamePageSize)
+                                  ? prev + 1
+                                  : prev,
+                              )
+                            }
+                            disabled={
+                              tcgGameCurrentPage >=
+                              Math.ceil(tcgTotalGames / tcgGamePageSize)
+                            }
+                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                          >
+                            ›
+                          </button>
+
+                          {/* 尾页 */}
+                          <button
+                            onClick={() =>
+                              setTcgCurrentPage(
+                                Math.ceil(tcgTotalGames / tcgGamePageSize),
+                              )
+                            }
+                            disabled={
+                              tcgGameCurrentPage >=
+                              Math.ceil(tcgTotalGames / tcgGamePageSize)
+                            }
+                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                          >
+                            &raquo;
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500 py-8">
+                      暂无游戏
+                    </div>
+                  )
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
@@ -1124,7 +1132,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }
