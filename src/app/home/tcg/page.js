@@ -199,7 +199,7 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId,
+      currentGameId
     );
     closeIframe();
   };
@@ -240,7 +240,7 @@ const HomeTcgMainPage = () => {
           if (gameId === "all") {
             window.location.reload();
           }
-        }),
+        })
       );
     } catch (error) {
       console.error("转出失败:", error);
@@ -285,13 +285,23 @@ const HomeTcgMainPage = () => {
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
-    setTcgProductTypes(displayList[0]?.product_type || 0);
+    setTcgProductTypes(0);
   }, [tcgGameType]);
 
   useEffect(() => {
     setTcgCurrentPage(1);
     tcgGetGameList(tcgGameCurrentPage);
   }, [tcgProductTypes, tcgGameType]);
+
+  useEffect(() => {
+    tcgGetGameList(tcgGameCurrentPage);
+  }, [tcgGameCurrentPage]);
+
+  const handleGameTypeChange = (key) => {
+    console.log(tcgGameType, key);
+    setTcgGameType(key);
+    setTcgProductTypes(0);
+  };
 
   useEffect(() => {
     tcgGetProductTypes();
@@ -337,7 +347,7 @@ const HomeTcgMainPage = () => {
                             className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
                               tcgGameType === key ? "active" : ""
                             }`}
-                            onClick={() => setTcgGameType(key)}
+                            onClick={() => handleGameTypeChange(key)}
                           >
                             <Image
                               src={`/images/tcg/${icon}.png`}
@@ -349,7 +359,7 @@ const HomeTcgMainPage = () => {
                             <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
-                      ),
+                      )
                     )}
                   </div>
                 </div>
@@ -410,7 +420,7 @@ const HomeTcgMainPage = () => {
                             className={`flex flex-col items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
                               tcgGameType === key ? "active" : ""
                             }`}
-                            onClick={() => setTcgGameType(key)}
+                            onClick={() => handleGameTypeChange(key)}
                           >
                             <Image
                               src={`/images/tcg/${icon}.png`}
@@ -430,17 +440,20 @@ const HomeTcgMainPage = () => {
                             </span>
                           </button>
                         </div>
-                      ),
+                      )
                     )}
                   </div>
                 </div>
               )}
               <div className="flex flex-col gap-3">
                 {tcgProductTypesDisplay &&
-                  tcgProductTypesDisplay.length > 0 && (
+                  tcgProductTypesDisplay.length > 0 &&
+                  tcgProductTypes == 0 && (
                     <div className="w-auto">
                       <div
-                        className={`product-type-container ${tcgGameType} ${!isDesktop && "!grid grid-cols-2 !justify-start"}`}
+                        className={`product-type-container ${tcgGameType} ${
+                          !isDesktop && "!grid grid-cols-2 !justify-start"
+                        }`}
                       >
                         {tcgProductTypesDisplay.map((type, index) => (
                           <div
@@ -527,20 +540,20 @@ const HomeTcgMainPage = () => {
                             {
                               length: Math.min(
                                 isMobile ? 3 : 5,
-                                Math.ceil(tcgTotalGames / tcgGamePageSize),
+                                Math.ceil(tcgTotalGames / tcgGamePageSize)
                               ),
                             },
                             (_, i) => {
                               const totalPages = Math.ceil(
-                                tcgTotalGames / tcgGamePageSize,
+                                tcgTotalGames / tcgGamePageSize
                               );
                               let startPage = Math.max(
                                 1,
                                 Math.min(
                                   tcgGameCurrentPage -
                                     Math.floor((isMobile ? 3 : 5) / 2),
-                                  totalPages - (isMobile ? 2 : 4),
-                                ),
+                                  totalPages - (isMobile ? 2 : 4)
+                                )
                               );
                               const page = startPage + i;
 
@@ -559,7 +572,7 @@ const HomeTcgMainPage = () => {
                                   {page}
                                 </button>
                               );
-                            },
+                            }
                           )}
 
                           {/* 下一页 */}
@@ -569,7 +582,7 @@ const HomeTcgMainPage = () => {
                                 prev <
                                 Math.ceil(tcgTotalGames / tcgGamePageSize)
                                   ? prev + 1
-                                  : prev,
+                                  : prev
                               )
                             }
                             disabled={
@@ -585,7 +598,7 @@ const HomeTcgMainPage = () => {
                           <button
                             onClick={() =>
                               setTcgCurrentPage(
-                                Math.ceil(tcgTotalGames / tcgGamePageSize),
+                                Math.ceil(tcgTotalGames / tcgGamePageSize)
                               )
                             }
                             disabled={
@@ -927,7 +940,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       &.RNG {
         gap: 0.78vw; 
         .product_type {
-          width: 12.03vw;
+          width: 12.00vw;
           height: 10.21vw;
         }
       }
@@ -1131,7 +1144,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试",
+            "注册失败，请稍后再试"
         );
         return;
       }
