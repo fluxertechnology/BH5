@@ -298,7 +298,6 @@ const HomeTcgMainPage = () => {
   }, [tcgGameCurrentPage]);
 
   const handleGameTypeChange = (key) => {
-    console.log(tcgGameType, key);
     setTcgGameType(key);
     setTcgProductTypes(0);
   };
@@ -364,7 +363,7 @@ const HomeTcgMainPage = () => {
                   </div>
                 </div>
               )}
-              <div className="user-info m-2">
+              <div className="user-info mr-2">
                 <div className="user-name truncate w-20">
                   {state.user.id === "guest" ? "guest" : state.user.nick_name}
                 </div>
@@ -445,16 +444,12 @@ const HomeTcgMainPage = () => {
                   </div>
                 </div>
               )}
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 w-auto">
                 {tcgProductTypesDisplay &&
                   tcgProductTypesDisplay.length > 0 &&
                   tcgProductTypes == 0 && (
                     <div className="w-auto">
-                      <div
-                        className={`product-type-container ${tcgGameType} ${
-                          !isDesktop && "!grid grid-cols-2 !justify-start"
-                        }`}
-                      >
+                      <div className={`product-type-container ${tcgGameType}`}>
                         {tcgProductTypesDisplay.map((type, index) => (
                           <div
                             key={index}
@@ -497,7 +492,7 @@ const HomeTcgMainPage = () => {
                               <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
                                 <ImageComponent
                                   className="icon-img"
-                                  key={game.id}
+                                  // key={game.id}
                                   width={64}
                                   height={64}
                                   is_cover={true}
@@ -513,104 +508,6 @@ const HomeTcgMainPage = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="pagination-controls my-6 flex justify-center">
-                        <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2">
-                          {/* 首页 */}
-                          <button
-                            onClick={() => setTcgCurrentPage(1)}
-                            disabled={tcgGameCurrentPage === 1}
-                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                          >
-                            &laquo;
-                          </button>
-
-                          {/* 上一页 */}
-                          <button
-                            onClick={() =>
-                              setTcgCurrentPage((prev) => Math.max(1, prev - 1))
-                            }
-                            disabled={tcgGameCurrentPage === 1}
-                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                          >
-                            ‹
-                          </button>
-
-                          {/* 页码 */}
-                          {Array.from(
-                            {
-                              length: Math.min(
-                                isMobile ? 3 : 5,
-                                Math.ceil(tcgTotalGames / tcgGamePageSize)
-                              ),
-                            },
-                            (_, i) => {
-                              const totalPages = Math.ceil(
-                                tcgTotalGames / tcgGamePageSize
-                              );
-                              let startPage = Math.max(
-                                1,
-                                Math.min(
-                                  tcgGameCurrentPage -
-                                    Math.floor((isMobile ? 3 : 5) / 2),
-                                  totalPages - (isMobile ? 2 : 4)
-                                )
-                              );
-                              const page = startPage + i;
-
-                              if (page > totalPages) return null;
-
-                              return (
-                                <button
-                                  key={page}
-                                  onClick={() => setTcgCurrentPage(page)}
-                                  className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
-                                    page === tcgGameCurrentPage
-                                      ? "bg-[#ff367a] text-white font-bold"
-                                      : ""
-                                  }`}
-                                >
-                                  {page}
-                                </button>
-                              );
-                            }
-                          )}
-
-                          {/* 下一页 */}
-                          <button
-                            onClick={() =>
-                              setTcgCurrentPage((prev) =>
-                                prev <
-                                Math.ceil(tcgTotalGames / tcgGamePageSize)
-                                  ? prev + 1
-                                  : prev
-                              )
-                            }
-                            disabled={
-                              tcgGameCurrentPage >=
-                              Math.ceil(tcgTotalGames / tcgGamePageSize)
-                            }
-                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                          >
-                            ›
-                          </button>
-
-                          {/* 尾页 */}
-                          <button
-                            onClick={() =>
-                              setTcgCurrentPage(
-                                Math.ceil(tcgTotalGames / tcgGamePageSize)
-                              )
-                            }
-                            disabled={
-                              tcgGameCurrentPage >=
-                              Math.ceil(tcgTotalGames / tcgGamePageSize)
-                            }
-                            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                          >
-                            &raquo;
-                          </button>
-                        </div>
-                      </div>
                     </div>
                   ) : (
                     <div className="text-center text-gray-500 py-8">
@@ -620,6 +517,105 @@ const HomeTcgMainPage = () => {
                 ) : null}
               </div>
             </div>
+            {(tcgProductTypes !== 0 || tcgGameType === "HOT") && (
+              <div className="pagination-controls my-6 flex justify-center">
+                <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2">
+                  {/* 首页 */}
+                  <button
+                    onClick={() => setTcgCurrentPage(1)}
+                    disabled={tcgGameCurrentPage === 1}
+                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                  >
+                    &laquo;
+                  </button>
+
+                  {/* 上一页 */}
+                  <button
+                    onClick={() =>
+                      setTcgCurrentPage((prev) => Math.max(1, prev - 1))
+                    }
+                    disabled={tcgGameCurrentPage === 1}
+                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                  >
+                    ‹
+                  </button>
+
+                  {/* 页码 */}
+                  {Array.from(
+                    {
+                      length: Math.min(
+                        isMobile ? 3 : 5,
+                        Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      ),
+                    },
+                    (_, i) => {
+                      const totalPages = Math.ceil(
+                        tcgTotalGames / tcgGamePageSize
+                      );
+                      let startPage = Math.max(
+                        1,
+                        Math.min(
+                          tcgGameCurrentPage -
+                            Math.floor((isMobile ? 3 : 5) / 2),
+                          totalPages - (isMobile ? 2 : 4)
+                        )
+                      );
+                      const page = startPage + i;
+
+                      if (page > totalPages) return null;
+
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setTcgCurrentPage(page)}
+                          className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
+                            page === tcgGameCurrentPage
+                              ? "bg-[#ff367a] text-white font-bold"
+                              : ""
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    }
+                  )}
+
+                  {/* 下一页 */}
+                  <button
+                    onClick={() =>
+                      setTcgCurrentPage((prev) =>
+                        prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
+                          ? prev + 1
+                          : prev
+                      )
+                    }
+                    disabled={
+                      tcgGameCurrentPage >=
+                      Math.ceil(tcgTotalGames / tcgGamePageSize)
+                    }
+                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                  >
+                    ›
+                  </button>
+
+                  {/* 尾页 */}
+                  <button
+                    onClick={() =>
+                      setTcgCurrentPage(
+                        Math.ceil(tcgTotalGames / tcgGamePageSize)
+                      )
+                    }
+                    disabled={
+                      tcgGameCurrentPage >=
+                      Math.ceil(tcgTotalGames / tcgGamePageSize)
+                    }
+                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+                  >
+                    &raquo;
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -969,12 +965,12 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
 
   
-    .user-feature-header{
+    .user-feature-header {
       padding: 0 2.67vw;
-      margin : 4vw 0 12.8vw;
+      margin : 4vw 0 0vw;
 
       .user-panel {
-        padding: 2vw 1vw !important;
+        padding: 2vw 3.07vw 2vw 6.93vw !important;
         background: linear-gradient(to bottom right, #ee51ab, #873fdb);
         background: url('/images/tcg/user-panel-bg.png') no-repeat center center !important;
         background-size: cover !important;
@@ -984,14 +980,16 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
         .user-info {
           line-height: 0.917;
-          padding-right: 2rem;
+          padding-right: 1vw;
           .user-name{
             font-size: 3.2vw;
+            margin-bottom: 1.2vw;
           }
           .user-money{
             font-size: 3.2vw;
             display:flex;
             align-items:center;
+            width: max-content;
 
             .refresh-icon{
               height:3.2vw;
@@ -1035,7 +1033,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
       .game-item {
         width: 22.67vw;
-        height: 38.53vw;
+        min-height: 38.53vw;
+        margin-bottom: 2vw;
 
         .icon{
           .icon-img{
@@ -1084,20 +1083,20 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
     .product-type-container{
       margin-left: auto;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: 2.27vw ; 
 
       &.RNG {
-        gap: 2.13vw 2.4vw; 
+        gap: 2.13vw 2.1vw; 
         .product_type {
-          width: 34.67vw;
+          width: 34.67vw !important;
           height: 29.33vw;
         }
       }
 
       .product_type{
         height: 29.33vw;
-        width: 71.73vw;
+        width: 71.73vw !important;
         position: relative;
 
         .product_type_img{
@@ -1105,7 +1104,16 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
         }
       }
     }
-  
+      
+    .pagination-controls{
+      margin: 5vw 0;
+    }
+
+    @media (max-width: 425px) {
+    .user-feature-header {
+      margin : 4vw 0 16.8vw;
+    }
+
   `}
 `;
 

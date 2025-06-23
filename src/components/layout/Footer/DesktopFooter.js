@@ -172,11 +172,11 @@ export const PCFooterElement = styled.div.withConfig({
 })`
   /*  */
   display: ${({ show_footer }) => (show_footer ? "block" : "none")};
-  background-color: #f3f4f5;
+  background-color: #333333;
   height: ${bottom_footer_height + "px"};
   font-size: 1.1rem;
   width: 100%;
-  color: ${colors.text_grey};
+  color: #999999;
   .area {
     display: flex;
     justify-content: center;
@@ -228,7 +228,7 @@ export const PCFooterElement = styled.div.withConfig({
     display: block;
     text-decoration: none;
     white-space: nowrap;
-    color: ${colors.text_grey};
+    color: ${colors.text_dark_grey};
     align-self: center;
     &:hover {
       color: ${colors.back_dark_pink};

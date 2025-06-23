@@ -97,6 +97,7 @@ export const colors = {
   light_pink: "#fcdce5",
   back_dark_pink: "#f24c7c",
   text_grey: "#646464",
+  text_dark_grey: "#999999",
   text_light_grey: "#a8a8a8",
   back_grey: "#f4f4f4",
   light_star: "#fde17b",
