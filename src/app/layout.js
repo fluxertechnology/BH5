@@ -1,47 +1,47 @@
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { GlobalProvider } from '@/store';
-import { GoogleTagManager } from '@next/third-parties/google';
-import RootComponent from '@/components/common/RootComponent';
-import Script from 'next/script';
-import StyledComponentsRegistry from '@/components/common/StyledComponenstRegistry';
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { GlobalProvider } from "@/store";
+import { GoogleTagManager } from "@next/third-parties/google";
+import RootComponent from "@/components/common/RootComponent";
+import Script from "next/script";
+import StyledComponentsRegistry from "@/components/common/StyledComponenstRegistry";
 
-import '@/styles/globals.scss';
-import { headers, cookies } from 'next/headers';
+import "@/styles/globals.scss";
+import { headers, cookies } from "next/headers";
 
 export async function generateMetadata() {
-	const messages = await getMessages();
-	const metadataTranslations = messages.Home;
+  const messages = await getMessages();
+  const metadataTranslations = messages.Home;
 
-	return {
-		title: metadataTranslations.title,
-		description: metadataTranslations.description,
-		keywords:
-			'成人动漫, 里番, 本子, 工口, 绅士向, 成人漫画, H本, 成人动画, H游戏, 福利姬',
-	};
+  return {
+    title: metadataTranslations.title,
+    description: metadataTranslations.description,
+    keywords:
+      "成人动漫, 里番, 本子, 工口, 绅士向, 成人漫画, H本, 成人动画, H游戏, 福利姬",
+  };
 }
 
 export default async function RootLayout({ children }) {
-	const locale = await getLocale();
-	const messages = await getMessages();
-	const headerList = await headers();
-	const userAgent = headerList.get('user-agent') || 'Android';
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const headerList = await headers();
+  const userAgent = headerList.get("user-agent") || "Android";
 
-	const cookiesList = await cookies();
-	const cookiesObj = cookiesList.getAll().reduce((acc, { name, value }) => {
-	  acc[name] = value;
-	  return acc;
-	}, {});
+  const cookiesList = await cookies();
+  const cookiesObj = cookiesList.getAll().reduce((acc, { name, value }) => {
+    acc[name] = value;
+    return acc;
+  }, {});
 
-	return (
-		<html lang={locale}>
-			<body>
-				<GoogleTagManager gtmId={process.env.GOOGLE_TAG_MANAGER_ID} />
+  return (
+    <html lang={locale}>
+      <body>
+        <GoogleTagManager gtmId={process.env.GOOGLE_TAG_MANAGER_ID} />
 
-				{/* Matomo Tracking Script */}
-				<Script id='matomo-tracking' strategy='afterInteractive'>
-					{`
+        {/* Matomo Tracking Script */}
+        <Script id="matomo-tracking" strategy="afterInteractive">
+          {`
             var _paq = window._paq = window._paq || [];
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
             _paq.push(['trackPageView']);
@@ -54,29 +54,41 @@ export default async function RootLayout({ children }) {
               g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
             })();
           `}
-				</Script>
+        </Script>
+        <Script id="crisp-chat" strategy="afterInteractive">
+          	{`
+				window.$crisp = [];
+				window.CRISP_WEBSITE_ID = "293348ee-5bbe-4912-a340-dcb7c16b418b";
+				(function () {
+				var d = document;
+				var s = d.createElement("script");
+				s.src = "https://client.crisp.chat/l.js";
+				s.async = 1;
+				d.getElementsByTagName("head")[0].appendChild(s);
+				})();
+			`}
+        </Script>
 
-				{/* Google Tag Manager NoScript */}
-				<noscript>
-					<iframe
-						src='https://www.googletagmanager.com/ns.html?id=GTM-WN8PS24'
-						height='0'
-						width='0'
-						style={{ display: 'none', visibility: 'hidden' }}
-					>
-					</iframe>
-				</noscript>
+        {/* Google Tag Manager NoScript */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WN8PS24"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
 
-				<StyledComponentsRegistry>
-					<NextIntlClientProvider locale={locale} messages={messages}>
-						<GlobalProvider cookies={cookiesObj}>
-							<RootComponent locale={locale} userAgent={userAgent}>
-								{children}
-							</RootComponent>
-						</GlobalProvider>
-					</NextIntlClientProvider>
-				</StyledComponentsRegistry>
-			</body>
-		</html>
-	);
+        <StyledComponentsRegistry>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <GlobalProvider cookies={cookiesObj}>
+              <RootComponent locale={locale} userAgent={userAgent}>
+                {children}
+              </RootComponent>
+            </GlobalProvider>
+          </NextIntlClientProvider>
+        </StyledComponentsRegistry>
+      </body>
+    </html>
+  );
 }

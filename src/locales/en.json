@@ -677,7 +677,8 @@
         "history_clear": "Detail",
         "unsuccess_description": "If the order is rejected, click Reject button to check the reason",
         "gold": "Exchange B Coin",
-        "drill": "Top Up Diamond"
+        "drill": "Top Up Diamond",
+        "qna": "Recharge Answers"
       },
       "own_account": "My Account",
       "description": "100 B coins = 1 CNY(about 0.14 USD), 1 Diamond = 1 CNY(about 0.14 USD). Diamonds can activate the dating and premium VIP. Other items are activated with B coins.",

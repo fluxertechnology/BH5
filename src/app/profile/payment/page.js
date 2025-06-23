@@ -36,12 +36,12 @@ const ProfilePayment = () => {
   const [infoData, setInfoData] = useState(() => [
     {
       icon: "/images/icons/bag_gold.svg",
-      data: getUserPremiumDiamond(t, state.user, 'sign'),
+      data: getUserPremiumDiamond(t, state.user, "sign"),
       text: t("Profile.payment.own_gold"),
     },
     {
       icon: "/images/icons/bag_money.svg",
-      data: getUserPremiumDiamond(t, state.user, 'money'),
+      data: getUserPremiumDiamond(t, state.user, "money"),
       text: t("Profile.payment."),
     },
   ]);
@@ -394,6 +394,40 @@ const ProfilePayment = () => {
             />
           </div>
         </LinkComponent>
+        {/* 在线客服 */}
+        <div
+          className="list_container_card cursor-pointer"
+          onClick={() => {
+            if (window.$crisp) {
+              window.$crisp.push(["do", "chat:open"]);
+            }
+          }}
+        >
+          <div className="list_container_card_body">
+            <div className="list_container_card_body_item">
+              <div className="list_container_card_body_item_header">
+                <Image
+                  className="list_container_card_body_item_header_icon"
+                  src="/images/profile/transfer_withdraw.svg"
+                  width={0}
+                  height={0}
+                  alt="transferWithDraw"
+                />
+              </div>
+              <div className="list_container_card_body_item_body">
+                <p className="list_container_card_body_item_body_title fw-m">
+                  {t("Profile.payment.charge.qna")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="list_container_card_footer">
+            <FontAwesomeIcon
+              className="list_container_card_footer_icon"
+              icon={faAngleRight}
+            />
+          </div>
+        </div>
       </div>
 
       {/* PC版的換金幣MODAL */}
