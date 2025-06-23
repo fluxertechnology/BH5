@@ -55,7 +55,7 @@ export default async function RootLayout({ children }) {
             })();
           `}
         </Script>
-        <Script id="crisp-chat" strategy="afterInteractive">
+        {/* <Script id="crisp-chat" strategy="afterInteractive">
           	{`
 				window.$crisp = [];
 				window.CRISP_WEBSITE_ID = "293348ee-5bbe-4912-a340-dcb7c16b418b";
@@ -67,7 +67,7 @@ export default async function RootLayout({ children }) {
 				d.getElementsByTagName("head")[0].appendChild(s);
 				})();
 			`}
-        </Script>
+        </Script> */}
 
         {/* Google Tag Manager NoScript */}
         <noscript>

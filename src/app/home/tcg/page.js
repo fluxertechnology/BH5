@@ -65,7 +65,7 @@ const HomeTcgMainPage = () => {
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
-  const tcgGamePageSize = 100;
+  const tcgGamePageSize = 30;
 
   const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
@@ -1136,7 +1136,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
   };
 
   const tcgUserSignup = async () => {
-    const userId = state.user.id;
+    const userId = state.user.nickname;
     if (userId === "guest") {
       useGlobalDispatch(openPopup("login"));
       return;

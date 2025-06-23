@@ -105,6 +105,13 @@ const ProfilePayment = () => {
       },
     });
   }, []);
+
+  const openCrispChatInNewTab = () => {
+    window.open(
+      `https://go.crisp.chat/chat/embed/?website_id=${process.env.NEXT_PUBLIC_CRISP_LIVE_CHAT_ID}`,
+      "_blank"
+    );
+  };
   return (
     <ProfilePaymentElement main_height={state.navbar.mainHeight}>
       <div className="info_container">
@@ -398,9 +405,7 @@ const ProfilePayment = () => {
         <div
           className="list_container_card cursor-pointer"
           onClick={() => {
-            if (window.$crisp) {
-              window.$crisp.push(["do", "chat:open"]);
-            }
+            openCrispChatInNewTab();
           }}
         >
           <div className="list_container_card_body">
