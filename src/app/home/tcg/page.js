@@ -285,6 +285,7 @@ const HomeTcgMainPage = () => {
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
+    console.log(tcgProductTypesDisplay);
     setTcgProductTypes(0);
   }, [tcgGameType]);
 

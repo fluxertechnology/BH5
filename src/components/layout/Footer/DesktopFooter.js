@@ -76,44 +76,13 @@ const DesktopFooter = ({ locale }) => {
         <div className="area_left">
           <div className="area_left_img">
             <Image
-              width={"138"}
-              height={"40"}
-              src={"/images/footer/logo_p.svg"}
+              width={"229"}
+              height={"66"}
+              src={"/images/footer/logo.png"}
               alt="B次元LOGO"
-              className="mr-3 mb-2"
+              className="mr-3 mb-1"
             />
           </div>
-          <Grid2
-            container
-            className="area_left_row"
-            direction="row"
-            alignItems="start"
-            spacing={0}
-          >
-            {urlItems.map((item, index) => (
-              <Grid2
-                item="true"
-                sm="true"
-                key={index}
-                onClick={item.onClick}
-                className="cursor-pointer mt-3 link"
-              >
-                {item.text}
-              </Grid2>
-            ))}
-            {serviceTerms.map((item, index) => (
-              <Grid2
-                item="true"
-                sm="true"
-                key={index}
-                className="cursor-pointer mt-3 link"
-              >
-                <LinkComponent routes={item.url} key={index}>
-                  {item.text}
-                </LinkComponent>
-              </Grid2>
-            ))}
-          </Grid2>
           {/* <div className="area_left_row">
             {friendUrlItems.map((item, index) => (
               <div key={index}>{item.text}</div>
@@ -125,40 +94,73 @@ const DesktopFooter = ({ locale }) => {
           <FriendSocial />
         </div>
       </div>
-      <div className="area_description">
-        {locale === "tc" ? (
-          <ol>
-            <li> ©2023 B次元</li>
-            <li>于本网站出现的人物角色一律年满 18 岁。</li>
-            <li>
-              均遵照 18 U.S.C. 2257 Record Keeping Requirements Compliance
-              Statement（记录保存合规声明）所要求的记录。
-            </li>
-            <li>
-              您进入本网站即表宣誓您届满所在区域观看成人内容的合法年龄，且您有意愿观看此等内容。
-            </li>
-            <li> 站点找回邮箱(发信即可回家)：bli2acg@gmail.com </li>
-            <li> 客服邮箱/商务邮箱：cs@bbacgn.com </li>
-          </ol>
-        ) : (
-          <ol>
-            <li>©2023 BHub Entertainment - All Rights Reserved.</li>
-            <li>
-              All characters appearing on this website are 18 years or older.
-            </li>
-            <li>
-              It follows 18 U.S.C. 2257 Record Keeping Requirements Compliance
-              Statement.
-            </li>
-            <li>
-              By entering this site you swear that you are of legal age in your
-              area to view adult material and that you wish to view such
-              material.
-            </li>
-            <li>Back to website：bli2acg@gmail.com </li>
-            <li> CS Email/Business Email：cs@bbacgn.com </li>
-          </ol>
-        )}
+      <div className="bottom-container">
+        <Grid2
+          container
+          className="bottom-container_link-list"
+          direction="row"
+          alignItems="start"
+          spacing={0}
+        >
+          {urlItems.map((item, index) => (
+            <Grid2
+              item="true"
+              sm="true"
+              key={index}
+              onClick={item.onClick}
+              className="cursor-pointer link"
+            >
+              {item.text}
+            </Grid2>
+          ))}
+          {serviceTerms.map((item, index) => (
+            <Grid2
+              item="true"
+              sm="true"
+              key={index}
+              className="cursor-pointer link"
+            >
+              <LinkComponent routes={item.url} key={index}>
+                {item.text}
+              </LinkComponent>
+            </Grid2>
+          ))}
+        </Grid2>
+        <div className="area_description">
+          {locale === "tc" ? (
+            <ol>
+              <li> ©2023 B次元</li>
+              <li>于本网站出现的人物角色一律年满 18 岁。</li>
+              <li>
+                均遵照 18 U.S.C. 2257 Record Keeping Requirements Compliance
+                Statement（记录保存合规声明）所要求的记录。
+              </li>
+              <li>
+                您进入本网站即表宣誓您届满所在区域观看成人内容的合法年龄，且您有意愿观看此等内容。
+              </li>
+              <li> 站点找回邮箱(发信即可回家)：bli2acg@gmail.com </li>
+              <li> 客服邮箱/商务邮箱：cs@bbacgn.com </li>
+            </ol>
+          ) : (
+            <ol>
+              <li>©2023 BHub Entertainment - All Rights Reserved.</li>
+              <li>
+                All characters appearing on this website are 18 years or older.
+              </li>
+              <li>
+                It follows 18 U.S.C. 2257 Record Keeping Requirements Compliance
+                Statement.
+              </li>
+              <li>
+                By entering this site you swear that you are of legal age in
+                your area to view adult material and that you wish to view such
+                material.
+              </li>
+              <li>Back to website：bli2acg@gmail.com </li>
+              <li> CS Email/Business Email：cs@bbacgn.com </li>
+            </ol>
+          )}
+        </div>
       </div>
     </PCFooterElement>
   );
@@ -188,50 +190,69 @@ export const PCFooterElement = styled.div.withConfig({
       padding: 1em 5em;
     }
     @media (min-width: 1081px) {
-      padding: 1em 10em;
+      padding: 1em 11.98vw;
     }
 
     &_left {
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid #484848;
       width: 100%;
       justify-content: start;
       &_img {
         display: flex;
         align-items: center;
-        height: 40px;
-        margin: 20px 0 0 0;
+        height: 62px;
+        margin: 1.55rem 0 0 0;
         font-size: 0.8rem;
       }
     }
 
     &_right {
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid #484848;
       display: grid;
       justify-content: end;
       text-align: center;
       width: 100%;
-      padding: 1em;
+      padding: 0.8rem 1em 1.52rem;
       display: flex;
       align-items: center;
     }
 
     &_description {
+      color: #777777;
       padding-bottom: 2em;
-      font-size: 0.9rem;
-      line-height: 1.2rem;
-      text-align: center;
+      font-size: 0.75rem;
+      line-height: 1.3rem;
+      text-align: start;
     }
   }
-  .link {
-    flex-grow: 1;
-    cursor: pointer;
-    display: block;
-    text-decoration: none;
-    white-space: nowrap;
-    color: ${colors.text_dark_grey};
-    align-self: center;
-    &:hover {
-      color: ${colors.back_dark_pink};
+  .bottom-container {
+    @media (min-width: 900px) {
+      padding: 1em 5em;
+    }
+    @media (max-width: 1080px) {
+      padding: 1em 5em;
+    }
+    @media (min-width: 1081px) {
+      padding: 0.65em 11.98vw 1em;
+    }
+
+    &_link-list {
+      width: 404px;
+
+      .link {
+        flex-grow: 1;
+        font-size: 0.875rem;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        white-space: nowrap;
+        margin-bottom: 1.4rem;
+        color: ${colors.text_dark_grey};
+        align-self: center;
+        &:hover {
+          color: ${colors.back_dark_pink};
+        }
+      }
     }
   }
 `;
@@ -316,7 +337,7 @@ const QrCode = () => {
 const QrCodeElement = styled.div`
   /*  */
   margin-right: 2em;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
 
   .qrcode {
     display: flex;
@@ -401,7 +422,7 @@ const FriendSocialElement = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
   &:hover {
     color: ${colors.back_dark_pink};
   }
