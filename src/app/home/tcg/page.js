@@ -218,6 +218,9 @@ const HomeTcgMainPage = () => {
 
   const tcgTransferOutAll = async (e, gameId) => {
     e.stopPropagation();
+    if (state.user.id === "guest") {
+      return;
+    }
     setIsLoadingTransferOutAll(true);
     try {
       const response = await fetch(`${apiUrl}/appapi/tcg/transfer_out_by_all`, {
