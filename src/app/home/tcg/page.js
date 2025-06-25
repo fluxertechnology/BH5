@@ -150,6 +150,9 @@ const HomeTcgMainPage = () => {
   };
 
   const tcgGetGameUrl = async (gameId, confirm = true) => {
+    if (isLoadingGameUrl) {
+      return;
+    }
     setCurrentGameId(gameId);
     if (!confirm) {
       setIsTipsOpen(true);
@@ -655,7 +658,7 @@ const HomeTcgMainPage = () => {
         title=""
       />
 
-      <LoadingComponent isLoading={isLoadingTransferOutAll} />
+      <LoadingComponent isLoading={isLoadingGameUrl || isLoadingTransferOutAll} />
     </HomeTcgMainPageElement>
   );
 };
