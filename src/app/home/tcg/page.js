@@ -56,6 +56,15 @@ const HomeTcgMainPage = () => {
     },
   ];
 
+  const productTypeLogos = {
+    4: "/images/tcg/logo/AG.png",
+    79: "/images/tcg/logo/BB.png",
+    41: "/images/tcg/logo/BG.png",
+    16: "/images/tcg/logo/CQ9.png",
+    55: "/images/tcg/logo/JDB.png",
+    152: "/images/tcg/logo/WL.png",
+  };
+
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgProductTypes, setTcgProductTypes] = useState(0);
@@ -134,6 +143,7 @@ const HomeTcgMainPage = () => {
 
       setTcgTotalGames(data.data.total || 0);
       setTcgGameList(data.data.value || []);
+      console.log(tcgGameList);
     } catch (error) {
       console.error("获取游戏列表失败:", error);
     }
@@ -145,7 +155,6 @@ const HomeTcgMainPage = () => {
       setIsTipsOpen(true);
       return;
     }
-    console.log("获取游戏链接，游戏ID:", gameId);
     if (!gameId) {
       return;
     }
@@ -207,7 +216,6 @@ const HomeTcgMainPage = () => {
   const tcgTransferOutAll = async (e, gameId) => {
     e.stopPropagation();
     setIsLoadingTransferOutAll(true);
-    console.log("转出游戏ID:", gameId);
     try {
       const response = await fetch(`${apiUrl}/appapi/tcg/transfer_out_by_all`, {
         method: "POST",
@@ -233,10 +241,8 @@ const HomeTcgMainPage = () => {
         return;
       }
       toastCall("转出成功");
-      console.log("转出成功:", data);
       useGlobalDispatch(
         updateUserDataAction(() => {
-          console.log("用户数据更新成功", gameId);
           if (gameId === "all") {
             window.location.reload();
           }
@@ -254,7 +260,6 @@ const HomeTcgMainPage = () => {
     setIsTipsOpen(false);
     tcgGetGameUrl(currentGameId, true);
     return;
-    console.log("打开游戏链接:", gameUrl || currentGameUrl);
     //const win = window.open(data.data.url, "_blank");
     //if (win) {
     //  const checkClosed = setInterval(async () => {
@@ -285,7 +290,6 @@ const HomeTcgMainPage = () => {
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
-    console.log(tcgProductTypesDisplay);
     setTcgProductTypes(0);
   }, [tcgGameType]);
 
@@ -365,7 +369,7 @@ const HomeTcgMainPage = () => {
                 </div>
               )}
               <div className="user-info mr-2">
-                <div className="user-name truncate w-20">
+                <div className="user-name truncate">
                   {state.user.id === "guest" ? "guest" : state.user.nick_name}
                 </div>
                 <div className="user-money">
@@ -491,6 +495,15 @@ const HomeTcgMainPage = () => {
                           >
                             <div className="icon text-2xl w-full">
                               <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
+                                {productTypeLogos[game.product_type] && (
+                                  <Image
+                                    src={productTypeLogos[game.product_type]}
+                                    alt="platform logo"
+                                    width={32}
+                                    height={32}
+                                    className="icon-logo"
+                                  />
+                                )}
                                 <ImageComponent
                                   className="icon-img"
                                   // key={game.id}
@@ -503,9 +516,7 @@ const HomeTcgMainPage = () => {
                                 />
                               </div>
                             </div>
-                            <div className="title font-medium mt-2">
-                              {game.name}
-                            </div>
+                            <div className="title font-medium">{game.name}</div>
                           </div>
                         ))}
                       </div>
@@ -807,6 +818,15 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
       .icon {
         font-size: 30px;
+        .icon-logo {
+          z-index: 9;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.9);
+          padding: 0.4vw;
+          object-fit: contain;
+        }
       }
 
       .title {
@@ -907,7 +927,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
 
     .game-list {
-      gap: 2.08vw 0.83vw;
+      gap: 0.18vw 0.83vw;
       // max-width: 76.04vw;
       margin: 0 11.98vw;
       width: 76.04vw;
@@ -915,16 +935,25 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
       .game-item {
 
-        .icon{
-          .icon-img{
+        .icon {
+          .icon-logo {
+            height: 2vw;
+            width: auto;
+          }
+          .icon-img {
               height: 8.85vw;
               width: 8.85vw;
               border-radius: 0.67vw;
           }
         }
 
-        .title{
+        .title {
           font-size: 0.73vw;
+          margin-top: 0.05vw !important;
+          margin-bottom: 0.38vw;
+          display:flex;
+          align-items:center;
+          min-height: 2.29vw;
         }
 
       }
@@ -969,14 +998,15 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     .user-feature-header {
       padding: 0 2.67vw;
       margin : 4vw 0 0vw;
+      gap: 5.5vw;
 
       .user-panel {
-        padding: 2vw 3.07vw 2vw 6.93vw !important;
+        padding: 2vw 3.07vw 1.6vw 6.93vw !important;
         background: linear-gradient(to bottom right, #ee51ab, #873fdb);
         background: url('/images/tcg/user-panel-bg.png') no-repeat center center !important;
         background-size: cover !important;
         border-radius: 0.67vw;
-        justify-content:center;
+        justify-content: space-between;
         width: 100%;
 
         .user-info {
@@ -1034,10 +1064,13 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
       .game-item {
         width: 22.67vw;
-        min-height: 38.53vw;
+        min-height: 29.23vw;
         margin-bottom: 2vw;
 
         .icon{
+          .icon-logo {
+            display: none;
+          }
           .icon-img{
               height: 22.67vw;
               width: 100%;
@@ -1049,8 +1082,12 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
           // font-size: 4.45vw;
           font-family: "Microsoft YaHei";
           color: rgb(51, 51, 51);
-          font-weight: bold;
+          // font-weight: bold;
           font-size:3.2vw;
+          display: flex;
+          align-items: center;
+          min-height: 5.4vw;
+          margin-top: 1.5vw;
         }
 
       }
@@ -1157,7 +1194,6 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         );
         return;
       }
-      console.log("注册成功:", response.data);
       onRegisterSuccess();
     } catch (error) {
       console.error("注册失败:", error);

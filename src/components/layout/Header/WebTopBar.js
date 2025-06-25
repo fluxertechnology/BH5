@@ -268,11 +268,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       name: post.pages.postMain.name,
       path: post.pages.postMain.path,
     },
-    {
-      intlKey: "Navbar.bottom_navigator_live",
-      name: home.pages.homeMain.pages.homeStreams.name,
-      path: home.pages.homeMain.pages.homeStreams.path,
-    },
+    // {
+    //   intlKey: "Navbar.bottom_navigator_live",
+    //   name: home.pages.homeMain.pages.homeStreams.name,
+    //   path: home.pages.homeMain.pages.homeStreams.path,
+    // },
     // {
     //   intlKey: "Common.history",
     //   name: "",
@@ -731,7 +731,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               scroll={scroll}
             /> */}
             <img
-              src="/images/header/topbar/search.png"
+              src="/images/header/topbar/search_1.png"
               className="w-[25px] h-[25px]"
               alt="search"
               onClick={clickSearch}

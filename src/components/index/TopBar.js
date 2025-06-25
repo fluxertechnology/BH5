@@ -7,8 +7,8 @@ import { colors, downloadPage } from "@/lib/constants";
 
 import ImageComponent from "@/components/common/ImageComponent";
 
-import avatarPlaceholder from "@public/images/imgPlaceholder/avatar.png";
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import avatarPlaceholder from "@public/images/imgPlaceholder/avatar_1.png";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 import { navigatorShare } from "@/store/actions/utilities";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
@@ -55,16 +55,16 @@ const TopBar = () => {
   };
   const clickSearch = () => {
     useGlobalDispatch({
-      type: 'UPDATE_NAVBAR',
-      key: 'isShowSearch',
+      type: "UPDATE_NAVBAR",
+      key: "isShowSearch",
       data: true,
-    })
+    });
 
     useGlobalDispatch({
-      type: 'UPDATE_NAVBAR',
-      key: 'isShowMore',
+      type: "UPDATE_NAVBAR",
+      key: "isShowMore",
       data: setIsMoreOpen(false),
-    })
+    });
     // useGlobalDispatch(pushRoutes(home.pages.homeSearch));
   };
   const clickHome = () => {
@@ -80,43 +80,42 @@ const TopBar = () => {
 
   const switchLanguage = () => {
     pushRoutesFunction(pageUrlConstants.profile.pages.profileSwitchLanguage);
-  }
+  };
 
   const notification = () => {
     pushRoutesFunction(pageUrlConstants.notice);
-  }
+  };
 
   const toPaymentPage = () => {
     useGlobalDispatch(updateRechargeStateAction(true));
     useGlobalDispatch(pushRoutes(profile.pages.profilePayment));
-  }
+  };
 
   const moreComponent = () => {
-    setIsMoreOpen(prevState => !prevState);
+    setIsMoreOpen((prevState) => !prevState);
     useGlobalDispatch({
-      type: 'UPDATE_NAVBAR',
-      key: 'isShowMore',
+      type: "UPDATE_NAVBAR",
+      key: "isShowMore",
       data: !isMoreOpen,
-    })
+    });
     useGlobalDispatch({
-      type: 'UPDATE_NAVBAR',
-      key: 'isShowSearch',
+      type: "UPDATE_NAVBAR",
+      key: "isShowSearch",
       data: false,
-    })
-  }
+    });
+  };
   // 特定页面显示H1标签
-  const routesToShowLogo = ['/posts/main', '/vendor'];
+  const routesToShowLogo = ["/posts/main", "/vendor"];
 
   const shouldShowLogo =
-    location.startsWith('/home') ||
-    routesToShowLogo.includes(location);
+    location.startsWith("/home") || routesToShowLogo.includes(location);
 
   return (
     <TopBarElement main_height={state.navbar.mainHeight}>
       <div className="search_bar">
         <div className="search_bar_logo">
           <div onClick={clickHome} className="search_bar_logo_img">
-            {shouldShowLogo && <h1>{t('Home.name')}</h1>}
+            {shouldShowLogo && <h1>{t("Home.name")}</h1>}
           </div>
         </div>
         <div className="search_bar_main">
@@ -125,9 +124,9 @@ const TopBar = () => {
             isPlaceholder={state.navbar.isPlaceholder}
           /> */}
           <Image
-            src="/images/header/topbar/search.png"
-            width={19}
-            height={19}
+            src="/images/header/topbar/search_1.png"
+            width={27}
+            height={27}
             alt="search"
             onClick={clickSearch}
           />
@@ -142,29 +141,10 @@ const TopBar = () => {
             alt="B次元分享连结"
           />
         </div> */}
-        <div className="search_bar_language">
-          <Image
-            className={
-              "search_bar_language_img "
-            }
-            onClick={switchLanguage}
-            src={
-              "/images/header/translation.png"
-            }
-            width={19}
-            height={19}
-            alt="switch language"
-          />
-        </div>
 
-        <div
-          className="search_bar_recharge"
-          onClick={toPaymentPage}
-        >
+        {/* <div className="search_bar_recharge" onClick={toPaymentPage}>
           <Image
-            className={
-              "search_bar_recharge_img "
-            }
+            className={"search_bar_recharge_img "}
             src={
               state.config.highlightRechargeState
                 ? "/images/header/topup.png"
@@ -174,37 +154,29 @@ const TopBar = () => {
             height={20}
             alt="recharge"
           />
-        </div>
+        </div> */}
 
-        <div className="search_bar_notification">
+        {/* <div className="search_bar_notification">
           <Image
-            className={
-              "search_bar_notification_img "
-            }
+            className={"search_bar_notification_img "}
             onClick={notification}
-            src={
-              "/images/header/notification.png"
-            }
+            src={"/images/header/notification.png"}
             width={21}
             height={19}
             alt="switch language"
           />
-        </div>
+        </div> */}
 
-        <div className="search_bar_more">
+        {/* <div className="search_bar_more">
           <Image
-            className={
-              "search_bar_more_img "
-            }
+            className={"search_bar_more_img "}
             onClick={moreComponent}
-            src={
-              "/images/header/more.png"
-            }
+            src={"/images/header/more.png"}
             width={19}
             height={19}
-            alt="switch language"
+            alt="more tool"
           />
-        </div>
+        </div> */}
 
         <div className="search_bar_avatar" onClick={clickAvatar}>
           {state.user.id !== "guest" ? (
@@ -212,21 +184,27 @@ const TopBar = () => {
               is_cover={true}
               src={state.user.avatar}
               background_color="transparent"
-              border_radius="50%"
+              border_radius="0%"
               placeholderImg={avatarPlaceholder}
             />
           ) : (
             // <div className="search_bar_avatar_login bg-[#000]">{t("Login.login")}</div>
             <AccountCircleOutlinedIcon
               className="search_bar_avatar_login bg-[#000]"
-              onClick={() =>
-                useGlobalDispatch(
-                  pushRoutes(
-                    home.pages.homeMain
-                  )
-                )}
+              onClick={() => useGlobalDispatch(pushRoutes(home.pages.homeMain))}
             ></AccountCircleOutlinedIcon>
           )}
+        </div>
+
+        <div className="search_bar_language">
+          <Image
+            className={"search_bar_language_img "}
+            onClick={switchLanguage}
+            src={"/images/header/translation_1.png"}
+            width={68}
+            height={43}
+            alt="switch language"
+          />
         </div>
         {/* <div className="search_bar_service" onClick={clickService}>
           <img
@@ -260,7 +238,7 @@ export const TopBarElement = styled.div.withConfig({
 })`
   ${({ main_height }) => `
     /*  */
-    padding: 0 5%;
+    padding: 0 2.67vw;
     height: ${main_height}px;
     background-color: #fff;
 
@@ -286,9 +264,10 @@ export const TopBarElement = styled.div.withConfig({
         overflow: hidden;
         width: ${main_height * 0.45}px;
         height: ${main_height * 0.45}px;
+        margin-right: 2.4vw;
         font-size: 14px;
         color: #000;
-        border-radius: 50%;
+        border-radius: 0%;
         font-weight: 900;
         text-shadow: 0.2px 0.2px ${colors.dark_pink};
 
@@ -304,7 +283,7 @@ export const TopBarElement = styled.div.withConfig({
       &_logo {
         flex: 30%;
         &_img {
-          width: ${main_height * 1.20}px;
+          width: ${main_height * 1.9}px;
           height:${main_height}px;
           color: transparent;
           background:url('/images/header/topbar/logo.png') no-repeat center;
@@ -314,7 +293,7 @@ export const TopBarElement = styled.div.withConfig({
       }
       &_main {
         // flex-grow: 1;
-        margin: 0 10px;
+        margin-right: 3.6vw;
       }
 
       &_share_icon {
@@ -328,8 +307,8 @@ export const TopBarElement = styled.div.withConfig({
         margin-right: 10px;
 
         &_img {
-          width: 19px;
-          height: 19px;
+          width: 43px;
+          height: 68px;
           object-fit:contain;
         } 
       }  

@@ -66,13 +66,13 @@ const BottomNavBar = () => {
       image: "/images/header/bottomNav/media_selected_btn.png",
       activeImage: "/images/header/bottomNav/media_selected_btn.png",
     },
-    {
-      cname: t("Navbar.bottom_navigator_live"),
-      name: home.pages.homeMain.pages.homeStreams.name,
-      path: home.pages.homeMain.pages.homeStreams.path,
-      image: "/images/header/bottomNav/live_selected_btn.png",
-      activeImage: "/images/header/bottomNav/live_selected_btn.png",
-    },
+    // {
+    //   cname: t("Navbar.bottom_navigator_live"),
+    //   name: home.pages.homeMain.pages.homeStreams.name,
+    //   path: home.pages.homeMain.pages.homeStreams.path,
+    //   image: "/images/header/bottomNav/live_selected_btn.png",
+    //   activeImage: "/images/header/bottomNav/live_selected_btn.png",
+    // },
     // {
     //   cname: t("Navbar.bottom_navigator_my"),
     //   name: profile.name,
