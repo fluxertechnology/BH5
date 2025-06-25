@@ -732,7 +732,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             /> */}
             <img
               src="/images/header/topbar/search_1.png"
-              className="w-[25px] h-[25px]"
+              className="w-[26px] h-[26px]"
               alt="search"
               onClick={clickSearch}
             />
@@ -904,7 +904,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
           </div> */}
           <div className="search_bar_switch">
             <Image
-              src={"/images/header/topbar/translation.png"}
+              src={"/images/header/translation_1.png"}
               width={35}
               height={35}
               alt="switch"
@@ -1169,7 +1169,7 @@ const TopsearchBarElement = styled.div.withConfig({
       // &_recharge 
       // &_history,
       {
-        margin-right: max(0.521vw);
+        margin-right: max(1.021vw);
       }
       &_avatar {
         cursor: pointer;
@@ -1178,8 +1178,8 @@ const TopsearchBarElement = styled.div.withConfig({
         align-self: center;
         margin-left: 0;
         width: auto;
-        min-width: ${is_login ? main_height * 0.45 : main_height * 0.875}px;
-        height: ${is_login ? main_height * 0.45 : main_height * 0.375}px;
+        min-width: ${is_login ? main_height * 0.375 : main_height * 0.875}px;
+        height: ${is_login ? main_height * 0.375 : main_height * 0.375}px;
         font-size: 14px;
         color: #fff;
         font-weight: 900;
@@ -1345,8 +1345,8 @@ const TopsearchBarElement = styled.div.withConfig({
           }
         }
         &_img {
-          width: 28px;
-          height: 28px;
+          width: 34px;
+          height: 34px;
           object-fit:contain;
         }
       }
