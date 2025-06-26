@@ -25,6 +25,7 @@ import FullPageIframe from "@/components/common/FullPageIframe";
 import { getPremiumDiamond } from "@/lib/services/price";
 import LoadingComponent from "@/components/common/LoadingComponent";
 import { updateUserDataAction } from "@/store/actions/user";
+import gameManager from "@/lib/services/gameManager";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -161,8 +162,13 @@ const HomeTcgMainPage = () => {
     if (!gameId) {
       return;
     }
-    setIsLoadingGameUrl(true);
 
+    if (gameManager.isGameOpen()) {
+      toastCall("游戏已在进行中，请先退出当前游戏");
+      return;
+    }
+
+    setIsLoadingGameUrl(true);
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
@@ -183,6 +189,7 @@ const HomeTcgMainPage = () => {
       });
       const data = await response.json();
       if (data.code === 0) {
+        gameManager.endGame();
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
       }
@@ -191,14 +198,17 @@ const HomeTcgMainPage = () => {
       }
 
       if (!data.data?.url) {
+        gameManager.endGame();
         toastCall("获取游戏链接失败，请稍后再试");
         return;
       }
 
+      gameManager.openGame(gameId);
       setCurrentGameUrl(data.data.url);
       setCurrentGameProductType(data.data.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
+      gameManager.endGame();
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
     } finally {
@@ -211,8 +221,9 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId
+      currentGameId,
     );
+    gameManager.endGame();
     closeIframe();
   };
 
@@ -252,7 +263,7 @@ const HomeTcgMainPage = () => {
           if (gameId === "all") {
             window.location.reload();
           }
-        })
+        }),
       );
     } catch (error) {
       console.error("转出失败:", error);
@@ -324,6 +335,21 @@ const HomeTcgMainPage = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      gameManager.endGame();
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <HomeTcgMainPageElement main_height={state.navbar.mainHeight}>
       {/* 顶部轮播图 */}
@@ -369,7 +395,7 @@ const HomeTcgMainPage = () => {
                             <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -450,7 +476,7 @@ const HomeTcgMainPage = () => {
                             </span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -563,20 +589,20 @@ const HomeTcgMainPage = () => {
                     {
                       length: Math.min(
                         isMobile ? 3 : 5,
-                        Math.ceil(tcgTotalGames / tcgGamePageSize)
+                        Math.ceil(tcgTotalGames / tcgGamePageSize),
                       ),
                     },
                     (_, i) => {
                       const totalPages = Math.ceil(
-                        tcgTotalGames / tcgGamePageSize
+                        tcgTotalGames / tcgGamePageSize,
                       );
                       let startPage = Math.max(
                         1,
                         Math.min(
                           tcgGameCurrentPage -
                             Math.floor((isMobile ? 3 : 5) / 2),
-                          totalPages - (isMobile ? 2 : 4)
-                        )
+                          totalPages - (isMobile ? 2 : 4),
+                        ),
                       );
                       const page = startPage + i;
 
@@ -595,7 +621,7 @@ const HomeTcgMainPage = () => {
                           {page}
                         </button>
                       );
-                    }
+                    },
                   )}
 
                   {/* 下一页 */}
@@ -604,7 +630,7 @@ const HomeTcgMainPage = () => {
                       setTcgCurrentPage((prev) =>
                         prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
                           ? prev + 1
-                          : prev
+                          : prev,
                       )
                     }
                     disabled={
@@ -620,7 +646,7 @@ const HomeTcgMainPage = () => {
                   <button
                     onClick={() =>
                       setTcgCurrentPage(
-                        Math.ceil(tcgTotalGames / tcgGamePageSize)
+                        Math.ceil(tcgTotalGames / tcgGamePageSize),
                       )
                     }
                     disabled={
@@ -661,7 +687,9 @@ const HomeTcgMainPage = () => {
         title=""
       />
 
-      <LoadingComponent isLoading={isLoadingGameUrl || isLoadingTransferOutAll} />
+      <LoadingComponent
+        isLoading={isLoadingGameUrl || isLoadingTransferOutAll}
+      />
     </HomeTcgMainPageElement>
   );
 };
@@ -1196,7 +1224,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }
