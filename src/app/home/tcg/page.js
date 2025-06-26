@@ -25,6 +25,7 @@ import FullPageIframe from "@/components/common/FullPageIframe";
 import { getPremiumDiamond } from "@/lib/services/price";
 import LoadingComponent from "@/components/common/LoadingComponent";
 import { updateUserDataAction } from "@/store/actions/user";
+import gameManager from "@/lib/services/gameManager";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -150,6 +151,9 @@ const HomeTcgMainPage = () => {
   };
 
   const tcgGetGameUrl = async (gameId, confirm = true) => {
+    if (isLoadingGameUrl) {
+      return;
+    }
     setCurrentGameId(gameId);
     if (!confirm) {
       setIsTipsOpen(true);
@@ -158,8 +162,13 @@ const HomeTcgMainPage = () => {
     if (!gameId) {
       return;
     }
-    setIsLoadingGameUrl(true);
 
+    if (gameManager.isGameOpen()) {
+      toastCall("游戏已在另一个标签页中运行");
+      return;
+    }
+
+    setIsLoadingGameUrl(true);
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
@@ -180,6 +189,7 @@ const HomeTcgMainPage = () => {
       });
       const data = await response.json();
       if (data.code === 0) {
+        gameManager.endGame();
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
       }
@@ -188,14 +198,17 @@ const HomeTcgMainPage = () => {
       }
 
       if (!data.data?.url) {
+        gameManager.endGame();
         toastCall("获取游戏链接失败，请稍后再试");
         return;
       }
 
+      gameManager.openGame(gameId);
       setCurrentGameUrl(data.data.url);
       setCurrentGameProductType(data.data.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
+      gameManager.endGame();
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
     } finally {
@@ -210,11 +223,15 @@ const HomeTcgMainPage = () => {
       },
       currentGameId
     );
+    gameManager.endGame();
     closeIframe();
   };
 
   const tcgTransferOutAll = async (e, gameId) => {
     e.stopPropagation();
+    if (state.user.id === "guest") {
+      return;
+    }
     setIsLoadingTransferOutAll(true);
     try {
       const response = await fetch(`${apiUrl}/appapi/tcg/transfer_out_by_all`, {
@@ -316,6 +333,21 @@ const HomeTcgMainPage = () => {
         customComponent: () => false,
       },
     });
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      gameManager.endGame();
+
+      //event.preventDefault();
+      //event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
 
   const TcgPagination = ({
@@ -527,33 +559,33 @@ const HomeTcgMainPage = () => {
                 {tcgProductTypesDisplay &&
                   tcgProductTypesDisplay.length > 0 &&
                   tcgProductTypes == 0 && (
-                  <div className="w-auto">
-                    <div className={`product-type-container ${tcgGameType}`}>
-                      {tcgProductTypesDisplay.map((type, index) => (
-                        <div
-                          key={index}
-                          className={`cursor-pointer product_type ${
-                            tcgProductTypes === type.product_type
-                              ? "font-extrabold"
-                              : ""
-                          } ${!isDesktop && "!w-[100%]"}`}
-                          onClick={() =>
-                            setTcgProductTypes(type.product_type)
-                          }
-                        >
-                          <ImageComponent
-                            // width={354}
-                            // height={146}
-                            is_cover={true}
-                            className="product_type_img"
-                            src={`/images/tcg/${tcgGameType}/${type.product_code}.png`}
-                            alt={type.product_code}
-                          />
-                        </div>
-                      ))}
+                    <div className="w-auto">
+                      <div className={`product-type-container ${tcgGameType}`}>
+                        {tcgProductTypesDisplay.map((type, index) => (
+                          <div
+                            key={index}
+                            className={`cursor-pointer product_type ${
+                              tcgProductTypes === type.product_type
+                                ? "font-extrabold"
+                                : ""
+                            } ${!isDesktop && "!w-[100%]"}`}
+                            onClick={() =>
+                              setTcgProductTypes(type.product_type)
+                            }
+                          >
+                            <ImageComponent
+                              // width={354}
+                              // height={146}
+                              is_cover={true}
+                              className="product_type_img"
+                              src={`/images/tcg/${tcgGameType}/${type.product_code}.png`}
+                              alt={type.product_code}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {tcgGameType === "HOT" || tcgProductTypes ? (
                   tcgGameList && tcgGameList.length > 0 ? (
@@ -723,7 +755,9 @@ const HomeTcgMainPage = () => {
         title=""
       />
 
-      <LoadingComponent isLoading={isLoadingTransferOutAll} />
+      <LoadingComponent
+        isLoading={isLoadingGameUrl || isLoadingTransferOutAll}
+      />
     </HomeTcgMainPageElement>
   );
 };
