@@ -164,7 +164,7 @@ const HomeTcgMainPage = () => {
     }
 
     if (gameManager.isGameOpen()) {
-      toastCall("游戏已在进行中，请先退出当前游戏");
+      toastCall("游戏已在另一个标签页中运行");
       return;
     }
 
@@ -339,8 +339,8 @@ const HomeTcgMainPage = () => {
     const handleBeforeUnload = (event) => {
       gameManager.endGame();
 
-      event.preventDefault();
-      event.returnValue = "";
+      //event.preventDefault();
+      //event.returnValue = "";
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
