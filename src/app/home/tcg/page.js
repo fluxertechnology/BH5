@@ -355,7 +355,9 @@ const HomeTcgMainPage = () => {
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
-    setTcgProductTypes(0);
+    setTcgProductTypes(
+      displayList.length > 0 ? displayList[0].product_type : 0,
+    );
   }, [tcgGameType]);
 
   useEffect(() => {
@@ -605,8 +607,7 @@ const HomeTcgMainPage = () => {
               )}
               <div className="flex flex-col gap-3 w-auto">
                 {tcgProductTypesDisplay &&
-                  tcgProductTypesDisplay.length > 0 &&
-                  tcgProductTypes == 0 && (
+                  tcgProductTypesDisplay.length > 0 && (
                     <div className="w-auto">
                       <div className={`product-type-container ${tcgGameType}`}>
                         {tcgProductTypesDisplay.map((type, index) => (
@@ -626,7 +627,11 @@ const HomeTcgMainPage = () => {
                               // height={146}
                               is_cover={true}
                               className="product_type_img"
-                          src={gameTypeImages[tcgGameType]?.[type.product_code] || ""}
+                              src={
+                                gameTypeImages[tcgGameType]?.[
+                                  type.product_code
+                                ] || ""
+                              }
                               alt={type.product_code}
                             />
                           </div>
