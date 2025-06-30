@@ -355,9 +355,7 @@ const HomeTcgMainPage = () => {
     });
     const displayList = typeList.filter((m) => m.display);
     setTcgProductTypesDisplay(displayList);
-    setTcgProductTypes(
-      displayList.length > 0 ? displayList[0].product_type : 0,
-    );
+    setTcgProductTypes(0);
   }, [tcgGameType]);
 
   useEffect(() => {
