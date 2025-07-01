@@ -66,6 +66,54 @@ const HomeTcgMainPage = () => {
     152: "/images/tcg/logo/WL.png",
   };
 
+  const gameTypeImages = {
+    RNG: {
+      AG: "/images/tcg/RNG/AG.png",
+      BB: "/images/tcg/LIVE/BB.png",
+      CQ9: "/images/tcg/RNG/CQ9.png",
+      FC: "/images/tcg/RNG/FC.png",
+      JDB: "/images/tcg/RNG/JDB.png",
+      KY: "/images/tcg/PVP/KY.png",
+      LY: "/images/tcg/PVP/LY.png",
+      MGS: "/images/tcg/RNG/MGS.png",
+      PG: "/images/tcg/RNG/PG.png",
+    },
+    LIVE: {
+      AG: "/images/tcg/RNG/AG.png",
+      BB: "/images/tcg/LIVE/BB.png",
+      BG: "/images/tcg/LIVE/BG.png",
+      CQ9: "/images/tcg/LIVE/CQ9.png",
+      WL: "/images/tcg/LIVE/WL.png",
+    },
+    FISH: {
+      AG: "/images/tcg/RNG/AG.png",
+      BOLE: "/images/tcg/PVP/BOLE.png",
+      CQ9: "/images/tcg/RNG/CQ9.png",
+      FC: "/images/tcg/RNG/FC.png",
+      JDB: "/images/tcg/RNG/JDB.png",
+      KY: "/images/tcg/PVP/KY.png",
+      LY: "/images/tcg/PVP/LY.png",
+      MGS: "/images/tcg/RNG/MGS.png",
+      WL: "/images/tcg/PVP/WL.png",
+    },
+    SPORTS: {
+      BB: "/images/tcg/LIVE/BB.png",
+      CR: "/images/tcg/SPORTS/CR.png",
+      TF: "/images/tcg/SPORTS/TF.png",
+    },
+    PVP: {
+      BOLE: "/images/tcg/PVP/BOLE.png",
+      JDB: "/images/tcg/RNG/JDB.png",
+      KY: "/images/tcg/PVP/KY.png",
+      LY: "/images/tcg/PVP/LY.png",
+      MGS: "/images/tcg/RNG/MGS.png",
+      WL: "/images/tcg/PVP/WL.png",
+    },
+    ELOTT: {
+      VR: "/images/tcg/ELOTT/VR.png",
+    },
+  };
+
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgProductTypes, setTcgProductTypes] = useState(0);
@@ -221,7 +269,7 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId
+      currentGameId,
     );
     gameManager.endGame();
     closeIframe();
@@ -263,7 +311,7 @@ const HomeTcgMainPage = () => {
           if (gameId === "all") {
             window.location.reload();
           }
-        })
+        }),
       );
     } catch (error) {
       console.error("转出失败:", error);
@@ -364,13 +412,13 @@ const HomeTcgMainPage = () => {
       1,
       Math.min(
         currentPage - Math.floor(pageCount / 2),
-        totalPages - (pageCount - 1)
-      )
+        totalPages - (pageCount - 1),
+      ),
     );
 
     const pages = Array.from(
       { length: pageCount },
-      (_, i) => startPage + i
+      (_, i) => startPage + i,
     ).filter((page) => page <= totalPages);
 
     return (
@@ -469,7 +517,7 @@ const HomeTcgMainPage = () => {
                             <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -550,7 +598,7 @@ const HomeTcgMainPage = () => {
                             </span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -558,7 +606,7 @@ const HomeTcgMainPage = () => {
               <div className="flex flex-col gap-3 w-auto">
                 {tcgProductTypesDisplay &&
                   tcgProductTypesDisplay.length > 0 &&
-                  tcgProductTypes == 0 && (
+                  tcgProductTypes === 0 && (
                     <div className="w-auto">
                       <div className={`product-type-container ${tcgGameType}`}>
                         {tcgProductTypesDisplay.map((type, index) => (
@@ -578,7 +626,11 @@ const HomeTcgMainPage = () => {
                               // height={146}
                               is_cover={true}
                               className="product_type_img"
-                              src={`/images/tcg/${tcgGameType}/${type.product_code}.png`}
+                              src={
+                                gameTypeImages[tcgGameType]?.[
+                                  type.product_code
+                                ] || ""
+                              }
                               alt={type.product_code}
                             />
                           </div>
@@ -617,7 +669,7 @@ const HomeTcgMainPage = () => {
                                 onClick={() =>
                                   tcgGetGameUrl(
                                     game.id,
-                                    state.user.id !== "guest"
+                                    state.user.id !== "guest",
                                   )
                                 }
                               >
@@ -676,7 +728,7 @@ const HomeTcgMainPage = () => {
                               onClick={() =>
                                 tcgGetGameUrl(
                                   game.id,
-                                  state.user.id !== "guest"
+                                  state.user.id !== "guest",
                                 )
                               }
                             >
@@ -1377,7 +1429,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }
