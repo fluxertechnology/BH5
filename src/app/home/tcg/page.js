@@ -605,7 +605,8 @@ const HomeTcgMainPage = () => {
               )}
               <div className="flex flex-col gap-3 w-auto">
                 {tcgProductTypesDisplay &&
-                  tcgProductTypesDisplay.length > 0 && (
+                  tcgProductTypesDisplay.length > 0 &&
+                  tcgProductTypes === 0 && (
                     <div className="w-auto">
                       <div className={`product-type-container ${tcgGameType}`}>
                         {tcgProductTypesDisplay.map((type, index) => (
