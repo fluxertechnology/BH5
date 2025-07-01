@@ -7,6 +7,11 @@ import { faAngleRight, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { useGlobalContext } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { nowLang } from "@/i18n/Metronici18n";
+import toastCall from "@/lib/services/toastCall";
+import { useState, useEffect } from "react";
+import { apiUrl } from "@/lib/constants";
+import useWithdraw from "@/hooks/useWithdraw";
 
 const withdrawOptions = [
   {
@@ -32,6 +37,17 @@ export default function WithdrawPage() {
   const handleSelect = (type) => {
     router.push(`/profile/withdraw/${type}`);
   };
+
+  const { paymentMethods } = useWithdraw();
+  const [validWithdrawOptions, setValidWithdrawOptions] = useState([]);
+
+  useEffect(() => {
+    setValidWithdrawOptions(
+      withdrawOptions.filter((option) =>
+        paymentMethods.map(m => m.name).includes(option.type)
+      )
+    );
+  }, [paymentMethods]);
 
   return (
     <ProfileWithDrawComponent main_height={state.navbar.mainHeight}>
@@ -65,7 +81,7 @@ export default function WithdrawPage() {
 
       <div className="md:p-6">
         <ul className="space-y-3 withdraw-list">
-          {withdrawOptions.map((option) => (
+          {validWithdrawOptions.map((option) => (
             <li
               key={option.type}
               onClick={() => handleSelect(option.type)}
