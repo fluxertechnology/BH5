@@ -189,10 +189,14 @@ const TopBar = () => {
             />
           ) : (
             // <div className="search_bar_avatar_login bg-[#000]">{t("Login.login")}</div>
-            <AccountCircleOutlinedIcon
-              className="search_bar_avatar_login bg-[#000]"
+            <Image
+              className={"search_bar_avatar_login bg-[#000]"}
               onClick={() => useGlobalDispatch(pushRoutes(home.pages.homeMain))}
-            ></AccountCircleOutlinedIcon>
+              src={avatarPlaceholder}
+              width={68}
+              height={43}
+              alt="switch language"
+            />
           )}
         </div>
 
@@ -307,8 +311,8 @@ export const TopBarElement = styled.div.withConfig({
         margin-right: 10px;
 
         &_img {
-          width: 43px;
-          height: 68px;
+          width: ${main_height * 0.7167}px;
+          height: ${main_height * 1.141}px;
           object-fit:contain;
         } 
       }  
