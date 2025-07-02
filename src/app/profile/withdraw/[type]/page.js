@@ -70,7 +70,7 @@ function WithdrawPage() {
   }, []);
 
   return (
-    <WithdrawPageElement main_height={state.navbar.mainHeight}>
+    <WithdrawPageElement main_height={state.navbar.mainHeight} bg={withdrawOptions[type]?.backgroundImage}>
       <TopBarContainer>
         <TopTitleBar
           title={withdrawOptions[type]?.title || t("Profile.withdraw.title")}
@@ -94,21 +94,16 @@ function WithdrawPage() {
       <LoadingComponent isLoading={loading} />
 
       <div className="relative">
-        <div className="absolute inset-x-0 mx-auto z-[1] w-[15%] border-2 border-solid">
-          <p className="text-[4.8vw] md:text-[24px]">-- 总精钻 --</p>
-          <p> {getUserPremiumDiamond(t, { money: userBalance })}</p>
-          <p>
+        <div className="info-container">
+          <p className="title">-- 总精钻 --</p>
+          <p className="amount"> {userBalance}</p>
+          <p className="available-amount">
             可提现：{getUserPremiumDiamond(t, { money: withdrawableAmount })}
           </p>
         </div>
-        <ImageComponent
-          className="w-full"
-          height="45vh"
-          src={withdrawOptions[type]?.backgroundImage}
-        />
       </div>
-      <div className="absolute bottom-0 w-full h-[60%]">
-        <div className="h-full mx-[2%] rounded border-2 border-solid">
+      <div className="absolute bottom-[19px] w-full h-[60%]">
+        <div className="component-container">
           {withdrawOptions[type]?.component ? (
             (() => {
               const Component = withdrawOptions[type].component;
@@ -137,7 +132,74 @@ export default WithdrawPage;
 const WithdrawPageElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["main_height"].includes(prop),
 })`
-  ${({ main_height }) => `
-    padding-top: ${main_height}px;
+  ${({ main_height,bg }) => `
+    margin-top: ${main_height}px;
+    font-family: "Microsoft YaHei";
+    background: ${bg ? `url(${bg})` : "none"};
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 23.96vw;
+  
+    .info-container{
+      // display:flex;
+      position: absolute;
+      // margin: calc(${main_height}px + 3.65vw) 0 1.72vw 53.7vw;
+      top: 3.67vw;
+      left: 53.7vw;
+      border-radius: 10px;
+      padding-top: 1vw;
+      background-image: -moz-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+      background-image: -webkit-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+      background-image: -ms-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+      width: 14.58vw;
+      height: 8.85vw;
+
+      .title{
+        font-size: 1.25vw;
+        color: rgb(102, 102, 102);
+        line-height: 1.2;
+        text-align: center;
+        font-weight: 300;
+      }
+
+      .amount {
+        font-size: 3.75vw;
+        color: rgb(255, 69, 122);
+        line-height: 0.98;
+        text-align: center;
+      }
+
+
+      .available-amount{
+        background-image: -moz-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+        background-image: -webkit-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+        background-image: -ms-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+        position: absolute;
+        height: 1.98vw;
+        width: 100%;
+        bottom:0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        font-size: 1.25vw;
+        color: rgb(255, 255, 255);
+        line-height: 1.2;
+        text-align: center;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      } 
+    }
+
+    .component-container{
+      border-width: 1px;
+      border-color: rgb(205, 205, 205);
+      background-color: #ffffff;
+      border-style: solid;
+      border-radius: 20px;
+      width: 95.89vw;
+      margin: auto;
+      padding: 3.13vw;
+    }
   `}
 `;
