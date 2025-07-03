@@ -70,7 +70,10 @@ function WithdrawPage() {
   }, []);
 
   return (
-    <WithdrawPageElement main_height={state.navbar.mainHeight} bg={withdrawOptions[type]?.backgroundImage}>
+    <WithdrawPageElement
+      main_height={state.navbar.mainHeight}
+      bg={withdrawOptions[type]?.backgroundImage}
+    >
       <TopBarContainer>
         <TopTitleBar
           title={withdrawOptions[type]?.title || t("Profile.withdraw.title")}
@@ -102,7 +105,7 @@ function WithdrawPage() {
           </p>
         </div>
       </div>
-      <div className="absolute bottom-[19px] w-full h-[60%]">
+      <div className="component-container--outer">
         <div className="component-container">
           {withdrawOptions[type]?.component ? (
             (() => {
@@ -132,7 +135,7 @@ export default WithdrawPage;
 const WithdrawPageElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["main_height"].includes(prop),
 })`
-  ${({ main_height,bg }) => `
+  ${({ main_height, bg }) => `
     margin-top: ${main_height}px;
     font-family: "Microsoft YaHei";
     background: ${bg ? `url(${bg})` : "none"};
@@ -140,6 +143,7 @@ const WithdrawPageElement = styled.div.withConfig({
     background-repeat: no-repeat;
     background-size: cover;
     height: 23.96vw;
+    padding-bottom: 50vh;
   
     .info-container{
       // display:flex;
@@ -171,7 +175,7 @@ const WithdrawPageElement = styled.div.withConfig({
       }
 
 
-      .available-amount{
+      .available-amount {
         background-image: -moz-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
         background-image: -webkit-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
         background-image: -ms-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
@@ -191,15 +195,295 @@ const WithdrawPageElement = styled.div.withConfig({
       } 
     }
 
-    .component-container{
-      border-width: 1px;
-      border-color: rgb(205, 205, 205);
-      background-color: #ffffff;
-      border-style: solid;
-      border-radius: 20px;
-      width: 95.89vw;
-      margin: auto;
-      padding: 3.13vw;
+    .component-container--outer {
+      position: absolute;
+      bottom: 19px;
+      width: 100%;
+      height:60%;
+
+
+      .component-container {
+        border-width: 1px;
+        border-color: rgb(205, 205, 205);
+        background-color: #ffffff;
+        border-style: solid;
+        border-radius: 20px;
+        width: 95.89vw;
+        margin: auto;
+        padding: 3.13vw;
+      }
     }
+
+
+
+    .withdraw-container {
+      font-family: 'Microsoft YaHei', sans-serif;
+
+      .form-section {
+
+        .form-group {
+          margin-bottom: 30px;
+          
+          .form-label {
+            display: block;
+            padding-bottom: 0.99vw;
+            margin-bottom: 2.24vw;
+            font-size: 1.25vw;
+            font-family: "Microsoft YaHei";
+            color: rgb(255, 69, 122);
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: left;
+            border-bottom: 1px solid rgb(205, 205, 205);
+          }
+
+          .form-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 0 auto;
+            width: 32.24vw;
+
+            .input,
+            .select {
+              width: 100%;
+              height: 3.54vw;
+              padding: 10px 14px;
+              border: 1px solid #ccc;
+              font-size: 14px;
+              box-sizing: border-box;
+              border-color: rgb(205, 205, 205);
+              border-style: solid;
+              background-color: rgb(255, 255, 255);
+              border-width: 1px;
+              box-shadow: inset 0px -3px 7px 0px rgba(0, 0, 0, 0.1);
+              font-size: 0.83vw;
+              color:#5c5c5c;
+            }
+
+            .input-row {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              position: relative;
+
+              .currency {
+                position: absolute;
+                right: 32px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-weight: bold;
+                font-size: 14px;
+                color: #333;
+              }
+
+              .flag {
+                position: absolute;
+                right: 6px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 20px;
+                height: 14px;
+              }
+            }
+
+            .summary {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              font-size: 12px;
+              color: #666;
+
+              .summary-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              }
+
+              .value-with-bullet {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                .bullet {
+                  width: 1.09vw;
+                  height: 1.09vw;
+                  background-color: #ccc;
+                  border-radius: 50%;
+                  font-size: 1.16vw;
+                  color: #fff;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  line-height: 1;
+                  font-family: 'Microsoft YaHei', sans-serif;
+                  padding-bottom: 0.23vw;
+                  padding-right: 0.03vw;
+                }
+
+
+                .value {
+                  font-weight: bold;
+                  color: #5c5c5c;
+                  font-size: 1.15vw;
+                  margin-left: 1.3vw;
+                  
+                }
+              }
+
+              .label {
+                color: #999;
+                font-size: 0.94vw;
+              }
+            }
+              
+          }
+        }
+
+        .submit-container {
+          text-align: center;
+          margin-top: 10px;
+
+          .submit-button {
+            background: linear-gradient(90deg, rgb(249,54,34) 0%, rgb(255,69,122) 100%);
+            border: none;
+            border-radius: 999px;
+            padding: 12px 48px;
+            font-size: 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 18.75vw;
+            height: 4.69vw;
+            font-size: 1.56vw;
+            color: rgb(255, 255, 255);
+            line-height: 1.2;
+
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+
+        .tip {
+          color: rgb(102, 102, 102);
+          font-size: 0.83vw;
+          margin-top: 4.48vw;
+          padding-top: 2.14vw;
+          padding-bottom: 5.63vw;
+          text-align: center;
+          border-top: 1px solid rgb(205, 205, 205);
+          border-bottom: 1px solid rgb(205, 205, 205);
+
+          .tip-icon {
+            color: rgb(255, 69, 122);
+            font-weight: bold;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .info-container {
+        border-radius: 1.33vw;
+        position: absolute;
+        left: 56.93vw;
+        top: 7.6vw;
+        width: 37.33vw;
+        height: 22.67vw;
+        padding-top: 2.5vw;
+
+        .title {
+          font-size: 3.2vw;
+          line-height: 1.2;
+
+        }
+        .amount {
+          font-size: 9.6vw;
+        }
+        .available-amount {
+          height: 5.07vw;
+          font-size: 3.2vw;
+        }
+      }
+
+      .component-container--outer{
+        bottom: -0.7vw;
+        width: 100%;
+        height:60%;
+
+        .component-container {
+          width: 93.33vw;
+          padding: 7.6vw 5.73vw;
+        }
+      }
+
+      .withdraw-container {
+        .form-section {
+          .form-group {
+            .form-label {
+                margin-bottom: 3.73vw;
+                border-bottom: none;
+                font-size: 4vw;
+            }
+
+            .form-inputs {
+              width: 82.53vw;
+
+              .input,
+              .select  {
+                height: 9.33vw;
+                font-size: 2.4vw;
+                padding: 0 2.4vw;
+              }
+
+              .input-row {
+                .currency {}
+                .flag {}
+              }
+
+              .summary {
+                .summary-item {
+                  .value-with-bullet {
+                    .bullet {
+                      height: 3.73vw;
+                      width: 3.73vw;
+                      font-size: 4vw;
+                      padding-bottom: 0.50vw;
+                      padding-right: 0.03vw;
+                    }
+                    .value {
+                      font-size: 2.93vw;
+                      margin-right: 2.13vw;
+                    }
+                  }
+                  .label {
+                  
+                    font-size: 2.93vw;
+                  }
+                }
+              }
+            }
+          }
+
+          .submit-container {
+            .submit-button {
+              width: 46.67vw;
+              height: 10.67vw;
+              font-size: 4vw;
+            }
+          }
+
+          .tip {
+            font-size: 2.4vw;
+            .tip-icon {}
+          }
+        }
+      }
+
+    }
+
   `}
 `;
