@@ -14,7 +14,7 @@ import { useParams } from "next/navigation";
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import LinkComponent from "@/components/common/LinkComponent";
-import ImageComponent from "@/components/common/ImageComponent";
+import Image from "next/image";
 import LoadingComponent from "@/components/common/LoadingComponent";
 
 import AlipayWithdraw from "@/app/profile/withdraw/[type]/AlipayWithdraw";
@@ -25,28 +25,33 @@ import USDTWithdraw from "@/app/profile/withdraw/[type]/USDTWithdraw";
 function WithdrawPage() {
   const t = useTranslations();
   const { state } = useGlobalContext();
-  const { isMobile } = useMediaQuery();
+  const { isDesktop } = useMediaQuery();
   const { type } = useParams();
 
   const withdrawOptions = {
     alipay: {
       title: `支付宝${t("Profile.withdraw.title")}`,
       backgroundImage: "/images/profile/withdraw_bg_alipay.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_alipay.png",
       component: AlipayWithdraw,
     },
     "apple-wallet": {
       title: `Apple Wallet ${t("Profile.withdraw.title")}`,
       backgroundImage: "/images/profile/withdraw_bg_apple_wallet.png",
+      mobileBackgroundImage:
+        "/images/profile/withdraw_mobile_bg_apple_wallet.png",
       component: AppleWalletWithdraw,
     },
     bank: {
       title: `银行卡 ${t("Profile.withdraw.title")}`,
       backgroundImage: "/images/profile/withdraw_bg_bank.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_bank.png",
       component: BankWithdraw,
     },
     usdt: {
       title: `USDT ${t("Profile.withdraw.title")}`,
       backgroundImage: "/images/profile/withdraw_bg_usdt.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_usdt.png",
       component: USDTWithdraw,
     },
   };
@@ -73,6 +78,7 @@ function WithdrawPage() {
     <WithdrawPageElement
       main_height={state.navbar.mainHeight}
       bg={withdrawOptions[type]?.backgroundImage}
+      mobileBg={withdrawOptions[type]?.mobileBackgroundImage}
     >
       <TopBarContainer>
         <TopTitleBar
@@ -96,7 +102,7 @@ function WithdrawPage() {
 
       <LoadingComponent isLoading={loading} />
 
-      <div className="relative">
+      <div className="info-container--outer">
         <div className="info-container">
           <p className="title">-- 总精钻 --</p>
           <p className="amount"> {userBalance}</p>
@@ -126,6 +132,13 @@ function WithdrawPage() {
           )}
         </div>
       </div>
+      {/* 提示信息 */}
+      {!isDesktop && (
+        <p className="tip">
+          <span className="tip-icon">※</span>{" "}
+          提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
+        </p>
+      )}
     </WithdrawPageElement>
   );
 }
@@ -135,68 +148,73 @@ export default WithdrawPage;
 const WithdrawPageElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["main_height"].includes(prop),
 })`
-  ${({ main_height, bg }) => `
+  ${({ main_height, bg, mobileBg }) => `
     margin-top: ${main_height}px;
     font-family: "Microsoft YaHei";
     background: ${bg ? `url(${bg})` : "none"};
     background-position: top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 23.96vw;
-    padding-bottom: 50vh;
+    background-repeat: no-repeat !important;
+    background-size: 100% 23.96vw ;
+    // height: 23.96vw;
   
-    .info-container{
-      // display:flex;
-      position: absolute;
-      // margin: calc(${main_height}px + 3.65vw) 0 1.72vw 53.7vw;
-      top: 3.67vw;
-      left: 53.7vw;
-      border-radius: 10px;
-      padding-top: 1vw;
-      background-image: -moz-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
-      background-image: -webkit-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
-      background-image: -ms-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
-      width: 14.58vw;
-      height: 8.85vw;
+    .info-container--outer{
+      position: relative;
+      top: 0;
 
-      .title{
-        font-size: 1.25vw;
-        color: rgb(102, 102, 102);
-        line-height: 1.2;
-        text-align: center;
-        font-weight: 300;
+      .info-container{
+        // display:flex;
+        position: relative;
+        // margin: calc(${main_height}px + 3.65vw) 0 1.72vw 53.7vw;
+        top: 3.67vw;
+        left: 53.7vw;
+        border-radius: 10px;
+        padding-top: 1vw;
+        background-image: -moz-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+        background-image: -webkit-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+        background-image: -ms-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+        width: 14.58vw;
+        height: 8.85vw;
+
+        .title{
+          font-size: 1.25vw;
+          color: rgb(102, 102, 102);
+          line-height: 1.2;
+          text-align: center;
+          font-weight: 300;
+        }
+
+        .amount {
+          font-size: 3.75vw;
+          color: rgb(255, 69, 122);
+          line-height: 0.98;
+          text-align: center;
+        }
+
+
+        .available-amount {
+          background-image: -moz-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+          background-image: -webkit-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+          background-image: -ms-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+          position: absolute;
+          height: 1.98vw;
+          width: 100%;
+          bottom:0;
+          border-bottom-left-radius: 10px;
+          border-bottom-right-radius: 10px;
+          font-size: 1.25vw;
+          color: rgb(255, 255, 255);
+          line-height: 1.2;
+          text-align: center;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        } 
       }
-
-      .amount {
-        font-size: 3.75vw;
-        color: rgb(255, 69, 122);
-        line-height: 0.98;
-        text-align: center;
-      }
-
-
-      .available-amount {
-        background-image: -moz-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
-        background-image: -webkit-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
-        background-image: -ms-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
-        position: absolute;
-        height: 1.98vw;
-        width: 100%;
-        bottom:0;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        font-size: 1.25vw;
-        color: rgb(255, 255, 255);
-        line-height: 1.2;
-        text-align: center;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-      } 
     }
 
     .component-container--outer {
-      position: absolute;
+      margin: 13.6vh 0 5vh;
+      position: relative;
       bottom: 19px;
       width: 100%;
       height:60%;
@@ -222,11 +240,11 @@ const WithdrawPageElement = styled.div.withConfig({
       .form-section {
 
         .form-group {
-          margin-bottom: 30px;
+          margin-bottom: 5.056vw;
           
           .form-label {
             display: block;
-            padding-bottom: 0.99vw;
+            padding-bottom: 0.69vw;
             margin-bottom: 2.24vw;
             font-size: 1.25vw;
             font-family: "Microsoft YaHei";
@@ -247,7 +265,7 @@ const WithdrawPageElement = styled.div.withConfig({
             .input,
             .select {
               width: 100%;
-              height: 3.54vw;
+              height: 3.65vw;
               padding: 10px 14px;
               border: 1px solid #ccc;
               font-size: 14px;
@@ -269,7 +287,7 @@ const WithdrawPageElement = styled.div.withConfig({
 
               .currency {
                 position: absolute;
-                right: 32px;
+                right: 3.7vw;
                 top: 50%;
                 transform: translateY(-50%);
                 font-weight: bold;
@@ -279,11 +297,11 @@ const WithdrawPageElement = styled.div.withConfig({
 
               .flag {
                 position: absolute;
-                right: 6px;
+                right: 1.04vw;
                 top: 50%;
                 transform: translateY(-50%);
-                width: 20px;
-                height: 14px;
+                width: 2.03vw;
+                height: 2.03vw;
               }
             }
 
@@ -291,8 +309,8 @@ const WithdrawPageElement = styled.div.withConfig({
               display: flex;
               flex-direction: column;
               gap: 10px;
-              font-size: 12px;
               color: #666;
+              margin-bottom: 0.5vw;
 
               .summary-item {
                 display: flex;
@@ -332,7 +350,7 @@ const WithdrawPageElement = styled.div.withConfig({
               }
 
               .label {
-                color: #999;
+                color: #5c5c5c;
                 font-size: 0.94vw;
               }
             }
@@ -371,7 +389,7 @@ const WithdrawPageElement = styled.div.withConfig({
           font-size: 0.83vw;
           margin-top: 4.48vw;
           padding-top: 2.14vw;
-          padding-bottom: 5.63vw;
+          padding-bottom: 5.3vw;
           text-align: center;
           border-top: 1px solid rgb(205, 205, 205);
           border-bottom: 1px solid rgb(205, 205, 205);
@@ -386,37 +404,44 @@ const WithdrawPageElement = styled.div.withConfig({
     }
 
     @media (max-width: 1024px) {
-      .info-container {
-        border-radius: 1.33vw;
-        position: absolute;
-        left: 56.93vw;
-        top: 7.6vw;
-        width: 37.33vw;
-        height: 22.67vw;
-        padding-top: 2.5vw;
 
-        .title {
-          font-size: 3.2vw;
-          line-height: 1.2;
+      background: ${mobileBg ? `url(${mobileBg})` : "none"};
+      background-size: 100% 53.33vw;
+      background-position: top;
+      
+      .info-container--outer{
 
-        }
-        .amount {
-          font-size: 9.6vw;
-        }
-        .available-amount {
-          height: 5.07vw;
-          font-size: 3.2vw;
+        .info-container {
+          border-radius: 1.33vw;
+          left: 56.93vw;
+          top: 7.6vw;
+          width: 37.33vw;
+          height: 22.67vw;
+          padding-top: 2.5vw;
+
+          .title {
+            font-size: 3.2vw;
+            line-height: 1.2;
+
+          }
+          .amount {
+            font-size: 9.6vw;
+          }
+          .available-amount {
+            height: 5.07vw;
+            font-size: 3.2vw;
+          }
         }
       }
 
       .component-container--outer{
         bottom: -0.7vw;
         width: 100%;
-        height:60%;
+        margin-bottom: 4.9vw;
 
         .component-container {
           width: 93.33vw;
-          padding: 7.6vw 5.73vw;
+          padding: 6.6vw 5.73vw 13.9vw;
         }
       }
 
@@ -424,7 +449,7 @@ const WithdrawPageElement = styled.div.withConfig({
         .form-section {
           .form-group {
             .form-label {
-                margin-bottom: 3.73vw;
+                margin-bottom: 2.83vw;
                 border-bottom: none;
                 font-size: 4vw;
             }
@@ -440,11 +465,19 @@ const WithdrawPageElement = styled.div.withConfig({
               }
 
               .input-row {
-                .currency {}
-                .flag {}
+                .currency {
+                  right: 9.47vw;
+                  font-size: 3.2vw;
+                }
+                .flag {
+                  width: 5.2vw;
+                  height: 5.2vw;
+                  right: 2.67vw;
+                }
               }
 
               .summary {
+                margin: 2.8vw 0 3.3vw;
                 .summary-item {
                   .value-with-bullet {
                     .bullet {
@@ -469,6 +502,7 @@ const WithdrawPageElement = styled.div.withConfig({
           }
 
           .submit-container {
+            margin-top: 8.6vw;
             .submit-button {
               width: 46.67vw;
               height: 10.67vw;
@@ -483,6 +517,28 @@ const WithdrawPageElement = styled.div.withConfig({
         }
       }
 
+    }
+
+    .tip {
+      color: rgb(102, 102, 102);
+      font-size: 2.4vw;
+      margin: 0 auto 20.48vw;
+      text-align: center;
+      border-width: 1px;
+      border-color: rgb(205, 205, 205);
+      background-color: #ffffff;
+      border-style: solid;
+      border-radius: 20px;
+      width: 93.33vw;
+      height: 20.9vw;
+      padding: 5.6vw 5.73vw;
+
+
+      .tip-icon {
+        color: rgb(255, 69, 122);
+        font-weight: bold;
+        margin-right: 5px;
+      }
     }
 
   `}

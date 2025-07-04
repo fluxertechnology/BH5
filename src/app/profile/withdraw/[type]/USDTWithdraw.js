@@ -1,9 +1,13 @@
+import Image from "next/image";
+import useMediaQuery from "@/hooks/useMediaQuery";
+
 export default function USDTWithdraw({
   userBalance,
   withdrawableAmount,
   withdrawThreshold,
   paymentMethod = {},
 }) {
+  const { isDesktop } = useMediaQuery();
   return (
     <div className="withdraw-container">
       <div className="form-section">
@@ -39,7 +43,13 @@ export default function USDTWithdraw({
             <div className="input-row">
               <input className="input with-suffix" placeholder="123" />
               <span className="currency">US$</span>
-              <img src="/us_flag.png" className="flag" alt="US Flag" />
+              <Image
+                className="flag"
+                src="/images/profile/withdraw_us_flag.png"
+                width={0}
+                height={0}
+                alt="US Flag"
+              />
             </div>
           </div>
         </div>
@@ -68,10 +78,12 @@ export default function USDTWithdraw({
         </div>
 
         {/* 提示信息 */}
-        <p className="tip">
-          <span className="tip-icon">※</span>{" "}
-          提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
-        </p>
+        {isDesktop && (
+          <p className="tip">
+            <span className="tip-icon">※</span>{" "}
+            提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
+          </p>
+        )}
       </div>
     </div>
   );
