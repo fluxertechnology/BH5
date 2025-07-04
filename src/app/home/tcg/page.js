@@ -42,8 +42,7 @@ const HomeTcgMainPage = () => {
     {
       title: "提现",
       icon: "user-panel-withdraw",
-      // url: pageUrlConstants.profile.pages.profileWithdraw,
-      url: pageUrlConstants.profile.pages.profilePaymentWithDraw,
+      url: pageUrlConstants.profile.pages.profileWithdraw,
     },
     {
       title: "优惠",
