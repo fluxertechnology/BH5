@@ -134,10 +134,12 @@ function WithdrawPage() {
       </div>
       {/* 提示信息 */}
       {!isDesktop && (
-        <p className="tip">
-          <span className="tip-icon">※</span>{" "}
-          提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
-        </p>
+        <div className="mobile-tip-container">
+          <p className="tip">
+            <span className="tip-icon">※</span>{" "}
+            提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
+          </p>
+        </div>
       )}
     </WithdrawPageElement>
   );
@@ -519,27 +521,29 @@ const WithdrawPageElement = styled.div.withConfig({
 
     }
 
-    .tip {
-      color: rgb(102, 102, 102);
-      font-size: 2.4vw;
-      margin: 0 auto 20.48vw;
-      text-align: center;
-      border-width: 1px;
-      border-color: rgb(205, 205, 205);
-      background-color: #ffffff;
-      border-style: solid;
-      border-radius: 20px;
-      width: 93.33vw;
-      height: 20.9vw;
-      padding: 5.6vw 5.73vw;
+    .mobile-tip-container{
+     .tip {
+        color: rgb(102, 102, 102);
+        font-size: 2.4vw;
+        margin: 0 auto 20.48vw;
+        text-align: center;
+        border-width: 1px;
+        border-color: rgb(205, 205, 205);
+        background-color: #ffffff;
+        border-style: solid;
+        border-radius: 20px;
+        width: 93.33vw;
+        height: 20.9vw;
+        padding: 5.6vw 5.73vw;
 
 
-      .tip-icon {
-        color: rgb(255, 69, 122);
-        font-weight: bold;
-        margin-right: 5px;
+        .tip-icon {
+          color: rgb(255, 69, 122);
+          font-weight: bold;
+          margin-right: 5px;
+        }
       }
     }
-
+   
   `}
 `;

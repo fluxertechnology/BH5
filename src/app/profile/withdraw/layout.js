@@ -45,7 +45,7 @@ const ProfileWatchHistory = ({ children }) => {
     });
   }, []);
 
-  return <div className="withdraw-container" style={{"padding-bottom": "120vh;"}}>{children}</div>;
+  return <div className="withdraw-container">{children}</div>;
 };
 
 export default ProfileWatchHistory;
