@@ -3,18 +3,20 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
-import callToast from "@/lib/services/toastCall";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { pageUrlConstants, apiUrl } from "@/lib/constants";
-import { useGlobalContext, useGlobalDispatch } from "@/store";
-import useWithdraw from "@/hooks/useWithdraw";
+import useWithdraw, {
+  postUserWithdraw,
+  isValidWithdrawAmount,
+  getUserWithdrawHistory,
+} from "@/hooks/useWithdraw";
 import { getUserPremiumDiamond } from "@/lib/services/price";
 import { useParams } from "next/navigation";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import LinkComponent from "@/components/common/LinkComponent";
-import Image from "next/image";
 import LoadingComponent from "@/components/common/LoadingComponent";
 
 import AlipayWithdraw from "@/app/profile/withdraw/[type]/AlipayWithdraw";
@@ -57,9 +59,12 @@ function WithdrawPage() {
   };
 
   const {
+    withDrawData,
+    fee,
+    feeUnit,
+    exchangeRate,
     userBalance,
-    withdrawableAmount,
-    withdrawThreshold,
+    exchangeCurrencyDisplay,
     paymentMethods,
     loading,
   } = useWithdraw();
@@ -73,6 +78,18 @@ function WithdrawPage() {
       },
     });
   }, []);
+
+  useEffect(() => {
+    getUserWithdrawHistory(state);
+  }, [state.user.id]);
+
+  const handleWithdraw = (payload) => {
+    const isValidAmount = isValidWithdrawAmount(withDrawData, payload.money);
+    if (!isValidAmount) {
+      return;
+    }
+    postUserWithdraw(state, payload);
+  };
 
   return (
     <WithdrawPageElement
@@ -107,7 +124,7 @@ function WithdrawPage() {
           <p className="title">-- 总精钻 --</p>
           <p className="amount"> {userBalance}</p>
           <p className="available-amount">
-            可提现：{getUserPremiumDiamond(t, { money: withdrawableAmount })}
+            可提现：{getUserPremiumDiamond(t, { money: userBalance })}
           </p>
         </div>
       </div>
@@ -118,12 +135,15 @@ function WithdrawPage() {
               const Component = withdrawOptions[type].component;
               return (
                 <Component
-                  userBalance={userBalance}
-                  withdrawableAmount={withdrawableAmount}
-                  withdrawThreshold={withdrawThreshold}
+                  withDrawData={withDrawData}
+                  fee={fee}
+                  feeUnit={feeUnit}
+                  exchangeRate={exchangeRate}
+                  exchangeCurrencyDisplay={exchangeCurrencyDisplay}
                   paymentMethod={
                     paymentMethods.find((e) => e.name === type) || {}
                   }
+                  onSubmit={handleWithdraw}
                 />
               );
             })()

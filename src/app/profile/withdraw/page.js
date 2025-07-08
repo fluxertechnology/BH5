@@ -38,14 +38,14 @@ export default function WithdrawPage() {
     router.push(`/profile/withdraw/${type}`);
   };
 
-  const { paymentMethods } = useWithdraw();
+  const { paymentMethods, fee, feeUnit } = useWithdraw();
   const [validWithdrawOptions, setValidWithdrawOptions] = useState([]);
 
   useEffect(() => {
     setValidWithdrawOptions(
       withdrawOptions.filter((option) =>
-        paymentMethods.map(m => m.name).includes(option.type)
-      )
+        paymentMethods.map((m) => m.name).includes(option.type),
+      ),
     );
   }, [paymentMethods]);
 
@@ -98,7 +98,10 @@ export default function WithdrawPage() {
                 </div>
                 <div>
                   <h5>{option.label}提现</h5>
-                  <p>手续费：{option.fee}%</p>
+                  <p>
+                    手续费：{fee}
+                    {feeUnit === "percent" ? "%" : "元"}
+                  </p>
                 </div>
               </div>
               <div>
