@@ -8,7 +8,6 @@ import { pageUrlConstants, apiUrl } from "@/lib/constants";
 import useWithdraw, {
   postUserWithdraw,
   isValidWithdrawAmount,
-  getUserWithdrawHistory,
 } from "@/hooks/useWithdraw";
 import { getUserPremiumDiamond } from "@/lib/services/price";
 import { useParams } from "next/navigation";
@@ -78,10 +77,6 @@ function WithdrawPage() {
       },
     });
   }, []);
-
-  useEffect(() => {
-    getUserWithdrawHistory(state);
-  }, [state.user.id]);
 
   const handleWithdraw = (payload) => {
     const isValidAmount = isValidWithdrawAmount(withDrawData, payload.money);

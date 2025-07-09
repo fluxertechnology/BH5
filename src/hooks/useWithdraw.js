@@ -199,3 +199,30 @@ export const getUserWithdrawHistory = async (state) => {
     return [];
   }
 };
+
+export const getUserTransferLog = async (state) => {
+  try {
+    const response = await fetch(`${apiUrl}/appapi/tcg/get_user_transfer_log`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Language": ["sc", "tc"].includes(nowLang) ? "zh" : "en",
+      },
+      body: JSON.stringify({
+        uid: state.user.id,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.code === 0) {
+      toastCall(data.msg || "获取转入记录失败");
+      return [];
+    }
+
+    return data.data || [];
+  } catch (error) {
+    console.error("Error fetching transfer log:", error);
+    return [];
+  }
+};

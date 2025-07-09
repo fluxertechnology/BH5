@@ -16,35 +16,6 @@ const ProfileWatchHistory = ({ children }) => {
   const { state } = useGlobalContext();
   const t = useTranslations();
 
-  useEffect(() => {
-    useGlobalDispatch({
-      type: "INIT_NAVBAR",
-      data: {
-        customComponent: () => (
-          <TopBarContainer>
-            <TopTitleBar
-              title={t("Profile.withdraw.title")}
-              showBack={true}
-              show_back_color="#ffffff"
-            >
-              <LinkComponent
-                className="profile_with_draw_history"
-                routes={{
-                  name: pageUrlConstants.profile.pages
-                    .profilePaymentWithDrawHistory.name,
-                  path: pageUrlConstants.profile.pages
-                    .profilePaymentWithDrawHistory.path,
-                }}
-              >
-                {t("Profile.payment.charge.history_1")}
-              </LinkComponent>
-            </TopTitleBar>
-          </TopBarContainer>
-        ),
-      },
-    });
-  }, []);
-
   return <div className="withdraw-container">{children}</div>;
 };
 

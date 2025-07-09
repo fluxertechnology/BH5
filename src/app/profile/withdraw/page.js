@@ -1,17 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useGlobalContext } from "@/store";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { nowLang } from "@/i18n/Metronici18n";
-import toastCall from "@/lib/services/toastCall";
 import { useState, useEffect } from "react";
-import { apiUrl } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 import useWithdraw from "@/hooks/useWithdraw";
+import { pageUrlConstants } from "@/lib/constants";
+
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
+import TopTitleBar from "@/components/common/TopTitleBar";
+import LinkComponent from "@/components/common/LinkComponent";
 
 const withdrawOptions = [
   {
@@ -32,6 +34,7 @@ const withdrawOptions = [
 
 export default function WithdrawPage() {
   const router = useRouter();
+  const t = useTranslations();
   const { state } = useGlobalContext();
   const { isMobile } = useMediaQuery();
   const handleSelect = (type) => {
@@ -48,6 +51,35 @@ export default function WithdrawPage() {
       ),
     );
   }, [paymentMethods]);
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        customComponent: () => (
+          <TopBarContainer>
+            <TopTitleBar
+              title={t("Profile.withdraw.title")}
+              showBack={true}
+              show_back_color="#ffffff"
+            >
+              <LinkComponent
+                className="profile_with_draw_history"
+                routes={{
+                  name: pageUrlConstants.profile.pages
+                    .profilePaymentWithDrawHistory.name,
+                  path: pageUrlConstants.profile.pages
+                    .profilePaymentWithDrawHistory.path,
+                }}
+              >
+                {t("Profile.payment.charge.history_1")}
+              </LinkComponent>
+            </TopTitleBar>
+          </TopBarContainer>
+        ),
+      },
+    });
+  }, []);
 
   return (
     <ProfileWithDrawComponent main_height={state.navbar.mainHeight}>
