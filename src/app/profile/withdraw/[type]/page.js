@@ -1,116 +1,72 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { pageUrlConstants, apiUrl } from "@/lib/constants";
+import useWithdraw, {
+  postUserWithdraw,
+  isValidWithdrawAmount,
+} from "@/hooks/useWithdraw";
+import { getUserPremiumDiamond } from "@/lib/services/price";
+import { useParams } from "next/navigation";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
-import WavaButton from "@/components/layout/Header/WavaButton";
-import { colors, pageUrlConstants, REG_SET } from "@/lib/constants";
-import callToast from "@/lib/services/toastCall";
-import useMediaQuery from "@/hooks/useMediaQuery";
 import LinkComponent from "@/components/common/LinkComponent";
-import Image from "next/image";
-import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { pushRoutes } from "@/store/actions/historyActions";
-import { postWithDrawAction } from "@/store/actions/pages/profilePaymentWithDrawAction";
+import LoadingComponent from "@/components/common/LoadingComponent";
 
-const { qqReg } = REG_SET;
-const ProfilePaymentWithDraw = () => {
-  const { state } = useGlobalContext();
+import AlipayWithdraw from "@/app/profile/withdraw/[type]/AlipayWithdraw";
+import AppleWalletWithdraw from "@/app/profile/withdraw/[type]/AppleWalletWithdraw";
+import BankWithdraw from "@/app/profile/withdraw/[type]/BankWithdraw";
+import USDTWithdraw from "@/app/profile/withdraw/[type]/USDTWithdraw";
+
+function WithdrawPage() {
   const t = useTranslations();
-  const countRef = useRef();
-  const { isMobile } = useMediaQuery();
-  const [regErr, setRegErr] = useState(false);
-  const [amount, setAmount] = useState(null);
-  const [qqAcc, setQqAcc] = useState();
-  function qqAccEvent(e) {
-    var key = window.event ? e.keyCode : e.which;
-    setQqAcc(e.target.value);
-    if (key === 13) {
-      onSubmit();
-    }
-  }
+  const { state } = useGlobalContext();
+  const { isDesktop } = useMediaQuery();
+  const { type } = useParams();
 
-  function onSubmit() {
-    if (qqReg.test(qqAcc)) {
-      if (amount % 10 !== 0) {
-        callToast("提领金额必须是10的倍数");
-      } else {
-        postWithDrawActionDispatch(amount, qqAcc);
-        goHistory({
-          name: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
-            .name,
-          path: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
-            .path,
-          dynamic: {
-            type: "submit",
-          },
-        });
-      }
-    }
-  }
-  function inputRegEvent(e) {
-    if (qqReg && !qqReg.test(qqAcc)) {
-      setRegErr(true);
-    } else {
-      setRegErr(false);
-    }
-  }
-
-  function add() {
-    if (amount < 100) {
-      setAmount(100);
-    }
-    clearInterval(countRef.current);
-    countRef.current = setInterval(() => {
-      if ((amount < 10000 && amount >= 0) || amount === null) {
-        setAmount((pre) => {
-          if (pre >= 10000) {
-            return 10000;
-          } else if (pre % 10 !== 0) {
-            return pre - (pre % 10);
-          } else {
-            return (pre += 10);
-          }
-        });
-      }
-    }, 50);
-  }
-
-  function reduce() {
-    if (amount <= 100) {
-      setAmount(100);
-    } else {
-      clearInterval(countRef.current);
-      countRef.current = setInterval(() => {
-        if (amount <= 10000 && amount >= 100) {
-          setAmount((pre) => {
-            if (pre <= 0 && pre !== null) {
-              return 0;
-            } else if (pre % 10 !== 0) {
-              return pre - (pre % 10);
-            } else if (pre > 100) {
-              return (pre -= 10);
-            } else {
-              return 100;
-            }
-          });
-        }
-      }, 50);
-    }
-  }
-  function mouseUp() {
-    clearInterval(countRef.current);
-  }
-
-  const postWithDrawActionDispatch = (amount, QQAccount) => {
-    useGlobalDispatch(postWithDrawAction(amount, QQAccount));
+  const withdrawOptions = {
+    alipay: {
+      title: `支付宝${t("Profile.withdraw.title")}`,
+      backgroundImage: "/images/profile/withdraw_bg_alipay.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_alipay.png",
+      component: AlipayWithdraw,
+    },
+    "apple-wallet": {
+      title: `Apple Wallet ${t("Profile.withdraw.title")}`,
+      backgroundImage: "/images/profile/withdraw_bg_apple_wallet.png",
+      mobileBackgroundImage:
+        "/images/profile/withdraw_mobile_bg_apple_wallet.png",
+      component: AppleWalletWithdraw,
+    },
+    bank: {
+      title: `银行卡 ${t("Profile.withdraw.title")}`,
+      backgroundImage: "/images/profile/withdraw_bg_bank.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_bank.png",
+      component: BankWithdraw,
+    },
+    usdt: {
+      title: `USDT ${t("Profile.withdraw.title")}`,
+      backgroundImage: "/images/profile/withdraw_bg_usdt.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_usdt.png",
+      component: USDTWithdraw,
+    },
   };
-  const goHistory = (route) => {
-    useGlobalDispatch(pushRoutes(route));
-  };
+
+  const {
+    withDrawData,
+    fee,
+    feeUnit,
+    exchangeRate,
+    userBalance,
+    exchangeCurrencyDisplay,
+    paymentMethods,
+    loading,
+  } = useWithdraw();
 
   useEffect(() => {
     useGlobalDispatch({
@@ -121,11 +77,24 @@ const ProfilePaymentWithDraw = () => {
       },
     });
   }, []);
+
+  const handleWithdraw = (payload) => {
+    const isValidAmount = isValidWithdrawAmount(withDrawData, payload.money);
+    if (!isValidAmount) {
+      return;
+    }
+    postUserWithdraw(state, payload);
+  };
+
   return (
-    <ProfilePaymentWithDrawElement>
+    <WithdrawPageElement
+      main_height={state.navbar.mainHeight}
+      bg={withdrawOptions[type]?.backgroundImage}
+      mobileBg={withdrawOptions[type]?.mobileBackgroundImage}
+    >
       <TopBarContainer>
         <TopTitleBar
-          title={t("Profile.payment.transfer.with_draw")}
+          title={withdrawOptions[type]?.title || t("Profile.withdraw.title")}
           showBack={true}
           show_back_color="#ffffff"
         >
@@ -143,357 +112,453 @@ const ProfilePaymentWithDraw = () => {
         </TopTitleBar>
       </TopBarContainer>
 
-      <ProfilePaymentWithDrawTopElement main_height={state.navbar.mainHeight}>
-        <div className="profile_with_draw_bg img_container">
-          <Image
-            src="/images/profile/with_draw_bg.png"
-            width={0}
-            height={0}
-            alt="profile_with_draw_bg"
-          />
-        </div>
-        <div className="profile_with_draw_container">
-          <div className="profile_with_draw_purse img_container">
-            <Image
-              src="/images/profile/purse.png"
-              width={0}
-              height={0}
-              alt="profile_with_draw_purse"
-            />
-          </div>
-          <div className="profile_with_draw_information">
-            <div className="profile_with_draw_information_top">
-              {parseInt(state.user.money) - amount}
-            </div>
-            <div className="profile_with_draw_information_bottom">
-              ({t("Profile.payment.")})
-            </div>
-          </div>
-        </div>
-      </ProfilePaymentWithDrawTopElement>
+      <LoadingComponent isLoading={loading} />
 
-      <ProfilePaymentWithDrawBottomElement
-        buttonStatus={
-          parseInt(state.user.money) - amount >= 0 &&
-          amount !== null &&
-          amount >= 100 &&
-          qqReg.test(qqAcc)
-        }
-      >
-        <div className="profile_with_draw_bottom_container">
-          <div className="profile_with_draw_item">
-            <div className="profile_with_draw_item_top">
-              {t("Profile.with_draw.apply.")}
-            </div>
-            <div className="profile_with_draw_item_bottom amount">
-              <button
-                className="profile_with_draw_item_bottom_amount_control"
-                onMouseDown={reduce}
-                onMouseUp={mouseUp}
-                onTouchStart={reduce}
-                onTouchEnd={mouseUp}
-                onMouseLeave={mouseUp}
-              >
-                –
-              </button>
-              <input
-                className="profile_with_draw_item_bottom_amount"
-                min={100}
-                step={10}
-                max={10000}
-                type={isMobile ? "tel" : "number"}
-                placeholder={t("Profile.with_draw.apply_money")}
-                value={amount ?? ""}
-                onBlur={(e) =>
-                  setAmount(e.target.value - (e.target.value % 10))
-                }
-                onChange={(e) => {
-                  if (e.target.value > 10000) {
-                    setAmount(10000);
-                  } else if (e.target.value < 0 && e.target.value !== null) {
-                    setAmount(0);
-                  } else if (!e.target.value) {
-                    setAmount(null);
-                  } else {
-                    setAmount(parseInt(e.target.value));
+      <div className="info-container--outer">
+        <div className="info-container">
+          <p className="title">-- 总精钻 --</p>
+          <p className="amount"> {userBalance}</p>
+          <p className="available-amount">
+            可提现：{getUserPremiumDiamond(t, { money: userBalance })}
+          </p>
+        </div>
+      </div>
+      <div className="component-container--outer">
+        <div className="component-container">
+          {withdrawOptions[type]?.component ? (
+            (() => {
+              const Component = withdrawOptions[type].component;
+              return (
+                <Component
+                  withDrawData={withDrawData}
+                  fee={fee}
+                  feeUnit={feeUnit}
+                  exchangeRate={exchangeRate}
+                  exchangeCurrencyDisplay={exchangeCurrencyDisplay}
+                  paymentMethod={
+                    paymentMethods.find((e) => e.name === type) || {}
                   }
-                }}
-              />
-              <button
-                className="profile_with_draw_item_bottom_amount_control"
-                onMouseUp={mouseUp}
-                onMouseDown={add}
-                onTouchStart={add}
-                onTouchEnd={mouseUp}
-                onMouseLeave={mouseUp}
-              >
-                +
-              </button>
-              <span
-                className="with_draw_tip"
-                onClick={() => {
-                  setAmount(
-                    parseInt(state.user.money - (state.user.money % 10))
-                  );
-                }}
-              >
-                {t("Profile.with_draw.apply.all_money")}
-              </span>
-            </div>
-          </div>
-
-          <div className="profile_with_draw_item">
-            <div className="profile_with_draw_item_top">
-              {t("Social.detail.info.label.contact_details")}
-            </div>
-            <div className="profile_with_draw_item_bottom">
-              <input
-                step={0}
-                type={isMobile ? "tel" : "number"}
-                placeholder={t("Login.placeholder_qq")}
-                onKeyDown={qqAccEvent}
-                onChange={qqAccEvent}
-                onBlur={inputRegEvent}
-                enterKeyHint="send"
-                value={qqAcc}
-              />
-              {regErr && (
-                <span className="error">{t("Login.tip.error.qq")}</span>
-              )}
-            </div>
-          </div>
-
-          <div className="profile_with_draw_detail">
-            <ol>
-              <li className="title">规格说明</li>
-              <li>1.最低提领申请金额为100精钻(1精钻=1RMB)</li>
-              <li>2.申请完成后将有专人与您联系，大约等待1-2个工作天</li>
-              <li>
-                3.提领金额以10的倍数为准，若有填写个位数金额将替用户做四捨五入处理，也能使用「-」「+」符号增减提领金额
-              </li>
-              <li>
-                4.平台将收取出金通道费10%(例：提现金额100精钻x0.9=实际到帐金额90精钻)
-              </li>
-            </ol>
-          </div>
+                  onSubmit={handleWithdraw}
+                />
+              );
+            })()
+          ) : (
+            <div className="text-center p-4">未知的提现类型: {type}</div>
+          )}
         </div>
-        <div
-          onClick={
-            parseInt(state.user.money) - amount >= 100 ? onSubmit : () => {}
-          }
-        >
-          <WavaButton className="footer_bottom">
-            <p className="footer_bottom_wava">确认</p>
-          </WavaButton>
+      </div>
+      {/* 提示信息 */}
+      {!isDesktop && (
+        <div className="mobile-tip-container">
+          <p className="tip">
+            <span className="tip-icon">※</span>{" "}
+            提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
+          </p>
         </div>
-      </ProfilePaymentWithDrawBottomElement>
-    </ProfilePaymentWithDrawElement>
+      )}
+    </WithdrawPageElement>
   );
-};
+}
 
-export default ProfilePaymentWithDraw;
+export default WithdrawPage;
 
-const ProfilePaymentWithDrawElement = styled.article`
-  /*  */
-  background: #f3f4f5;
-  .profile_with_draw_history {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-  }
-`;
-
-const ProfilePaymentWithDrawTopElement = styled.section.withConfig({
+const WithdrawPageElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["main_height"].includes(prop),
 })`
-  ${({ main_height }) => `
-    /*  */
-    padding-top: ${main_height}px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background: #fff;
-    margin-bottom: 0.5rem;
-
-    .profile_with_draw {
-        &_container {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        min-width: 100px;
-        }
-
-        &_information {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        &_top {
-            color: ${colors.back_dark_pink};
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        &_bottom {
-            position: relative;
-            color: ${colors.text_grey};
-            font-size: 16px;
-        }
-        }
-
-        &_purse {
-        padding-bottom: 130%;
-        width: 130%;
-        @media (max-width: 899px) {
-            padding-bottom: 100%;
-            width: 100%;
-        }
-        img {
-            width: 100%;
-            height: 100%;
-        }
-        }
-        &_bg {
-        padding-bottom: 16%;
-        width: 35%;
-        @media (max-width: 899px) {
-            padding-bottom: 55%;
-            width: 100%;
-        }
-        }
-    }
-  `}
-`;
-
-const ProfilePaymentWithDrawBottomElement = styled.section.withConfig({
-  shouldForwardProp: (prop) => !["buttonStatus"].includes(prop),
-})`
-  /*  */
-  background: #fff;
-  position: relative;
-  .profile_with_draw {
-    &_bottom_container {
-      display: flex;
-      flex-direction: column;
+  ${({ main_height, bg, mobileBg }) => `
+    margin-top: ${main_height}px;
+    font-family: "Microsoft YaHei";
+    background: ${bg ? `url(${bg})` : "none"};
+    background-position: top;
+    background-repeat: no-repeat !important;
+    background-size: 100% 23.96vw ;
+    // height: 23.96vw;
+  
+    .info-container--outer{
       position: relative;
-      background: #fff;
-      padding: 20px 15px;
-      gap: 10px;
-    }
-    &_item {
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 5px;
-      gap: 10px;
-      &_top {
-        color: black;
-        font-size: 20px;
-      }
-      &_bottom {
+      top: 0;
+
+      .info-container{
+        // display:flex;
         position: relative;
-        display: flex;
-        align-items: center;
-        &.amount {
-          @media (max-width: 899px) {
-            border-bottom: 2px solid ${colors.text_light_grey};
-          }
+        // margin: calc(${main_height}px + 3.65vw) 0 1.72vw 53.7vw;
+        top: 3.67vw;
+        left: 53.7vw;
+        border-radius: 10px;
+        padding-top: 1vw;
+        background-image: -moz-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+        background-image: -webkit-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+        background-image: -ms-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
+        width: 14.58vw;
+        height: 8.85vw;
+
+        .title{
+          font-size: 1.25vw;
+          color: rgb(102, 102, 102);
+          line-height: 1.2;
+          text-align: center;
+          font-weight: 300;
         }
-        input {
-          color: ${colors.text_grey};
-          padding: 10px 0;
+
+        .amount {
+          font-size: 3.75vw;
+          color: rgb(255, 69, 122);
+          line-height: 0.98;
+          text-align: center;
+        }
+
+
+        .available-amount {
+          background-image: -moz-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+          background-image: -webkit-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+          background-image: -ms-linear-gradient( 0deg, rgb(254,177,112) 0%, rgb(240,76,126) 100%);
+          position: absolute;
+          height: 1.98vw;
           width: 100%;
-          font-size: 16px;
-          border: none;
-          border-radius: 0;
-          border-bottom: 2px solid ${colors.text_light_grey};
-          outline: name;
-          &:focus {
-            outline: none;
-            border-bottom: 2px solid ${colors.text_light_grey};
+          bottom:0;
+          border-bottom-left-radius: 10px;
+          border-bottom-right-radius: 10px;
+          font-size: 1.25vw;
+          color: rgb(255, 255, 255);
+          line-height: 1.2;
+          text-align: center;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        } 
+      }
+    }
+
+    .component-container--outer {
+      margin: 13.6vh 0 5vh;
+      position: relative;
+      bottom: 19px;
+      width: 100%;
+      height:60%;
+
+
+      .component-container {
+        border-width: 1px;
+        border-color: rgb(205, 205, 205);
+        background-color: #ffffff;
+        border-style: solid;
+        border-radius: 20px;
+        width: 95.89vw;
+        margin: auto;
+        padding: 3.13vw;
+      }
+    }
+
+
+
+    .withdraw-container {
+      font-family: 'Microsoft YaHei', sans-serif;
+
+      .form-section {
+
+        .form-group {
+          margin-bottom: 5.056vw;
+          
+          .form-label {
+            display: block;
+            padding-bottom: 0.69vw;
+            margin-bottom: 2.24vw;
+            font-size: 1.25vw;
+            font-family: "Microsoft YaHei";
+            color: rgb(255, 69, 122);
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: left;
+            border-bottom: 1px solid rgb(205, 205, 205);
+          }
+
+          .form-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 0 auto;
+            width: 32.24vw;
+
+            .input,
+            .select {
+              width: 100%;
+              height: 3.65vw;
+              padding: 10px 14px;
+              border: 1px solid #ccc;
+              font-size: 14px;
+              box-sizing: border-box;
+              border-color: rgb(205, 205, 205);
+              border-style: solid;
+              background-color: rgb(255, 255, 255);
+              border-width: 1px;
+              box-shadow: inset 0px -3px 7px 0px rgba(0, 0, 0, 0.1);
+              font-size: 0.83vw;
+              color:#5c5c5c;
+            }
+
+            .input-row {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              position: relative;
+
+              .currency {
+                position: absolute;
+                right: 3.7vw;
+                top: 50%;
+                transform: translateY(-50%);
+                font-weight: bold;
+                font-size: 14px;
+                color: #333;
+              }
+
+              .flag {
+                position: absolute;
+                right: 1.04vw;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 2.03vw;
+                height: 2.03vw;
+              }
+            }
+
+            .summary {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              color: #666;
+              margin-bottom: 0.5vw;
+
+              .summary-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              }
+
+              .value-with-bullet {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                .bullet {
+                  width: 1.09vw;
+                  height: 1.09vw;
+                  background-color: #ccc;
+                  border-radius: 50%;
+                  font-size: 1.16vw;
+                  color: #fff;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  line-height: 1;
+                  font-family: 'Microsoft YaHei', sans-serif;
+                  padding-bottom: 0.23vw;
+                  padding-right: 0.03vw;
+                }
+
+
+                .value {
+                  font-weight: bold;
+                  color: #5c5c5c;
+                  font-size: 1.15vw;
+                  margin-left: 1.3vw;
+                  
+                }
+              }
+
+              .label {
+                color: #5c5c5c;
+                font-size: 0.94vw;
+              }
+            }
+              
           }
         }
-        &_amount {
-          @media (max-width: 899px) {
-            width: 40% !important;
-            border-bottom: 0 !important;
-            text-align: center;
-          }
-          &_control {
-            display: none;
-            @media (max-width: 899px) {
-              color: black;
-              state.user-select: none;
-              display: block;
-              font-size: 30px;
-              font-weight: 600;
-              border: none;
-              background: transparent;
+
+        .submit-container {
+          text-align: center;
+          margin-top: 10px;
+
+          .submit-button {
+            background: linear-gradient(90deg, rgb(249,54,34) 0%, rgb(255,69,122) 100%);
+            border: none;
+            border-radius: 999px;
+            padding: 12px 48px;
+            font-size: 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 18.75vw;
+            height: 4.69vw;
+            font-size: 1.56vw;
+            color: rgb(255, 255, 255);
+            line-height: 1.2;
+
+            &:hover {
+              opacity: 0.9;
             }
           }
         }
-      }
-    }
-    &_detail {
-      margin-bottom: 10em;
-      li {
-        font-size: 16px;
-        &.title {
-          color: ${colors.text_grey};
-        }
-        color: ${colors.text_light_grey};
-      }
-    }
-  }
-  .footer {
-    &_bottom {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      cursor: ${({ buttonStatus }) => (buttonStatus ? "pointer" : "default")};
-      width: 100%;
-      text-decoration: none;
-      color: #fff;
-      background-color: ${({ buttonStatus }) =>
-        buttonStatus ? colors.back_dark_pink : "gray"};
-      font-size: 20px;
-      font-weight: 600;
-      text-align: center;
-      &_wava {
-        padding: 20px 0;
-        @media (max-width: 899px) {
-          padding: 10px 0;
+
+        .tip {
+          color: rgb(102, 102, 102);
+          font-size: 0.83vw;
+          margin-top: 4.48vw;
+          padding-top: 2.14vw;
+          padding-bottom: 5.3vw;
+          text-align: center;
+          border-top: 1px solid rgb(205, 205, 205);
+          border-bottom: 1px solid rgb(205, 205, 205);
+
+          .tip-icon {
+            color: rgb(255, 69, 122);
+            font-weight: bold;
+            margin-right: 5px;
+          }
         }
       }
     }
-  }
-  .with_draw_tip {
-    position: absolute;
-    transform: translateY(-50%);
-    top: 50%;
-    right: 25px;
-    font-weight: 700;
-    color: #39b3fd;
-    font-size: 18px;
-    cursor: pointer;
-    @media (max-width: 899px) {
-      right: 0px;
+
+    @media (max-width: 1024px) {
+
+      background: ${mobileBg ? `url(${mobileBg})` : "none"};
+      background-size: 100% 53.33vw;
+      background-position: top;
+      
+      .info-container--outer{
+
+        .info-container {
+          border-radius: 1.33vw;
+          left: 56.93vw;
+          top: 7.6vw;
+          width: 37.33vw;
+          height: 22.67vw;
+          padding-top: 2.5vw;
+
+          .title {
+            font-size: 3.2vw;
+            line-height: 1.2;
+
+          }
+          .amount {
+            font-size: 9.6vw;
+          }
+          .available-amount {
+            height: 5.07vw;
+            font-size: 3.2vw;
+          }
+        }
+      }
+
+      .component-container--outer{
+        bottom: -0.7vw;
+        width: 100%;
+        margin-bottom: 4.9vw;
+
+        .component-container {
+          width: 93.33vw;
+          padding: 6.6vw 5.73vw 13.9vw;
+        }
+      }
+
+      .withdraw-container {
+        .form-section {
+          .form-group {
+            .form-label {
+                margin-bottom: 2.83vw;
+                border-bottom: none;
+                font-size: 4vw;
+            }
+
+            .form-inputs {
+              width: 82.53vw;
+
+              .input,
+              .select  {
+                height: 9.33vw;
+                font-size: 2.4vw;
+                padding: 0 2.4vw;
+              }
+
+              .input-row {
+                .currency {
+                  right: 9.47vw;
+                  font-size: 3.2vw;
+                }
+                .flag {
+                  width: 5.2vw;
+                  height: 5.2vw;
+                  right: 2.67vw;
+                }
+              }
+
+              .summary {
+                margin: 2.8vw 0 3.3vw;
+                .summary-item {
+                  .value-with-bullet {
+                    .bullet {
+                      height: 3.73vw;
+                      width: 3.73vw;
+                      font-size: 4vw;
+                      padding-bottom: 0.50vw;
+                      padding-right: 0.03vw;
+                    }
+                    .value {
+                      font-size: 2.93vw;
+                      margin-right: 2.13vw;
+                    }
+                  }
+                  .label {
+                  
+                    font-size: 2.93vw;
+                  }
+                }
+              }
+            }
+          }
+
+          .submit-container {
+            margin-top: 8.6vw;
+            .submit-button {
+              width: 46.67vw;
+              height: 10.67vw;
+              font-size: 4vw;
+            }
+          }
+
+          .tip {
+            font-size: 2.4vw;
+            .tip-icon {}
+          }
+        }
+      }
+
     }
-  }
-  .error {
-    position: absolute;
-    transform: translateY(-50%);
-    top: 50%;
-    right: 25px;
-    font-weight: 700;
-    color: #f00;
-    font-size: 14px;
-    @media (max-width: 899px) {
-      right: 0px;
+
+    .mobile-tip-container{
+     .tip {
+        color: rgb(102, 102, 102);
+        font-size: 2.4vw;
+        margin: 0 auto 20.48vw;
+        text-align: center;
+        border-width: 1px;
+        border-color: rgb(205, 205, 205);
+        background-color: #ffffff;
+        border-style: solid;
+        border-radius: 20px;
+        width: 93.33vw;
+        height: 20.9vw;
+        padding: 5.6vw 5.73vw;
+
+
+        .tip-icon {
+          color: rgb(255, 69, 122);
+          font-weight: bold;
+          margin-right: 5px;
+        }
+      }
     }
-  }
+   
+  `}
 `;

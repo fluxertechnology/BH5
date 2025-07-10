@@ -1,12 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useGlobalContext } from "@/store";
+import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
+import useWithdraw from "@/hooks/useWithdraw";
+import { pageUrlConstants } from "@/lib/constants";
+
+import TopBarContainer from "@/components/layout/Header/TopBarContainer";
+import TopTitleBar from "@/components/common/TopTitleBar";
+import LinkComponent from "@/components/common/LinkComponent";
 
 const withdrawOptions = [
   {
@@ -27,11 +34,53 @@ const withdrawOptions = [
 
 export default function WithdrawPage() {
   const router = useRouter();
+  const t = useTranslations();
   const { state } = useGlobalContext();
   const { isMobile } = useMediaQuery();
   const handleSelect = (type) => {
     router.push(`/profile/withdraw/${type}`);
   };
+
+  const { paymentMethods, fee, feeUnit } = useWithdraw();
+  const [validWithdrawOptions, setValidWithdrawOptions] = useState([]);
+
+  useEffect(() => {
+    setValidWithdrawOptions(
+      withdrawOptions.filter((option) =>
+        paymentMethods.map((m) => m.name).includes(option.type)
+      )
+    );
+  }, [paymentMethods]);
+
+  useEffect(() => {
+    useGlobalDispatch({
+      type: "INIT_NAVBAR",
+      data: {
+        customComponent: () => (
+          <TopBarContainer>
+            <TopTitleBar
+              title={t("Profile.withdraw.title")}
+              showBack={true}
+              color="#000"
+              back_color="#fff"
+            >
+              <LinkComponent
+                className="profile_with_draw_history"
+                routes={{
+                  name: pageUrlConstants.profile.pages
+                    .profilePaymentWithDrawHistory.name,
+                  path: pageUrlConstants.profile.pages
+                    .profilePaymentWithDrawHistory.path,
+                }}
+              >
+                {t("Profile.payment.charge.history_1")}
+              </LinkComponent>
+            </TopTitleBar>
+          </TopBarContainer>
+        ),
+      },
+    });
+  }, []);
 
   return (
     <ProfileWithDrawComponent main_height={state.navbar.mainHeight}>
@@ -65,7 +114,7 @@ export default function WithdrawPage() {
 
       <div className="md:p-6">
         <ul className="space-y-3 withdraw-list">
-          {withdrawOptions.map((option) => (
+          {validWithdrawOptions.map((option) => (
             <li
               key={option.type}
               onClick={() => handleSelect(option.type)}
@@ -82,7 +131,10 @@ export default function WithdrawPage() {
                 </div>
                 <div>
                   <h5>{option.label}提现</h5>
-                  <p>手续费：{option.fee}%</p>
+                  <p>
+                    手续费：{fee}
+                    {feeUnit === "percent" ? "%" : "元"}
+                  </p>
                 </div>
               </div>
               <div>
