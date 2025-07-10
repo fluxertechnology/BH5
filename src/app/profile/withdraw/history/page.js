@@ -109,9 +109,9 @@ export default function WithdrawHistoryPage() {
                 key={record.id}
                 className="border-b border-gray-200 hover:bg-gray-50"
               >
-                <td className="text-xs text-gray-600">{record.create_time}</td>
+                <td className="text-gray-600">{record.create_time}</td>
                 <td className="">{record.payment_method}</td>
-                <td className="text-xs text-gray-600">虚拟货币</td>
+                <td className="text-gray-600">虚拟货币</td>
                 {/* <td className="">
                   <span className="break-all max-w-xs block text-center m-auto">
                     {record.addess}
@@ -121,7 +121,7 @@ export default function WithdrawHistoryPage() {
                 {/* <td className="text-xs">{record.reference_no}</td> */}
                 <td className="">
                   <span
-                    className={`px-2 py-1 rounded text-xs ${
+                    className={`px-2 py-1 rounded ${
                       record.status === 0
                         ? "bg-yellow-100 text-yellow-800"
                         : record.status === 1
@@ -139,6 +139,14 @@ export default function WithdrawHistoryPage() {
               </tr>
             ))
           )}
+          {withdrawLog.length < 3 &&
+            [...Array(3 - withdrawLog.length)].map((_, i) => (
+              <tr key={`filler-${i}`}>
+                {[...Array(5)].map((_, j) => (
+                  <td key={j}>&nbsp;</td>
+                ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
@@ -178,9 +186,7 @@ export default function WithdrawHistoryPage() {
                   key={transfer.id}
                   className="border-b border-gray-200 hover:bg-gray-50"
                 >
-                  <td className="text-xs text-gray-600">
-                    {transfer.create_time}
-                  </td>
+                  <td className="text-gray-600">{transfer.create_time}</td>
                   <td className="font-medium">
                     <span
                       className={
@@ -199,13 +205,21 @@ export default function WithdrawHistoryPage() {
                   <td className="">{transfer.game_wallet}</td>
                   {/* <td className="text-xs">{transfer.reference_no}</td> */}
                   <td className="">
-                    <span className="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">
+                    <span className="px-2 py-1 rounded bg-blue-100 text-blue-800">
                       {transfer.transaction_status}
                     </span>
                   </td>
                 </tr>
               ))
             )}
+            {filteredData.length < 3 &&
+              [...Array(3 - filteredData.length)].map((_, i) => (
+                <tr key={`filler-${i}`}>
+                  {[...Array(4)].map((_, j) => (
+                    <td key={j}>&nbsp;</td>
+                  ))}
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -252,7 +266,7 @@ export default function WithdrawHistoryPage() {
               {tab.label}
               {/* {tab.count > 0 && (
                 <span
-                  className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
+                  className={`ml-2 px-2 py-0.5 rounded-full ${
                     activeTab === tab.id
                       ? "bg-blue-100 text-blue-800"
                       : "bg-gray-100 text-gray-600"
