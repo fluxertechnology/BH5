@@ -47,8 +47,8 @@ export default function WithdrawPage() {
   useEffect(() => {
     setValidWithdrawOptions(
       withdrawOptions.filter((option) =>
-        paymentMethods.map((m) => m.name).includes(option.type),
-      ),
+        paymentMethods.map((m) => m.name).includes(option.type)
+      )
     );
   }, [paymentMethods]);
 
@@ -61,7 +61,8 @@ export default function WithdrawPage() {
             <TopTitleBar
               title={t("Profile.withdraw.title")}
               showBack={true}
-              show_back_color="#ffffff"
+              color="#000"
+              back_color="#fff"
             >
               <LinkComponent
                 className="profile_with_draw_history"

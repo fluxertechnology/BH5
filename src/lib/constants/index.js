@@ -311,6 +311,11 @@ export const pageUrlConstants = {
         name: "提款頁",
         path: "/profile/withdraw",
         login: true,
+        profileWithdrawHistory: {
+          name: "提款頁",
+          path: "/profile/withdraw/history",
+          login: true,
+        },
       },
       profileDirectBuyVip: {
         name: "直購VIP頁面",
