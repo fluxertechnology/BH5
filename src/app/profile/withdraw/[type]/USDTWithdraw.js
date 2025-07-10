@@ -19,7 +19,7 @@ export default function USDTWithdraw({
   const mainetOptions = [{ value: "TRC20", label: "Tron(TRC20)" }];
   const [mainnet, setMainnet] = useState(mainetOptions[0].value);
 
-  const [address, setAddress] = useState("RAAARWRWRWWWW");
+  const [address, setAddress] = useState("");
 
   const handleWithdrawAmountChange = async (e) => {
     setWithdrawAmount(parseInt(e.target.value));
