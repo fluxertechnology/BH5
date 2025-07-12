@@ -145,6 +145,7 @@ export const checkinPageConditioncheckAction =
                 id: itemId,
                 data,
               });
+              console.log("data", data);
               if (data.status === 0) {
                 dispatch(
                   setOutOfQuotaDataAction({
@@ -152,11 +153,11 @@ export const checkinPageConditioncheckAction =
                     buy_type: itemType,
                     episode: episode,
                     gold: data.video.need_jinbi,
-                    checkOnPage: true,
-                    show: false,
+                    checkOnPage,
+                    show: true,
                   })
                 );
-                useGlobalDispatch(buyContentAction());
+                // useGlobalDispatch(buyContentAction());
               } else {
                 if (!homeVideoContent[itemId]?.recommend) {
                   useGlobalDispatch(getVideoContentRecommendAction(itemId));
