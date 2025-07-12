@@ -96,7 +96,8 @@ function WithdrawPage() {
         <TopTitleBar
           title={withdrawOptions[type]?.title || t("Profile.withdraw.title")}
           showBack={true}
-          show_back_color="#ffffff"
+          color="#000"
+          back_color="#fff"
         >
           <LinkComponent
             className="profile_with_draw_history"
@@ -117,7 +118,7 @@ function WithdrawPage() {
       <div className="info-container--outer">
         <div className="info-container">
           <p className="title">-- 总精钻 --</p>
-          <p className="amount"> {userBalance}</p>
+          <p className="amount"> {Number(userBalance).toFixed(2)}</p>
           <p className="available-amount">
             可提现：{getUserPremiumDiamond(t, { money: userBalance })}
           </p>

@@ -166,7 +166,12 @@ const ProfilePayment = () => {
         </LinkComponent>
         <LinkComponent
           className="w-full rounded-[10px] bg-gradient-to-t from-[rgba(253,140,79,0.9999999999999999)] to-[rgba(250,114,154,0.996078431372549)] flex items-center gap-3 p-[2vw]"
-          routes={profile.pages.profileDirectBuyVip}
+          routes={{
+            linkurl:
+              apiUrl +
+              requestUrlConstants.toPaymentPageUrl +
+              `?uid=${state.user.id}&ctype=1&content-language=${lang}`,
+          }}
         >
           <Image
             className="payment_container_buttonbox_button_content_img h-[min(70px,10.667vw)] !w-[min(70px,10.667vw)]"
@@ -367,8 +372,8 @@ const ProfilePayment = () => {
         <LinkComponent
           className="list_container_card"
           routes={{
-            name: profile.pages.profilePaymentWithDraw.name,
-            path: profile.pages.profilePaymentWithDraw.path,
+            name: profile.pages.profileWithdraw.name,
+            path: profile.pages.profileWithdraw.path,
           }}
         >
           <div className="list_container_card_body">

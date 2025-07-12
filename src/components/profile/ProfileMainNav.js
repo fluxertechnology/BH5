@@ -70,11 +70,14 @@ const ProfileMainNav = ({ sign, money }) => {
                     我要充值
                   </span>
                 </LinkComponent>
-                <button className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]">
+                <LinkComponent
+                  routes={pageUrlConstants.profile.pages.profileWithdraw}
+                  className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]"
+                >
                   <span className="text-[5.867vw] md:text-[22px] text-white">
                     我要提现
                   </span>
-                </button>
+                </LinkComponent>
               </div>
             </div>
             <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
