@@ -124,6 +124,7 @@ const HomeTcgMainPage = () => {
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 30;
+  const [isGameOpen, setIsGameOpen] = useState(false);
 
   const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
@@ -218,6 +219,7 @@ const HomeTcgMainPage = () => {
     }
 
     setIsLoadingGameUrl(true);
+    setIsGameOpen(true);
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
@@ -238,6 +240,7 @@ const HomeTcgMainPage = () => {
       });
       const data = await response.json();
       if (data.code === 0) {
+        setIsGameOpen(false);
         gameManager.endGame(state, gameId);
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
@@ -247,6 +250,7 @@ const HomeTcgMainPage = () => {
       }
 
       if (!data.data?.url) {
+        setIsGameOpen(false);
         gameManager.endGame(state, gameId);
         toastCall("获取游戏链接失败，请稍后再试");
         return;
@@ -256,6 +260,7 @@ const HomeTcgMainPage = () => {
       setCurrentGameProductType(data.data.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
+      setIsGameOpen(false);
       gameManager.endGame(state, gameId);
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
@@ -271,6 +276,7 @@ const HomeTcgMainPage = () => {
       },
       currentGameId,
     );
+    setIsGameOpen(false);
     gameManager.endGame(state, currentGameId);
     closeIframe();
   };
@@ -386,12 +392,7 @@ const HomeTcgMainPage = () => {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       console.log("beforeunload event triggered");
-      const tabId = gameManager.getTabId();
-      const session = JSON.parse(
-        localStorage.getItem(gameManager.storageKey) || "{}",
-      );
-      console.log("Claer session", session, tabId, tabId);
-      if (session.tabId !== tabId) {
+      if (isGameOpen) {
         localStorage.removeItem(gameManager.storageKey);
       }
       gameManager.endGame(state, currentGameId);
