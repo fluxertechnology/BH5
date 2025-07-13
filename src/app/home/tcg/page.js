@@ -385,7 +385,14 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      gameManager.endGame(state, currentGameId);
+      const payload = JSON.stringify({
+        userId: gameManager.getUserId(state),
+        gameId: currentGameId,
+      });
+
+      navigator.sendBeacon("/api/tcg/game-session", payload);
+      localStorage.removeItem(gameManager.storageKey);
+      // await gameManager.endGame(state, currentGameId);
 
       //event.preventDefault();
       //event.returnValue = "";
