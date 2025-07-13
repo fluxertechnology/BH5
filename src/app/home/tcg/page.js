@@ -385,6 +385,15 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
+      console.log("beforeunload event triggered");
+      const tabId = gameManager.getTabId();
+      const session = JSON.parse(
+        localStorage.getItem(gameManager.storageKey) || "{}",
+      );
+      console.log("Claer session", session, tabId, tabId);
+      if (session.tabId !== tabId) {
+        localStorage.removeItem(gameManager.storageKey);
+      }
       gameManager.endGame(state, currentGameId);
 
       //event.preventDefault();
