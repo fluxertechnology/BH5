@@ -1,4 +1,4 @@
-"use client";
+"wse client";
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -271,7 +271,7 @@ const HomeTcgMainPage = () => {
       },
       currentGameId,
     );
-    gameManager.endGame(state, gameId);
+    gameManager.endGame(state, currentGameId);
     closeIframe();
   };
 
