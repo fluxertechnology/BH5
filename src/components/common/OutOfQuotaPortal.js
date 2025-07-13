@@ -17,7 +17,12 @@ import {
 } from "@/store/actions/historyActions";
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { getOutOfQuotaPrice, getPriceUnit, getPremiumDiamond, getUserPremiumDiamond } from "../../lib/services/price";
+import {
+  getOutOfQuotaPrice,
+  getPriceUnit,
+  getPremiumDiamond,
+  getUserPremiumDiamond,
+} from "../../lib/services/price";
 
 let typeStr = ["小说", "美图", "漫画", "动画"];
 const OutOfQuotaPortal = () => {
@@ -25,7 +30,7 @@ const OutOfQuotaPortal = () => {
   const t = useTranslations();
 
   const [showBuyBoard, setShowBuyBoard] = useState(
-    state.outOfQuotaData.showBuy,
+    state.outOfQuotaData.showBuy
   );
 
   function judgeUnit() {
@@ -73,7 +78,7 @@ const OutOfQuotaPortal = () => {
       type: "CLOSE_OUTOFQUOTAPORTAL",
     });
     useGlobalDispatch(
-      pushRoutes(pageUrlConstants.profile.pages.profilePayment),
+      pushRoutes(pageUrlConstants.profile.pages.profilePayment)
     );
   };
   const addMissionRecord = (mission_id) => {
@@ -186,7 +191,7 @@ const OutOfQuotaPortal = () => {
                   onClick={onClick}
                 >
                   <span className="buy_content_card_button_btn_text">
-                    立即购买
+                    {t("Profile.buy.label.buy_now")}
                   </span>
                 </div>
               </div>

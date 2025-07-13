@@ -244,7 +244,7 @@ const ProfileMainHeader = ({
           )}
           {id !== "guest" ? (
             <div className="profile_header_info_detill_time flex-col !items-start">
-              {true||time === "-1" || Date.now() < time * 1000 ? (
+              {time === "-1" || Date.now() < time * 1000 ? (
                 <>
                   <div className="flex">
                     <Image
