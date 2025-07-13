@@ -385,11 +385,6 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      const payload = JSON.stringify({
-        userId: gameManager.getUserId(state),
-        gameId: currentGameId,
-      });
-
       gameManager.endGame(state, currentGameId);
 
       //event.preventDefault();

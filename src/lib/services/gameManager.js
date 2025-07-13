@@ -1,6 +1,20 @@
 class GameManager {
   constructor() {
     this.storageKey = "activeGameSession";
+    this.tabIdKey = "tabId";
+    this.tabId = this.getTabId();
+  }
+
+  getTabId() {
+    if (typeof window !== "undefined") {
+      let tabId = sessionStorage.getItem(this.tabIdKey);
+      if (!tabId) {
+        tabId = `tab-${crypto.randomUUID()}`;
+        sessionStorage.setItem(this.tabIdKey, tabId);
+      }
+      return tabId;
+    }
+    return null;
   }
 
   getUserId(state) {
@@ -28,12 +42,15 @@ class GameManager {
   }
 
   async startGame(state, gameId) {
-    const existingSession = localStorage.getItem(this.storageKey);
-    if (existingSession) {
-      return {
-        success: false,
-        message: "遊戲已在另一個分頁中運行",
-      };
+    const existing = localStorage.getItem(this.storageKey);
+    if (existing) {
+      const { tabId: storedTabId } = JSON.parse(existing);
+      if (storedTabId !== this.tabId) {
+        return {
+          success: false,
+          message: "遊戲已在另一個分頁中運行",
+        };
+      }
     }
 
     const sessionStatus = await this.checkActiveSession(state);
@@ -44,7 +61,6 @@ class GameManager {
       };
     }
 
-    // Start new session
     try {
       await fetch("/api/tcg/game-session", {
         method: "POST",
@@ -58,7 +74,14 @@ class GameManager {
         }),
       });
 
-      localStorage.setItem(this.storageKey, gameId);
+      localStorage.setItem(
+        this.storageKey,
+        JSON.stringify({
+          gameId,
+          tabId: this.tabId,
+        }),
+      );
+
       return { success: true };
     } catch (error) {
       console.error("Error starting game session:", error);
@@ -67,7 +90,9 @@ class GameManager {
   }
 
   async endGame(state, gameId) {
-    const crrGameId = gameId || localStorage.getItem(this.storageKey);
+    const session = JSON.parse(localStorage.getItem(this.storageKey) || "{}");
+    const crrGameId = gameId || session.gameId;
+
     try {
       await fetch("/api/tcg/game-session", {
         method: "POST",
@@ -83,7 +108,10 @@ class GameManager {
     } catch (error) {
       console.error("Error ending game session:", error);
     }
-    localStorage.removeItem(this.storageKey);
+
+    if (session.tabId === this.tabId) {
+      localStorage.removeItem(this.storageKey);
+    }
   }
 
   isGameOpen() {
