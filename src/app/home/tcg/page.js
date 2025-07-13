@@ -390,9 +390,7 @@ const HomeTcgMainPage = () => {
         gameId: currentGameId,
       });
 
-      navigator.sendBeacon("/api/tcg/game-session", payload);
-      localStorage.removeItem(gameManager.storageKey);
-      // await gameManager.endGame(state, currentGameId);
+      gameManager.endGame(state, currentGameId);
 
       //event.preventDefault();
       //event.returnValue = "";

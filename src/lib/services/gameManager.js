@@ -68,24 +68,22 @@ class GameManager {
 
   async endGame(state, gameId) {
     const crrGameId = gameId || localStorage.getItem(this.storageKey);
-    if (gameId) {
-      try {
-        await fetch("/api/tcg/game-session", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: this.getUserId(state),
-            gameId: crrGameId,
-            action: "end",
-          }),
-        });
-      } catch (error) {
-        console.error("Error ending game session:", error);
-      }
-      localStorage.removeItem(this.storageKey);
+    try {
+      await fetch("/api/tcg/game-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: this.getUserId(state),
+          gameId: crrGameId,
+          action: "end",
+        }),
+      });
+    } catch (error) {
+      console.error("Error ending game session:", error);
     }
+    localStorage.removeItem(this.storageKey);
   }
 
   isGameOpen() {
