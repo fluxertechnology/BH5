@@ -74,6 +74,7 @@ export const updateUserDataAction =
             data: {
               ...infoData,
               id: userId,
+              uid: infoData.id,
               avatar: infoData.avatar,
               username: infoData.username,
               nick_name: infoData.nick_name,
