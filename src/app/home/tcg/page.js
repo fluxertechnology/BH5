@@ -403,8 +403,8 @@ const HomeTcgMainPage = () => {
       );
       if (gameManager.getIsCurrentTabOpeningGame()) {
         localStorage.removeItem(gameManager.storageKey);
+        gameManager.endGame(state, currentGameId);
       }
-      gameManager.endGame(state, currentGameId);
 
       //event.preventDefault();
       //event.returnValue = "";
