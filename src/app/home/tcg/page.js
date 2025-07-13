@@ -52,7 +52,8 @@ const HomeTcgMainPage = () => {
     {
       title: "记录",
       icon: "user-panel-record",
-      url: pageUrlConstants.profile.pages.profileWithdraw.profileWithdrawHistory,
+      url: pageUrlConstants.profile.pages.profileWithdraw
+        .profileWithdrawHistory,
     },
   ];
 
@@ -123,6 +124,7 @@ const HomeTcgMainPage = () => {
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 30;
+  const [isGameOpen, setIsGameOpen] = useState(false);
 
   const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
@@ -210,12 +212,15 @@ const HomeTcgMainPage = () => {
       return;
     }
 
-    if (gameManager.isGameOpen()) {
-      toastCall("游戏已在另一个标签页中运行");
+    const gameStart = await gameManager.startGame(state, gameId);
+    if (!gameStart.success) {
+      toastCall(gameStart.message || "无法启动游戏，请稍后再试");
       return;
     }
 
     setIsLoadingGameUrl(true);
+    setIsGameOpen(true);
+    gameManager.setIsCurrentTabOpeningGame(1);
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
@@ -236,7 +241,9 @@ const HomeTcgMainPage = () => {
       });
       const data = await response.json();
       if (data.code === 0) {
-        gameManager.endGame();
+        setIsGameOpen(false);
+        gameManager.setIsCurrentTabOpeningGame(0);
+        gameManager.endGame(state, gameId);
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
       }
@@ -245,17 +252,20 @@ const HomeTcgMainPage = () => {
       }
 
       if (!data.data?.url) {
-        gameManager.endGame();
+        setIsGameOpen(false);
+        gameManager.setIsCurrentTabOpeningGame(0);
+        gameManager.endGame(state, gameId);
         toastCall("获取游戏链接失败，请稍后再试");
         return;
       }
 
-      gameManager.openGame(gameId);
       setCurrentGameUrl(data.data.url);
       setCurrentGameProductType(data.data.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
-      gameManager.endGame();
+      setIsGameOpen(false);
+      gameManager.setIsCurrentTabOpeningGame(0);
+      gameManager.endGame(state, gameId);
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
     } finally {
@@ -270,7 +280,9 @@ const HomeTcgMainPage = () => {
       },
       currentGameId,
     );
-    gameManager.endGame();
+    setIsGameOpen(false);
+    gameManager.setIsCurrentTabOpeningGame(0);
+    gameManager.endGame(state, currentGameId);
     closeIframe();
   };
 
@@ -384,7 +396,15 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      gameManager.endGame();
+      console.log(
+        "beforeunload event triggered",
+        isGameOpen,
+        gameManager.getIsCurrentTabOpeningGame(),
+      );
+      if (gameManager.getIsCurrentTabOpeningGame()) {
+        localStorage.removeItem(gameManager.storageKey);
+        gameManager.endGame(state, currentGameId);
+      }
 
       //event.preventDefault();
       //event.returnValue = "";
