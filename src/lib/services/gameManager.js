@@ -2,7 +2,22 @@ class GameManager {
   constructor() {
     this.storageKey = "activeGameSession";
     this.tabIdKey = "tabId";
+    this.isOpeningGameKey = "isOpeningGame";
     this.tabId = this.getTabId();
+  }
+
+  // set is current tab is opening game
+  setIsCurrentTabOpeningGame(isOpen) {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(this.isOpeningGameKey, isOpen);
+    }
+  }
+
+  getIsCurrentTabOpeningGame() {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem(this.isOpeningGameKey) == "1";
+    }
+    return false;
   }
 
   getTabId() {

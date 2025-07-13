@@ -220,6 +220,7 @@ const HomeTcgMainPage = () => {
 
     setIsLoadingGameUrl(true);
     setIsGameOpen(true);
+    gameManager.setIsCurrentTabOpeningGame(1);
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
@@ -241,6 +242,7 @@ const HomeTcgMainPage = () => {
       const data = await response.json();
       if (data.code === 0) {
         setIsGameOpen(false);
+        gameManager.setIsCurrentTabOpeningGame(0);
         gameManager.endGame(state, gameId);
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
@@ -251,6 +253,7 @@ const HomeTcgMainPage = () => {
 
       if (!data.data?.url) {
         setIsGameOpen(false);
+        gameManager.setIsCurrentTabOpeningGame(0);
         gameManager.endGame(state, gameId);
         toastCall("获取游戏链接失败，请稍后再试");
         return;
@@ -261,6 +264,7 @@ const HomeTcgMainPage = () => {
       openIframe(data.data.url);
     } catch (error) {
       setIsGameOpen(false);
+      gameManager.setIsCurrentTabOpeningGame(0);
       gameManager.endGame(state, gameId);
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
@@ -277,6 +281,7 @@ const HomeTcgMainPage = () => {
       currentGameId,
     );
     setIsGameOpen(false);
+    gameManager.setIsCurrentTabOpeningGame(0);
     gameManager.endGame(state, currentGameId);
     closeIframe();
   };
@@ -391,8 +396,12 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      console.log("beforeunload event triggered");
-      if (isGameOpen) {
+      console.log(
+        "beforeunload event triggered",
+        isGameOpen,
+        gameManager.getIsCurrentTabOpeningGame(),
+      );
+      if (gameManager.getIsCurrentTabOpeningGame()) {
         localStorage.removeItem(gameManager.storageKey);
       }
       gameManager.endGame(state, currentGameId);
