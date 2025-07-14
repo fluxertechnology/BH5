@@ -541,7 +541,7 @@ const HomeTcgMainPage = () => {
                   </div>
                 </div>
               )}
-              <div className="user-info mr-2">
+              <div className="user-info">
                 <div className="user-name truncate">
                   {state.user.id === "guest" ? "guest" : state.user.nick_name}
                 </div>
@@ -884,7 +884,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
         text-align: center;
         // border-right: 1px solid #ccc7cd;
         // padding-right: 2rem;
-        margin-right: 2rem;
+        // margin-right: 2rem;
         font-family: "Microsoft YaHei";
         color: rgb(255, 255, 255);
         font-size: 18px;
@@ -1181,7 +1181,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       gap: 5.5vw;
 
       .user-panel {
-        padding: 2vw 3.07vw 1.6vw 6.93vw !important;
+        padding: 2vw 1vw 1.6vw !important;
+        // padding: 2vw 3.07vw 1.6vw 6.93vw !important;
         background: linear-gradient(to bottom right, #ee51ab, #873fdb);
         background: url('/images/tcg/user-panel-bg.png') no-repeat center center !important;
         background-size: cover !important;
@@ -1191,7 +1192,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
         .user-info {
           line-height: 0.917;
-          padding-right: 1vw;
+          margin: auto;
+          // padding-right: 1vw;
           .user-name{
             font-size: 3.2vw;
             margin-bottom: 1.2vw;
@@ -1205,7 +1207,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
             .refresh-icon{
               height:3.2vw;
               width:3.2vw;
-              margin-left:  3.2vw;
+              margin-left: 1.6vw;
             }
           }
         }
