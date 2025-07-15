@@ -50,7 +50,7 @@ const CoverCubeItem = ({
           vod_name: title,
           vod_pic: img,
           vod_url: url,
-        })
+        }),
       );
     } else {
       useGlobalDispatch(collectComicAnimeAction(data));
@@ -304,14 +304,14 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     useContext(Props);
 
   const [likeIconStatus, setLikeIconStatus] = useState(
-    Boolean(data.is_collect)
+    Boolean(data.is_collect),
   );
   const isVideo = ["animated", "video"].includes(type);
   const onCollect = () => {
     collectAction(
       data,
       type,
-      setLikeIconStatus((pre) => !pre)
+      setLikeIconStatus((pre) => !pre),
     );
   };
   function nowHeight() {
@@ -452,13 +452,15 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               {!rankStyle && !disabledPrice && (
                 <div className="item_footer_gold">
                   <p className="item_footer_gold_text">
-                    <Image
-                      className="item_footer_gold_text_icon"
-                      src={heartIcon}
-                      width={0}
-                      height={0}
-                      alt="heart"
-                    />
+                    {!!getPrice(t, data) && (
+                      <Image
+                        className="item_footer_gold_text_icon"
+                        src={heartIcon}
+                        width={0}
+                        height={0}
+                        alt="heart"
+                      />
+                    )}
                     {getPrice(t, data)}
                   </p>
                 </div>
@@ -488,27 +490,27 @@ export const Links = ({ children, contextProps }) => {
               },
             }
           : type === "animated"
-          ? {
-              name:
-                home.pages.homeAnimesSwitch.pages.homeAnimesContent.name +
-                data.title +
-                "-1",
-              path: home.pages.homeAnimesSwitch.pages.homeAnimesContent.path,
-              dynamic: {
-                animeId: data.id,
-                animeEp: data.episode || 1,
-              },
-            }
-          : {
-              name:
-                home.pages.homeComicList.pages.homeComicListSwitch.pages
-                  .homeComicListContent.name + data.title,
-              path: home.pages.homeComicList.pages.homeComicListSwitch.pages
-                .homeComicListContent.path,
-              dynamic: {
-                comicId: data.id,
-              },
-            }
+            ? {
+                name:
+                  home.pages.homeAnimesSwitch.pages.homeAnimesContent.name +
+                  data.title +
+                  "-1",
+                path: home.pages.homeAnimesSwitch.pages.homeAnimesContent.path,
+                dynamic: {
+                  animeId: data.id,
+                  animeEp: data.episode || 1,
+                },
+              }
+            : {
+                name:
+                  home.pages.homeComicList.pages.homeComicListSwitch.pages
+                    .homeComicListContent.name + data.title,
+                path: home.pages.homeComicList.pages.homeComicListSwitch.pages
+                  .homeComicListContent.path,
+                dynamic: {
+                  comicId: data.id,
+                },
+              }
       }
     >
       {children}

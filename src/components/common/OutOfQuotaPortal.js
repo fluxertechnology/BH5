@@ -133,7 +133,7 @@ const OutOfQuotaPortal = () => {
                   className="show_container_content_button_btn"
                   onClick={() => setShowBuyBoard(true)}
                 >
-                  {`${getPriceUnit(t)}支付`}
+                  {`${getPriceUnit(t, state.outOfQuotaData.unit === 'gold')}支付`}
                 </div>
                 <div
                   className="show_container_content_button_btn highlight"
