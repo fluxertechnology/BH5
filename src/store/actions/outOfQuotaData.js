@@ -184,7 +184,9 @@ export const buyContentAction = (callback = () => {}) => {
             useGlobalDispatch({
               type: "CLOSE_OUTOFQUOTAPORTAL",
             });
-            callToast("精钻不足前往充值");
+            const isGold = outOfQuotaData.unit === "gold";
+            const priceUnit = isGold  ? '金币' : '精钻';
+            callToast(`${priceUnit}不足，前往充值`);
             useGlobalDispatch(pushRoutes(profile.pages.profilePayment));
           }
         } else {
