@@ -406,6 +406,12 @@ const HomeTcgMainPage = () => {
       if (gameManager.getIsCurrentTabOpeningGame()) {
         localStorage.removeItem(gameManager.storageKey);
         gameManager.endGame(state, currentGameId);
+        tcgTransferOutAll(
+          {
+            stopPropagation: () => {},
+          },
+          currentGameId,
+        );
       }
 
       //event.preventDefault();
