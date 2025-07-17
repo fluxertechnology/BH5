@@ -260,7 +260,9 @@ const HomeTcgMainPage = () => {
       }
 
       setCurrentGameUrl(data.data.url);
-      setCurrentGameProductType(data.data.product_type || "");
+      // setCurrentGameProductType(data.data.product_type || "");
+      const gameDetail = tcgGameList.find((game) => game.id === gameId);
+      setCurrentGameProductType(gameDetail?.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
       setIsGameOpen(false);
@@ -384,6 +386,7 @@ const HomeTcgMainPage = () => {
   };
 
   useEffect(() => {
+    gameManager.setIsCurrentTabOpeningGame(0);
     tcgGetProductTypes();
     useGlobalDispatch({
       type: "INIT_NAVBAR",
@@ -403,7 +406,24 @@ const HomeTcgMainPage = () => {
       );
       if (gameManager.getIsCurrentTabOpeningGame()) {
         localStorage.removeItem(gameManager.storageKey);
-        gameManager.endGame(state, currentGameId);
+        const beaconResult = navigator.sendBeacon(
+          "/api/tcg/game-session",
+          JSON.stringify({
+            userId: gameManager.getUserId(state),
+            gameId: currentGameId,
+            action: "end",
+          }),
+        );
+        console.log("Beacon result for game session end:", beaconResult);
+        const beaconResult2 = navigator.sendBeacon(
+          `${apiUrl}/appapi/tcg/transfer_out_by_all`,
+          JSON.stringify({
+            uid: state.user.id,
+            product_type: currentGameProductType,
+            game_id: currentGameId,
+          }),
+        );
+        console.log("Beacon result for transfer_out_by_all:", beaconResult2);
       }
 
       //event.preventDefault();
