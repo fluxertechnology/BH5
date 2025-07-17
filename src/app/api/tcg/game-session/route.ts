@@ -2,9 +2,10 @@ const activeGames = new Map();
 
 export async function POST(req) {
   const body = await req.json();
-  const { userId, gameId, action } = body;
+  const { userId: crrUserId, gameId, action } = body;
 
-  // console.log(activeGames);
+  const userId = crrUserId.toString().trim().toLowerCase();
+
   console.log("Received request:", body);
   console.log("Active games:", activeGames);
 
