@@ -133,7 +133,7 @@ const OutOfQuotaPortal = () => {
                   className="show_container_content_button_btn"
                   onClick={() => setShowBuyBoard(true)}
                 >
-                  {`${getPriceUnit(t)}支付`}
+                  {`${getPriceUnit(t, state.outOfQuotaData.unit === 'gold')}支付`}
                 </div>
                 <div
                   className="show_container_content_button_btn highlight"
@@ -201,12 +201,11 @@ const OutOfQuotaPortal = () => {
                 <p className="buy_content_recharge_gold_text">
                   当前拥有：
                   <span className="buy_content_recharge_gold_text_span pr-1">
-                    {getUserPremiumDiamond(t, state.user)}
-                    {/* {`${
+                    {
                       state.outOfQuotaData.unit === "gold"
                         ? getPremiumDiamond(t, state.user.sign, true)
                         : getPremiumDiamond(t, state.user.money, false)
-                    }`} */}
+                    }
                   </span>
                 </p>
               </div>

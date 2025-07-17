@@ -3,9 +3,9 @@
 // 金币100；精钻0 前端显示1精钻(因金币不使用 金币单位以100:1的比例去转换为精钻)
 // 金币1000；精钻100 前端显示100精钻(因金币不使用，则保留原始精钻价格显示)
 
-import { get } from "http";
-
 const MULTIPLIER = 100; // 金币转精钻的倍数
+const IS_CONVERT_TO_DIAMOND = false; // 是否转换为精钻
+const DISPLAY_ZERO_DIAMOND = false; // 是否显示0精钻
 
 const formatPremiumDiamond = (amount) => {
   // return Math.floor(amount / MULTIPLIER);
@@ -13,14 +13,18 @@ const formatPremiumDiamond = (amount) => {
   return amount % 1 === 0 ? amount.toString() : amount.toFixed(2);
 };
 
-export const getPriceUnit = (t) => {
+export const getPriceUnit = (t, isCoins = false) => {
+  if (isCoins && !IS_CONVERT_TO_DIAMOND) {
+    return t("Global.gold_money");
+  }
   return t("Global.premium_diamond");
 };
 
 export const getPremiumDiamond = (t, value, isCoins, withUnit = true) => {
-  const priceUnit = getPriceUnit(t);
+  const priceUnit = getPriceUnit(t, isCoins);
   const amount = parseFloat(value) || 0;
-  const convertedAmount = isCoins ? amount / MULTIPLIER : amount;
+  const convertedAmount =
+    isCoins && IS_CONVERT_TO_DIAMOND ? amount / MULTIPLIER : amount;
 
   if (!withUnit) {
     return formatPremiumDiamond(convertedAmount);
@@ -32,7 +36,7 @@ export const getPremiumDiamondWithBoth = (
   t,
   coins,
   diamonds,
-  withUnit = true
+  withUnit = true,
 ) => {
   const coinAmount = parseFloat(coins) || 0;
   const diamondAmount = parseFloat(diamonds) || 0;
@@ -84,7 +88,10 @@ export const getPrice = (t, data) => {
     return `${getPremiumDiamond(t, coin, true)}`;
   }
 
-  return getPremiumDiamond(t, 0, false);
+  if (DISPLAY_ZERO_DIAMOND) {
+    return getPremiumDiamond(t, 0, false);
+  }
+  return "";
 };
 
 /*
@@ -120,7 +127,7 @@ export const getAvatarPrice = (t, data) => {
  * /profile -> ProfileMainMissionCenter.js
  */
 export const getProfileMissionPrice = (t, type, data) => {
-  const priceUnit = getPriceUnit(t);
+  const priceUnit = getPriceUnit(t, true);
 
   if (type === "signin_everyday") {
     const signinBegin = getPremiumDiamond(t, data.signinbegin, true, false);
@@ -141,10 +148,10 @@ export const getProfileMissionRewardPrice = (
   t,
   type,
   reward,
-  completed = false
+  completed = false,
 ) => {
   //1金幣 2精鑽 3 vip天數 4 商城優惠卷 5 個人頭像
-  const priceUnit = getPriceUnit(t);
+  const priceUnit = getPriceUnit(t, true);
   const typeMap = {
     1: priceUnit,
     2: priceUnit,
