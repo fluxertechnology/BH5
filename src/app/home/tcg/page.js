@@ -408,7 +408,7 @@ const HomeTcgMainPage = () => {
         const beaconResult = navigator.sendBeacon(
           "/api/tcg/game-session",
           JSON.stringify({
-            userId: state.user.id,
+            userId: gameManager.getUserId(state),
             gameId: currentGameId,
             action: "end",
           }),
