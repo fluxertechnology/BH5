@@ -71,7 +71,7 @@ const ProfileTransferRecordRender = () => {
                   alt="coinIcon"
                   className="mr-2"
                 />
-                兑换精钻
+                兑换精钻123
               </div>
               <div className="transfer_record_card_row_r">
                 {data.transform_sign}

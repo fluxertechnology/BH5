@@ -142,7 +142,7 @@ const ProfilePayment = () => {
             </div>
           </div>
           <div className="h-[1px] bg-[#cdcdcd]" />
-          <div className="text-[2.933vw] md:text-[0.833vw] text-[#666666] pt-[5vw] md:pt-[2vw] pb-[8.5vw] md:pb-[3.6vw] flex flex-col gap-1">
+          <div className="text-[2.933vw] md:text-[1.533vw] 2xl:text-[0.833vw] text-[#666666] pt-[5vw] md:pt-[2vw] pb-[8.5vw] md:pb-[3.6vw] flex flex-col gap-1">
             <p>1美金=10精钻</p>
             <p>
               精钻可购买VIP尊荣会员与黄游，钻石可用于游戏中使用，其他则用金币购买，如有疑问请与客服联络
@@ -171,7 +171,7 @@ const ProfilePayment = () => {
             linkurl:
               apiUrl +
               requestUrlConstants.toPaymentPageUrl +
-              `?uid=${state.user.id}&ctype=1&content-language=${lang}`,
+              `?uid=${state.user.id}&ctype=3&content-language=${lang}`,
           }}
         >
           <Image
@@ -235,7 +235,7 @@ const ProfilePayment = () => {
               linkurl:
                 apiUrl +
                 requestUrlConstants.toPaymentPageUrl +
-                `?uid=${state.user.id}&ctype=1&content-language=${lang}`,
+                `?uid=${state.user.id}&ctype=3&content-language=${lang}`,
             }}
           >
             <p className="payment_container_buttonbox_button_content">
