@@ -386,6 +386,7 @@ const HomeTcgMainPage = () => {
   };
 
   useEffect(() => {
+    gameManager.setIsCurrentTabOpeningGame(0);
     tcgGetProductTypes();
     useGlobalDispatch({
       type: "INIT_NAVBAR",
