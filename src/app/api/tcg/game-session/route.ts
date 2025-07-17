@@ -56,6 +56,7 @@ export async function POST(req) {
         success: true,
         hasActiveGame,
         gameId: hasActiveGame ? activeGames.get(userId) : null,
+        activeGames,
       }),
       { status: 200 },
     );

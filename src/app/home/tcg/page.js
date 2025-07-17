@@ -260,7 +260,9 @@ const HomeTcgMainPage = () => {
       }
 
       setCurrentGameUrl(data.data.url);
-      setCurrentGameProductType(data.data.product_type || "");
+      // setCurrentGameProductType(data.data.product_type || "");
+      const gameDetail = tcgGameList.find((game) => game.id === gameId);
+      setCurrentGameProductType(gameDetail?.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
       setIsGameOpen(false);
