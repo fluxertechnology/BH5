@@ -70,7 +70,7 @@ const ProfileMainNav = ({ sign, money }) => {
                 </div>
                 <div className="w-[170px] hidden md:block">
                   <LinkComponent
-                    className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
+                    className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px] hidden"
                     routes={pageUrlConstants.profile.pages.profilePayment}
                   >
                     <span className="text-[5.867vw] md:text-[22px] text-white">
@@ -79,7 +79,7 @@ const ProfileMainNav = ({ sign, money }) => {
                   </LinkComponent>
                   <LinkComponent
                     routes={pageUrlConstants.profile.pages.profileWithdraw}
-                    className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]"
+                    className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px] hidden"
                   >
                     <span className="text-[5.867vw] md:text-[22px] text-white">
                       我要提现
@@ -87,9 +87,6 @@ const ProfileMainNav = ({ sign, money }) => {
                   </LinkComponent>
                 </div>
               </div>
-              <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
-                可提现：{getPremiumDiamond(t, sign, true)}
-              </button>
             </div>
             {money > 0 && (
               <div className="w-full md:w-[608px] mx-auto">
@@ -129,7 +126,7 @@ const ProfileMainNav = ({ sign, money }) => {
                   </div>
                 </div>
                 <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
-                  可提现：{getPremiumDiamond(t, money)}
+                  总{getPriceUnit(t)}：{getPremiumDiamond(t, money)}
                 </button>
               </div>
             )}
