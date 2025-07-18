@@ -87,6 +87,9 @@ const ProfileMainNav = ({ sign, money }) => {
                   </LinkComponent>
                 </div>
               </div>
+              <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+                总{getPriceUnit(t, true)}：{getPremiumDiamond(t, sign, true)}
+              </button>
             </div>
             {money > 0 && (
               <div className="w-full md:w-[608px] mx-auto">
@@ -126,7 +129,7 @@ const ProfileMainNav = ({ sign, money }) => {
                   </div>
                 </div>
                 <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
-                  总{getPriceUnit(t)}：{getPremiumDiamond(t, money)}
+                  可提现：{getPremiumDiamond(t, money)}
                 </button>
               </div>
             )}
