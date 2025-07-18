@@ -68,9 +68,9 @@ const ProfileMainNav = ({ sign, money }) => {
                     {getPremiumDiamond(t, sign, true)}
                   </p>
                 </div>
-                <div className="w-[170px] hidden md:block">
+                <div className="w-[170px] hidden">
                   <LinkComponent
-                    className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px] hidden"
+                    className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
                     routes={pageUrlConstants.profile.pages.profilePayment}
                   >
                     <span className="text-[5.867vw] md:text-[22px] text-white">
@@ -79,7 +79,7 @@ const ProfileMainNav = ({ sign, money }) => {
                   </LinkComponent>
                   <LinkComponent
                     routes={pageUrlConstants.profile.pages.profileWithdraw}
-                    className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px] hidden"
+                    className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]"
                   >
                     <span className="text-[5.867vw] md:text-[22px] text-white">
                       我要提现
