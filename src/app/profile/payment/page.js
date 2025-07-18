@@ -23,7 +23,7 @@ import ProfileTransferCoinPage from "@/app/profile/transfer/page.js";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { pushRoutes } from "@/store/actions/historyActions";
-import { getPriceUnit, getUserPremiumDiamond } from "@/lib/services/price";
+import { getPriceUnit, getUserPremiumDiamond, getPremiumDiamond } from "@/lib/services/price";
 
 const { profile } = pageUrlConstants;
 
@@ -137,7 +137,7 @@ const ProfilePayment = () => {
                 -- 总精钻 --
               </p>
               <p className="text-[8vw] md:text-[4.126vw] text-[#f04c7e] font-bold">
-                {getUserPremiumDiamond(t, state.user)}
+                {getPremiumDiamond(t, state.user.money, false)}
               </p>
             </div>
           </div>
