@@ -86,7 +86,7 @@ const FirstRechargeCover = forwardRef((props, ref) => {
                 linkurl:
                   apiUrl +
                   requestUrlConstants.toPaymentPageUrl +
-                  `?uid=${user.id}&ctype=3&content-language=${lang}&origin=${window.location.origin}`,
+                  `?uid=${user.id}&ctype=1&content-language=${lang}&origin=${window.location.origin}`,
               }}
             >
               <WavaButton>

@@ -171,7 +171,7 @@ const ProfilePayment = () => {
             linkurl:
               apiUrl +
               requestUrlConstants.toPaymentPageUrl +
-              `?uid=${state.user.id}&ctype=3&content-language=${lang}&origin=${window.location.origin}`,
+              `?uid=${state.user.id}&ctype=1&content-language=${lang}&origin=${window.location.origin}`,
           }}
         >
           <Image
@@ -235,7 +235,7 @@ const ProfilePayment = () => {
               linkurl:
                 apiUrl +
                 requestUrlConstants.toPaymentPageUrl +
-                `?uid=${state.user.id}&ctype=3&content-language=${lang}&origin=${window.location.origin}`,
+                `?uid=${state.user.id}&ctype=1&content-language=${lang}&origin=${window.location.origin}`,
             }}
           >
             <p className="payment_container_buttonbox_button_content">
