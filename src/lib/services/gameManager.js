@@ -1,8 +1,8 @@
 class GameManager {
   constructor() {
-    this.storageKey = "activeGameSession";
-    this.tabIdKey = "tabId";
-    this.isOpeningGameKey = "isOpeningGame";
+    this.storageKey = "activeGameSession_v1";
+    this.tabIdKey = "tabId_v1";
+    this.isOpeningGameKey = "isOpeningGame_v1";
     this.tabId = this.getTabId();
   }
 
