@@ -131,7 +131,9 @@ class GameManager {
       console.error("Error ending game session:", error);
     }
 
-    if (this.getIsCurrentTabOpeningGame()) {
+    const isOpeningGame = sessionStorage.getItem(this.isOpeningGameKey) == "1";
+    console.log(this.getIsCurrentTabOpeningGame(), isOpeningGame);
+    if (isOpeningGame) {
       sessionStorage.removeItem(this.isOpeningGameKey);
       localStorage.removeItem(this.storageKey);
     }
