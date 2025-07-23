@@ -103,6 +103,7 @@ class GameManager {
           tabId: this.tabId,
         }),
       );
+      this.setIsCurrentTabOpeningGame(1);
 
       return { success: true };
     } catch (error) {
@@ -131,12 +132,12 @@ class GameManager {
       console.error("Error ending game session:", error);
     }
 
-    const isOpeningGame = sessionStorage.getItem(this.isOpeningGameKey) == "1";
-    console.log(this.getIsCurrentTabOpeningGame(), isOpeningGame);
-    if (isOpeningGame) {
+    if (this.getIsCurrentTabOpeningGame()) {
       sessionStorage.removeItem(this.isOpeningGameKey);
       localStorage.removeItem(this.storageKey);
     }
+
+    this.setIsCurrentTabOpeningGame(0);
   }
 
   isGameOpen() {
