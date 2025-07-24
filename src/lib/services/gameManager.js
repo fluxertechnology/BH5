@@ -1,8 +1,8 @@
 class GameManager {
   constructor() {
-    this.storageKey = "activeGameSession";
-    this.tabIdKey = "tabId";
-    this.isOpeningGameKey = "isOpeningGame";
+    this.storageKey = "activeGameSession_v1";
+    this.tabIdKey = "tabId_v1";
+    this.isOpeningGameKey = "isOpeningGame_v1";
     this.tabId = this.getTabId();
   }
 
@@ -58,18 +58,25 @@ class GameManager {
 
   async startGame(state, gameId) {
     const existing = localStorage.getItem(this.storageKey);
-    if (existing) {
-      const { tabId: storedTabId } = JSON.parse(existing);
-      if (storedTabId !== this.tabId) {
+    // if (existing) {
+    //   const { tabId: storedTabId } = JSON.parse(existing);
+    //   if (storedTabId !== this.tabId) {
+    //     return {
+    //       success: false,
+    //       message: "遊戲已在另一個分頁中運行",
+    //     };
+    //   }
+    // }
+
+    const sessionStatus = await this.checkActiveSession(state);
+
+    if (sessionStatus.hasActiveGame) {
+      if (existing) {
         return {
           success: false,
           message: "遊戲已在另一個分頁中運行",
         };
       }
-    }
-
-    const sessionStatus = await this.checkActiveSession(state);
-    if (sessionStatus.hasActiveGame) {
       return {
         success: false,
         message: "遊戲已在另一個瀏覽器中運行",
@@ -96,6 +103,7 @@ class GameManager {
           tabId: this.tabId,
         }),
       );
+      this.setIsCurrentTabOpeningGame(1);
 
       return { success: true };
     } catch (error) {
@@ -124,9 +132,12 @@ class GameManager {
       console.error("Error ending game session:", error);
     }
 
-    if (session.tabId === this.tabId) {
+    if (this.getIsCurrentTabOpeningGame()) {
+      sessionStorage.removeItem(this.isOpeningGameKey);
       localStorage.removeItem(this.storageKey);
     }
+
+    this.setIsCurrentTabOpeningGame(0);
   }
 
   isGameOpen() {
