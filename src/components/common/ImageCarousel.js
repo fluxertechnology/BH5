@@ -69,7 +69,7 @@ const ImageCarousel = ({
   useEffect(() => {
     switch (size) {
       case "banner_animated": //動畫頂部banner
-        setHeight(isMobile ? "30vw" : "10vw");
+        setHeight(isMobile ? "30vw" : "10.73vw");
         break;
       case "banner_ads": //廣告banner
         setHeight(isMobile ? "21vw" : "7vw");
@@ -94,9 +94,9 @@ const ImageCarousel = ({
   return (
     <ImageCarouselElement swiper_progress={swiper_progress} height={height}>
       <Swiper
-        className="image_carousel swiper-pagination-center"
+        className={`${threeInOneBanner ? "banner-padding" : ""} image_carousel swiper-pagination-center`}
         modules={[Pagination, A11y, Autoplay]}
-        spaceBetween={threeInOneBanner ? 0 : 50}
+        spaceBetween={threeInOneBanner ? 30 : 50}
         slidesPerView={threeInOneBanner ? 3 : 1}
         loop
         autoHeight
@@ -146,12 +146,12 @@ const ImageCarousel = ({
             </SwiperSlide>
           );
         })}
-        {is_cover && threeInOneBanner && (
+        {/* {is_cover && threeInOneBanner && (
           <div className="cover">
             <div className="cover_r" />
             <div className="cover_l" />
           </div>
-        )}
+        )} */}
 
         <div
           style={{
@@ -181,7 +181,7 @@ export const ImageCarouselElement = styled.div.withConfig({
     left: 0;
     z-index: 1;
     height: 2px;
-    background-color: #0009;
+    background-color: transparent;
     transition: ${({ swiper_progress }) => {
         return swiper_progress <= auto_play_time - 10
           ? auto_play_progress_move_time / 1000
@@ -229,5 +229,9 @@ export const ImageCarouselElement = styled.div.withConfig({
         vertical-align: middle;
       }
     }
+  }
+
+  .banner-padding{
+    width: 76.04vw;
   }
 `;

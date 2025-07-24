@@ -11,6 +11,9 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import ImageComponent from "@/components/common/ImageComponent";
 import { useTranslations } from "next-intl";
 
+import Image from "next/image";
+import diamondIcon from "@public/images/icons/diamond.png";
+
 const areEqual = (pre, next) => {
   return JSON.stringify(pre) === JSON.stringify(next);
 };
@@ -81,6 +84,13 @@ function ImgMediaCard(props) {
           </Typography>
           {data.title && !disabledPrice ? (
             <div className="content_tip">
+              <Image
+                        className="price_icon"
+                        src={diamondIcon}
+                        width={0}
+                        height={0}
+                        alt="heart"
+                      />
               {moneyAndGold(data.mone, data.yue, t)}
             </div>
           ) : (
@@ -102,7 +112,8 @@ export const CardElement = styled.div.withConfig({
       box-shadow: 0 0 7px 0 rgba(250, 113, 154, 0.84);
       border-radius: 5%;
     }
-    box-shadow: 0 0 2px black;
+    // box-shadow: 0 0 2px black;
+    --Paper-shadow: unset !important;
     border-radius: 10px;
     &::before {
       visibility: ${({ goldFrame }) => (goldFrame ? "init" : "hidden")};
@@ -151,9 +162,18 @@ export const CardElement = styled.div.withConfig({
       bottom: 5px;
       color: ${colors.dark_pink};
       white-space: nowrap;
+      display: flex;
+      align-items: center;
 
       @media (max-width: 599px) {
         font-size: 12px;
+      }
+
+      .price_icon{
+        margin-right: 5px;
+        width: 16px;
+        height: 16px;
+        vertical-align: bottom;
       }
     }
   }

@@ -402,7 +402,7 @@ export default function HomeMainPage() {
           className={`home_Main_container home_Main_hot_comic ${isMobile ? " g-flex-column-start " : "g-start"
             }  gap-3`}
         >
-          <section className={`${isMobile ? "w-100" : "f-60"}`}>
+          {/* <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
               <div className="home_Main_container_title_text">
                 <span className="home_Main_container_title_text_span">
@@ -419,16 +419,28 @@ export default function HomeMainPage() {
               </div>
             </div>
             <ShowItem list={localState.hot_comic_list} />
-          </section>
+          </section> */}
 
           <section
             className={`home_main_container_ranking g-flex-column-start ${isMobile ? "w-100" : "f-35"
               } `}
           >
-            <span className="home_Main_container_ranking_top g-flex-space-between  w-100 align-items-center px-3 py-1 ">
-              <p className="home_Main_container_ranking_top_title fw-m">
-                {t("Home.ranking.comic")}
-              </p>
+            <span className="home_Main_container_ranking_top g-flex-space-between  w-100 align-items-center py-1 ">
+              <div>
+                <div className="g-flex gap-3">
+                  <p className="home_Main_container_ranking_top_title">{t("Home.ranking.comic")}</p>
+                  <div className="btn-daily-ranking cursor">
+                    <span className="text-white">日排行榜</span>
+                  </div>
+                  <div className="btn-weekly-ranking cursor">
+                    <span className="text-white">周排行榜</span>
+                  </div>
+                  <div className="btn-monthly-ranking cursor">
+                    <span className="text-white">月排行榜</span>
+                  </div>
+                </div>
+              </div>
+
               <p
                 className="home_Main_container_subtitle"
                 onClick={() => toDetailPage("comic_ranking")}
@@ -437,7 +449,7 @@ export default function HomeMainPage() {
               </p>
             </span>
             <span
-              className={`g-flex-column-space-around h-100 ${isMobile && "w-100 g-overflow-auto"
+              className={`g-flex-start h-100 ${isMobile && "w-100 g-overflow-auto"
                 } gap-2`}
             >
               <ComicRankingItem list={localState.rank_comic_list} />
@@ -445,7 +457,7 @@ export default function HomeMainPage() {
           </section>
         </section>
 
-        <section className="home_Main_container home_Main_all_comic">
+        {/* <section className="home_Main_container home_Main_all_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
@@ -461,11 +473,11 @@ export default function HomeMainPage() {
           </div>
 
           <SlideCarousel items={localState.all_comic_list} />
-        </section>
+        </section> */}
       </article>
 
       <article className="anime_area">
-        <section className="home_Main_container home_Main_new_anime">
+        {/* <section className="home_Main_container home_Main_new_anime">
           <div className="home_Main_container_title">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
@@ -477,20 +489,35 @@ export default function HomeMainPage() {
             </div>
           </div>
           <SlideCarousel items={localState.week_anime_list} type="animated" />
-        </section>
+        </section> */}
 
         <section className="home_Main_container home_Main_rank_anime">
           <div className="home_Main_container_title g-flex-space-between">
-            <div className="home_Main_container_title_text">
+            {/* <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t("Home.ranking.anime")}
               </span>
-            </div>
+            </div> */}
+
+            <div>
+                <div className="g-flex gap-3">
+                  <span className="home_Main_container_title_text_span">{t("Home.ranking.anime")}</span>
+                  <div className="btn-daily-ranking cursor">
+                    <span className="text-white">日排行榜</span>
+                  </div>
+                  <div className="btn-weekly-ranking cursor">
+                    <span className="text-white">周排行榜</span>
+                  </div>
+                  <div className="btn-monthly-ranking cursor">
+                    <span className="text-white">月排行榜</span>
+                  </div>
+                </div>
+              </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("anime_ranking")}
             >
-              {t("Common.see_all")}
+              {t("Common.see_all")}&gt;
             </p>
           </div>
           <SlideCarousel
@@ -500,7 +527,7 @@ export default function HomeMainPage() {
           />
         </section>
 
-        <section className="home_Main_container home_Main_hot_anime">
+        {/* <section className="home_Main_container home_Main_hot_anime">
           <div className="home_Main_container_title">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
@@ -517,9 +544,9 @@ export default function HomeMainPage() {
             </div>
           </div>
           <ShowItem list={localState.hot_anime_list} type="animated" />
-        </section>
+        </section> */}
 
-        <section className="home_Main_container home_Main_all_anime">
+        {/* <section className="home_Main_container home_Main_all_anime">
           <div className="home_Main_container_title g-flex-space-between">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
@@ -534,7 +561,7 @@ export default function HomeMainPage() {
             </p>
           </div>
           <SlideCarousel items={localState.all_anime_list} type="animated" />
-        </section>
+        </section> */}
       </article>
 
       <article className="anime_area">
@@ -821,7 +848,7 @@ export const HomeMainPageElement = styled.div`
   // padding-top: 114px;
   position: relative;
   overflow: hidden;
-  background: #f3f4f5;
+  // background: #f3f4f5;
   display: flex;
   flex-direction: column;
   article {
@@ -902,9 +929,9 @@ export const HomeMainPageElement = styled.div`
 
       &_ranking {
         &_top {
-          color: #fff;
+          color: #000000;
           border-radius: 5px;
-          background-image: linear-gradient(99deg, #86b7f7 49%, #5a65f2);
+          // background-image: linear-gradient(99deg, #86b7f7 49%, #5a65f2);
           margin-bottom: 10px;
           box-sizing: border-box;
           &_title {
@@ -916,6 +943,36 @@ export const HomeMainPageElement = styled.div`
         }
       }
     }
+  }
+
+  .btn-daily-ranking{
+    background: linear-gradient(to right, #335fc2, #873fdb);
+    width: 4.69vw;
+    height: 1.56vw;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-weekly-ranking{
+    background: linear-gradient(to right, #c92379, #74478c);
+    width: 4.69vw;
+    height: 1.56vw;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-monthly-ranking{
+    background: linear-gradient(to right, #1494e2, #23ddc3);
+    width: 4.69vw;
+    height: 1.56vw;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .pc_friendly_url {

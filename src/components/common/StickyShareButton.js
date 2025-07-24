@@ -16,7 +16,7 @@ const StickyShareButton = forwardRef((props, ref) => {
     <StickyShareButtons
       ref={ref}
       config={{
-        alignment: "left", // alignment of buttons (left, right)
+        alignment: "right", // alignment of buttons (left, right)
         color: "social", // set the color of buttons (social, white)
         enabled: true, // show/hide buttons (true, false)
         font_size: 16, // font size for the buttons

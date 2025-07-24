@@ -6,6 +6,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { ranks } from "@/components/games/GameRender";
 import ImageComponent from "@/components/common/ImageComponent";
 import Image from "next/image";
+import CoverCubeItem from "@/components/common/CoverCubeItem";
 
 const comicRankingProps = createContext("");
 const Provider = comicRankingProps.Provider;
@@ -26,7 +27,7 @@ const ComicRankingItem = ({ list }) => {
         >
           {list.map((item, index) => {
             const { title, description, type, img } = item;
-            if (index <= 11) {
+            if (index <= 8) {
               return (
                 <ComicRankingElement index={index + 1} key={`${title}-${index}`}>
                   <Provider value={{ data: item, type }}>
@@ -70,23 +71,28 @@ const ComicRankingItem = ({ list }) => {
         <>
           {list.map((item, index) => {
             const { title, description, type, img } = item;
-            if (index <= 11) {
+            
+            if (index <= 8) {
               return (
                 <ComicRankingElement index={index + 1} key={index}>
                   <Provider value={{ data: item, type }}>
                     <Links contextProps={comicRankingProps}>
+                    <div className="comic_ranking_wrapper">
                       <section className="comic_ranking_number">
                         {index + 1}
                       </section>
                       <section className="g-flex-column-start">
-                        <span className="comic_ranking_title">{title}</span>
+                        {/* <span className="comic_ranking_title">{title}</span>
                         <span className="comic_ranking_description">
                           {description}
-                        </span>
+                        </span> */}
+                        <CoverCubeItem data={item} type={type} total_view_show />
                       </section>
+                    </div>
                     </Links>
                   </Provider>
                 </ComicRankingElement>
+                
               );
             }
           })}
@@ -123,6 +129,8 @@ const ComicRankingElement = styled.div.withConfig({
     color: #000;
     display: flex;
     gap: 0.5rem;
+    position: relative;
+    width: 8.13vw;
   }
 
   .comic_ranking {
@@ -156,18 +164,28 @@ const ComicRankingElement = styled.div.withConfig({
         }
       }
     }
-    &_number {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 25px;
-      height: 25px;
-      min-width: 25px;
-      font-weight: 600;
-      color: ${({ index }) => (index <= 3 ? "#fff" : "#000")};
-      background: ${({ index }) =>
-        index <= 3 ? colors.back_dark_pink : colors.text_light_grey};
+    &_wrapper{
+      overflow: hidden;
+      border-radius: 5px;
     }
+
+    &_number {
+      position: relative;
+      padding-bottom: 0.3em;
+      left: -50px;
+      top: -20px;
+      width: 7em;
+      height: 3.5em;
+      display: flex;
+      color: #fff;
+      justify-content: center;
+      align-items: end;
+      background: linear-gradient(to right, #335fc2, #873fdb);
+      transform: rotate(-0.13turn);
+      font-size: 1rem;
+      z-index: 1;
+    }
+
     &_title {
       font-size: 16px;
       overflow: hidden;
