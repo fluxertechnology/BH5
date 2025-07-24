@@ -8,7 +8,8 @@ import ImageComponent, {
 import { colors, pageUrlConstants } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
 
-import heartIcon from "@public/images/icons/heart.svg";
+// import heartIcon from "@public/images/icons/heart.svg";
+import diamondIcon from "@public/images/icons/diamond.png";
 import likeIcon from "@public/images/shared/like.svg";
 import unlikeIcon from "@public/images/shared/unlike.svg";
 import playIcon from "@public/images/shared/play.svg";
@@ -259,10 +260,13 @@ export const CoverCubeItemElement = styled.div.withConfig({
         margin-top: 5px;
 
         &_text {
-          font-size: 14px;
-          height: 16px;
+          font-size: 12px;
+          width: fit-content;
+          padding: 4px 6px;
+          height: auto;
           overflow: hidden;
-          color: #a8a8a8;
+          color: #ffffff !important;
+          background-color: #ff367a;
           @media (max-width: 899px) {
             font-size: 12px;
             height: 14px;
@@ -271,11 +275,11 @@ export const CoverCubeItemElement = styled.div.withConfig({
       }
 
       &_gold {
-        margin-top: 5px;
+        margin-top: 25px;
 
         &_text {
           font-size: 14px;
-          color: ${colors.dark_pink};
+          color: #000000;
           display: flex;
           align-items: center;
           @media (max-width: 899px) {
@@ -402,10 +406,31 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                   {isModal && rank !== undefined && rank + 1}
                 </div>
                 <div className="g-flex-column-center">
+                  {rankStyle
+                    ? data.description && (
+                      <div className="item_footer_description">
+                        <p className="item_footer_description_text">
+                          {data.description}
+                        </p>
+                      </div>
+                    )
+                  : data.total_episode &&
+                    !continueWatch &&
+                    !disabledPrice && (
+                      <div className="item_footer_description">
+                        <p className="item_footer_description_text">
+                          {data.process === 1
+                            ? t("Global.update_to")
+                            : t("Global.total")}
+                          {data.total_episode}
+                          {t("Global.word")}
+                        </p>
+                      </div>
+                  )}
                   <div className="item_footer_title">
                     <p className="item_footer_title_text">{data.title}</p>
                   </div>
-                  {rankStyle
+                  {/* {rankStyle
                     ? data.description && (
                         <div className="item_footer_description">
                           <p className="item_footer_description_text">
@@ -425,7 +450,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                             {t("Global.word")}
                           </p>
                         </div>
-                      )}
+                      )} */}
                 </div>
               </div>
               {/* 動畫、視頻 Hover的時候顯示的*/}
@@ -455,7 +480,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                     {!!getPrice(t, data) && (
                       <Image
                         className="item_footer_gold_text_icon"
-                        src={heartIcon}
+                        src={diamondIcon}
                         width={0}
                         height={0}
                         alt="heart"

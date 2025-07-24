@@ -39,10 +39,13 @@ export default function HomeMainPage() {
 
   const { state } = useGlobalContext();
 
+  // const [latestUploadTabValue, setLatestUploadTabValue] = useState();
   const [videoTabValue, setVideoTabValue] = useState();
   const [photoTabValue, setPhotoTabValue] = useState();
   const { isMobile } = useMediaQuery();
 
+  const [showComic, setShowComic] = useState(true);
+  const [showVideo, setShowVideo] = useState(false);
   const [page, setPage] = useState(1);
 
   const localState = useMemo(() => {
@@ -82,6 +85,28 @@ export default function HomeMainPage() {
       useGlobalDispatch(getHomeData());
     useGlobalDispatch(getContinueWatchData());
   }, [isMobile]);
+
+  const toggleContent = (comic, video) => {
+    if(comic){
+      document.querySelectorAll('.c-comic').forEach(element => {
+        element.classList.remove('inactive')
+      });
+      document.querySelectorAll('.c-video').forEach(element => {
+        element.classList.add('inactive')
+      });
+    }
+    if(video){
+      document.querySelectorAll('.c-comic').forEach(element => {
+        element.classList.add('inactive')
+      });
+      document.querySelectorAll('.c-video').forEach(element => {
+        element.classList.remove('inactive')
+      });
+    }
+
+    setShowComic(comic);
+    setShowVideo(video);
+  };
 
   const handleVideoIndexChange = (event, newValue) => {
     setVideoTabValue(newValue);
@@ -204,17 +229,17 @@ export default function HomeMainPage() {
   };
   labelList = isMobile
     ? {
-        ...labelList,
-        comic: {
-          name: t("Global.comics"),
-        },
-        animes: {
-          name: t("Global.animate"),
-        },
-        games: {
-          name: t("Game.label.game"),
-        },
-      }
+      ...labelList,
+      comic: {
+        name: t("Global.comics"),
+      },
+      animes: {
+        name: t("Global.animate"),
+      },
+      games: {
+        name: t("Game.label.game"),
+      },
+    }
     : labelList;
 
   const clickTabLabel = (key, dynamic) => {
@@ -310,8 +335,8 @@ export default function HomeMainPage() {
       />
 
       {localState.user.id !== "guest" &&
-      (localState.anime_watch_history.length > 0 ||
-        localState.comic_watch_history.length) ? (
+        (localState.anime_watch_history.length > 0 ||
+          localState.comic_watch_history.length) ? (
         <article className="anime_continue_watch_history_area">
           <section className="home_Main_container home_Main_new_comic">
             <div className="home_Main_container_title">
@@ -334,7 +359,7 @@ export default function HomeMainPage() {
 
       <article className="comic_area">
         <section className="home_Main_container home_Main_new_comic">
-          <div className="home_Main_container_title">
+          {/* <div className="home_Main_container_title">
             <div className="home_Main_container_title_text">
               <span className="home_Main_container_title_text_span">
                 {t("Home.added_this_week")}
@@ -343,14 +368,39 @@ export default function HomeMainPage() {
                 </span>
               </span>
             </div>
+          </div> */}
+
+          <div className="home_Main_container_title_wrapper">
+            <div className="home_Main_container_title cursor" onClick={() => toggleContent(true, false)}>
+                <div className="home_Main_container_title_text">
+                  <span className="home_Main_container_title_text_span c-comic">
+                    {t("Home.added_this_week")}
+                    <span className="home_Main_container_title_text_span_marked c-comic">
+                      {t("Global.comics")}
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div className="home_Main_container_title cursor" onClick={() => toggleContent(false, true)}>
+                <div className="home_Main_container_title_text">
+                  <span className="home_Main_container_title_text_span c-video inactive">
+                    {t("Home.added_this_week")}
+                    <span className="home_Main_container_title_text_span_marked c-video inactive">
+                      {t("Global.animate")}
+                    </span>
+                  </span>
+                </div>
+              </div>
           </div>
-          <SlideCarousel items={localState.weekComicList} />
+          {showComic && (<SlideCarousel items={localState.weekComicList} />)}
+          {showVideo && (<SlideCarousel items={localState.week_anime_list} type="animated" />)}
+
         </section>
 
         <section
-          className={`home_Main_container home_Main_hot_comic ${
-            isMobile ? " g-flex-column-start " : "g-start"
-          }  gap-3`}
+          className={`home_Main_container home_Main_hot_comic ${isMobile ? " g-flex-column-start " : "g-start"
+            }  gap-3`}
         >
           <section className={`${isMobile ? "w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
@@ -372,9 +422,8 @@ export default function HomeMainPage() {
           </section>
 
           <section
-            className={`home_main_container_ranking g-flex-column-start ${
-              isMobile ? "w-100" : "f-35"
-            } `}
+            className={`home_main_container_ranking g-flex-column-start ${isMobile ? "w-100" : "f-35"
+              } `}
           >
             <span className="home_Main_container_ranking_top g-flex-space-between  w-100 align-items-center px-3 py-1 ">
               <p className="home_Main_container_ranking_top_title fw-m">
@@ -388,9 +437,8 @@ export default function HomeMainPage() {
               </p>
             </span>
             <span
-              className={`g-flex-column-space-around h-100 ${
-                isMobile && "w-100 g-overflow-auto"
-              } gap-2`}
+              className={`g-flex-column-space-around h-100 ${isMobile && "w-100 g-overflow-auto"
+                } gap-2`}
             >
               <ComicRankingItem list={localState.rank_comic_list} />
             </span>
@@ -647,9 +695,8 @@ export default function HomeMainPage() {
         </section>
 
         <section
-          className={`home_Main_container home_Main_novel ${
-            isMobile ? " g-flex-column-start column-reverse" : "g-start"
-          }  gap-3`}
+          className={`home_Main_container home_Main_novel ${isMobile ? " g-flex-column-start column-reverse" : "g-start"
+            }  gap-3`}
         >
           <section className={`${isMobile ? " w-100" : "f-60"}`}>
             <div className="home_Main_container_title">
@@ -670,9 +717,8 @@ export default function HomeMainPage() {
 
           {/* 商城 */}
           <section
-            className={`home_main_container_ranking ${
-              isMobile ? "w-100" : "f-35"
-            }`}
+            className={`home_main_container_ranking ${isMobile ? "w-100" : "f-35"
+              }`}
           >
             <div className="home_Main_container_title">
               <div className="home_Main_container_title_text">
@@ -804,6 +850,11 @@ export const HomeMainPageElement = styled.div`
           margin-bottom: 0px;
         }
 
+        &_wrapper{
+          display: flex;
+          gap: 1.09vw;
+        }
+
         &_text {
           display: flex;
           align-items: center;
@@ -831,6 +882,10 @@ export const HomeMainPageElement = styled.div`
               color: ${colors.back_dark_pink};
             }
           }
+        }
+
+        .inactive{
+          color: #666666;
         }
       }
 
