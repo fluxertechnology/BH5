@@ -68,7 +68,7 @@ const ProfileMainNav = ({ sign, money }) => {
                     {getPremiumDiamond(t, sign, true)}
                   </p>
                 </div>
-                <div className="w-[170px]">
+                <div className="w-[170px] md:block hidden">
                   <LinkComponent
                     className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
                     routes={pageUrlConstants.profile.pages.profilePayment}
@@ -109,7 +109,7 @@ const ProfileMainNav = ({ sign, money }) => {
                       {getPremiumDiamond(t, money)}
                     </p>
                   </div>
-                  <div className="w-[170px] hidden md:block">
+                  <div className="w-[170px] md:block hidden">
                     <LinkComponent
                       className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
                       routes={pageUrlConstants.profile.pages.profilePayment}
