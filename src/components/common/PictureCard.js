@@ -76,7 +76,7 @@ export const PictureCardElement = styled.div`
       &_title {
         overflow: hidden;
         height: ${2.5 * 18}px;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
       }
 

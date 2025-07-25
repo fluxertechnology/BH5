@@ -81,7 +81,7 @@ const ComicRankingItem = ({ list }) => {
                       <section className="comic_ranking_number">
                         {index + 1}
                       </section>
-                      <section className="g-flex-column-start">
+                      <section className={`${type == 0 ? 'anime-ranking' : '' } g-flex-column-start`}>
                         {/* <span className="comic_ranking_title">{title}</span>
                         <span className="comic_ranking_description">
                           {description}
@@ -128,9 +128,14 @@ const ComicRankingElement = styled.div.withConfig({
     text-decoration: none;
     color: #000;
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    width: 8.13vw;
+    width: 7.73vw;
+  }
+
+  .anime-ranking .item .item_body div{
+    padding-bottom: 100% !important;
   }
 
   .comic_ranking {
@@ -167,10 +172,11 @@ const ComicRankingElement = styled.div.withConfig({
     &_wrapper{
       overflow: hidden;
       border-radius: 5px;
+      position: relative;
     }
 
     &_number {
-      position: relative;
+      position: absolute;
       padding-bottom: 0.3em;
       left: -50px;
       top: -20px;
@@ -183,7 +189,7 @@ const ComicRankingElement = styled.div.withConfig({
       background: linear-gradient(to right, #335fc2, #873fdb);
       transform: rotate(-0.13turn);
       font-size: 1rem;
-      z-index: 1;
+      z-index: 2;
     }
 
     &_title {

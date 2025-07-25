@@ -60,7 +60,7 @@ const SlideCarousel = ({
         transform: "scaleX(-1)",
         position: "absolute",
         left: 10,
-        top: "35%",
+        top: "38%",
         zIndex: 3
       },
       status: "prev",
@@ -69,7 +69,7 @@ const SlideCarousel = ({
       style: {
         position: "absolute",
         right: 10,
-        top: "35%",
+        top: "38%",
         zIndex: 3
       },
       status: "next",

@@ -87,7 +87,7 @@ export default function HomeMainPage() {
   }, [isMobile]);
 
   const toggleContent = (comic, video) => {
-    if(comic){
+    if (comic) {
       document.querySelectorAll('.c-comic').forEach(element => {
         element.classList.remove('inactive')
       });
@@ -95,7 +95,7 @@ export default function HomeMainPage() {
         element.classList.add('inactive')
       });
     }
-    if(video){
+    if (video) {
       document.querySelectorAll('.c-comic').forEach(element => {
         element.classList.add('inactive')
       });
@@ -372,26 +372,26 @@ export default function HomeMainPage() {
 
           <div className="home_Main_container_title_wrapper">
             <div className="home_Main_container_title cursor" onClick={() => toggleContent(true, false)}>
-                <div className="home_Main_container_title_text">
-                  <span className="home_Main_container_title_text_span c-comic">
-                    {t("Home.added_this_week")}
-                    <span className="home_Main_container_title_text_span_marked c-comic">
-                      {t("Global.comics")}
-                    </span>
+              <div className="home_Main_container_title_text">
+                <span className="home_Main_container_title_text_span c-comic">
+                  {t("Home.added_this_week")}
+                  <span className="home_Main_container_title_text_span_marked c-comic">
+                    {t("Global.comics")}
                   </span>
-                </div>
+                </span>
               </div>
+            </div>
 
-              <div className="home_Main_container_title cursor" onClick={() => toggleContent(false, true)}>
-                <div className="home_Main_container_title_text">
-                  <span className="home_Main_container_title_text_span c-video inactive">
-                    {t("Home.added_this_week")}
-                    <span className="home_Main_container_title_text_span_marked c-video inactive">
-                      {t("Global.animate")}
-                    </span>
+            <div className="home_Main_container_title cursor" onClick={() => toggleContent(false, true)}>
+              <div className="home_Main_container_title_text">
+                <span className="home_Main_container_title_text_span c-video inactive">
+                  {t("Home.added_this_week")}
+                  <span className="home_Main_container_title_text_span_marked c-video inactive">
+                    {t("Global.animate")}
                   </span>
-                </div>
+                </span>
               </div>
+            </div>
           </div>
           {showComic && (<SlideCarousel items={localState.weekComicList} />)}
           {showVideo && (<SlideCarousel items={localState.week_anime_list} type="animated" />)}
@@ -450,7 +450,7 @@ export default function HomeMainPage() {
             </span>
             <span
               className={`g-flex-start h-100 ${isMobile && "w-100 g-overflow-auto"
-                } gap-2`}
+                } gap-3`}
             >
               <ComicRankingItem list={localState.rank_comic_list} />
             </span>
@@ -500,19 +500,19 @@ export default function HomeMainPage() {
             </div> */}
 
             <div>
-                <div className="g-flex gap-3">
-                  <span className="home_Main_container_title_text_span">{t("Home.ranking.anime")}</span>
-                  <div className="btn-daily-ranking cursor">
-                    <span className="text-white">日排行榜</span>
-                  </div>
-                  <div className="btn-weekly-ranking cursor">
-                    <span className="text-white">周排行榜</span>
-                  </div>
-                  <div className="btn-monthly-ranking cursor">
-                    <span className="text-white">月排行榜</span>
-                  </div>
+              <div className="g-flex gap-3">
+                <span className="home_Main_container_title_text_span">{t("Home.ranking.anime")}</span>
+                <div className="btn-daily-ranking cursor">
+                  <span className="text-white">日排行榜</span>
+                </div>
+                <div className="btn-weekly-ranking cursor">
+                  <span className="text-white">周排行榜</span>
+                </div>
+                <div className="btn-monthly-ranking cursor">
+                  <span className="text-white">月排行榜</span>
                 </div>
               </div>
+            </div>
             <p
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("anime_ranking")}
@@ -520,11 +520,19 @@ export default function HomeMainPage() {
               {t("Common.see_all")}&gt;
             </p>
           </div>
-          <SlideCarousel
+          {/* <SlideCarousel
             items={localState.rank_anime_list}
             type="animated"
             rankStyle
-          />
+          /> */}
+
+
+          <div className={`g-flex-start h-100 ${isMobile && "w-100 g-overflow-auto"
+                } gap-3`}>
+
+            <ComicRankingItem list={localState.rank_anime_list} type="animated" rankStyle />
+          </div>
+
         </section>
 
         {/* <section className="home_Main_container home_Main_hot_anime">
@@ -576,7 +584,7 @@ export default function HomeMainPage() {
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("feature_game")}
             >
-              {t("Common.see_all")}
+              {t("Common.see_all")}&gt;
             </p>
           </div>
           <SlideCarousel items={localState.game_list} type="game" />
@@ -612,7 +620,7 @@ export default function HomeMainPage() {
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("video")}
             >
-              {t("Common.see_all")}
+              {t("Common.see_all")}&gt;
             </p>
           </div>
           {isMobile && videoTabValue && (
@@ -683,7 +691,7 @@ export default function HomeMainPage() {
               className="home_Main_container_subtitle"
               onClick={() => toDetailPage("photo")}
             >
-              {t("Common.see_all")}
+              {t("Common.see_all")}&gt;
             </p>
           </div>
           {isMobile && photoTabValue && (
@@ -736,84 +744,111 @@ export default function HomeMainPage() {
                 className="home_Main_container_subtitle"
                 onClick={() => toDetailPage("novel_list")}
               >
-                {t("Common.see_all")}
+                {t("Common.see_all")}&gt;
               </p>
             </div>
-            <ShowItem list={localState.novel_list} type="novel" />
+            {/* <ShowItem list={localState.novel_list} type="novel" /> */}
+            <SlideCarousel items={localState.novel_list} type="novel" />
           </section>
 
-          {/* 商城 */}
-          <section
-            className={`home_main_container_ranking ${isMobile ? "w-100" : "f-35"
-              }`}
-          >
-            <div className="home_Main_container_title">
-              <div className="home_Main_container_title_text">
-                <span className="home_Main_container_title_text_span">
-                  {t("Navbar.bottom_navigator_mall")}
-                </span>
-              </div>
-              <p
-                className="home_Main_container_subtitle"
-                onClick={() => toDetailPage("shop")}
-              >
-                {t("Common.see_all")}
-              </p>
-            </div>
-            <div className="grid grid-cols-2  gap-6">
-              {paginatedList.map((item) => (
-                <div
-                  key={item.product_id}
-                  onClick={goToVendor}
-                  className="bg-white shadow rounded-2xl overflow-hidden transition hover:shadow-lg cursor-pointer"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.store_name}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-2">
-                    <h3 className="text-lg font-semibold truncate">
-                      {item.store_name}
-                    </h3>
-                    <p className="text-green-600 font-bold mt-1">
-                      ¥{item.price}
-                    </p>
-                    <p className="text-gray-600 text-sm mt-2 line-clamp-2">
-                      {item.store_info}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center mt-6 space-x-2">
-              <div className="flex items-center justify-center gap-2 mt-6">
-                <button
-                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  className="px-2 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
-                  disabled={page <= 1}
-                >
-                  {t("Home.previous_page")}
-                </button>
-
-                <span className="px-2 py-2 text-gray-700">
-                  {t("Home.page_number", { page, totalPages })}
-                </span>
-
-                <button
-                  onClick={() =>
-                    setPage((prev) => Math.min(prev + 1, totalPages))
-                  }
-                  className="px-2 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
-                  disabled={page >= totalPages}
-                >
-                  {t("Home.next_page")}
-                </button>
-              </div>
-            </div>
-          </section>
         </section>
+
+        <section
+          className={`home_Main_container home_Main_novel ${isMobile ? " g-flex-column-start column-reverse" : "g-start"
+            }  gap-3`}
+        >
+          <div className={`${isMobile ? " w-100" : "f-60"}`}>
+            <div className="home_Main_container_title">
+            <div className="home_Main_container_title_text">
+              <span className="home_Main_container_title_text_span">
+                {t("Navbar.bottom_navigator_mall")}
+              </span>
+            </div>
+            <p
+              className="home_Main_container_subtitle"
+              onClick={() => toDetailPage("shop")}
+            >
+              {t("Common.see_all")}&gt;
+            </p>
+          </div>
+            {/* <ShowItem list={localState.novel_list} type="novel" /> */}
+            <SlideCarousel items={list}  />
+          </div>
+
+        </section>
+
+
+        {/* 商城 */}
+        {/* <section
+          className={`home_main_container_ranking ${isMobile ? "w-100" : "f-35"
+            }`}
+        >
+          <div className="home_Main_container_title">
+            <div className="home_Main_container_title_text">
+              <span className="home_Main_container_title_text_span">
+                {t("Navbar.bottom_navigator_mall")}
+              </span>
+            </div>
+            <p
+              className="home_Main_container_subtitle"
+              onClick={() => toDetailPage("shop")}
+            >
+              {t("Common.see_all")}
+            </p>
+          </div>
+          <div className="grid grid-cols-2  gap-6">
+            {paginatedList.map((item) => (
+              <div
+                key={item.product_id}
+                onClick={goToVendor}
+                className="bg-white shadow rounded-2xl overflow-hidden transition hover:shadow-lg cursor-pointer"
+              >
+                <img
+                  src={item.image}
+                  alt={item.store_name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-2">
+                  <h3 className="text-lg font-semibold truncate">
+                    {item.store_name}
+                  </h3>
+                  <p className="text-green-600 font-bold mt-1">
+                    ¥{item.price}
+                  </p>
+                  <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+                    {item.store_info}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-6 space-x-2">
+            <div className="flex items-center justify-center gap-2 mt-6">
+              <button
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                className="px-2 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                disabled={page <= 1}
+              >
+                {t("Home.previous_page")}
+              </button>
+
+              <span className="px-2 py-2 text-gray-700">
+                {t("Home.page_number", { page, totalPages })}
+              </span>
+
+              <button
+                onClick={() =>
+                  setPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                className="px-2 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                disabled={page >= totalPages}
+              >
+                {t("Home.next_page")}
+              </button>
+            </div>
+          </div>
+        </section> */}
       </article>
     </HomeMainPageElement>
   );
@@ -935,6 +970,7 @@ export const HomeMainPageElement = styled.div`
           margin-bottom: 10px;
           box-sizing: border-box;
           &_title {
+            font-weight: 600;
             font-size: 14px;
             @media (min-width: 899px) {
               font-size: 20px;
@@ -943,6 +979,20 @@ export const HomeMainPageElement = styled.div`
         }
       }
     }
+  }
+
+  .home_Main_new_comic .box-left, .home_Main_new_comic .box-right {
+    top: 23%;
+    height: 7.81vw;
+  }
+
+  .home_Main_new_comic .anime-slider-btn.box-left, .home_Main_new_comic .anime-slider-btn.box-right {
+    top: 18%;
+    height: 7.81vw;
+  }
+
+  .home_Main_rank_anime{
+    padding-top: 3.125rem;
   }
 
   .btn-daily-ranking{
