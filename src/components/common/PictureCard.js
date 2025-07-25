@@ -41,7 +41,7 @@ const PictureCard = ({ data, total_view_show }) => {
           />
         </div>
         <div className="card_body">
-          <div className="card_body_title">{data.title}</div>
+          <div className="card_body_title line-clamp-2">{data.title}</div>
           <div className="card_body_heart">
             <Image className="card_body_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
             {getPrice(t, data)}
@@ -67,20 +67,29 @@ export const PictureCardElement = styled.div`
   .card {
     cursor: pointer;
     overflow: hidden;
-    border: 1px solid rgb(0 0 0 / 20%);
+    // border: 1px solid rgb(0 0 0 / 20%);
     border-radius: 10px;
+
+    @media (min-width: 899px) and (max-width: 1919px) {
+      .card_header{
+        min-width: 13.1875rem;
+        min-height: 12.625rem;
+      }
+    }
 
     &_body {
       padding: 5px;
 
       &_title {
         overflow: hidden;
-        height: ${2.5 * 18}px;
-        font-size: 14px;
+        height: ${2 * 18}px;
+        font-size: 13px;
         font-weight: 600;
       }
 
       &_heart {
+        display: flex;
+        align-items: center;
         margin-top: 5px;
         font-size: 14px;
         color: #fa719a;

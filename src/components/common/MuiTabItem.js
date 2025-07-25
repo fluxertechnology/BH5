@@ -64,7 +64,7 @@ const AntTab = styled((props) => <Tab disableRipple {...Object.fromEntries(Objec
     },
     "&.Mui-selected": {
       color: colors.dark_pink,
-      fontWeight: theme.typography.fontWeightMedium,
+      fontWeight: theme.typography.fontWeightBold,
     },
   })
 );

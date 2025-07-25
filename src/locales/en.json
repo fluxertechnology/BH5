@@ -291,7 +291,9 @@
         "description_2": "Watch anime videos in one go",
         "button": "Register now to experience"
       }
-    }
+    },
+    "sold": "Sold",
+    "promo-price":"Promo"
   },
   "Toast": {
     "send_success": "Donate Success~",

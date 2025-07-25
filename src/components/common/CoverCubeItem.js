@@ -110,7 +110,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
   /*  */
   position: ${({ externalControlPosition }) =>
     !externalControlPosition && "relative"};
-  margin: 0.1rem;
+  margin: 0rem;
   background: ${({ rankStyle }) => rankStyle && "#e2eeff"};
   border-radius: 3%;
   &:hover {
@@ -310,6 +310,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
   const [likeIconStatus, setLikeIconStatus] = useState(
     Boolean(data.is_collect),
   );
+  const isVendor = ["vendor"].includes(type);
   const isVideo = ["animated", "video"].includes(type);
   const onCollect = () => {
     collectAction(
@@ -324,6 +325,8 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     } else {
       if (type === "video" || type === "animated") {
         return 65;
+      } else if(type == "vendor") {
+        return 100;
       } else {
         return 140;
       }
@@ -349,7 +352,22 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               height={nowHeight()}
             />
           </Links>
-        ) : (
+        ) : isVendor ? (
+          <Links>
+            <ImageComponent
+              is_cover
+              cover={true}
+              src={data.image}
+              alt={data.store_name}
+              lazyLoad={false}
+              title={data.store_name}
+              isFree={
+                data.price == 0
+              }
+              height={nowHeight()}
+            />
+          </Links>
+        ): (
           <ImageComponent
             is_cover
             lazyLoad={false}
@@ -469,7 +487,16 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                   </div>
                   <div className="item_description">{data.description}</div>
                 </>
-              ) : (
+              ) : isVendor ? (
+                <div>
+                  <h3 className="text-[14px] font-semibold line-clamp-1">{data.store_name}</h3>
+                  <div className="g-flex items-baseline gap-3">
+                    <div className="bg-[#ff367a] text-white text-[12px] h-[18px] px-[3px]">{t("Global.promo-price")}</div>
+                    <p className="text-[18px] text-[#ff367a] font-bold mt-1">${data.price}</p>
+                  </div>
+                  <div className="text-gray-600 text-sm mt-2 line-clamp-2">{t("Global.sold")}&nbsp;&nbsp;{data.sales}{data.unit_name}</div>
+                </div>
+              ): (
                 ""
               )}
 

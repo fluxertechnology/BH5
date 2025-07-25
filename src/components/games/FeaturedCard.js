@@ -27,7 +27,7 @@ const FeaturedCard = ({
     >
       <div
         style={{
-          padding: !goldFrame && "0.1rem",
+          padding: !goldFrame && "0rem",
           ...style
           // width: isMobile && window.innerWidth / (goldFrame ? 3.5 : 4),
         }}

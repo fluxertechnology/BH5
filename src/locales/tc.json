@@ -291,7 +291,9 @@
         "description_2": "动画视频一次满足",
         "button": "立即注册体验"
       }
-    }
+    },
+    "sold": "已搶",
+    "promo-price":"優惠價"
   },
   "Toast": {
     "send_success": "贈送成功~",
