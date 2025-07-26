@@ -6,12 +6,19 @@ import { useGlobalContext, useGlobalDispatch } from "@/store";
 import styled from "styled-components";
 import Grid from "@mui/material/Grid";
 import VendorItemCard from "@/components/vendor/VendorItemCard";
-import { adsKeys, colors, side_padding, vendorUrl } from "@/lib/constants/index.js";
+import {
+  adsKeys,
+  colors,
+  side_padding,
+  vendorUrl,
+} from "@/lib/constants/index.js";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useRouter } from "next/navigation";
-import TopBarContainer, { main_height } from "@/components/layout/Header/TopBarContainer";
+import TopBarContainer, {
+  main_height,
+} from "@/components/layout/Header/TopBarContainer";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
-import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js"
+import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js";
 import ImageCarousel from "@/components/common/ImageCarousel";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import WebTopBar from "@/components/layout/Header/WebTopBar";
@@ -38,18 +45,16 @@ const VendorMain = () => {
           <>
             <TopBarContainer>
               {isMobile ? (
-                <TopTitleBar
-                  title={t("mall")}
-                ></TopTitleBar>
+                <TopTitleBar title={t("mall")}></TopTitleBar>
               ) : (
                 <WebTopBar />
               )}
             </TopBarContainer>
           </>
         ),
-      }
+      },
     });
-}, [isMobile]);
+  }, [isMobile]);
 
   return (
     <VendorMainElement>
@@ -61,10 +66,17 @@ const VendorMain = () => {
       />
       <div className="vendor_container" onClick={goToVendor}>
         <p className="vendor_container_title"></p>
-        <div className="vendor_container_content">
-          <Grid container direction="row" alignItems="start" spacing={2}>
+        <div className="relative">
+          <Grid
+            container
+            direction="row"
+            alignItems="start"
+            rowSpacing={6.1}
+            columnSpacing={0}
+            className="m-auto"
+          >
             {state.vendorListData?.list?.map((data, index) => (
-              <Grid item md={2.4} xs={6} key={index + 1}>
+              <Grid item md={1.712} xs={6} key={index + 1}>
                 <VendorItemCard data={data} />
               </Grid>
             ))}
@@ -75,13 +87,13 @@ const VendorMain = () => {
   );
 };
 
-export default VendorMain
+export default VendorMain;
 
 const VendorMainElement = styled.div`
   /*  */
   padding-top: ${main_height}px;
   padding-bottom: ${bottom_nav_height}px;
-  background-color: #f3f4f5;
+  background-color: #ffffff;
 
   .user_info {
     display: flex;
@@ -249,8 +261,9 @@ const VendorMainElement = styled.div`
     cursor: pointer;
 
     @media (min-width: 899px) {
-      padding-right: 10%;
-      padding-left: 10%;
+      padding-right: 11.7%;
+      padding-left: 11.7%;
+      margin-top: 2.5vw;
     }
 
     &_title {
