@@ -463,7 +463,7 @@ export default function HomeMainPage() {
 
         </section>
 
-         <section className="home_Main_container home_Main_rank_anime">
+         <section className="home_Main_container home_Main_rank_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <div>
               <div className="g-flex gap-3">
@@ -948,17 +948,72 @@ export const HomeMainPageElement = styled.div`
   }
 
   .home_Main_new_comic .box-left, .home_Main_new_comic .box-right {
-    top: 23%;
-    height: 7.81vw;
+    @media (min-width: 1920px){
+      transform: translate(0, 4.875rem);
+    }
+    
+    @media (min-width: 2540px){
+      transform: translate(0, 8.875rem);
+    }
   }
 
-  .home_Main_new_comic .anime-slider-btn.box-left, .home_Main_new_comic .anime-slider-btn.box-right {
-    top: 18%;
-    height: 7.81vw;
+  .home_Main_new_comic .anime-slider-btn .box-left, .home_Main_new_comic .anime-slider-btn .box-right {
+    @media (min-width: 1920px){
+      transform: translate(0, 1.875rem);
+    }
+
+    @media (min-width: 2540px){
+      transform: translate(0, 4.875rem);
+    }
+  }
+
+  .home_Main_new_comic .img_btn_wrapper img{
+    @media (min-width: 1920px){
+      top: 8.625rem !important;
+    }
+
+    @media (min-width: 2540px){
+      top: 12.625rem !important;
+    }
+  }
+
+  .home_Main_new_comic .anime-slider-btn img{
+    @media (min-width: 1920px){
+      top: 5.625rem !important;
+    }
+
+    @media (min-width: 2540px){
+      top: 8.625rem !important;
+    }
   }
 
   .home_Main_rank_anime{
     padding-top: 3.125rem;
+  }
+  
+  .home_Main_novel .item .item_body div{
+    padding-bottom: 100% !important;
+  }
+
+  .home_Main_rank_comic .total_view{
+    top: 40%;
+    bottom: 0;
+    justify-content: start;
+
+    @media (min-width: 2540px){
+      top: 56%
+    }
+  }
+
+  .home_Main_rank_anime .total_view{
+    top: 90%;
+    bottom: 0;
+    justify-content: start;
+  }
+
+  .home_Main_novel .total_view{
+    top: 90%;
+    bottom: 0;
   }
 
   .btn-daily-ranking{

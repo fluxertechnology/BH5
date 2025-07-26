@@ -147,6 +147,10 @@ const ComicRankingElement = styled.div.withConfig({
   .anime-ranking .item .item_body div{
     padding-bottom: 100% !important;
     min-height: 9.25rem;
+
+    @media (min-width: 2540px){
+      min-height: 13.25rem;
+    }
   }
 
   .comic_ranking {

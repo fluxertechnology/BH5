@@ -54,13 +54,16 @@ const SlideCarousel = ({
     animationRef.current = requestAnimationFrame(animateItems);
   }
 
+  const is2540 = (window.innerWidth > 2540 && window.innerWidth > 1920);
+  const is1920 = window.innerWidth > 1929;
+
   const imgButtonItems = [
     {
       style: {
         transform: "scaleX(-1)",
         position: "absolute",
         left: 10,
-        top: "38%",
+        top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
         zIndex: 3
       },
       status: "prev",
@@ -69,7 +72,7 @@ const SlideCarousel = ({
       style: {
         position: "absolute",
         right: 10,
-        top: "38%",
+        top: is2540 ? "8.625rem" : "5.625rem",
         zIndex: 3
       },
       status: "next",
@@ -134,8 +137,8 @@ const SlideCarousel = ({
       {!isMobile &&
         items.length > (type === "anime" || type === "video" ? 4 : 6) &&
         imgButtonItems.map((item, index) => (
-          <div className="img_btn_wrapper cursor">
-            {index == 0 && <div className={`${type === "animated" ? 'anime-slider-btn': ''} box-left`} onClick={() => onClickEvent(item.status)}></div> }
+          <div className={`${type === "animated" ? 'anime-slider-btn' : ''} img_btn_wrapper cursor`}>
+            {index == 0 && <div className="box-left" onClick={() => onClickEvent(item.status)}></div>}
             <Image
               key={index}
               width={0}
@@ -146,7 +149,7 @@ const SlideCarousel = ({
               style={item.style}
               onClick={() => onClickEvent(item.status)}
             />
-            {index == 1 && <div className={`${type === "animated" ? 'anime-slider-btn': ''} box-right`} onClick={() => onClickEvent(item.status)}></div> }
+            {index == 1 && <div className="box-right" onClick={() => onClickEvent(item.status)}></div>}
           </div>
         ))}
 
@@ -178,32 +181,32 @@ const SlideCarouselElement = styled.div.withConfig({
   .box-left {
     position: absolute;
     left: 0px;
-    top: 19%;
+    top: 0;
     width: 35px;
-    height: 7.81vw;
+    height: 9.375rem;
     background-color: rgba(0, 0, 0, 0.5);
     pointer: cursor;
     z-index: 2;
+    transform: translate(0, 1.875rem);
+
+    @media (min-width: 2540px){
+      transform: translate(0, 4.875rem);
+    }
   }
 
   .box-right {
     position: absolute;
     right: 0px;
-    top: 19%;
+    top: 0;
     width: 35px;
-    height: 7.81vw;
+    height: 9.375rem;
     background-color: rgba(0, 0, 0, 0.5);
     pointer: cursor;
     z-index: 2;
-  }
+    transform: translate(0, 1.875rem);
 
-  .anime-slider-btn.box-left {
-    top: 15%;
-    height: 7.81vw;
-  }
-
-  .anime-slider-btn.box-right {
-    top: 15%;
-    height: 7.81vw;
+    @media (min-width: 2540px){
+      transform: translate(0, 4.875rem);
+    }
   }
 `;
