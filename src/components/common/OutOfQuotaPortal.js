@@ -17,7 +17,12 @@ import {
 } from "@/store/actions/historyActions";
 import Image from "next/image";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
-import { getOutOfQuotaPrice, getPriceUnit, getPremiumDiamond, getUserPremiumDiamond } from "../../lib/services/price";
+import {
+  getOutOfQuotaPrice,
+  getPriceUnit,
+  getPremiumDiamond,
+  getUserPremiumDiamond,
+} from "../../lib/services/price";
 
 let typeStr = ["小说", "美图", "漫画", "动画"];
 const OutOfQuotaPortal = () => {
@@ -25,7 +30,7 @@ const OutOfQuotaPortal = () => {
   const t = useTranslations();
 
   const [showBuyBoard, setShowBuyBoard] = useState(
-    state.outOfQuotaData.showBuy,
+    state.outOfQuotaData.showBuy
   );
 
   function judgeUnit() {
@@ -73,7 +78,7 @@ const OutOfQuotaPortal = () => {
       type: "CLOSE_OUTOFQUOTAPORTAL",
     });
     useGlobalDispatch(
-      pushRoutes(pageUrlConstants.profile.pages.profilePayment),
+      pushRoutes(pageUrlConstants.profile.pages.profilePayment)
     );
   };
   const addMissionRecord = (mission_id) => {
@@ -128,7 +133,7 @@ const OutOfQuotaPortal = () => {
                   className="show_container_content_button_btn"
                   onClick={() => setShowBuyBoard(true)}
                 >
-                  {`${getPriceUnit(t)}支付`}
+                  {`${getPriceUnit(t, state.outOfQuotaData.unit === 'gold')}支付`}
                 </div>
                 <div
                   className="show_container_content_button_btn highlight"
@@ -186,7 +191,7 @@ const OutOfQuotaPortal = () => {
                   onClick={onClick}
                 >
                   <span className="buy_content_card_button_btn_text">
-                    立即购买
+                    {t("Profile.buy.label.buy_now")}
                   </span>
                 </div>
               </div>
@@ -196,12 +201,11 @@ const OutOfQuotaPortal = () => {
                 <p className="buy_content_recharge_gold_text">
                   当前拥有：
                   <span className="buy_content_recharge_gold_text_span pr-1">
-                    {getUserPremiumDiamond(t, state.user)}
-                    {/* {`${
+                    {
                       state.outOfQuotaData.unit === "gold"
                         ? getPremiumDiamond(t, state.user.sign, true)
                         : getPremiumDiamond(t, state.user.money, false)
-                    }`} */}
+                    }
                   </span>
                 </p>
               </div>

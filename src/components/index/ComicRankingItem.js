@@ -6,6 +6,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { ranks } from "@/components/games/GameRender";
 import ImageComponent from "@/components/common/ImageComponent";
 import Image from "next/image";
+import CoverCubeItem from "@/components/common/CoverCubeItem";
 
 const comicRankingProps = createContext("");
 const Provider = comicRankingProps.Provider;
@@ -26,7 +27,7 @@ const ComicRankingItem = ({ list }) => {
         >
           {list.map((item, index) => {
             const { title, description, type, img } = item;
-            if (index <= 11) {
+            if (index <= 8) {
               return (
                 <ComicRankingElement index={index + 1} key={`${title}-${index}`}>
                   <Provider value={{ data: item, type }}>
@@ -70,23 +71,28 @@ const ComicRankingItem = ({ list }) => {
         <>
           {list.map((item, index) => {
             const { title, description, type, img } = item;
-            if (index <= 11) {
+            
+            if (index <= 8) {
               return (
                 <ComicRankingElement index={index + 1} key={index}>
                   <Provider value={{ data: item, type }}>
                     <Links contextProps={comicRankingProps}>
+                    <div className="comic_ranking_wrapper">
                       <section className="comic_ranking_number">
                         {index + 1}
                       </section>
-                      <section className="g-flex-column-start">
-                        <span className="comic_ranking_title">{title}</span>
+                      <section className={`${type == 0 ? 'anime-ranking' : '' } g-flex-column-start`}>
+                        {/* <span className="comic_ranking_title">{title}</span>
                         <span className="comic_ranking_description">
                           {description}
-                        </span>
+                        </span> */}
+                        <CoverCubeItem data={item} type={type} total_view_show />
                       </section>
+                    </div>
                     </Links>
                   </Provider>
                 </ComicRankingElement>
+                
               );
             }
           })}
@@ -122,7 +128,29 @@ const ComicRankingElement = styled.div.withConfig({
     text-decoration: none;
     color: #000;
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
+    position: relative;
+    width: 100%;
+    .item_body div{
+      min-width: 8.5875rem;
+      min-height: 12.625rem;
+    }
+    @media (min-width: 2560px) {
+      .item_body div{
+        min-width: 12.0875rem;
+        min-height: 12.625rem;
+      }
+    }
+  }
+
+  .anime-ranking .item .item_body div{
+    padding-bottom: 100% !important;
+    min-height: 9.25rem;
+
+    @media (min-width: 2540px){
+      min-height: 13.25rem;
+    }
   }
 
   .comic_ranking {
@@ -156,18 +184,29 @@ const ComicRankingElement = styled.div.withConfig({
         }
       }
     }
-    &_number {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 25px;
-      height: 25px;
-      min-width: 25px;
-      font-weight: 600;
-      color: ${({ index }) => (index <= 3 ? "#fff" : "#000")};
-      background: ${({ index }) =>
-        index <= 3 ? colors.back_dark_pink : colors.text_light_grey};
+    &_wrapper{
+      overflow: hidden;
+      border-radius: 5px;
+      position: relative;
     }
+
+    &_number {
+      position: absolute;
+      padding-bottom: 0.3em;
+      left: -50px;
+      top: -20px;
+      width: 7em;
+      height: 3.5em;
+      display: flex;
+      color: #fff;
+      justify-content: center;
+      align-items: end;
+      background: linear-gradient(to right, #335fc2, #873fdb);
+      transform: rotate(-0.13turn);
+      font-size: 1rem;
+      z-index: 2;
+    }
+
     &_title {
       font-size: 16px;
       overflow: hidden;

@@ -41,6 +41,7 @@ const ProfileMainHeader = ({
   const [membershipDate, setMembershipDate] = useState("");
   const [expirationTip, setExpirationTip] = useState(false);
   const [expiringSoon,setExpiringSoon] = useState(false);
+  const [isVIP, setIsVIP] = useState(false);
 
   const currentDate = new Date();
 
@@ -64,6 +65,8 @@ const ProfileMainHeader = ({
         setExpiringSoon(true);
       }
     }
+
+    setIsVIP(rank !== "普通会员" || Date.now() < time * 1000);
     
 
   }, [time]);
@@ -244,7 +247,7 @@ const ProfileMainHeader = ({
           )}
           {id !== "guest" ? (
             <div className="profile_header_info_detill_time flex-col !items-start">
-              {true||time === "-1" || Date.now() < time * 1000 ? (
+              {isVIP ? (
                 <>
                   <div className="flex">
                     <Image

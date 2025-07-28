@@ -105,48 +105,50 @@ export default function WithdrawHistoryPage() {
             </tr>
           ) : (
             withdrawLog.map((record) => (
-              <tr
-                key={record.id}
-                className="border-b border-gray-200 hover:bg-gray-50"
-              >
-                <td className="text-gray-600">{record.create_time}</td>
-                <td className="">{record.payment_method}</td>
-                <td className="text-gray-600">虚拟货币</td>
-                {/* <td className="">
+              <>
+                <tr
+                  key={record.id}
+                  className="border-b border-gray-200 hover:bg-gray-50"
+                >
+                  <td className="text-gray-600">{record.create_time}</td>
+                  <td className="">{record.payment_method}</td>
+                  <td className="text-gray-600">虚拟货币</td>
+                  {/* <td className="">
                   <span className="break-all max-w-xs block text-center m-auto">
                     {record.addess}
                   </span>
                 </td> */}
-                <td className="font-medium">{record.withdraw_money}</td>
-                {/* <td className="text-xs">{record.reference_no}</td> */}
-                <td className="">
-                  <span
-                    className={`px-2 py-1 rounded ${
-                      record.status === 0
-                        ? "bg-yellow-100 text-yellow-800"
+                  <td className="font-medium">{record.withdraw_money}</td>
+                  {/* <td className="text-xs">{record.reference_no}</td> */}
+                  <td className="">
+                    <span
+                      className={`px-2 py-1 rounded ${
+                        record.status === 0
+                          ? "bg-yellow-100 text-yellow-800"
+                          : record.status === 1
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-green-100 text-green-800"
+                      }`}
+                    >
+                      {record.status === 0
+                        ? "未处理"
                         : record.status === 1
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-green-100 text-green-800"
-                    }`}
-                  >
-                    {record.status === 0
-                      ? "未处理"
-                      : record.status === 1
-                      ? "处理中"
-                      : "已撥款"}
-                  </span>
-                </td>
-              </tr>
+                        ? "处理中"
+                        : "已撥款"}
+                    </span>
+                  </td>
+                </tr>
+                {withdrawLog.length < 3 &&
+                  [...Array(3 - withdrawLog.length)].map((_, i) => (
+                    <tr key={`filler-${i}`}>
+                      {[...Array(5)].map((_, j) => (
+                        <td key={j}>&nbsp;</td>
+                      ))}
+                    </tr>
+                  ))}
+              </>
             ))
           )}
-          {withdrawLog.length < 3 &&
-            [...Array(3 - withdrawLog.length)].map((_, i) => (
-              <tr key={`filler-${i}`}>
-                {[...Array(5)].map((_, j) => (
-                  <td key={j}>&nbsp;</td>
-                ))}
-              </tr>
-            ))}
         </tbody>
       </table>
     </div>
@@ -182,44 +184,46 @@ export default function WithdrawHistoryPage() {
               </tr>
             ) : (
               filteredData.map((transfer) => (
-                <tr
-                  key={transfer.id}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td className="text-gray-600">{transfer.create_time}</td>
-                  <td className="font-medium">
-                    <span
-                      className={
-                        (
-                          type === "all"
-                            ? transfer.type === "in"
-                            : type === "in"
-                        )
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }
-                    >
-                      {transfer.transaction_money}
-                    </span>
-                  </td>
-                  <td className="">{transfer.game_wallet}</td>
-                  {/* <td className="text-xs">{transfer.reference_no}</td> */}
-                  <td className="">
-                    <span className="px-2 py-1 rounded bg-blue-100 text-blue-800">
-                      {transfer.transaction_status}
-                    </span>
-                  </td>
-                </tr>
+                <>
+                  <tr
+                    key={transfer.id}
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                  >
+                    <td className="text-gray-600">{transfer.create_time}</td>
+                    <td className="font-medium">
+                      <span
+                        className={
+                          (
+                            type === "all"
+                              ? transfer.type === "in"
+                              : type === "in"
+                          )
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }
+                      >
+                        {transfer.transaction_money}
+                      </span>
+                    </td>
+                    <td className="">{transfer.game_wallet}</td>
+                    {/* <td className="text-xs">{transfer.reference_no}</td> */}
+                    <td className="">
+                      <span className="px-2 py-1 rounded bg-blue-100 text-blue-800">
+                        {transfer.transaction_status}
+                      </span>
+                    </td>
+                  </tr>
+                  {filteredData.length < 3 &&
+                    [...Array(3 - filteredData.length)].map((_, i) => (
+                      <tr key={`filler-${i}`}>
+                        {[...Array(4)].map((_, j) => (
+                          <td key={j}>&nbsp;</td>
+                        ))}
+                      </tr>
+                    ))}
+                </>
               ))
             )}
-            {filteredData.length < 3 &&
-              [...Array(3 - filteredData.length)].map((_, i) => (
-                <tr key={`filler-${i}`}>
-                  {[...Array(4)].map((_, j) => (
-                    <td key={j}>&nbsp;</td>
-                  ))}
-                </tr>
-              ))}
           </tbody>
         </table>
       </div>

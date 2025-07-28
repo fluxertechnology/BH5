@@ -226,13 +226,16 @@ const PopupDialogRegister = () => {
   }
 
   const userSignup = (data, callback) => {
-    const utm_source = localStorage.getItem("origin");
+    let utm_source = localStorage.getItem("origin");
     let shareMa = undefined;
     let utc_data = localStorage.getItem("utmMark")
       ? JSON.parse(localStorage.getItem("utmMark"))
       : "";
     if (utc_data && utc_data.shareMa) {
       shareMa = utc_data.shareMa;
+    }
+    if (utc_data && utc_data.utm_source) {
+      utm_source = utc_data.utm_source;
     }
     useGlobalDispatch(
       signupUser(
@@ -278,7 +281,7 @@ const PopupDialogRegister = () => {
     const breadcrumbsData = [state.breadcrumbs];
     breadcrumbsData.reverse();
     for (let i = 0; i < breadcrumbsData.length; i++) {
-      if (breadcrumbsData[i].path.indexOf("login") === -1) {
+      if (breadcrumbsData[i]?.path?.indexOf("login") === -1) {
         useGlobalDispatch(replaceRoutes(breadcrumbsData[i]));
         return;
       }

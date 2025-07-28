@@ -8,7 +8,8 @@ import ImageComponent, {
 import { colors, pageUrlConstants } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
 
-import heartIcon from "@public/images/icons/heart.svg";
+// import heartIcon from "@public/images/icons/heart.svg";
+import diamondIcon from "@public/images/icons/diamond.png";
 import likeIcon from "@public/images/shared/like.svg";
 import unlikeIcon from "@public/images/shared/unlike.svg";
 import playIcon from "@public/images/shared/play.svg";
@@ -50,7 +51,7 @@ const CoverCubeItem = ({
           vod_name: title,
           vod_pic: img,
           vod_url: url,
-        })
+        }),
       );
     } else {
       useGlobalDispatch(collectComicAnimeAction(data));
@@ -109,7 +110,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
   /*  */
   position: ${({ externalControlPosition }) =>
     !externalControlPosition && "relative"};
-  margin: 0.1rem;
+  margin: 0rem;
   background: ${({ rankStyle }) => rankStyle && "#e2eeff"};
   border-radius: 3%;
   &:hover {
@@ -259,10 +260,13 @@ export const CoverCubeItemElement = styled.div.withConfig({
         margin-top: 5px;
 
         &_text {
-          font-size: 14px;
-          height: 16px;
+          font-size: 12px;
+          width: fit-content;
+          padding: 4px 6px;
+          height: auto;
           overflow: hidden;
-          color: #a8a8a8;
+          color: #ffffff !important;
+          background-color: #ff367a;
           @media (max-width: 899px) {
             font-size: 12px;
             height: 14px;
@@ -271,11 +275,11 @@ export const CoverCubeItemElement = styled.div.withConfig({
       }
 
       &_gold {
-        margin-top: 5px;
+        margin-top: 25px;
 
         &_text {
           font-size: 14px;
-          color: ${colors.dark_pink};
+          color: #000000;
           display: flex;
           align-items: center;
           @media (max-width: 899px) {
@@ -304,14 +308,15 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     useContext(Props);
 
   const [likeIconStatus, setLikeIconStatus] = useState(
-    Boolean(data.is_collect)
+    Boolean(data.is_collect),
   );
+  const isVendor = ["vendor"].includes(type);
   const isVideo = ["animated", "video"].includes(type);
   const onCollect = () => {
     collectAction(
       data,
       type,
-      setLikeIconStatus((pre) => !pre)
+      setLikeIconStatus((pre) => !pre),
     );
   };
   function nowHeight() {
@@ -320,6 +325,8 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     } else {
       if (type === "video" || type === "animated") {
         return 65;
+      } else if(type == "vendor") {
+        return 100;
       } else {
         return 140;
       }
@@ -345,7 +352,22 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               height={nowHeight()}
             />
           </Links>
-        ) : (
+        ) : isVendor ? (
+          <Links>
+            <ImageComponent
+              is_cover
+              cover={true}
+              src={data.image}
+              alt={data.store_name}
+              lazyLoad={false}
+              title={data.store_name}
+              isFree={
+                data.price == 0
+              }
+              height={nowHeight()}
+            />
+          </Links>
+        ): (
           <ImageComponent
             is_cover
             lazyLoad={false}
@@ -402,10 +424,31 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                   {isModal && rank !== undefined && rank + 1}
                 </div>
                 <div className="g-flex-column-center">
+                  {rankStyle
+                    ? data.description && (
+                      <div className="item_footer_description">
+                        <p className="item_footer_description_text">
+                          {data.description}
+                        </p>
+                      </div>
+                    )
+                  : data.total_episode &&
+                    !continueWatch &&
+                    !disabledPrice && (
+                      <div className="item_footer_description">
+                        <p className="item_footer_description_text">
+                          {data.process === 1
+                            ? t("Global.update_to")
+                            : t("Global.total")}
+                          {data.total_episode}
+                          {t("Global.word")}
+                        </p>
+                      </div>
+                  )}
                   <div className="item_footer_title">
                     <p className="item_footer_title_text">{data.title}</p>
                   </div>
-                  {rankStyle
+                  {/* {rankStyle
                     ? data.description && (
                         <div className="item_footer_description">
                           <p className="item_footer_description_text">
@@ -425,7 +468,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                             {t("Global.word")}
                           </p>
                         </div>
-                      )}
+                      )} */}
                 </div>
               </div>
               {/* 動畫、視頻 Hover的時候顯示的*/}
@@ -444,7 +487,16 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                   </div>
                   <div className="item_description">{data.description}</div>
                 </>
-              ) : (
+              ) : isVendor ? (
+                <div>
+                  <h3 className="text-[14px] font-semibold line-clamp-1">{data.store_name}</h3>
+                  <div className="g-flex items-baseline gap-3">
+                    <div className="bg-[#ff367a] text-white text-[12px] h-[18px] px-[3px]">{t("Global.promo-price")}</div>
+                    <p className="text-[18px] text-[#ff367a] font-bold mt-1">${data.price}</p>
+                  </div>
+                  <div className="text-gray-600 text-sm mt-2 line-clamp-2">{t("Global.sold")}&nbsp;&nbsp;{data.sales}{data.unit_name}</div>
+                </div>
+              ): (
                 ""
               )}
 
@@ -452,13 +504,15 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               {!rankStyle && !disabledPrice && (
                 <div className="item_footer_gold">
                   <p className="item_footer_gold_text">
-                    <Image
-                      className="item_footer_gold_text_icon"
-                      src={heartIcon}
-                      width={0}
-                      height={0}
-                      alt="heart"
-                    />
+                    {!!getPrice(t, data) && (
+                      <Image
+                        className="item_footer_gold_text_icon"
+                        src={diamondIcon}
+                        width={0}
+                        height={0}
+                        alt="heart"
+                      />
+                    )}
                     {getPrice(t, data)}
                   </p>
                 </div>
@@ -488,27 +542,27 @@ export const Links = ({ children, contextProps }) => {
               },
             }
           : type === "animated"
-          ? {
-              name:
-                home.pages.homeAnimesSwitch.pages.homeAnimesContent.name +
-                data.title +
-                "-1",
-              path: home.pages.homeAnimesSwitch.pages.homeAnimesContent.path,
-              dynamic: {
-                animeId: data.id,
-                animeEp: data.episode || 1,
-              },
-            }
-          : {
-              name:
-                home.pages.homeComicList.pages.homeComicListSwitch.pages
-                  .homeComicListContent.name + data.title,
-              path: home.pages.homeComicList.pages.homeComicListSwitch.pages
-                .homeComicListContent.path,
-              dynamic: {
-                comicId: data.id,
-              },
-            }
+            ? {
+                name:
+                  home.pages.homeAnimesSwitch.pages.homeAnimesContent.name +
+                  data.title +
+                  "-1",
+                path: home.pages.homeAnimesSwitch.pages.homeAnimesContent.path,
+                dynamic: {
+                  animeId: data.id,
+                  animeEp: data.episode || 1,
+                },
+              }
+            : {
+                name:
+                  home.pages.homeComicList.pages.homeComicListSwitch.pages
+                    .homeComicListContent.name + data.title,
+                path: home.pages.homeComicList.pages.homeComicListSwitch.pages
+                  .homeComicListContent.path,
+                dynamic: {
+                  comicId: data.id,
+                },
+              }
       }
     >
       {children}

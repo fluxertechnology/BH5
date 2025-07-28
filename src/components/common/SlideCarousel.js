@@ -5,7 +5,7 @@ import FeaturedCard from "@/components/games/FeaturedCard";
 import PictureCard from "@/components/common/PictureCard";
 import useMediaQcuery from "@/hooks/useMediaQuery";
 
-import arrowIcon from "@public/images/icons/arrow.svg";
+import arrowIcon from "@public/images/icons/arrow.png";
 import Image from "next/image";
 
 const SlideCarousel = ({
@@ -54,23 +54,26 @@ const SlideCarousel = ({
     animationRef.current = requestAnimationFrame(animateItems);
   }
 
+  const is2540 = (window.innerWidth > 2540 && window.innerWidth > 1920);
+  const is1920 = window.innerWidth > 1929;
+
   const imgButtonItems = [
     {
       style: {
         transform: "scaleX(-1)",
         position: "absolute",
-        left: -30,
-        top: "35%",
-        zIndex: 2,
+        left: 10,
+        top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
+        zIndex: 3
       },
       status: "prev",
     },
     {
       style: {
         position: "absolute",
-        right: -30,
-        top: "35%",
-        zIndex: 2,
+        right: 10,
+        top: is2540 ? "8.625rem" : "5.625rem",
+        zIndex: 3
       },
       status: "next",
     },
@@ -130,28 +133,34 @@ const SlideCarousel = ({
           })}
         </div>
       </div>
+
       {!isMobile &&
         items.length > (type === "anime" || type === "video" ? 4 : 6) &&
         imgButtonItems.map((item, index) => (
-          <Image
-            key={index}
-            width={0}
-            height={0}
-            src={arrowIcon}
-            className="cursor"
-            alt="arrowIcon"
-            style={item.style}
-            onClick={() => onClickEvent(item.status)}
-          />
+          <div className={`${type === "animated" ? 'anime-slider-btn' : ''} img_btn_wrapper cursor`}>
+            {index == 0 && <div className="box-left" onClick={() => onClickEvent(item.status)}></div>}
+            <Image
+              key={index}
+              width={0}
+              height={0}
+              src={arrowIcon}
+              className="cursor arrowBtn"
+              alt="arrowIcon"
+              style={item.style}
+              onClick={() => onClickEvent(item.status)}
+            />
+            {index == 1 && <div className="box-right" onClick={() => onClickEvent(item.status)}></div>}
+          </div>
         ))}
+
     </SlideCarouselElement>
   );
 };
 
 export default SlideCarousel;
 const SlideCarouselElement = styled.div.withConfig({
-    shouldForwardProp: (prop) => prop !== "flexPercentage",
-  })`
+  shouldForwardProp: (prop) => prop !== "flexPercentage",
+})`
   /*  */
   position: relative;
   align-self: center;
@@ -166,6 +175,38 @@ const SlideCarouselElement = styled.div.withConfig({
         }
         flex: 0 0 ${({ flexPercentage }) => flexPercentage}%;
       }
+    }
+  }
+
+  .box-left {
+    position: absolute;
+    left: 0px;
+    top: 0;
+    width: 35px;
+    height: 9.375rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer: cursor;
+    z-index: 2;
+    transform: translate(0, 1.875rem);
+
+    @media (min-width: 2540px){
+      transform: translate(0, 4.875rem);
+    }
+  }
+
+  .box-right {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    width: 35px;
+    height: 9.375rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer: cursor;
+    z-index: 2;
+    transform: translate(0, 1.875rem);
+
+    @media (min-width: 2540px){
+      transform: translate(0, 4.875rem);
     }
   }
 `;

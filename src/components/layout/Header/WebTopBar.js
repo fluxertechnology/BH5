@@ -746,6 +746,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   src={state.user.avatar}
                   height="20"
                   width="20"
+                  border_radius="0"
                   background_color="transparent"
                   placeholderImg="/images/imgPlaceholder/avatar_1.png"
                 />

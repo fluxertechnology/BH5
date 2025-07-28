@@ -7,7 +7,11 @@ import { colors, pageUrlConstants } from "@/lib/constants";
 import LinkComponent from "@/components/common/LinkComponent";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { getPriceUnit, getUserPremiumDiamond } from "@/lib/services/price";
+import {
+  getPriceUnit,
+  getPremiumDiamond,
+  getUserPremiumDiamond,
+} from "@/lib/services/price";
 
 const ProfileMainNav = ({ sign, money }) => {
   const { isMobile } = useMediaQuery();
@@ -46,40 +50,89 @@ const ProfileMainNav = ({ sign, money }) => {
               {t("Profile.main.nav.my_account")}
             </span>
           </h3>
-          <div className="w-full md:w-[608px] mx-auto">
-            <div className="w-full h-[30.667vw] md:h-[135px] rounded-t-[10px] bg-gradient-to-t from-[#f9ecd8] via-[#fdfbf5] to-[#fdfbf5] flex items-center justify-center gap-8 md:gap-4">
-              <Image
-                src="/images/icons/diamond.png"
-                width={100}
-                height={100}
-                alt="diamond icon"
-                className="w-[25.733vw] h-[20.667vw] md:w-[6.042vw] md:h-[4.844vw]"
-              />
-              <div className="md:flex md:flex-col md:items-center">
-                <p className="text-[4.8vw] md:text-[24px]">-- 总精钻 --</p>
-                <p className="text-[8vw] md:text-[45px] text-[#f04c7e] font-bold">
-                  {getUserPremiumDiamond(t, { sign, money })}
-                </p>
+          <div className="flex md:flex-row flex-col gap-4">
+            <div className="w-full md:w-[608px] mx-auto">
+              <div className="w-full h-[30.667vw] md:h-[135px] rounded-t-[10px] bg-gradient-to-t from-[#f9ecd8] via-[#fdfbf5] to-[#fdfbf5] flex items-center justify-center gap-8 md:gap-4">
+                <Image
+                  src="/images/icons/diamond.png"
+                  width={100}
+                  height={100}
+                  alt="diamond icon"
+                  className="w-[25.733vw] h-[20.667vw] md:w-[6.042vw] md:h-[4.844vw]"
+                />
+                <div className="md:flex md:flex-col md:items-center">
+                  <p className="text-[4.8vw] md:text-[24px]">
+                    -- 总{getPriceUnit(t, true)} --
+                  </p>
+                  <p className="text-[8vw] md:text-[45px] text-[#f04c7e] font-bold">
+                    {getPremiumDiamond(t, sign, true)}
+                  </p>
+                </div>
+                <div className="w-[170px] md:block hidden">
+                  <LinkComponent
+                    className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
+                    routes={pageUrlConstants.profile.pages.profilePayment}
+                  >
+                    <span className="text-[5.867vw] md:text-[22px] text-white">
+                      我要充值
+                    </span>
+                  </LinkComponent>
+                  <LinkComponent
+                    routes={pageUrlConstants.profile.pages.profileWithdraw}
+                    className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]"
+                  >
+                    <span className="text-[5.867vw] md:text-[22px] text-white">
+                      我要提现
+                    </span>
+                  </LinkComponent>
+                </div>
               </div>
-              <div className="w-[170px] hidden md:block">
-                <LinkComponent
-                  className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
-                  routes={pageUrlConstants.profile.pages.profilePayment}
-                >
-                  <span className="text-[5.867vw] md:text-[22px] text-white">
-                    我要充值
-                  </span>
-                </LinkComponent>
-                <button className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]">
-                  <span className="text-[5.867vw] md:text-[22px] text-white">
-                    我要提现
-                  </span>
+              <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+                总{getPriceUnit(t, true)}：{getPremiumDiamond(t, sign, true)}
+              </button>
+            </div>
+            {money > 0 && (
+              <div className="w-full md:w-[608px] mx-auto">
+                <div className="w-full h-[30.667vw] md:h-[135px] rounded-t-[10px] bg-gradient-to-t from-[#f9ecd8] via-[#fdfbf5] to-[#fdfbf5] flex items-center justify-center gap-8 md:gap-4">
+                  <Image
+                    src="/images/icons/diamond.png"
+                    width={100}
+                    height={100}
+                    alt="diamond icon"
+                    className="w-[25.733vw] h-[20.667vw] md:w-[6.042vw] md:h-[4.844vw]"
+                  />
+                  <div className="md:flex md:flex-col md:items-center">
+                    <p className="text-[4.8vw] md:text-[24px]">
+                      -- 总{getPriceUnit(t)} --
+                    </p>
+                    <p className="text-[8vw] md:text-[45px] text-[#f04c7e] font-bold">
+                      {getPremiumDiamond(t, money)}
+                    </p>
+                  </div>
+                  <div className="w-[170px] md:block hidden">
+                    <LinkComponent
+                      className="w-full h-[45px] bg-[url(/images/profile/pc_topup_button.png)] bg-cover flex items-center pl-[60px]"
+                      routes={pageUrlConstants.profile.pages.profilePayment}
+                    >
+                      <span className="text-[5.867vw] md:text-[22px] text-white">
+                        我要充值
+                      </span>
+                    </LinkComponent>
+                    <LinkComponent
+                      routes={pageUrlConstants.profile.pages.profileWithdraw}
+                      className="w-full h-[45px] bg-[url(/images/profile/pc_withdraw_button.png)] bg-cover mt-2 flex items-center pl-[60px]"
+                    >
+                      <span className="text-[5.867vw] md:text-[22px] text-white">
+                        我要提现
+                      </span>
+                    </LinkComponent>
+                  </div>
+                </div>
+                <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+                  可提现：{getPremiumDiamond(t, money)}
                 </button>
               </div>
-            </div>
-            <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
-              可提现：{getUserPremiumDiamond(t, { sign, money })}
-            </button>
+            )}
           </div>
 
           <div className="profile_container_currency !hidden">

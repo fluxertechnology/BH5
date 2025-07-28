@@ -52,7 +52,8 @@ const HomeTcgMainPage = () => {
     {
       title: "记录",
       icon: "user-panel-record",
-      url: pageUrlConstants.profile.pages.profileWithdraw.profileWithdrawHistory,
+      url: pageUrlConstants.profile.pages.profileWithdraw
+        .profileWithdrawHistory,
     },
   ];
 
@@ -65,6 +66,54 @@ const HomeTcgMainPage = () => {
     152: "/images/tcg/logo/WL.png",
   };
 
+  const gameTypeImages = {
+    RNG: {
+      AG: "/images/tcg/RNG/AG.png",
+      BB: "/images/tcg/LIVE/BB.png",
+      CQ9: "/images/tcg/RNG/CQ9.png",
+      FC: "/images/tcg/RNG/FC.png",
+      JDB: "/images/tcg/RNG/JDB.png",
+      KY: "/images/tcg/PVP/KY.png",
+      LY: "/images/tcg/PVP/LY.png",
+      MGS: "/images/tcg/RNG/MGS.png",
+      PG: "/images/tcg/RNG/PG.png",
+    },
+    LIVE: {
+      AG: "/images/tcg/LIVE/AG.png",
+      BB: "/images/tcg/LIVE/BB.png",
+      BG: "/images/tcg/LIVE/BG.png",
+      CQ9: "/images/tcg/LIVE/CQ9.png",
+      WL: "/images/tcg/LIVE/WL.png",
+    },
+    FISH: {
+      AG: "/images/tcg/FISH/AG.png",
+      BOLE: "/images/tcg/PVP/BOLE.png",
+      CQ9: "/images/tcg/FISH/CQ9.png",
+      FC: "/images/tcg/RNG/FC.png",
+      JDB: "/images/tcg/RNG/JDB.png",
+      KY: "/images/tcg/PVP/KY.png",
+      LY: "/images/tcg/PVP/LY.png",
+      MGS: "/images/tcg/RNG/MGS.png",
+      WL: "/images/tcg/PVP/WL.png",
+    },
+    SPORTS: {
+      BB: "/images/tcg/LIVE/BB.png",
+      CR: "/images/tcg/SPORTS/CR.png",
+      TF: "/images/tcg/SPORTS/TF.png",
+    },
+    PVP: {
+      BOLE: "/images/tcg/PVP/BOLE.png",
+      JDB: "/images/tcg/RNG/JDB.png",
+      KY: "/images/tcg/PVP/KY.png",
+      LY: "/images/tcg/PVP/LY.png",
+      MGS: "/images/tcg/RNG/MGS.png",
+      WL: "/images/tcg/PVP/WL.png",
+    },
+    ELOTT: {
+      VR: "/images/tcg/ELOTT/VR.png",
+    },
+  };
+
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgProductTypes, setTcgProductTypes] = useState(0);
@@ -75,6 +124,7 @@ const HomeTcgMainPage = () => {
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
   const tcgGamePageSize = 30;
+  const [isGameOpen, setIsGameOpen] = useState(false);
 
   const { isOpen, currentUrl, openIframe, closeIframe } = useIframe();
 
@@ -162,12 +212,14 @@ const HomeTcgMainPage = () => {
       return;
     }
 
-    if (gameManager.isGameOpen()) {
-      toastCall("游戏已在另一个标签页中运行");
+    const gameStart = await gameManager.startGame(state, gameId);
+    if (!gameStart.success) {
+      toastCall(gameStart.message || "无法启动游戏，请稍后再试");
       return;
     }
 
     setIsLoadingGameUrl(true);
+    setIsGameOpen(true);
     const isGuest = state.user.id === "guest";
     const guestUid = localStorage.getItem("guestTcgUID") ?? "guest";
     const payload = {
@@ -188,7 +240,8 @@ const HomeTcgMainPage = () => {
       });
       const data = await response.json();
       if (data.code === 0) {
-        gameManager.endGame();
+        setIsGameOpen(false);
+        gameManager.endGame(state, gameId);
         toastCall(data.msg || "获取游戏链接失败，请稍后再试");
         return;
       }
@@ -197,17 +250,20 @@ const HomeTcgMainPage = () => {
       }
 
       if (!data.data?.url) {
-        gameManager.endGame();
+        setIsGameOpen(false);
+        gameManager.endGame(state, gameId);
         toastCall("获取游戏链接失败，请稍后再试");
         return;
       }
 
-      gameManager.openGame(gameId);
       setCurrentGameUrl(data.data.url);
-      setCurrentGameProductType(data.data.product_type || "");
+      // setCurrentGameProductType(data.data.product_type || "");
+      const gameDetail = tcgGameList.find((game) => game.id === gameId);
+      setCurrentGameProductType(gameDetail?.product_type || "");
       openIframe(data.data.url);
     } catch (error) {
-      gameManager.endGame();
+      setIsGameOpen(false);
+      gameManager.endGame(state, gameId);
       console.error("获取游戏链接失败:", error);
       toastCall("获取游戏链接失败，请稍后再试");
     } finally {
@@ -220,9 +276,10 @@ const HomeTcgMainPage = () => {
       {
         stopPropagation: () => {},
       },
-      currentGameId
+      currentGameId,
     );
-    gameManager.endGame();
+    setIsGameOpen(false);
+    gameManager.endGame(state, currentGameId);
     closeIframe();
   };
 
@@ -262,7 +319,7 @@ const HomeTcgMainPage = () => {
           if (gameId === "all") {
             window.location.reload();
           }
-        })
+        }),
       );
     } catch (error) {
       console.error("转出失败:", error);
@@ -324,6 +381,7 @@ const HomeTcgMainPage = () => {
   };
 
   useEffect(() => {
+    gameManager.setIsCurrentTabOpeningGame(0);
     tcgGetProductTypes();
     useGlobalDispatch({
       type: "INIT_NAVBAR",
@@ -336,7 +394,32 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      gameManager.endGame();
+      console.log(
+        "beforeunload event triggered",
+        isGameOpen,
+        gameManager.getIsCurrentTabOpeningGame(),
+      );
+      if (gameManager.getIsCurrentTabOpeningGame()) {
+        localStorage.removeItem(gameManager.storageKey);
+        const beaconResult = navigator.sendBeacon(
+          "/api/tcg/game-session",
+          JSON.stringify({
+            userId: gameManager.getUserId(state),
+            gameId: currentGameId,
+            action: "end",
+          }),
+        );
+        console.log("Beacon result for game session end:", beaconResult);
+        const beaconResult2 = navigator.sendBeacon(
+          `${apiUrl}/appapi/tcg/transfer_out_by_all`,
+          JSON.stringify({
+            uid: state.user.id,
+            product_type: currentGameProductType,
+            game_id: currentGameId,
+          }),
+        );
+        console.log("Beacon result for transfer_out_by_all:", beaconResult2);
+      }
 
       //event.preventDefault();
       //event.returnValue = "";
@@ -348,6 +431,80 @@ const HomeTcgMainPage = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
+
+  const TcgPagination = ({
+    currentPage,
+    totalItems,
+    pageSize,
+    isMobile = false,
+    onPageChange,
+  }) => {
+    const totalPages = Math.ceil(totalItems / pageSize);
+    const pageCount = isMobile ? 3 : 5;
+
+    const startPage = Math.max(
+      1,
+      Math.min(
+        currentPage - Math.floor(pageCount / 2),
+        totalPages - (pageCount - 1),
+      ),
+    );
+
+    const pages = Array.from(
+      { length: pageCount },
+      (_, i) => startPage + i,
+    ).filter((page) => page <= totalPages);
+
+    return (
+      <div className="pagination-controls my-6 flex justify-center">
+        <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2">
+          <button
+            onClick={() => onPageChange(1)}
+            disabled={currentPage === 1}
+            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+          >
+            &laquo;
+          </button>
+
+          <button
+            onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+          >
+            ‹
+          </button>
+
+          {pages.map((page) => (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
+                page === currentPage ? "bg-[#ff367a] text-white font-bold" : ""
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
+            disabled={currentPage >= totalPages}
+            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+          >
+            ›
+          </button>
+
+          <button
+            onClick={() => onPageChange(totalPages)}
+            disabled={currentPage >= totalPages}
+            className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
+          >
+            &raquo;
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <HomeTcgMainPageElement main_height={state.navbar.mainHeight}>
@@ -394,12 +551,12 @@ const HomeTcgMainPage = () => {
                             <span className="whitespace-nowrap">{label}</span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
               )}
-              <div className="user-info mr-2">
+              <div className="user-info">
                 <div className="user-name truncate">
                   {state.user.id === "guest" ? "guest" : state.user.nick_name}
                 </div>
@@ -475,7 +632,7 @@ const HomeTcgMainPage = () => {
                             </span>
                           </button>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -483,7 +640,7 @@ const HomeTcgMainPage = () => {
               <div className="flex flex-col gap-3 w-auto">
                 {tcgProductTypesDisplay &&
                   tcgProductTypesDisplay.length > 0 &&
-                  tcgProductTypes == 0 && (
+                  tcgProductTypes === 0 && (
                     <div className="w-auto">
                       <div className={`product-type-container ${tcgGameType}`}>
                         {tcgProductTypesDisplay.map((type, index) => (
@@ -503,7 +660,11 @@ const HomeTcgMainPage = () => {
                               // height={146}
                               is_cover={true}
                               className="product_type_img"
-                              src={`/images/tcg/${tcgGameType}/${type.product_code}.png`}
+                              src={
+                                gameTypeImages[tcgGameType]?.[
+                                  type.product_code
+                                ] || ""
+                              }
                               alt={type.product_code}
                             />
                           </div>
@@ -515,41 +676,125 @@ const HomeTcgMainPage = () => {
                 {tcgGameType === "HOT" || tcgProductTypes ? (
                   tcgGameList && tcgGameList.length > 0 ? (
                     <div>
-                      <div className="grid game-list">
-                        {tcgGameList.map((game, index) => (
-                          <div
-                            key={index}
-                            className="relative game-item border cursor-pointer text-center "
-                            onClick={() =>
-                              tcgGetGameUrl(game.id, state.user.id !== "guest")
-                            }
-                          >
-                            <div className="icon text-2xl w-full">
-                              <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
-                                {productTypeLogos[game.product_type] && (
-                                  <Image
-                                    src={productTypeLogos[game.product_type]}
-                                    alt="platform logo"
-                                    width={32}
-                                    height={32}
-                                    className="icon-logo"
+                      {!isDesktop && tcgGameType !== "HOT" && (
+                        <div className="game-float">
+                          <div className="game-navbar">
+                            <Image
+                              src={`/images/tcg/back.png`}
+                              alt="back"
+                              width={26}
+                              height={46}
+                              className="back-icon"
+                              onClick={() => {
+                                setTcgGameList([]);
+                                handleGameTypeChange(tcgGameType);
+                              }}
+                            />
+                            <h5 className="title">
+                              {tcgGameType}
+                              {gameTypes[tcgGameType]?.label}
+                            </h5>
+                          </div>
+                          <div className="grid game-list">
+                            {tcgGameList.map((game, index) => (
+                              <div
+                                key={index}
+                                className="relative game-item border cursor-pointer text-center "
+                                onClick={() =>
+                                  tcgGetGameUrl(
+                                    game.id,
+                                    state.user.id !== "guest",
+                                  )
+                                }
+                              >
+                                <div className="icon text-2xl w-full">
+                                  <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
+                                    {productTypeLogos[game.product_type] && (
+                                      <Image
+                                        src={
+                                          productTypeLogos[game.product_type]
+                                        }
+                                        alt="platform logo"
+                                        width={32}
+                                        height={32}
+                                        className="icon-logo"
+                                      />
+                                    )}
+                                    <ImageComponent
+                                      className="icon-img"
+                                      // key={game.id}
+                                      width={64}
+                                      height={64}
+                                      is_cover={true}
+                                      src={game.img.replace("/zh/", "/EN/")}
+                                      alt={game.name}
+                                      draggable="false"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="title font-medium">
+                                  {game.name}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <TcgPagination
+                            currentPage={tcgGameCurrentPage}
+                            totalItems={tcgTotalGames}
+                            pageSize={tcgGamePageSize}
+                            isMobile={isMobile}
+                            onPageChange={setTcgCurrentPage}
+                          />
+                        </div>
+                      )}
+                      <div>
+                        {isDesktop && tcgGameType !== "HOT" && (
+                          <div className="game-title">
+                            {tcgGameType}
+                            {gameTypes[tcgGameType]?.label}
+                          </div>
+                        )}
+                        <div className="grid game-list">
+                          {tcgGameList.map((game, index) => (
+                            <div
+                              key={index}
+                              className="relative game-item border cursor-pointer text-center "
+                              onClick={() =>
+                                tcgGetGameUrl(
+                                  game.id,
+                                  state.user.id !== "guest",
+                                )
+                              }
+                            >
+                              <div className="icon text-2xl w-full">
+                                <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
+                                  {productTypeLogos[game.product_type] && (
+                                    <Image
+                                      src={productTypeLogos[game.product_type]}
+                                      alt="platform logo"
+                                      width={32}
+                                      height={32}
+                                      className="icon-logo"
+                                    />
+                                  )}
+                                  <ImageComponent
+                                    className="icon-img"
+                                    // key={game.id}
+                                    width={64}
+                                    height={64}
+                                    is_cover={true}
+                                    src={game.img.replace("/zh/", "/EN/")}
+                                    alt={game.name}
+                                    draggable="false"
                                   />
-                                )}
-                                <ImageComponent
-                                  className="icon-img"
-                                  // key={game.id}
-                                  width={64}
-                                  height={64}
-                                  is_cover={true}
-                                  src={game.img.replace("/zh/", "/EN/")}
-                                  alt={game.name}
-                                  draggable="false"
-                                />
+                                </div>
+                              </div>
+                              <div className="title font-medium">
+                                {game.name}
                               </div>
                             </div>
-                            <div className="title font-medium">{game.name}</div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   ) : (
@@ -561,103 +806,13 @@ const HomeTcgMainPage = () => {
               </div>
             </div>
             {(tcgProductTypes !== 0 || tcgGameType === "HOT") && (
-              <div className="pagination-controls my-6 flex justify-center">
-                <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2">
-                  {/* 首页 */}
-                  <button
-                    onClick={() => setTcgCurrentPage(1)}
-                    disabled={tcgGameCurrentPage === 1}
-                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                  >
-                    &laquo;
-                  </button>
-
-                  {/* 上一页 */}
-                  <button
-                    onClick={() =>
-                      setTcgCurrentPage((prev) => Math.max(1, prev - 1))
-                    }
-                    disabled={tcgGameCurrentPage === 1}
-                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                  >
-                    ‹
-                  </button>
-
-                  {/* 页码 */}
-                  {Array.from(
-                    {
-                      length: Math.min(
-                        isMobile ? 3 : 5,
-                        Math.ceil(tcgTotalGames / tcgGamePageSize)
-                      ),
-                    },
-                    (_, i) => {
-                      const totalPages = Math.ceil(
-                        tcgTotalGames / tcgGamePageSize
-                      );
-                      let startPage = Math.max(
-                        1,
-                        Math.min(
-                          tcgGameCurrentPage -
-                            Math.floor((isMobile ? 3 : 5) / 2),
-                          totalPages - (isMobile ? 2 : 4)
-                        )
-                      );
-                      const page = startPage + i;
-
-                      if (page > totalPages) return null;
-
-                      return (
-                        <button
-                          key={page}
-                          onClick={() => setTcgCurrentPage(page)}
-                          className={`w-10 h-10 flex items-center justify-center border rounded shrink-0 ${
-                            page === tcgGameCurrentPage
-                              ? "bg-[#ff367a] text-white font-bold"
-                              : ""
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      );
-                    }
-                  )}
-
-                  {/* 下一页 */}
-                  <button
-                    onClick={() =>
-                      setTcgCurrentPage((prev) =>
-                        prev < Math.ceil(tcgTotalGames / tcgGamePageSize)
-                          ? prev + 1
-                          : prev
-                      )
-                    }
-                    disabled={
-                      tcgGameCurrentPage >=
-                      Math.ceil(tcgTotalGames / tcgGamePageSize)
-                    }
-                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                  >
-                    ›
-                  </button>
-
-                  {/* 尾页 */}
-                  <button
-                    onClick={() =>
-                      setTcgCurrentPage(
-                        Math.ceil(tcgTotalGames / tcgGamePageSize)
-                      )
-                    }
-                    disabled={
-                      tcgGameCurrentPage >=
-                      Math.ceil(tcgTotalGames / tcgGamePageSize)
-                    }
-                    className="w-10 h-10 flex items-center justify-center border rounded disabled:opacity-50 shrink-0"
-                  >
-                    &raquo;
-                  </button>
-                </div>
-              </div>
+              <TcgPagination
+                currentPage={tcgGameCurrentPage}
+                totalItems={tcgTotalGames}
+                pageSize={tcgGamePageSize}
+                isMobile={isMobile}
+                onPageChange={setTcgCurrentPage}
+              />
             )}
           </div>
         </div>
@@ -744,7 +899,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
         text-align: center;
         // border-right: 1px solid #ccc7cd;
         // padding-right: 2rem;
-        margin-right: 2rem;
+        // margin-right: 2rem;
         font-family: "Microsoft YaHei";
         color: rgb(255, 255, 255);
         font-size: 18px;
@@ -959,6 +1114,13 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       }
     }
 
+    .game-title{
+      margin: 0.85vw 11.98vw 1.4vw;
+      font-size: 0.829vw;
+      font-weight: 700;
+      color: #343434;
+    }
+
     .game-list {
       gap: 0.18vw 0.83vw;
       // max-width: 76.04vw;
@@ -1034,7 +1196,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       gap: 5.5vw;
 
       .user-panel {
-        padding: 2vw 3.07vw 1.6vw 6.93vw !important;
+        padding: 2vw 1vw 1.6vw !important;
+        // padding: 2vw 3.07vw 1.6vw 6.93vw !important;
         background: linear-gradient(to bottom right, #ee51ab, #873fdb);
         background: url('/images/tcg/user-panel-bg.png') no-repeat center center !important;
         background-size: cover !important;
@@ -1044,7 +1207,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
         .user-info {
           line-height: 0.917;
-          padding-right: 1vw;
+          margin: auto;
+          // padding-right: 1vw;
           .user-name{
             font-size: 3.2vw;
             margin-bottom: 1.2vw;
@@ -1058,7 +1222,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
             .refresh-icon{
               height:3.2vw;
               width:3.2vw;
-              margin-left:  3.2vw;
+              margin-left: 1.6vw;
             }
           }
         }
@@ -1087,6 +1251,86 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       }
     }
 
+    .game-float{
+      position: fixed;
+      width: 100vw;
+      max-width: 100vw;
+      height: 100vh;
+      z-index: 67;
+      left: 0px;
+      top: 0px;
+      overflow-y: auto;
+      background-color: rgb(255, 255, 255);
+
+      .game-navbar{
+        
+        box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.17);
+        height: 14.67vw;
+        width: 100%;
+        position: fixed;
+        top:0;
+        left:0;
+        z-index: 68;
+        background-color: rgb(255, 255, 255);
+
+        .back-icon{
+          position: absolute;
+          left: 2.67vw;
+          top: 4.27vw;
+          width: 3.47vw;
+          height: 6.13vw;
+          z-index: 68;
+        }
+
+        .title{
+          font-size: 4vw;
+          font-family: "Microsoft YaHei";
+          color: rgb(51, 51, 51);
+          line-height: 0.733;
+          text-align: center;
+          display:flex;
+          justify-content:center;
+          align-items: center;
+          height: 100%;
+        }
+      }
+
+      .game-list{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2vw;
+        width: 100%;
+        max-width: 100%;
+        margin: 24.07vw 0 0;
+        padding: 0 2.667vw; 
+        box-sizing: border-box;
+
+        .game-item {
+          width: 22.13vw;
+          min-height: 29vw;
+          margin-bottom: 0vw;
+
+          .icon{
+            .icon-logo {
+              display: none;
+            }
+            .icon-img{
+                height: 22.27vw;
+                width: 100%;
+                border-radius: 0.67vw;
+            }
+          }
+
+          .title {
+            margin-top: 1.2vw;
+            line-height: 1.217;
+          }
+
+        }
+      }
+    }
+
+
     .game-list {
       gap: 0 2.13vw;
       width:71.87vw;
@@ -1112,10 +1356,8 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
         }
 
         .title{
-          // font-size: 4.45vw;
           font-family: "Microsoft YaHei";
           color: rgb(51, 51, 51);
-          // font-weight: bold;
           font-size:3.2vw;
           display: flex;
           align-items: center;
@@ -1177,7 +1419,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
     }
       
     .pagination-controls{
-      margin: 5vw 0;
+      margin: 4vw 0 10vw;
     }
 
     @media (max-width: 425px) {
@@ -1223,7 +1465,7 @@ export const TcgRegisterPopupModal = ({ open, onRegisterSuccess }) => {
         toastCall(
           response.data.error_desc ||
             response.data.message ||
-            "注册失败，请稍后再试"
+            "注册失败，请稍后再试",
         );
         return;
       }

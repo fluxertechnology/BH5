@@ -261,7 +261,7 @@ function ProfileMission() {
             return window.open(
               apiUrl +
                 requestUrlConstants.toPaymentPageUrl +
-                `?uid=${user.id}&ctype=1&content-language=${lang}`
+                `?uid=${user.id}&ctype=1&content-language=${lang}&origin=${window.location.origin}`
             );
           case 1:
             return useGlobalDispatch(
