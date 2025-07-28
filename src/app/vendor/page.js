@@ -27,6 +27,8 @@ const VendorMain = () => {
   const t = useTranslations("Vendor");
   const { state, dispatch } = useGlobalContext();
   const { isMobile } = useMediaQuery();
+  const { size } = useMediaQuery();
+  const mobileScreenWidth = (size?.[0] ?? 0) < 889;
 
   useEffect(() => {
     useGlobalDispatch(getVendorListAction());
@@ -71,7 +73,7 @@ const VendorMain = () => {
             container
             direction="row"
             alignItems="start"
-            rowSpacing={6.1}
+            rowSpacing={mobileScreenWidth ? 5.3 : 6.1}
             columnSpacing={0}
             className="m-auto"
           >
@@ -185,7 +187,7 @@ const VendorMainElement = styled.div`
     margin: auto;
     padding: 0 10%;
     font-size: 16px;
-    @media (max-width: 599px) {
+    @media (max-width: 899px) {
       font-size: 12px;
       padding: 0;
     }
@@ -259,11 +261,15 @@ const VendorMainElement = styled.div`
   .vendor_container {
     padding: 0 ${side_padding}px;
     cursor: pointer;
+    margin-top: 6.5vw;
+    margin-bottom: 15vw;
+
 
     @media (min-width: 899px) {
       padding-right: 11.7%;
       padding-left: 11.7%;
       margin-top: 2.5vw;
+      margin-bottom: 0;
     }
 
     &_title {
