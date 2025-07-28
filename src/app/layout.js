@@ -44,6 +44,11 @@ export default async function RootLayout({ children }) {
           {`
             var _paq = window._paq = window._paq || [];
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            // 获取 visitorId 回调
+            _paq.push([function() {
+              var visitorId = this.getVisitorId();
+              window.localStorage.setItem('matomoVisitorId', visitorId);
+            }]);
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
             (function() {
