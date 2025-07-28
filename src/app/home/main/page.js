@@ -92,9 +92,6 @@ export default function HomeMainPage() {
     },
   ]
 
-  console.log(dummyNovelTabData);
-
-  console.log(state.homeData);
 
   const { isMobile } = useMediaQuery();
 
@@ -787,6 +784,28 @@ export default function HomeMainPage() {
               </p>
             </div>
 
+            {isMobile && dummyNovelTabData && (
+              <StyledTabs
+                value={novelTabValue}
+                onChange={handleNovelIndexChange}
+                aria-label="lab API tabs example"
+              >
+                {[...dummyNovelTabData]
+                   
+                  .map((category) => {
+                    if (dummyNovelTabData.length) {
+                      return (
+                        <AntTab
+                          label={category.title}
+                          value={category.id}
+                          key={category.id}
+                        />
+                      );
+                    }
+                  })}
+              </StyledTabs>
+            )}
+
             <SlideCarousel items={localState.novel_list} type="novel" />
           </div>
 
@@ -1024,6 +1043,13 @@ export const HomeMainPageElement = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 898px){
+      width: 14.32vw;
+      height: 4.56vw;
+      border-radius: 2.29vw;
+      font-size: 2.34vw;
+    }
   }
 
   .btn-weekly-ranking{
@@ -1034,6 +1060,13 @@ export const HomeMainPageElement = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 898px){
+      width: 14.32vw;
+      height: 4.56vw;
+      border-radius: 2.29vw;
+      font-size: 2.34vw;
+    }
   }
 
   .btn-monthly-ranking{
@@ -1044,6 +1077,13 @@ export const HomeMainPageElement = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 898px){
+      width: 14.32vw;
+      height: 4.56vw;
+      border-radius: 2.29vw;
+      font-size: 2.34vw;
+    }
   }
 
   .pc_friendly_url {

@@ -250,7 +250,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
           font-weight: 700;
           word-break: break-all;
           @media (min-width: 899px) {
-            max-height: ${({ title_line }) => title_line * 20}px;
+            min-height: ${({ title_line }) => title_line * 50}px;
+            max-height: ${({ title_line }) => title_line * 50}px;
             font-size: 16px;
           }
         }
@@ -269,7 +270,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
           background-color: #ff367a;
           @media (max-width: 899px) {
             font-size: 12px;
-            height: 14px;
+            height: 28px;
           }
         }
       }
@@ -311,6 +312,9 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     Boolean(data.is_collect),
   );
   const isVendor = ["vendor"].includes(type);
+  const isNovel = ["novel"].includes(type);
+  const regex = /[a-zA-Z\s!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/g;
+
   const isVideo = ["animated", "video"].includes(type);
   const onCollect = () => {
     collectAction(
@@ -445,9 +449,11 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                         </p>
                       </div>
                   )}
-                  <div className="item_footer_title">
-                    <p className="item_footer_title_text">{data.title}</p>
-                  </div>
+                  { !isNovel &&       
+                    <div className="item_footer_title">
+                      <p className="item_footer_title_text">{data.title}</p>
+                    </div>
+                  }
                   {/* {rankStyle
                     ? data.description && (
                         <div className="item_footer_description">
@@ -496,7 +502,14 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                   </div>
                   <div className="text-gray-600 text-sm mt-2 line-clamp-2">{t("Global.sold")}&nbsp;&nbsp;{data.sales}{data.unit_name}</div>
                 </div>
-              ): (
+              ) : isNovel ? (
+                <>  
+                  <div className="item_footer_title">
+                    <p className="item_footer_title_text line-clamp-2">{data.miaoshu ? data.miaoshu.replace(regex, '') : ''}</p>
+                  </div>
+                  <div className="item_description text-[#666666] text-[0.75rem] mt-3 min-h-[35px] line-clamp-2">{data.title}&nbsp;作者：{data.author ? data.author : ''}</div>
+                </>
+              ) : (
                 ""
               )}
 
