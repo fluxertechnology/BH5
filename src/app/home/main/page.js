@@ -422,17 +422,6 @@ export default function HomeMainPage() {
 
       <article className="comic_area">
         <section className="home_Main_container home_Main_new_comic">
-          {/* <div className="home_Main_container_title">
-            <div className="home_Main_container_title_text">
-              <span className="home_Main_container_title_text_span">
-                {t("Home.added_this_week")}
-                <span className="home_Main_container_title_text_span_marked">
-                  {t("Global.comics")}
-                </span>
-              </span>
-            </div>
-          </div> */}
-
           <div className="home_Main_container_title_wrapper g-flex-space-between">
             <div className="home_Main_container_title cursor" onClick={() => toggleContent(true, false)}>
               <div className="home_Main_container_title_text">
@@ -538,42 +527,6 @@ export default function HomeMainPage() {
           </div>
 
         </section>
-
-        {/* <section className="home_Main_container home_Main_hot_anime">
-          <div className="home_Main_container_title">
-            <div className="home_Main_container_title_text">
-              <span className="home_Main_container_title_text_span">
-                {t("Home.popular_animate")}
-              </span>
-            </div>
-            <div
-              className="home_Main_container_refresh"
-              onClick={() => {
-                refreshData("hot_anime_list");
-              }}
-            >
-              <RefreshBtn />
-            </div>
-          </div>
-          <ShowItem list={localState.hot_anime_list} type="animated" />
-        </section> */}
-
-        {/* <section className="home_Main_container home_Main_all_anime">
-          <div className="home_Main_container_title g-flex-space-between">
-            <div className="home_Main_container_title_text">
-              <span className="home_Main_container_title_text_span">
-                {t("Home.added_this_week_anime")}
-              </span>
-            </div>
-            <p
-              className="home_Main_container_subtitle"
-              onClick={() => toDetailPage("all_anime_list")}
-            >
-              {t("Common.see_all")}
-            </p>
-          </div>
-          <SlideCarousel items={localState.all_anime_list} type="animated" />
-        </section> */}
       </article>
 
       <article className="anime_area">
