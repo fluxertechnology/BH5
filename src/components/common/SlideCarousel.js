@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import CoverCubeItem from "@/components/common/CoverCubeItem";
 import FeaturedCard from "@/components/games/FeaturedCard";
@@ -54,17 +54,23 @@ const SlideCarousel = ({
     animationRef.current = requestAnimationFrame(animateItems);
   }
 
-  const is2540 = (window.innerWidth > 2540 && window.innerWidth > 1920);
-  const is1920 = window.innerWidth > 1929;
+  const [is2540, setIs2540] = useState(false);
+  const [is1920, setIs1920] = useState(true);
 
-  const imgButtonItems = [
+  useEffect(() => {
+    const width = window.innerWidth;
+    setIs2540(width > 2540 && width > 1920);
+    setIs1920(width > 1919);
+  }, []);
+
+  const imgButtonItems = useMemo(() => [
     {
       style: {
         transform: "scaleX(-1)",
         position: "absolute",
         left: 10,
         top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
-        zIndex: 3
+        zIndex: 3,
       },
       status: "prev",
     },
@@ -72,12 +78,13 @@ const SlideCarousel = ({
       style: {
         position: "absolute",
         right: 10,
-        top: is2540 ? "8.625rem" : "5.625rem",
-        zIndex: 3
+        top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
+        zIndex: 3,
       },
       status: "next",
     },
-  ];
+  ], [is2540, is1920]);
+
   function judgePercentage() {
     if (continueWatch) {
       return 15;
