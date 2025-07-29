@@ -10,7 +10,7 @@ const handleClickaduPostback = (payout) => {
     console.warn("Matomo visitor ID not found in localStorage.");
     return;
   }
-  const clickaduPostbackUrl = `http://sconvtrk.com/conversion/fb523d080bdeff9b0870b2327ea24fc51b381a55/?visitor_id=${matomoVisitorId}&aid=269195&payout=${payout || 0}`;
+  const clickaduPostbackUrl = `https://sconvtrk.com/conversion/fb523d080bdeff9b0870b2327ea24fc51b381a55/?visitor_id=${matomoVisitorId}&aid=269195&payout=${payout || 0}`;
 
   fetch(clickaduPostbackUrl);
 };
