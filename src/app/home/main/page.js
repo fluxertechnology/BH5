@@ -423,8 +423,8 @@ export default function HomeMainPage() {
       <article className="comic_area">
         <section className="home_Main_container home_Main_new_comic">
           <div className="home_Main_container_title_wrapper g-flex-space-between">
-            <div className="home_Main_container_title cursor" onClick={() => toggleContent(true, false)}>
-              <div className="home_Main_container_title_text">
+            <div className="home_Main_container_title cursor" >
+              <div className="home_Main_container_title_text" onClick={() => toggleContent(true, false)}>
                 <span className="home_Main_container_title_text_span c-comic">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-comic">
@@ -433,7 +433,7 @@ export default function HomeMainPage() {
                 </span>
               </div>
 
-               <div className="home_Main_container_title_text">
+              <div className="home_Main_container_title_text" onClick={() => toggleContent(false, true)}>
                 <span className="home_Main_container_title_text_span c-video inactive">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-video inactive">
