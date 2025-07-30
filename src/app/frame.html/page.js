@@ -21,6 +21,15 @@ export default function Page() {
       );
     }
 
+    const clickaduSUBID = searchParams.get("SUBID");
+    const clickaduCampaignId = searchParams.get("campaignid");
+    if (clickaduSUBID || clickaduCampaignId) {
+      localStorage.setItem("bh5_clickadu", {
+        SUBID: clickaduSUBID || "",
+        campaignid: clickaduCampaignId || "",
+      });
+    }
+
     router.replace("/");
   }, []);
 
