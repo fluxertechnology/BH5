@@ -109,12 +109,25 @@ const RootComponent = ({ children, locale, userAgent }) => {
   useEffect(() => {
     const utmSource = searchParams.get("utm_source");
     const shareMa = searchParams.get("shareMa");
+
     if (utmSource || shareMa) {
       localStorage.setItem(
         "utmMark",
         JSON.stringify({
           utm_source: utmSource || "",
           shareMa: shareMa || "",
+        }),
+      );
+    }
+
+    const clickaduSUBID = searchParams.get("SUBID");
+    const clickaduCampaignId = searchParams.get("campaignid");
+    if (clickaduSUBID || clickaduCampaignId) {
+      localStorage.setItem(
+        "bh5_clickadu",
+        JSON.stringify({
+          SUBID: clickaduSUBID || "",
+          campaignid: clickaduCampaignId || "",
         }),
       );
     }
