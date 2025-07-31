@@ -38,4 +38,11 @@ export const TabLabelElement = styled.div`
     color: #fff;
     background-color: #ff367a;
   }
+
+  @media (max-width: 898px){
+    width: 14.47vw;
+    padding: 1.33vw 0.67vw;
+    font-size: max(14px, 3.2vw);
+    margin: 4px 1.13vw 4px 0;
+  }
 `;

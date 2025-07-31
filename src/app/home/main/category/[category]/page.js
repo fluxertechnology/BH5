@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, use, useMemo } from "react";
+import React, { useState, useEffect, useRef, use, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
@@ -100,24 +100,72 @@ const HomeCategoryPage = () => {
     });
   }
 
-  function toggleTabHeight() {
+  const [is750, setIs750] = useState(false);
+
+  useEffect(() => {
+    const updateIs750 = () => {
+      const width = window.innerWidth;
+      setIs750(width > 749);
+    };
+
+    window.addEventListener("resize", updateIs750);
+    updateIs750();
+
+    return () => {
+      window.removeEventListener("resize", updateIs750);
+    };
+  }, []);
+  
+  useEffect(() => {
+    getTabHeight();
+  }, [is750, isMobile]);
+
+
+  const toggleTabHeight = useCallback(() => {
     if (!tabRef) return;
     if (tabRef.current.offsetHeight === tabHeight) {
-      tabRef.current.style.height = "100px";
+      if(isMobile){
+        tabRef.current.style.height = is750 ? "100px" : "72px";
+      }else{
+        tabRef.current.style.height = "100px";
+      }
       setTabHeightState(false);
     } else {
       tabRef.current.style.height = tabHeight + "px";
       setTabHeightState(true);
     }
-  }
+  }, [is750, isMobile, tabHeight, tabRef]);
 
-  function getTabHeight() {
+  const getTabHeight = useCallback(() => {
     if (!tabRef) return;
 
     tabRef.current.style.height = "unset";
     setTabHeight(tabRef.current.offsetHeight);
-    tabRef.current.style.height = "100px";
-  }
+    if(isMobile){
+      tabRef.current.style.height = is750 ? "100px" : "72px";
+    }else{
+      tabRef.current.style.height = "100px";
+    }
+  }, [is750, isMobile, tabHeight, tabRef]);
+
+  // function toggleTabHeight() {
+  //   if (!tabRef) return;
+  //   if (tabRef.current.offsetHeight === tabHeight) {
+  //     tabRef.current.style.height = "100px";
+  //     setTabHeightState(false);
+  //   } else {
+  //     tabRef.current.style.height = tabHeight + "px";
+  //     setTabHeightState(true);
+  //   }
+  // }
+
+  // function getTabHeight() {
+  //   if (!tabRef) return;
+
+  //   tabRef.current.style.height = "unset";
+  //   setTabHeight(tabRef.current.offsetHeight);
+  //   tabRef.current.style.height = "100px";
+  // }
 
   function getListData(init = false) {
     getCategoryData({
@@ -338,6 +386,10 @@ export const HomeCategoryElement = styled.div`
   .category_container {
     padding: 48px ${side_padding}px 10px;
 
+    @media (max-width: 898px){
+      padding: 6.67vw ${side_padding}px 10px;
+    }
+
     &_content {
       &_box {
         overflow: hidden;
@@ -355,6 +407,11 @@ export const HomeCategoryElement = styled.div`
           text-align: center;
           border-top: 1px solid ${colors.back_grey};
           border-radius: 5px;
+
+          @media (max-width: 898px){
+            font-weight: 400;
+            font-size: max(12px, 2.4vw);
+          }
         }
       }
     }
