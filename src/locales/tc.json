@@ -293,7 +293,11 @@
       }
     },
     "sold": "已搶",
-    "promo-price":"優惠價"
+    "promo-price":"優惠價",
+    "j_comics": "日漫",
+    "k_comics": "韩漫",
+    "e_comics": "欧漫",
+    "visual_text": "图文"
   },
   "Toast": {
     "send_success": "贈送成功~",

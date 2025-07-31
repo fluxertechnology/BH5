@@ -19,17 +19,23 @@ export const TabLabelElement = styled.div`
   /*  */
   cursor: pointer;
   display: inline-block;
-  padding: 5px 12px;
-  margin: 4px 4px 4px 0;
+  padding: 10px 5px;
+  margin: 4px 7px 4px 0;
   font-size: 16px;
   line-height: 16px;
   word-break: keep-all;
   transition: 0.1s;
-  font-weight: 700;
+  // font-weight: 700;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  width: 5.9375rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &.active {
-    color: ${colors.dark_pink};
-    background-color: ${colors.back_grey};
-    border-radius: 5px;
+    color: #fff;
+    background-color: #ff367a;
   }
 `;
