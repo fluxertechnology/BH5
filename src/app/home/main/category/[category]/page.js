@@ -358,7 +358,7 @@ const HomeCategoryPage = () => {
               return (
                 <Grid
                   item
-                  md={type === 0 ? 3 : 1.71}
+                  md={type === 0 ? 2.4 : 1.71}
                   xs={type === 0 ? 6 : 4}
                   key={`${data.id}-${index}`}
                 >
