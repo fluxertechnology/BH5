@@ -114,7 +114,7 @@ const ProfileMainMissionCenter = ({
                         className="title_item gold_icon mr-2"
                         src={
                           data.title === t("Profile.permission.signin.everyday")
-                            ? "/images/profile/icon_coin.svg"
+                            ? "/images/profile/icon_diamond.png"
                             : "/images/profile/icon_discount.svg"
                         }
                         width={0}
@@ -223,6 +223,7 @@ const ProfileMainMissionElement = styled.div.withConfig({
                 &_icon {
                 width: 24px;
                 height: 24px;
+                object-fit:contain;
 
                 @media (max-width: 599px) {
                     width: 20px;
