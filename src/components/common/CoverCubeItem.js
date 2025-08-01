@@ -329,6 +329,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
               &_icon {
                 width: 16px;
                 height: 16px;
+                margin-right: 11px;
               }
             }
           }
