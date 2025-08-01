@@ -4,7 +4,7 @@
 // 金币1000；精钻100 前端显示100精钻(因金币不使用，则保留原始精钻价格显示)
 
 const MULTIPLIER = 100; // 金币转精钻的倍数
-const IS_CONVERT_TO_DIAMOND = false; // 是否转换为精钻
+export const IS_CONVERT_TO_DIAMOND = true; // 是否转换为精钻
 const DISPLAY_ZERO_DIAMOND = false; // 是否显示0精钻
 
 const formatPremiumDiamond = (amount) => {
