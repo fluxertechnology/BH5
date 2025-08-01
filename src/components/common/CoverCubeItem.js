@@ -8,8 +8,8 @@ import ImageComponent, {
 import { colors, pageUrlConstants } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
 
-// import heartIcon from "@public/images/icons/heart.svg";
-import diamondIcon from "@public/images/icons/diamond.png";
+import heartIcon from "@public/images/icons/heart.svg";
+// import diamondIcon from "@public/images/icons/diamond.png";
 import likeIcon from "@public/images/shared/like.svg";
 import unlikeIcon from "@public/images/shared/unlike.svg";
 import playIcon from "@public/images/shared/play.svg";
@@ -250,7 +250,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
           font-weight: 700;
           word-break: break-all;
           @media (min-width: 899px) {
-            max-height: ${({ title_line }) => title_line * 20}px;
+            min-height: ${({ title_line }) => title_line * 50}px;
+            max-height: ${({ title_line }) => title_line * 50}px;
             font-size: 16px;
           }
           &.video {
@@ -263,7 +264,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
             overflow: hidden;
             text-overflow: ellipsis;
             @media (min-width: 899px) {
-              margin-top: 0.75vw;
+              min-height: 10px;
+              margin-top: 0.8vw;
               font-size: 14px;
             }
           }
@@ -281,9 +283,10 @@ export const CoverCubeItemElement = styled.div.withConfig({
           overflow: hidden;
           color: #ffffff !important;
           background-color: #ff367a;
-          @media (max-width: 898px) {
-            font-size: 12px;
-            height: 14px;
+          @media (max-width: 899px) {
+            font-size: 0.825rem;
+            height: 1.2125rem;
+            padding: 0 2px;
           }
         }
       }
@@ -309,6 +312,9 @@ export const CoverCubeItemElement = styled.div.withConfig({
         }
         &.video {
           margin-top: 2.28vw !important;
+          @media (min-width: 899px) {
+            margin-top: 0.68vw !important;
+          }
 
           .item_footer_gold_text {
             font-size: 2.93vw !important;
@@ -319,9 +325,20 @@ export const CoverCubeItemElement = styled.div.withConfig({
             }
             @media (min-width: 899px) {
               font-size: 14px !important;
+
+              &_icon {
+                width: 16px;
+                height: 16px;
+              }
             }
           }
         }
+      }
+    }
+    @media (max-width: 898px) {
+      .item_body div {
+        min-width: ${({ type }) => ["vendor"].includes(type) && 28.93}vw;
+        min-height: ${({ type }) => ["vendor"].includes(type) && 30.6}vw;
       }
     }
   }
@@ -341,6 +358,9 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     Boolean(data.is_collect)
   );
   const isVendor = ["vendor"].includes(type);
+  const isNovel = ["novel"].includes(type);
+  const regex = /[a-zA-Z\s!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/g;
+
   const isVideo = ["animated", "video"].includes(type);
   const onCollect = () => {
     collectAction(
@@ -475,11 +495,13 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                           </p>
                         </div>
                       )}
-                  <div className="item_footer_title">
-                    <p className={`item_footer_title_text ${type}`}>
-                      {data.title}
-                    </p>
-                  </div>
+                  {!isNovel && (
+                    <div className="item_footer_title">
+                      <p className={`item_footer_title_text ${type}`}>
+                        {data.title}
+                      </p>
+                    </div>
+                  )}
                   {/* {rankStyle
                     ? data.description && (
                         <div className="item_footer_description">
@@ -521,22 +543,33 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                 </>
               ) : isVendor ? (
                 <div>
-                  <h3 className="text-[14px] font-semibold line-clamp-1">
+                  <h3 className="text-[14px] font-semibold line-clamp-2 lg:line-clamp-1">
                     {data.store_name}
                   </h3>
-                  <div className="g-flex items-baseline gap-3">
-                    <div className="bg-[#ff367a] text-white text-[12px] h-[18px] px-[3px]">
+                  <div className="g-flex items-baseline gap-1 lg:gap-3">
+                    <div className="bg-[#ff367a] text-white text-[2.4vw] lg:text-[12px] h-[4.07vw] lg:h-[18px] px-[3px]">
                       {t("Global.promo-price")}
                     </div>
-                    <p className="text-[18px] text-[#ff367a] font-bold mt-1">
+                    <p className="text-[3.2vw] lg:text-[18px] text-[#ff367a] font-bold mt-1">
                       ${data.price}
                     </p>
                   </div>
-                  <div className="text-gray-600 text-sm mt-2 line-clamp-2">
+                  <div className="text-gray-600 text-xs lg:text-sm mt-2 line-clamp-2">
                     {t("Global.sold")}&nbsp;&nbsp;{data.sales}
                     {data.unit_name}
                   </div>
                 </div>
+              ) : isNovel ? (
+                <>
+                  <div className="item_footer_title">
+                    <p className="item_footer_title_text line-clamp-2">
+                      {data.miaoshu ? data.miaoshu.replace(regex, "") : ""}
+                    </p>
+                  </div>
+                  <div className="item_description text-[#666666] text-[0.75rem] mt-3 min-h-[35px] line-clamp-2">
+                    {data.title}&nbsp;作者：{data.author ? data.author : ""}
+                  </div>
+                </>
               ) : (
                 ""
               )}
@@ -548,7 +581,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                     {!!getPrice(t, data) && (
                       <Image
                         className="item_footer_gold_text_icon"
-                        src={diamondIcon}
+                        src={heartIcon}
                         width={0}
                         height={0}
                         alt="heart"

@@ -42,7 +42,8 @@ export default function HomeMainPage() {
   // const [latestUploadTabValue, setLatestUploadTabValue] = useState();
   const [videoTabValue, setVideoTabValue] = useState();
   const [photoTabValue, setPhotoTabValue] = useState();
-  const [novelTabValue, setNovelTabValue] = useState();
+  // const [novelTabValue, setNovelTabValue] = useState();
+  const [novelTabValue, setNovelTabValue] = useState(1);
 
   const dummyNovelTabData = [
     {
@@ -92,9 +93,6 @@ export default function HomeMainPage() {
     },
   ]
 
-  console.log(dummyNovelTabData);
-
-  console.log(state.homeData);
 
   const { isMobile } = useMediaQuery();
 
@@ -424,20 +422,9 @@ export default function HomeMainPage() {
 
       <article className="comic_area">
         <section className="home_Main_container home_Main_new_comic">
-          {/* <div className="home_Main_container_title">
-            <div className="home_Main_container_title_text">
-              <span className="home_Main_container_title_text_span">
-                {t("Home.added_this_week")}
-                <span className="home_Main_container_title_text_span_marked">
-                  {t("Global.comics")}
-                </span>
-              </span>
-            </div>
-          </div> */}
-
-          <div className="home_Main_container_title_wrapper">
-            <div className="home_Main_container_title cursor" onClick={() => toggleContent(true, false)}>
-              <div className="home_Main_container_title_text">
+          <div className="home_Main_container_title_wrapper g-flex-space-between">
+            <div className="home_Main_container_title cursor" >
+              <div className="home_Main_container_title_text" onClick={() => toggleContent(true, false)}>
                 <span className="home_Main_container_title_text_span c-comic">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-comic">
@@ -445,18 +432,30 @@ export default function HomeMainPage() {
                   </span>
                 </span>
               </div>
-            </div>
 
-            <div className="home_Main_container_title cursor" onClick={() => toggleContent(false, true)}>
-              <div className="home_Main_container_title_text">
+              <div className="home_Main_container_title_text" onClick={() => toggleContent(false, true)}>
                 <span className="home_Main_container_title_text_span c-video inactive">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-video inactive">
                     {t("Global.animate")}
                   </span>
                 </span>
-              </div>
+              </div>  
             </div>
+
+            {showComic && (<p
+              className="home_Main_container_subtitle"
+              onClick={() => toDetailPage("all_comic_list")}
+            >
+              {t("Common.see_all")}&gt;
+            </p>)}
+  
+            {showVideo && (<p
+              className="home_Main_container_subtitle"
+              onClick={() => toDetailPage("all_anime_list")}
+            >
+              {t("Common.see_all")}&gt;
+            </p>)}
           </div>
           {showComic && (<SlideCarousel items={localState.weekComicList} />)}
           {showVideo && (<SlideCarousel items={localState.week_anime_list} type="animated" />)}
@@ -466,7 +465,7 @@ export default function HomeMainPage() {
          <section className="home_Main_container home_Main_rank_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <div>
-              <div className="g-flex gap-3">
+              <div className="g-flex items-center gap-2 lg:gap-3">
                 <span className="home_Main_container_title_text_span">{t("Home.ranking.comic")}</span>
                 <div className="btn-daily-ranking cursor">
                   <span className="text-white">日排行榜</span>
@@ -500,7 +499,7 @@ export default function HomeMainPage() {
         <section className="home_Main_container home_Main_rank_anime">
           <div className="home_Main_container_title g-flex-space-between">
             <div>
-              <div className="g-flex gap-3">
+              <div className="g-flex items-center gap-2 lg:gap-3">
                 <span className="home_Main_container_title_text_span">{t("Home.ranking.anime")}</span>
                 <div className="btn-daily-ranking cursor">
                   <span className="text-white">日排行榜</span>
@@ -528,42 +527,6 @@ export default function HomeMainPage() {
           </div>
 
         </section>
-
-        {/* <section className="home_Main_container home_Main_hot_anime">
-          <div className="home_Main_container_title">
-            <div className="home_Main_container_title_text">
-              <span className="home_Main_container_title_text_span">
-                {t("Home.popular_animate")}
-              </span>
-            </div>
-            <div
-              className="home_Main_container_refresh"
-              onClick={() => {
-                refreshData("hot_anime_list");
-              }}
-            >
-              <RefreshBtn />
-            </div>
-          </div>
-          <ShowItem list={localState.hot_anime_list} type="animated" />
-        </section> */}
-
-        {/* <section className="home_Main_container home_Main_all_anime">
-          <div className="home_Main_container_title g-flex-space-between">
-            <div className="home_Main_container_title_text">
-              <span className="home_Main_container_title_text_span">
-                {t("Home.added_this_week_anime")}
-              </span>
-            </div>
-            <p
-              className="home_Main_container_subtitle"
-              onClick={() => toDetailPage("all_anime_list")}
-            >
-              {t("Common.see_all")}
-            </p>
-          </div>
-          <SlideCarousel items={localState.all_anime_list} type="animated" />
-        </section> */}
       </article>
 
       <article className="anime_area">
@@ -787,6 +750,28 @@ export default function HomeMainPage() {
               </p>
             </div>
 
+            {isMobile && dummyNovelTabData && (
+              <StyledTabs
+                value={novelTabValue}
+                onChange={handleNovelIndexChange}
+                aria-label="lab API tabs example"
+              >
+                {[...dummyNovelTabData]
+                   
+                  .map((category) => {
+                    if (dummyNovelTabData.length) {
+                      return (
+                        <AntTab
+                          label={category.title}
+                          value={category.id}
+                          key={category.id}
+                        />
+                      );
+                    }
+                  })}
+              </StyledTabs>
+            )}
+
             <SlideCarousel items={localState.novel_list} type="novel" />
           </div>
 
@@ -798,7 +783,7 @@ export default function HomeMainPage() {
             }  gap-3`}
         >
           <div className={`${isMobile ? " w-100" : "f-60"}`}>
-            <div className="home_Main_container_title">
+            <div className={`home_Main_container_title ${isMobile ? "mb-[1.87vw]" : ""}`}>
               <div className="home_Main_container_title_text">
                 <span className="home_Main_container_title_text_span">
                   {t("Navbar.bottom_navigator_mall")}
@@ -875,7 +860,7 @@ export const HomeMainPageElement = styled.div`
         align-items: center;
         margin-bottom: 10px;
         @media (max-width: 899px) {
-          margin-bottom: 0px;
+          // margin-bottom: 0px;
         }
 
         &_wrapper{
@@ -904,7 +889,7 @@ export const HomeMainPageElement = styled.div`
             font-size: 20px;
             font-weight: 600;
             @media (max-width: 899px) {
-              font-size: 14px;
+              font-size: max(0.94rem, 3.47vw);
             }
             &_marked {
               color: ${colors.back_dark_pink};
@@ -919,7 +904,7 @@ export const HomeMainPageElement = styled.div`
 
       &_subtitle {
         cursor: pointer;
-        font-size: 10px;
+        font-size: 3.2vw;
         @media (min-width: 899px) {
           font-size: 16px;
         }
@@ -1024,6 +1009,13 @@ export const HomeMainPageElement = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 898px){
+      width: 14.32vw;
+      height: 4.56vw;
+      border-radius: 2.29vw;
+      font-size: 2.34vw;
+    }
   }
 
   .btn-weekly-ranking{
@@ -1034,6 +1026,13 @@ export const HomeMainPageElement = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 898px){
+      width: 14.32vw;
+      height: 4.56vw;
+      border-radius: 2.29vw;
+      font-size: 2.34vw;
+    }
   }
 
   .btn-monthly-ranking{
@@ -1044,6 +1043,13 @@ export const HomeMainPageElement = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 898px){
+      width: 14.32vw;
+      height: 4.56vw;
+      border-radius: 2.29vw;
+      font-size: 2.34vw;
+    }
   }
 
   .pc_friendly_url {

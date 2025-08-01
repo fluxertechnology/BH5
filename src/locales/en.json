@@ -293,7 +293,11 @@
       }
     },
     "sold": "Sold",
-    "promo-price":"Promo"
+    "promo-price":"Promo",
+    "j_comics": "J-comics",
+    "k_comics": "K-comics",
+    "e_comics": "E-comics",
+    "visual_text": "Visual Text"
   },
   "Toast": {
     "send_success": "Donate Success~",

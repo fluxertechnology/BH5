@@ -17,12 +17,13 @@ const ComicRankingItem = ({ list }) => {
       {isMobile ? (
         <section
           style={{
-            display: "grid",
-            gridAutoColumns: "100%",
-            gridAutoFlow: "column dense",
-            gridTemplateRows: "repeat(3, 1fr)",
-            gap: "10px",
-            width: "85%",
+            display: "flex",
+            // marginTop: "1.25rem",
+            // gridAutoColumns: "100%",
+            // gridAutoFlow: "column dense",
+            // gridTemplateRows: "repeat(3, 1fr)",
+            gap: "0.8125rem",
+            // width: "85%",
           }}
         >
           {list.map((item, index) => {
@@ -32,7 +33,7 @@ const ComicRankingItem = ({ list }) => {
                 <ComicRankingElement index={index + 1} key={`${title}-${index}`}>
                   <Provider value={{ data: item, type }}>
                     <Links contextProps={comicRankingProps}>
-                      <section className="comic_ranking_h5">
+                      {/* <section className="comic_ranking_h5">
                         <Image
                           className="comic_ranking_h5_badge"
                           src={ranks[index]}
@@ -59,7 +60,20 @@ const ComicRankingItem = ({ list }) => {
                             {description}
                           </div>
                         </div>
-                      </section>
+                      </section> */}
+
+                      <div className="comic_ranking_wrapper">
+                        <section className="comic_ranking_number">
+                          {index + 1}
+                        </section>
+                        <section className={`${type == 0 ? 'anime-ranking' : '' } g-flex-column-start`}>
+                          {/* <span className="comic_ranking_title">{title}</span>
+                          <span className="comic_ranking_description">
+                            {description}
+                          </span> */}
+                          <CoverCubeItem data={item} type={type} total_view_show />
+                        </section>
+                      </div>
                     </Links>
                   </Provider>
                 </ComicRankingElement>
@@ -136,6 +150,12 @@ const ComicRankingElement = styled.div.withConfig({
       min-width: 8.5875rem;
       min-height: 12.625rem;
     }
+    @media (max-width: 898px) {
+      .item_body div{
+        min-width: 28.7vw;
+        min-height: 39.554vw;
+      }
+    }
     @media (min-width: 2560px) {
       .item_body div{
         min-width: 12.0875rem;
@@ -147,6 +167,11 @@ const ComicRankingElement = styled.div.withConfig({
   .anime-ranking .item .item_body div{
     padding-bottom: 100% !important;
     min-height: 9.25rem;
+
+    @media (max-width: 898px){
+      min-width: 43.475vw;
+      min-height: 28.567vw;
+    }
 
     @media (min-width: 2540px){
       min-height: 13.25rem;

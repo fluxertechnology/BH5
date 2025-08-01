@@ -184,7 +184,7 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
           direction="row"
           alignItems="center"
           spacing={isMobile ? 1 : 2}
-          rowSpacing={isMobile ? 5.7 : 5.2}
+          rowSpacing={isMobile ? 5.7 : 6}
         >
           {state.homeVideoList[state.homeVideo.nowTab]?.videolist
             .filter((key, index) => {

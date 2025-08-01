@@ -4,6 +4,22 @@ import { webVersion } from "@/lib/constants";
 import store from "@/store";
 import axiosRequest from "@/lib/services/axios";
 
+const handleClickaduPostback = (payout) => {
+  const clickadu = localStorage.getItem("bh5_clickadu");
+  if (!clickadu) {
+    console.warn("No Clickadu found in localStorage.");
+    return;
+  }
+  const clickaduData = JSON.parse(clickadu);
+  if (!clickaduData.SUBID) {
+    console.warn("No SUBID found in Clickadu data.");
+    return;
+  }
+  const clickaduPostbackUrl = `https://sconvtrk.com/conversion/fb523d080bdeff9b0870b2327ea24fc51b381a55/?visitor_id=${clickaduData.SUBID}&aid=269195&payout=${payout || 0}`;
+
+  fetch(clickaduPostbackUrl);
+};
+
 /**
  * @description when ad has been click return to google
  *
@@ -65,6 +81,7 @@ const handleRegisterAccount = function () {
     event: "registerAccount",
     utm_source: utm_source,
   });
+  handleClickaduPostback(0.28);
 };
 
 const handleDevToolCheckReport = function () {

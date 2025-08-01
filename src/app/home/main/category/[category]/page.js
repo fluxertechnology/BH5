@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef, use, useMemo } from "react";
+import React, { useState, useEffect, useRef, use, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
-import { colors, side_padding } from "@/lib/constants";
+import { adsKeys, colors, side_padding } from "@/lib/constants";
 import WavaButton from "@/components/layout/Header/WavaButton";
 import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
@@ -19,6 +19,8 @@ import {
   getCategoryListAction,
   restCategoryDataAction,
 } from "@/store/actions/pages/homeCategoryAction";
+
+import ImageCarousel from "@/components/common/ImageCarousel";
 
 const HomeCategoryPage = () => {
   const { state } = useGlobalContext();
@@ -98,24 +100,72 @@ const HomeCategoryPage = () => {
     });
   }
 
-  function toggleTabHeight() {
+  const [is750, setIs750] = useState(false);
+
+  useEffect(() => {
+    const updateIs750 = () => {
+      const width = window.innerWidth;
+      setIs750(width > 749);
+    };
+
+    window.addEventListener("resize", updateIs750);
+    updateIs750();
+
+    return () => {
+      window.removeEventListener("resize", updateIs750);
+    };
+  }, []);
+  
+  useEffect(() => {
+    getTabHeight();
+  }, [is750, isMobile]);
+
+
+  const toggleTabHeight = useCallback(() => {
     if (!tabRef) return;
     if (tabRef.current.offsetHeight === tabHeight) {
-      tabRef.current.style.height = "64px";
+      if(isMobile){
+        tabRef.current.style.height = is750 ? "100px" : "72px";
+      }else{
+        tabRef.current.style.height = "100px";
+      }
       setTabHeightState(false);
     } else {
       tabRef.current.style.height = tabHeight + "px";
       setTabHeightState(true);
     }
-  }
+  }, [is750, isMobile, tabHeight, tabRef]);
 
-  function getTabHeight() {
+  const getTabHeight = useCallback(() => {
     if (!tabRef) return;
 
     tabRef.current.style.height = "unset";
     setTabHeight(tabRef.current.offsetHeight);
-    tabRef.current.style.height = "64px";
-  }
+    if(isMobile){
+      tabRef.current.style.height = is750 ? "100px" : "72px";
+    }else{
+      tabRef.current.style.height = "100px";
+    }
+  }, [is750, isMobile, tabHeight, tabRef]);
+
+  // function toggleTabHeight() {
+  //   if (!tabRef) return;
+  //   if (tabRef.current.offsetHeight === tabHeight) {
+  //     tabRef.current.style.height = "100px";
+  //     setTabHeightState(false);
+  //   } else {
+  //     tabRef.current.style.height = tabHeight + "px";
+  //     setTabHeightState(true);
+  //   }
+  // }
+
+  // function getTabHeight() {
+  //   if (!tabRef) return;
+
+  //   tabRef.current.style.height = "unset";
+  //   setTabHeight(tabRef.current.offsetHeight);
+  //   tabRef.current.style.height = "100px";
+  // }
 
   function getListData(init = false) {
     getCategoryData({
@@ -147,6 +197,12 @@ const HomeCategoryPage = () => {
   };
   return (
     <HomeCategoryElement className={!isMobile && "px-indent"}>
+      <ImageCarousel
+        adsKey={adsKeys.anime_top_banner}
+        threeInOneBanner={!isMobile}
+        size="banner_animated"
+        is_cover
+      />
       {/* <TopBarContainer>
         <TopTitleBar title={title} showBack={true} show_back_color="#ffffff" />
       </TopBarContainer> */}
@@ -154,12 +210,32 @@ const HomeCategoryPage = () => {
         <div className="category_container_content">
           <div className="category_container_content_box">
             <TabLabel
-              text={t("Global.comics")}
+              text={t("Global.j_comics")}
               active={type === 1}
               onClick={() => {
                 if (type !== 1) {
                   resetSetCategoryData(title);
                   setType(1);
+                }
+              }}
+            />
+            <TabLabel
+              text={t("Global.k_comics")}
+              active={type === 2}
+              onClick={() => {
+                if (type !== 2) {
+                  resetSetCategoryData(title);
+                  setType(2);
+                }
+              }}
+            />
+            <TabLabel
+              text={t("Global.e_comics")}
+              active={type === 3}
+              onClick={() => {
+                if (type !== 3) {
+                  resetSetCategoryData(title);
+                  setType(3);
                 }
               }}
             />
@@ -175,6 +251,26 @@ const HomeCategoryPage = () => {
                 }}
               />
             )}
+            <TabLabel
+              text={t("Navbar.top_navigator_novel")}
+              active={type === 4}
+              onClick={() => {
+                if (type !== 4) {
+                  resetSetCategoryData(title);
+                  setType(4);
+                }
+              }}
+            />
+            <TabLabel
+              text={t("Global.visual_text")}
+              active={type === 5}
+              onClick={() => {
+                if (type !== 5) {
+                  resetSetCategoryData(title);
+                  setType(5);
+                }
+              }}
+            />
           </div>
         </div>
         <div className="category_container_content">
@@ -208,7 +304,7 @@ const HomeCategoryPage = () => {
             onClick={toggleTabHeight}
           >
             <WavaButton className="category_container_content_btn_button">
-              {tabHeightState ? t("Global.show_less") : t("Global.show_more")}
+              &lt;&nbsp;&nbsp;&nbsp;{tabHeightState ? t("Global.show_less") : t("Global.show_more")}&nbsp;&nbsp;&nbsp;&gt;
             </WavaButton>
           </div>
         </div>
@@ -255,14 +351,14 @@ const HomeCategoryPage = () => {
             container
             direction="row"
             alignItems="center"
-            spacing={!isMobile ? 4 : 1}
+            spacing={!isMobile ? 1.178 : 1}
           >
             {state.homeCategoryData[title]?.list?.map((data, index) => {
               //type 0 動畫 1漫畫
               return (
                 <Grid
                   item
-                  md={type === 0 ? 3 : 2}
+                  md={type === 0 ? 3 : 1.71}
                   xs={type === 0 ? 6 : 4}
                   key={`${data.id}-${index}`}
                 >
@@ -288,7 +384,11 @@ export const HomeCategoryElement = styled.div`
   /*  */
 
   .category_container {
-    padding: 10px ${side_padding}px;
+    padding: 48px ${side_padding}px 10px;
+
+    @media (max-width: 898px){
+      padding: 6.67vw ${side_padding}px 10px;
+    }
 
     &_content {
       &_box {
@@ -301,12 +401,17 @@ export const HomeCategoryElement = styled.div`
 
         &_button {
           cursor: pointer;
-          padding: 10px;
+          padding: 19px 10px;
           box-sizing: border-box;
           font-weight: 700;
           text-align: center;
-          background-color: ${colors.back_grey};
+          border-top: 1px solid ${colors.back_grey};
           border-radius: 5px;
+
+          @media (max-width: 898px){
+            font-weight: 400;
+            font-size: max(12px, 2.4vw);
+          }
         }
       }
     }
