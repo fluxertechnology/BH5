@@ -625,11 +625,9 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   <WavaButton
                     className={
                       "search_bar_nav_item_btn" +
-                      (location.indexOf(navItem.path) !== -1 ||
+                      (location === navItem.path ||
                       (navItem?.child &&
-                        navItem.child.some(
-                          (child) => location.indexOf(child.path) !== -1
-                        ))
+                        navItem.child.some((child) => location === child.path))
                         ? " active"
                         : "")
                     }

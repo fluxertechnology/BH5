@@ -51,7 +51,7 @@ const CoverCubeItem = ({
           vod_name: title,
           vod_pic: img,
           vod_url: url,
-        }),
+        })
       );
     } else {
       useGlobalDispatch(collectComicAnimeAction(data));
@@ -253,6 +253,20 @@ export const CoverCubeItemElement = styled.div.withConfig({
             max-height: ${({ title_line }) => title_line * 20}px;
             font-size: 16px;
           }
+          &.video {
+            font-size: 3.2vw;
+            max-height: 12vw;
+            margin-top: 1.75vw;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            @media (min-width: 899px) {
+              margin-top: 0.75vw;
+              font-size: 14px;
+            }
+          }
         }
       }
 
@@ -267,7 +281,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
           overflow: hidden;
           color: #ffffff !important;
           background-color: #ff367a;
-          @media (max-width: 899px) {
+          @media (max-width: 898px) {
             font-size: 12px;
             height: 14px;
           }
@@ -278,11 +292,12 @@ export const CoverCubeItemElement = styled.div.withConfig({
         margin-top: 25px;
 
         &_text {
+          font-family: "Microsoft YaHei";
           font-size: 14px;
           color: #000000;
           display: flex;
           align-items: center;
-          @media (max-width: 899px) {
+          @media (max-width: 898px) {
             font-size: 12px;
           }
           &_icon {
@@ -290,6 +305,21 @@ export const CoverCubeItemElement = styled.div.withConfig({
             width: 16px;
             height: 16px;
             vertical-align: bottom;
+          }
+        }
+        &.video {
+          margin-top: 2.28vw !important;
+
+          .item_footer_gold_text {
+            font-size: 2.93vw !important;
+            &_icon {
+              margin-right: 1.47vw;
+              width: auto;
+              height: 2.93vw;
+            }
+            @media (min-width: 899px) {
+              font-size: 14px !important;
+            }
           }
         }
       }
@@ -308,7 +338,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     useContext(Props);
 
   const [likeIconStatus, setLikeIconStatus] = useState(
-    Boolean(data.is_collect),
+    Boolean(data.is_collect)
   );
   const isVendor = ["vendor"].includes(type);
   const isVideo = ["animated", "video"].includes(type);
@@ -316,16 +346,18 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
     collectAction(
       data,
       type,
-      setLikeIconStatus((pre) => !pre),
+      setLikeIconStatus((pre) => !pre)
     );
   };
   function nowHeight() {
     if (continueWatch) {
       return 140;
     } else {
-      if (type === "video" || type === "animated") {
+      if (type === "video") {
+        return 66;
+      } else if (type == "animated") {
         return 65;
-      } else if(type == "vendor") {
+      } else if (type == "vendor") {
         return 100;
       } else {
         return 140;
@@ -361,13 +393,11 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               alt={data.store_name}
               lazyLoad={false}
               title={data.store_name}
-              isFree={
-                data.price == 0
-              }
+              isFree={data.price == 0}
               height={nowHeight()}
             />
           </Links>
-        ): (
+        ) : (
           <ImageComponent
             is_cover
             lazyLoad={false}
@@ -418,7 +448,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
             <div className="item_footer_rank">
               {!isModal && rank !== undefined && rank + 1}
             </div>
-            <div className="g-flex-column-center g-overflow-h ">
+            <div className="g-flex-column-center g-overflow-h">
               <div className={`g-flex ${rankStyle && "gap-1"}`}>
                 <div className="item_footer_rank">
                   {isModal && rank !== undefined && rank + 1}
@@ -426,27 +456,29 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                 <div className="g-flex-column-center">
                   {rankStyle
                     ? data.description && (
-                      <div className="item_footer_description">
-                        <p className="item_footer_description_text">
-                          {data.description}
-                        </p>
-                      </div>
-                    )
-                  : data.total_episode &&
-                    !continueWatch &&
-                    !disabledPrice && (
-                      <div className="item_footer_description">
-                        <p className="item_footer_description_text">
-                          {data.process === 1
-                            ? t("Global.update_to")
-                            : t("Global.total")}
-                          {data.total_episode}
-                          {t("Global.word")}
-                        </p>
-                      </div>
-                  )}
+                        <div className="item_footer_description">
+                          <p className="item_footer_description_text">
+                            {data.description}
+                          </p>
+                        </div>
+                      )
+                    : data.total_episode &&
+                      !continueWatch &&
+                      !disabledPrice && (
+                        <div className="item_footer_description">
+                          <p className="item_footer_description_text">
+                            {data.process === 1
+                              ? t("Global.update_to")
+                              : t("Global.total")}
+                            {data.total_episode}
+                            {t("Global.word")}
+                          </p>
+                        </div>
+                      )}
                   <div className="item_footer_title">
-                    <p className="item_footer_title_text">{data.title}</p>
+                    <p className={`item_footer_title_text ${type}`}>
+                      {data.title}
+                    </p>
                   </div>
                   {/* {rankStyle
                     ? data.description && (
@@ -489,20 +521,29 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                 </>
               ) : isVendor ? (
                 <div>
-                  <h3 className="text-[14px] font-semibold line-clamp-1">{data.store_name}</h3>
+                  <h3 className="text-[14px] font-semibold line-clamp-1">
+                    {data.store_name}
+                  </h3>
                   <div className="g-flex items-baseline gap-3">
-                    <div className="bg-[#ff367a] text-white text-[12px] h-[18px] px-[3px]">{t("Global.promo-price")}</div>
-                    <p className="text-[18px] text-[#ff367a] font-bold mt-1">${data.price}</p>
+                    <div className="bg-[#ff367a] text-white text-[12px] h-[18px] px-[3px]">
+                      {t("Global.promo-price")}
+                    </div>
+                    <p className="text-[18px] text-[#ff367a] font-bold mt-1">
+                      ${data.price}
+                    </p>
                   </div>
-                  <div className="text-gray-600 text-sm mt-2 line-clamp-2">{t("Global.sold")}&nbsp;&nbsp;{data.sales}{data.unit_name}</div>
+                  <div className="text-gray-600 text-sm mt-2 line-clamp-2">
+                    {t("Global.sold")}&nbsp;&nbsp;{data.sales}
+                    {data.unit_name}
+                  </div>
                 </div>
-              ): (
+              ) : (
                 ""
               )}
 
               {/* 判斷免費欄位不是顯示免費才能show */}
               {!rankStyle && !disabledPrice && (
-                <div className="item_footer_gold">
+                <div className={`item_footer_gold ${type}`}>
                   <p className="item_footer_gold_text">
                     {!!getPrice(t, data) && (
                       <Image
@@ -542,27 +583,27 @@ export const Links = ({ children, contextProps }) => {
               },
             }
           : type === "animated"
-            ? {
-                name:
-                  home.pages.homeAnimesSwitch.pages.homeAnimesContent.name +
-                  data.title +
-                  "-1",
-                path: home.pages.homeAnimesSwitch.pages.homeAnimesContent.path,
-                dynamic: {
-                  animeId: data.id,
-                  animeEp: data.episode || 1,
-                },
-              }
-            : {
-                name:
-                  home.pages.homeComicList.pages.homeComicListSwitch.pages
-                    .homeComicListContent.name + data.title,
-                path: home.pages.homeComicList.pages.homeComicListSwitch.pages
-                  .homeComicListContent.path,
-                dynamic: {
-                  comicId: data.id,
-                },
-              }
+          ? {
+              name:
+                home.pages.homeAnimesSwitch.pages.homeAnimesContent.name +
+                data.title +
+                "-1",
+              path: home.pages.homeAnimesSwitch.pages.homeAnimesContent.path,
+              dynamic: {
+                animeId: data.id,
+                animeEp: data.episode || 1,
+              },
+            }
+          : {
+              name:
+                home.pages.homeComicList.pages.homeComicListSwitch.pages
+                  .homeComicListContent.name + data.title,
+              path: home.pages.homeComicList.pages.homeComicListSwitch.pages
+                .homeComicListContent.path,
+              dynamic: {
+                comicId: data.id,
+              },
+            }
       }
     >
       {children}

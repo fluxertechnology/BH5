@@ -95,6 +95,7 @@ export const toastAutoCloseDuring = 1000;
 export const colors = {
   dark_pink: "#FA719A",
   light_pink: "#fcdce5",
+  clasic_pink: "#ff367a",
   back_dark_pink: "#f24c7c",
   text_grey: "#646464",
   text_dark_grey: "#999999",
