@@ -30,6 +30,20 @@ export default function Page() {
       });
     }
 
+    const arSubId = searchParams.get("subid");
+    const arConversionId = searchParams.get("event");
+    const arCampaignId = searchParams.get("cid");
+    if (arSubId || arConversionId || arCampaignId) {
+      localStorage.setItem(
+        "bh5_ar",
+        JSON.stringify({
+          subid: arSubId || "",
+          event: arConversionId || "",
+          cid: arCampaignId || "",
+        }),
+      );
+    }
+
     router.replace("/");
   }, []);
 

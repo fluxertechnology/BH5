@@ -20,6 +20,22 @@ const handleClickaduPostback = (payout) => {
   fetch(clickaduPostbackUrl);
 };
 
+const handleActiveRevenuePostback = (payout) => {
+  const activerevenue = localStorage.getItem("bh5_ar");
+  if (!activerevenue) {
+    console.warn("No ActiveRevenue found in localStorage.");
+    return;
+  }
+  const activerevenueData = JSON.parse(activerevenue);
+  if (!activerevenueData.subid) {
+    console.warn("No subid found in ActiveRevenue data.");
+    return;
+  }
+  const arPostbackUrl = `https://xml.pdn-1.com/conversion?id=3181986&c=${activerevenueData.event}&count=1&value=${payout || 0}`;
+
+  fetch(arPostbackUrl);
+};
+
 /**
  * @description when ad has been click return to google
  *
@@ -82,6 +98,7 @@ const handleRegisterAccount = function () {
     utm_source: utm_source,
   });
   handleClickaduPostback(0.28);
+  handleActiveRevenuePostback(0.28);
 };
 
 const handleDevToolCheckReport = function () {
