@@ -361,6 +361,7 @@ const HomeCategoryPage = () => {
                   md={type === 0 ? 2.4 : 1.71}
                   xs={type === 0 ? 6 : 4}
                   key={`${data.id}-${index}`}
+                  className={`${(type === 4 || type === 5) ? 'novel-illust-adj': ''}`}
                 >
                   <CoverCubeItem
                     isVideo={type === 0}
@@ -420,6 +421,10 @@ export const HomeCategoryElement = styled.div`
       display: flex;
       flex-wrap: wrap;
       padding-top: 1%;
+    }
+
+    .novel-illust-adj .item_body div{
+      padding-bottom: 101.55%;
     }
   }
 `;

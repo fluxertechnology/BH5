@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-import heartIcon from "@public/images/icons/heart.svg";
+// import heartIcon from "@public/images/icons/heart.svg";
+import diamondIcon from "@public/images/icons/diamond.png";
 import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import ImageComponent from "@/components/common/ImageComponent";
 import errorImg from "@public/images/imgPlaceholder/fail404.jpg";
@@ -56,7 +57,7 @@ const NovelCard = ({ data, total_view_show }) => {
         <div className="card_heart">
           <Image
             className="card_heart_img"
-            src={heartIcon}
+            src={diamondIcon}
             width={0}
             height={0}
             alt="heart"
