@@ -8,8 +8,8 @@ import ImageComponent, {
 import { colors, pageUrlConstants } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
 
-import heartIcon from "@public/images/icons/heart.svg";
-// import diamondIcon from "@public/images/icons/diamond.png";
+// import heartIcon from "@public/images/icons/heart.svg";
+import diamondIcon from "@public/images/icons/diamond.png";
 import likeIcon from "@public/images/shared/like.svg";
 import unlikeIcon from "@public/images/shared/unlike.svg";
 import playIcon from "@public/images/shared/play.svg";
@@ -582,7 +582,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
                     {!!getPrice(t, data) && (
                       <Image
                         className="item_footer_gold_text_icon"
-                        src={heartIcon}
+                        src={diamondIcon}
                         width={0}
                         height={0}
                         alt="heart"

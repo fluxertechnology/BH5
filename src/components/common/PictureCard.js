@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ImageComponent from "@/components/common/ImageComponent";
-import heartIcon from "@public/images/icons/heart.svg";
+// import heartIcon from "@public/images/icons/heart.svg";
+import diamondIcon from "@public/images/icons/diamond.png";
 import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import { colors } from "@/lib/constants";
 import { useGlobalDispatch } from "@/store";
@@ -43,7 +44,7 @@ const PictureCard = ({ data, total_view_show }) => {
         <div className="card_body">
           <div className="card_body_title line-clamp-2">{data.title}</div>
           <div className="card_body_heart">
-            <Image className="card_body_heart_img" src={heartIcon} width={0} height={0} alt="heart" />
+            <Image className="card_body_heart_img" src={diamondIcon} width={0} height={0} alt="heart" />
             {getPrice(t, data)}
           </div>
         </div>
