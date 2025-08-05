@@ -108,7 +108,7 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
           size="banner_animated"
         />
       )}
-      <div className="nav_container">
+      <div className={`nav_container ${hideImageCarousel ? "hidden" : ""}`}>
         <div className={`nav_list ${!isMobile ? "mx-indent" : "mobile-width"}`}>
           {type.map((item) => (
             <div
@@ -184,7 +184,7 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
           direction="row"
           alignItems="center"
           spacing={isMobile ? 1 : 2}
-          rowSpacing={isMobile ? 5.7 : 6}
+          rowSpacing={isMobile ? 5.7 : 5}
         >
           {state.homeVideoList[state.homeVideo.nowTab]?.videolist
             .filter((key, index) => {

@@ -28,6 +28,7 @@ const ImageCarousel = ({
   threeInOneBanner,
   is_cover = false,
   size,
+  customSlidesPerView,
   callback = () => {},
 }) => {
   const { state } = useGlobalContext();
@@ -94,10 +95,12 @@ const ImageCarousel = ({
   return (
     <ImageCarouselElement swiper_progress={swiper_progress} height={height}>
       <Swiper
-        className={`${threeInOneBanner ? "banner-padding" : ""} image_carousel swiper-pagination-center`}
+        className={`${
+          threeInOneBanner ? "banner-padding" : ""
+        } image_carousel swiper-pagination-center`}
         modules={[Pagination, A11y, Autoplay]}
         spaceBetween={threeInOneBanner ? 30 : 50}
-        slidesPerView={threeInOneBanner ? 3 : 1}
+        slidesPerView={customSlidesPerView ?? (threeInOneBanner ? 3 : 1)} 
         loop
         autoHeight
         pagination={{ clickable: true }}
@@ -231,7 +234,7 @@ export const ImageCarouselElement = styled.div.withConfig({
     }
   }
 
-  .banner-padding{
+  .banner-padding {
     width: 76.04vw;
   }
 `;

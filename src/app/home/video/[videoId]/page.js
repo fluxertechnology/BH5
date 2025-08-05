@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import ReactPlayerComponent, {
   PlyrVideoType,
 } from "@/components/common/ReactPlayerComponent";
-import { adsKeys, colors, side_padding } from "@/lib/constants";
+import {
+  adsKeys,
+  colors,
+  side_padding,
+  pageUrlConstants,
+} from "@/lib/constants";
 import ImageCarousel from "@/components/common/ImageCarousel";
-// import ImageComponent from "@/components/common/ImageComponent";
+import ImageComponent from "@/components/common/ImageComponent";
 import HomeVideos from "@/app/home/main/videos/page";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useParams } from "next/navigation";
@@ -20,6 +25,7 @@ import {
 } from "@/store/actions/historyActions";
 import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import { toggleVideoCollectAction } from "@/store/actions/pages/homeVideoContentAction";
+import LinkComponent from "@/components/common/LinkComponent";
 
 const HomeVideoContent = ({}) => {
   const { state } = useGlobalContext();
@@ -45,7 +51,7 @@ const HomeVideoContent = ({}) => {
     //   getFavorVideo();
     // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoId,state.user.id]);
+  }, [videoId, state.user.id]);
   useEffect(() => {
     if (videoData.url) {
       addMissionRecord(5);
@@ -53,6 +59,14 @@ const HomeVideoContent = ({}) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoData.url]);
+
+  const getVideoData = () => {
+    useGlobalDispatch(getHomeVideoData());
+  };
+
+  const getVideo = useCallback(() => {
+    getVideoData();
+  }, []);
 
   function collectEvent() {
     toggleVideoCollect({
@@ -103,31 +117,85 @@ const HomeVideoContent = ({}) => {
   }, []);
   return (
     <HomeVideoContentElement main_height={state.navbar.mainHeight}>
-      <TopBarContainer not_fixed={true} show_shadow={false} z_index={8} top="unset">
+      <TopBarContainer
+        not_fixed={true}
+        show_shadow={false}
+        z_index={8}
+        top="unset"
+      >
         <TopTitleBar
-          showBack={true}
+          showBack={false}
           back_color={"transparent"}
           show_back_color={"#fff"}
         />
       </TopBarContainer>
-      <ReactPlayerComponent
-        img={videoData.img}
-        src={videoData.url}
-        title={videoData.title}
-        subTitle="相关影片"
-        is_collect={videoData.is_collect}
-        collectEvent={() => {
-          collectEvent();
-        }}
-        videoType={PlyrVideoType.video}
-        videoId={videoId}
-      />
-      <ImageCarousel
-        adsKey={adsKeys.video_banner}
-        threeInOneBanner={!isMobile}
-        size="banner_animated"
-        is_cover
-      />
+      <div
+        className={`main-container ${!isMobile ? "mx-indent" : "mobile-width"}`}
+      >
+        <div className="left-section">
+          <ReactPlayerComponent
+            img={videoData.img}
+            src={videoData.url}
+            title={videoData.title}
+            subTitle="相关影片"
+            is_collect={videoData.is_collect}
+            collectEvent={() => {
+              collectEvent();
+            }}
+            videoType={PlyrVideoType.video}
+            videoId={videoId}
+          />
+          <div className="w-full carousel-container">
+            <ImageCarousel
+              adsKey={adsKeys.video_banner}
+              threeInOneBanner={!isMobile}
+              size="banner_animated"
+              is_cover
+              customSlidesPerView={isMobile ? 1 : 2}
+            />
+          </div>
+        </div>
+        <div className="right-section">
+          {state.homeVideoList[state.homeVideo.nowTab]?.videolist
+            .slice(0, 9) // 只取前 5 个
+            .map((data) => {
+              return (
+                <LinkComponent
+                  className="container_item"
+                  routes={{
+                    name:
+                      pageUrlConstants.home.pages.homeVideoSwitch.pages
+                        .homeVideoContent.name + data.title,
+                    path: pageUrlConstants.home.pages.homeVideoSwitch.pages
+                      .homeVideoContent.path,
+                    dynamic: {
+                      videoId: data.id,
+                    },
+                  }}
+                  key={"video" + data.id}
+                >
+                  <div className="intro-item" key={data.id}>
+                    <ImageComponent
+                      src={data.img}
+                      alt={data.title}
+                      title={data.title}
+                      width={0}
+                      height={0}
+                      border_radius="5px"
+                      cover={true}
+                      is_cover={true}
+                    />
+                    <div className="info-container">
+                      <h5>{data.title}</h5>
+                      <p>2025-03-11</p>
+                      <p>{data.need_money}</p>
+                    </div>
+                  </div>
+                </LinkComponent>
+              );
+            })}
+        </div>
+      </div>
       <HomeVideos hideImageCarousel />
       {/* <div className="recommend px-indent mt-5">
         <Grid container direction="row" alignItems="center" spacing={4}>
@@ -195,6 +263,57 @@ const HomeVideoContentElement = styled.div.withConfig({
   ${({ main_height }) => `
   /*  */
   padding: ${main_height}px 0;
+
+
+  .main-container {
+    display: flex;
+    position: relative;
+    gap: 1.46vw;
+    margin-top: 1.98vw;
+    margin-bottom: 3.55vw;
+
+    .left-section {
+      width: 51.3vw;
+
+      .banner-padding{
+        width: 100%;
+      }
+      @media (min-width: 899px) {
+        padding-bottom: 1vw;
+      }
+
+      .carousel-container{
+        @media (min-width: 899px) {
+          margin-top: 0.55vw;
+        }
+      }
+    }
+    .right-section {
+  
+      @media (min-width: 899px) {
+        width: 23.44vw;
+        padding-bottom: 1vw;
+        gap: 0.57vw;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .intro-item{
+        display: flex;
+        height: 5.73vw;
+        gap: 16px;
+        position: relative;
+
+        .info-container {
+            @media (min-width: 899px) {
+              flex-shrink: 0;
+              width: 13.91vw;
+            }
+            
+        }
+      }
+    }
+  }
   .nav_list {
     display: flex;
     overflow: auto;
@@ -284,4 +403,5 @@ const HomeVideoContentElement = styled.div.withConfig({
       }
     }
   }
-`}`;
+`}
+`;

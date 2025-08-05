@@ -17,7 +17,7 @@ import {
   faBullhorn,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { faStar,faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { CSSTransition } from "react-transition-group";
 import ImageComponent from "@/components/common/ImageComponent";
 import LinkComponent from "@/components/common/LinkComponent";
@@ -38,7 +38,7 @@ export const PlyrVideoType = {
   2: "video",
 };
 
-const MuiButton = muiStyled((props) => <Button {...props} />)(({ }) => ({
+const MuiButton = muiStyled((props) => <Button {...props} />)(({}) => ({
   "&.MuiButton-root": {
     color: "#fff",
     borderRadius: 35,
@@ -81,10 +81,23 @@ const ReactPlayerComponent = ({
   const [recommendAnimeCounter, setRecommendAnimeCounter] = useState(15);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
+  const tags = [
+    "人妻",
+    "剧情",
+    "口交",
+    "巨乳",
+    "痴女",
+    "御姐",
+    "贫乳",
+    "眼镜",
+    "丝袜裤袜",
+    "魔物/鬼怪",
+  ];
+
   useEffect(() => {
     recommendAnimeTimmer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    return () => clearInterval(recommendTimmer); 
+    return () => clearInterval(recommendTimmer);
   }, [showRecommendAnime]);
 
   useEffect(() => {
@@ -261,7 +274,12 @@ const ReactPlayerComponent = ({
             )}
 
             <div ref={reactPlayerRef} style={{ display: "none" }} />
-            <img src="/images/imgPlaceholder/300x300.jpg" data-src={img || "/images/imgPlaceholder/300x300.jpg"} className="lazyload ply_img" alt="請購買會員觀看影片" />
+            <img
+              src="/images/imgPlaceholder/300x300.jpg"
+              data-src={img || "/images/imgPlaceholder/300x300.jpg"}
+              className="lazyload ply_img"
+              alt="請購買會員觀看影片"
+            />
           </section>
         ) : (
           <section className="react_player_container">
@@ -281,49 +299,58 @@ const ReactPlayerComponent = ({
                 }
               }}
               playing
-              light={<img src={img} alt={title ?? 'none'} style={{ minHeight: '28.125vw' }} />}
+              light={
+                <img
+                  src={img}
+                  alt={title ?? "none"}
+                  style={{ minHeight: "28.125vw" }}
+                />
+              }
             />
-            {showRecommendAnime && placeholderImg.src(
-              <section className="g-flex">
-                <section className="react_player_next_container">
-                  <section className="react_player_next_area ">
-                    <section>
-                      下一部影片将在 {recommendAnimeCounter} 秒后播放
-                    </section>
-                    <ImageComponent
-                      cover={true}
-                      src={animeNextRecommend.img}
-                      alt={animeNextRecommend.title}
-                      title={animeNextRecommend.title}
-                      is_cover
-                      height={65}
-                      toFixSize
-                    />
-                    <section className="fw-m">
-                      {animeNextRecommend.title}
-                    </section>
-                    <section className="g-flex-space-around mt-2">
-                      <div
-                        className="react_player_next_button cancel"
-                        onClick={onCancelNextAnimePlay}
-                      >
-                        <WavaButton>
-                          <div className="react_player_next_text ">取消</div>
-                        </WavaButton>
-                      </div>
-                      <div
-                        className="react_player_next_button"
-                        onClick={onConfirmNextAnimePlay}
-                      >
-                        <WavaButton>
-                          <div className="react_player_next_text">立即播放</div>
-                        </WavaButton>
-                      </div>
+            {showRecommendAnime &&
+              placeholderImg.src(
+                <section className="g-flex">
+                  <section className="react_player_next_container">
+                    <section className="react_player_next_area ">
+                      <section>
+                        下一部影片将在 {recommendAnimeCounter} 秒后播放
+                      </section>
+                      <ImageComponent
+                        cover={true}
+                        src={animeNextRecommend.img}
+                        alt={animeNextRecommend.title}
+                        title={animeNextRecommend.title}
+                        is_cover
+                        height={65}
+                        toFixSize
+                      />
+                      <section className="fw-m">
+                        {animeNextRecommend.title}
+                      </section>
+                      <section className="g-flex-space-around mt-2">
+                        <div
+                          className="react_player_next_button cancel"
+                          onClick={onCancelNextAnimePlay}
+                        >
+                          <WavaButton>
+                            <div className="react_player_next_text ">取消</div>
+                          </WavaButton>
+                        </div>
+                        <div
+                          className="react_player_next_button"
+                          onClick={onConfirmNextAnimePlay}
+                        >
+                          <WavaButton>
+                            <div className="react_player_next_text">
+                              立即播放
+                            </div>
+                          </WavaButton>
+                        </div>
+                      </section>
                     </section>
                   </section>
                 </section>
-              </section>
-            )}
+              )}
           </section>
         )}
       </article>
@@ -413,13 +440,22 @@ const ReactPlayerComponent = ({
         <h1 className="description_title fw-l">{title}</h1>
         <div className="description_content mb-2">
           <div className="description_content_main">
-            <div className="description_content_text fw-m">{description}</div>
-            <div className="description_content_subTitle">{subTitle}</div>
+            <div className="description_content_text fw-m">
+              {description}123
+            </div>
+            {/* <div className="description_content_subTitle">{subTitle}</div> */}
+            <div className="description_content_tags">
+              {tags.map((tag, index) => (
+                <span key={index} className="description_content_tags_item">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         {isMobile && <InlineShareButton />}
         <div className="description_content_effect">
-          <div className="description_content_effect_left">
+          <div className="description_content_effect_left hidden">
             {!isMobile && <InlineShareButton />}
           </div>
           <div className="description_content_effect_right">
@@ -427,7 +463,7 @@ const ReactPlayerComponent = ({
               <div className="description_content_btn_button">
                 <FontAwesomeIcon
                   className="description_content_btn_button_icon"
-                  icon={faBullhorn}
+                  icon={faPenToSquare}
                 />
                 <span className="description_content_btn_button_text mr-3">
                   {t("Ply.label.report")}
@@ -472,8 +508,6 @@ export const PlyrComponentElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["isMobile"].includes(prop),
 })`
   /*  */
-  border-bottom: 1px solid #bbb;
-
   .video_ads {
     position: fixed;
     top: 0;
@@ -537,7 +571,7 @@ export const PlyrComponentElement = styled.div.withConfig({
   }
 
   .description {
-    padding: 10px ${padding}px;
+    padding: 1.66vw 0px;
     display: flex;
     flex-direction: column;
 
@@ -546,9 +580,12 @@ export const PlyrComponentElement = styled.div.withConfig({
       font-size: 20px;
       font-weight: 900;
       margin: 2% 0%;
+      font-family: "Microsoft YaHei";
+      color: rgb(51, 51, 51);
+
       @media (min-width: 599px) {
         margin: 1% 0%;
-        font-size: 22px;
+        font-size: 24px;
       }
     }
 
@@ -562,19 +599,27 @@ export const PlyrComponentElement = styled.div.withConfig({
         display: flex;
         justify-content: space-between;
         margin: 6% 0 0 0;
+        border-top: 1px solid #f3f3f3;
+        border-bottom: 1px solid #f3f3f3;
+
         @media (min-width: 599px) {
-          margin: 1% 0 0 0;
+          margin: 0.05vw 0 0 0;
+          padding: 1.35vw 0;
         }
-        &_left,
+        // &_left,
         &_right {
           display: flex;
         }
       }
       &_text {
         font-size: 12px;
+        font-family: "Microsoft YaHei";
+        color: rgb(111, 111, 111);
+        font-weight: 400;
+
         @media (min-width: 599px) {
-          margin: 0;
-          font-size: 14px;
+          margin: 0.15vw 0 0;
+          font-size: 16px;
         }
       }
 
@@ -583,6 +628,33 @@ export const PlyrComponentElement = styled.div.withConfig({
         font-size: 14px;
         color: ${colors.dark_pink};
         font-weight: 700;
+      }
+
+      &_tags {
+        display: flex;
+        gap: 4px;
+        @media (min-width: 599px) {
+          gap: 4px;
+          margin: 1.65vw 0 2vw;
+        }
+
+        &_item {
+          border-width: 1px;
+          border-color: rgb(209, 209, 209);
+          border-style: solid;
+          border-radius: 5px;
+          background-color: rgb(255, 255, 255);
+          font-family: "Microsoft YaHei";
+          color: rgb(51, 51, 51);
+          display: flex;
+          align-items: center;
+
+          @media (min-width: 599px) {
+            height: 28px;
+            font-size: 14px;
+            padding: 0 12px;
+          }
+        }
       }
 
       &_btn {
@@ -599,6 +671,7 @@ export const PlyrComponentElement = styled.div.withConfig({
           &_icon {
             margin-right: 10px;
             font-size: 18px;
+            color: ${colors.clasic_pink};
 
             &.light {
               color: ${colors.light_star};
@@ -606,7 +679,12 @@ export const PlyrComponentElement = styled.div.withConfig({
           }
 
           &_text {
-            font-weight: 900;
+            font-weight: 400;
+            font-family: "Microsoft YaHei";
+            color: rgb(51, 51, 51);
+            @media (min-width: 599px) {
+              font-size: 16px;
+            }
           }
         }
       }
