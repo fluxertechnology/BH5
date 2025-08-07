@@ -33,7 +33,7 @@ export const getCategoryDataAction = (data, callback) => {
     formdata.append("type", data.type); // 1 漫畫 或 0 動畫
     formdata.append(
       "page",
-      homeCategoryData[data.category]
+      homeCategoryData[data.category] && !data.reset
         ? homeCategoryData[data.category].page + 1
         : 1
     );
@@ -65,6 +65,7 @@ export const getCategoryDataAction = (data, callback) => {
     // for (var pair of formdata.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
+    console.log(formdata.get('page'), "formdata");
     axiosRequest.post(postGetCategoryData, formdata).then((resData) => {
       dispatch({
         type: "UPDATE_CATEGORYDATA",
