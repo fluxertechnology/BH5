@@ -10,7 +10,12 @@ import React, {
 import { useTranslations } from "next-intl";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
-import { adsKeys, colors, side_padding } from "@/lib/constants";
+import {
+  adsKeys,
+  colors,
+  side_padding,
+  pageUrlConstants,
+} from "@/lib/constants";
 import WavaButton from "@/components/layout/Header/WavaButton";
 import scrollBottomCallEvent from "@/lib/services/scrollEvent";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
@@ -19,6 +24,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import TabLabel from "@/components/index/TabLabel";
 import CoverCubeItem from "@/components/common/CoverCubeItem";
 import { usePathname, useParams } from "next/navigation";
+import { pushRoutes } from "@/store/actions/historyActions";
 
 import {
   getCategoryDataAction,
@@ -44,6 +50,7 @@ const HomeCategoryPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
   const loaction = usePathname();
+  const { home } = pageUrlConstants;
 
   const { isMobile } = useMediaQuery();
 
@@ -61,6 +68,15 @@ const HomeCategoryPage = () => {
     Dojin: "同人",
     "Free Watch": "Free",
   };
+  const typeMapping = {
+    [t("Global.animate")]: 0,
+    [t("Global.3d")]: 0,
+    [t("Global.j_comics")]: 1,
+    [t("Global.k_comics")]: 2,
+    [t("Global.e_comics")]: 3,
+    [t("Navbar.top_navigator_novel")]: 4,
+    [t("Global.visual_text")]: 5,
+  };
   const decodeTitle = decodeURIComponent(useParams().category);
   const title = titleLocale[decodeTitle] ?? decodeTitle;
 
@@ -68,9 +84,8 @@ const HomeCategoryPage = () => {
 
   const [tabHeight, setTabHeight] = useState(0);
   const [tabHeightState, setTabHeightState] = useState(false);
-  const [type, setType] = useState(
-    title === t("Global.animate") || title === t("Global.3d") ? 0 : 1,
-  );
+
+  const [type, setType] = useState(typeMapping[title] ?? 1);
   const [pickCategory, setPickCategory] = useState(
     state.homeCategoryData[title]?.select_tag_gp || [],
   );
@@ -337,6 +352,32 @@ const HomeCategoryPage = () => {
     () => state.homePhoto.nowTab,
     [state.homePhoto.nowTab],
   );
+  const handleTabChange = (newType, categoryTitle) => {
+    if (type === newType && title === categoryTitle) return;
+
+    setType(newType);
+
+    // 清空旧数据
+    useGlobalDispatch(restCategoryDataAction(categoryTitle));
+
+    // 更新路由，这样 title 也会自动变（useParams）
+    useGlobalDispatch(
+      pushRoutes({
+        name: home.pages.homeMain.pages.homeCategory.name + categoryTitle,
+        path: home.pages.homeMain.pages.homeCategory.path,
+        dynamic: {
+          tab: categoryTitle,
+        },
+      })
+    );
+
+    // 不需要 setTitle()
+  };
+
+  useEffect(() => {
+    setPickCategory(state.homeCategoryData[title]?.select_tag_gp || []);
+    setPickPrice(title === t("Global.free_for_a_limited_time") ? 2 : 0);
+  }, [title]);
 
   return (
     <HomeCategoryElement className={!isMobile && "px-indent"}>

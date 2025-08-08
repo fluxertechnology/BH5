@@ -145,7 +145,7 @@ const HomeVideoContent = ({}) => {
             videoType={PlyrVideoType.video}
             videoId={videoId}
           />
-          <div className="w-full carousel-container">
+          <div className="carousel-container">
             <ImageCarousel
               adsKey={adsKeys.video_banner}
               threeInOneBanner={!isMobile}
@@ -196,6 +196,7 @@ const HomeVideoContent = ({}) => {
             })}
         </div>
       </div>
+      <h5 className="recommend-title ">你也喜欢</h5>
       <HomeVideos hideImageCarousel />
       {/* <div className="recommend px-indent mt-5">
         <Grid container direction="row" alignItems="center" spacing={4}>
@@ -268,28 +269,42 @@ const HomeVideoContentElement = styled.div.withConfig({
   .main-container {
     display: flex;
     position: relative;
-    gap: 1.46vw;
-    margin-top: 1.98vw;
-    margin-bottom: 3.55vw;
+    flex-direction: column;
+
+
+    @media (min-width: 899px) {
+      margin-top: 0.55vw;
+      gap: 1.46vw;
+      margin-top: 1.98vw;
+      margin-bottom: 1.1vw;
+      flex-direction: row;
+    }
 
     .left-section {
-      width: 51.3vw;
+      width: 100%;
 
       .banner-padding{
         width: 100%;
       }
+
       @media (min-width: 899px) {
         padding-bottom: 1vw;
+        width: 51.3vw;
       }
 
       .carousel-container{
+        margin: 0 2.67vw;
+        width: auto;
+
         @media (min-width: 899px) {
-          margin-top: 0.55vw;
+          margin: 0.55vw 0 0;
+          width: 100%;
         }
       }
     }
     .right-section {
-  
+      display: none;
+
       @media (min-width: 899px) {
         width: 23.44vw;
         padding-bottom: 1vw;
@@ -309,7 +324,7 @@ const HomeVideoContentElement = styled.div.withConfig({
               flex-shrink: 0;
               width: 13.91vw;
             }
-            
+
         }
       }
     }
@@ -338,6 +353,19 @@ const HomeVideoContentElement = styled.div.withConfig({
         padding: 5px 10px;
         font-size: 18px;
       }
+    }
+  }
+
+  .recommend-title{
+    font-family: "Microsoft YaHei";
+    color: rgb(0, 0, 0);
+    font-weight: 900;
+    font-size: 3.47vw;
+    margin: 5.8vw 3.47vw 4vw;
+
+    @media (min-width: 899px) {
+      font-size: 16px;
+      margin: 0vw 12% 1.35vw;
     }
   }
   .recommend {

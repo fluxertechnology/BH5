@@ -17,7 +17,7 @@ import {
   faBullhorn,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faStar,faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faStar, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { CSSTransition } from "react-transition-group";
 import ImageComponent from "@/components/common/ImageComponent";
 import LinkComponent from "@/components/common/LinkComponent";
@@ -453,10 +453,10 @@ const ReactPlayerComponent = ({
             </div>
           </div>
         </div>
-        {isMobile && <InlineShareButton />}
+        {/* {isMobile && <InlineShareButton />} */}
         <div className="description_content_effect">
           <div className="description_content_effect_left hidden">
-            {!isMobile && <InlineShareButton />}
+            {/* {!isMobile && <InlineShareButton />} */}
           </div>
           <div className="description_content_effect_right">
             <div className="description_content_btn" onClick={reportEvent}>
@@ -553,7 +553,7 @@ export const PlyrComponentElement = styled.div.withConfig({
         color: #fff;
         background-color: #0009;
         border-radius: 10px;
-        @media (min-width: 599px) {
+        @media (min-width: 899px) {
           padding-left: 80px;
           padding-right: 80px;
         }
@@ -571,19 +571,23 @@ export const PlyrComponentElement = styled.div.withConfig({
   }
 
   .description {
-    padding: 1.66vw 0px;
+    padding: 4.4vw 2.67vw;
     display: flex;
     flex-direction: column;
+    @media (min-width: 899px) {
+      padding: 1.66vw 0px;
+    }
 
     &_title {
       margin-top: 4px;
       font-size: 20px;
       font-weight: 900;
-      margin: 2% 0%;
+      margin: 1.85vw 0% 1.8vw;
       font-family: "Microsoft YaHei";
       color: rgb(51, 51, 51);
+      font-size: 3.47vw;
 
-      @media (min-width: 599px) {
+      @media (min-width: 899px) {
         margin: 1% 0%;
         font-size: 24px;
       }
@@ -591,18 +595,19 @@ export const PlyrComponentElement = styled.div.withConfig({
 
     &_content {
       color: ${colors.text_grey};
-      @media (min-width: 599px) {
+      @media (min-width: 899px) {
         display: flex;
         justify-content: space-between;
       }
       &_effect {
         display: flex;
         justify-content: space-between;
-        margin: 6% 0 0 0;
         border-top: 1px solid #f3f3f3;
         border-bottom: 1px solid #f3f3f3;
+        margin: 1.7vw 0 0 0;
+        padding: 3.45vw 0;
 
-        @media (min-width: 599px) {
+        @media (min-width: 899px) {
           margin: 0.05vw 0 0 0;
           padding: 1.35vw 0;
         }
@@ -612,12 +617,12 @@ export const PlyrComponentElement = styled.div.withConfig({
         }
       }
       &_text {
-        font-size: 12px;
+        font-size: 2.67vw;
         font-family: "Microsoft YaHei";
         color: rgb(111, 111, 111);
         font-weight: 400;
 
-        @media (min-width: 599px) {
+        @media (min-width: 899px) {
           margin: 0.15vw 0 0;
           font-size: 16px;
         }
@@ -632,8 +637,11 @@ export const PlyrComponentElement = styled.div.withConfig({
 
       &_tags {
         display: flex;
-        gap: 4px;
-        @media (min-width: 599px) {
+        gap: 1.47vw 2.13vw;
+        flex-wrap: wrap;
+        margin: 5.5vw 0 2vw;
+
+        @media (min-width: 899px) {
           gap: 4px;
           margin: 1.65vw 0 2vw;
         }
@@ -642,17 +650,21 @@ export const PlyrComponentElement = styled.div.withConfig({
           border-width: 1px;
           border-color: rgb(209, 209, 209);
           border-style: solid;
-          border-radius: 5px;
           background-color: rgb(255, 255, 255);
           font-family: "Microsoft YaHei";
           color: rgb(51, 51, 51);
           display: flex;
           align-items: center;
+          height: 4.93vw;
+          font-size: 2.67vw;
+          border-radius: 2.47vw;
+          padding: 0 2.13vw;
 
-          @media (min-width: 599px) {
+          @media (min-width: 899px) {
             height: 28px;
             font-size: 14px;
             padding: 0 12px;
+            border-radius: 5px;
           }
         }
       }
@@ -670,7 +682,10 @@ export const PlyrComponentElement = styled.div.withConfig({
 
           &_icon {
             margin-right: 10px;
-            font-size: 18px;
+            font-size: 2.4vw;
+            @media (min-width: 899px) {
+              font-size: 18px;
+            }
             color: ${colors.clasic_pink};
 
             &.light {
@@ -682,7 +697,9 @@ export const PlyrComponentElement = styled.div.withConfig({
             font-weight: 400;
             font-family: "Microsoft YaHei";
             color: rgb(51, 51, 51);
-            @media (min-width: 599px) {
+            font-size: 2.93vw;
+
+            @media (min-width: 899px) {
               font-size: 16px;
             }
           }
@@ -695,8 +712,8 @@ export const PlyrComponentElement = styled.div.withConfig({
     &_container {
       position: relative;
       width: 100%;
-      height: 200px;
-      @media (min-width: 599px) {
+      height: 63.01vw;
+      @media (min-width: 899px) {
         height: 50vh;
       }
     }
@@ -732,7 +749,7 @@ export const PlyrComponentElement = styled.div.withConfig({
     font-size: 1rem;
     font-weight: 700;
     text-align: center;
-    @media (min-width: 599px) {
+    @media (min-width: 899px) {
       font-size: 2rem;
     }
   }
