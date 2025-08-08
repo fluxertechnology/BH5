@@ -541,8 +541,8 @@ const HomeCategoryPage = () => {
                     item
                     md={type === 0 ? 2.4 : 1.71}
                     xs={type === 0 ? 6 : 4}
+                    className={`${type === 0 ? "anime-card-adj" : "card-adj"}`}
                     key={`${data.id}-${index}`}
-                    className={`${type === 4 || type === 5 ? "novel-illust-adj" : ""}`}
                   >
                     <CoverCubeItem
                       isVideo={type === 0}
@@ -563,14 +563,14 @@ const HomeCategoryPage = () => {
                 .sort((a, b) => b.id - a.id)
                 .map((data, i) => {
                   return (
-                    <Grid item md={2} xs={4} key={"小說 " + data.title + i}>
+                    <Grid item md={1.71} xs={4} key={"小說 " + data.title + i}>
                       <NovelCard key={data.id} data={data} total_view_show />
                     </Grid>
                   );
                 })}
             {type === 5 &&
               state.homePhotosListData[selectedPhotoTab]?.list.map((data) => (
-                <Grid item md={2} xs={4} key={data.title}>
+                <Grid item md={1.71} xs={4} key={data.title}>
                   <PictureCard data={data} key={data.id} total_view_show />
                 </Grid>
               ))}
@@ -625,8 +625,13 @@ export const HomeCategoryElement = styled.div`
       padding-top: 1%;
     }
 
-    .novel-illust-adj .item_body div {
-      padding-bottom: 101.55%;
+    .card-adj .item_footer_gold{
+      margin-bottom: 36px;
+    }
+
+    .anime-card-adj .item_footer_gold{
+      margin-top: 0;
+      margin-bottom: 36px;
     }
   }
 `;

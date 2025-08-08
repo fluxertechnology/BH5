@@ -42,7 +42,7 @@ const PictureCard = ({ data, total_view_show }) => {
           />
         </div>
         <div className="card_body">
-          <div className="card_body_title line-clamp-2">{data.title}</div>
+          <div className="card_body_title line-clamp-1">{data.title}</div>
           <div className="card_body_heart">
             <Image className="card_body_heart_img" src={diamondIcon} width={0} height={0} alt="heart" />
             {getPrice(t, data)}
@@ -83,7 +83,7 @@ export const PictureCardElement = styled.div`
 
       &_title {
         overflow: hidden;
-        height: ${2 * 18}px;
+        // height: ${2 * 18}px;
         font-size: 13px;
         font-weight: 600;
       }
