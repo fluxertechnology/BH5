@@ -611,7 +611,7 @@ const HomeCategoryPage = () => {
                 })}
             {type === 5 &&
               state.homePhotosListData[selectedPhotoTab]?.list.map((data) => (
-                <Grid item md={1.71} xs={4} key={data.title}>
+                <Grid item md={1.71} xs={4} key={data.title} className="illust-card-adj">
                   <PictureCard data={data} key={data.id} total_view_show />
                 </Grid>
               ))}
@@ -672,6 +672,11 @@ export const HomeCategoryElement = styled.div`
 
     .anime-card-adj .item_footer_gold{
       margin-top: 0;
+      margin-bottom: 36px;
+    }
+
+    .illust-card-adj .card_body_heart{
+      margin-top: 13px;
       margin-bottom: 36px;
     }
   }

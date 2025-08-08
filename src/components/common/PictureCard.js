@@ -97,7 +97,7 @@ export const PictureCardElement = styled.div`
 
         &_img {
           margin-right: 5px;
-          width: 16px;
+          width: 20px;
           height: 16px;
           vertical-align: bottom;
         }
