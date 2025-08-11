@@ -13,6 +13,8 @@ import { useTranslations } from "next-intl";
 
 const NovelCard = ({ data, total_view_show }) => {
   const t = useTranslations();
+  const regex = /[a-zA-Z\s!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/g;
+
 
   const toNovelPage = (data) => {
     useGlobalDispatch(
@@ -44,17 +46,21 @@ const NovelCard = ({ data, total_view_show }) => {
           />
         </div>
         <div className="card_header">
-          <h6 className="card_header_title">{data.title}</h6>
+          <h6 className="card_header_title line-clamp-2">{data.miaoshu ? data.miaoshu.replace(regex, "") : ""}</h6>
         </div>
         <div className="card_body">
-          <div
+          {/* <div
             className="card_body_content"
             dangerouslySetInnerHTML={{
               __html: data.miaoshu,
             }}
-          />
+          /> */}
+          <div className="card-desc text-[#666666] text-[0.75rem] min-h-[35px] line-clamp-2">
+            {data.title}&nbsp;作者：{data.author ? data.author : ""}
+          </div>
         </div>
-        <div className="card_heart">
+
+        <div className="card_heart g-flex items-center">
           <Image
             className="card_heart_img"
             src={diamondIcon}
@@ -82,13 +88,17 @@ export const NovelCardElement = styled.div`
 
   .card {
     cursor: pointer;
-    border: 1px solid rgb(0 0 0 / 20%);
-    border-radius: 10px;
+    // border: 1px solid rgb(0 0 0 / 20%);
+    // border-radius: 10px;
     overflow: hidden;
 
     &_img {
       width: 100%;
       vertical-align: middle;
+      
+      img{
+        border-radius: 5px;
+      }
     }
 
     &_header {
@@ -97,7 +107,7 @@ export const NovelCardElement = styled.div`
         overflow: hidden;
         font-size: 16px;
         font-weight: 600;
-        height: ${2.5 * 17}px;
+        height: ${2.5 * 18}px;
       }
     }
 
@@ -109,7 +119,7 @@ export const NovelCardElement = styled.div`
 
       &_img {
         margin-right: 5px;
-        width: 16px;
+        width: 20px;
         height: 16px;
         vertical-align: bottom;
       }
@@ -122,6 +132,10 @@ export const NovelCardElement = styled.div`
       font-size: 16px;
       // line-height: 20px;
 
+      @media (max-width:599px){
+        height: 13.176vw;
+      }
+
       &_content {
         text-align: justify;
         text-justify: inter-ideograph;
@@ -133,6 +147,13 @@ export const NovelCardElement = styled.div`
           max-height: ${2.5 * 15}px;
           font-size: 14px;
         }
+      }
+    }
+
+    .card-desc{
+      margin-top: 1rem;
+      @media (max-width:599px){
+        margin-top: 0.35rem;
       }
     }
   }

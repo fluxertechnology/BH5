@@ -31,6 +31,10 @@ import {
   postScribeEventAction,
 } from "@/store/actions/pages/postCardItemAction";
 import { vendorUrl } from "@/lib/constants/index.js";
+import { getNovelsTabAction, setNowTabList } from "@/store/actions/pages/homeNovelsAction";
+import { getNovelsDataAction } from "@/store/actions/pages/homeNovelsListAction";
+import Grid from "@mui/material/Grid";
+import NovelCard from "@/components/common/NovelCard";
 
 const { home, vendor } = pageUrlConstants;
 
@@ -39,66 +43,20 @@ export default function HomeMainPage() {
 
   const { state } = useGlobalContext();
 
-  // const [latestUploadTabValue, setLatestUploadTabValue] = useState();
   const [videoTabValue, setVideoTabValue] = useState();
   const [photoTabValue, setPhotoTabValue] = useState();
-  // const [novelTabValue, setNovelTabValue] = useState();
-  const [novelTabValue, setNovelTabValue] = useState(1);
-
-  const dummyNovelTabData = [
-    {
-      "id": 1,
-      "title": "都市言情",
-      "image": ""
-    },
-    {
-      "id": 2,
-      "title": "校園春色",
-      "image": ""
-    },
-    {
-      "id": 3,
-      "title": "其他小説",
-      "image": ""
-    },
-    {
-      "id": 4,
-      "title": "家庭亂倫",
-      "image": ""
-    },
-    {
-      "id": 5,
-      "title": "古典武俠",
-      "image": ""
-    },
-    {
-      "id": 6,
-      "title": "人妻女友",
-      "image": ""
-    },
-    {
-      "id": 7,
-      "title": "强暴激情",
-      "image": ""
-    },
-    {
-      "id": 8,
-      "title": "性感誘惑",
-      "image": ""
-    },
-    {
-      "id": 9,
-      "title": "人妻交換",
-      "image": ""
-    },
-  ]
-
+  const [novelTabValue, setNovelTabValue] = useState();
 
   const { isMobile } = useMediaQuery();
 
   const [showComic, setShowComic] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
   const [page, setPage] = useState(1);
+
+  const nowTab = useMemo(
+    () => state.homeNovel.nowTab,
+    [state.homeNovel.nowTab]
+  );
 
   const localState = useMemo(() => {
     function fillDataArray(item, length) {
@@ -170,7 +128,28 @@ export default function HomeMainPage() {
 
   const handleNovelIndexChange = (event, newValue) => {
     setNovelTabValue(newValue);
+    clickTabEvent(newValue);
   };
+
+  useEffect(() => {
+    // let tabBar = novelTabListRef.current;
+    // tabBar.addEventListener("wheel", novelWheelEvent);
+    // window.addEventListener("scroll", scrollEvent);
+    if (
+      state.homeNovelsListData[nowTab]?.page === 0 ||
+      state.homeNovelsListData[nowTab] === undefined
+    ) {
+      updateNovelsData(nowTab, () => {});
+    }
+    // return () => {
+    //   tabBar.removeEventListener("wheel", novelWheelEvent);
+    //   window.removeEventListener("scroll", scrollEvent);
+    // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nowTab]);
+  useEffect(() => {
+    updateNovelsData(nowTab, () => {});
+  }, []);
 
   useEffect(() => {
     if (localState.video_category_list.length)
@@ -185,18 +164,32 @@ export default function HomeMainPage() {
           localState.photo_category_list.length - 1
         ].id
       );
-    // if (localState.novel_category_list.length)
-    //   setNovelTabValue(
-    //     localState.novel_category_list[
-    //       localState.novel_category_list.length - 1
-    //     ].id
-    //   );
+
+    if (state.homeNovelsList.length === 0) {
+      getNovelsTab();
+    }else{
+      setNovelTabValue(state.homeNovelsList[0].id);
+      setNowTabList(state.homeNovelsList[0].id);
+    }
+
   }, [
     localState.video_category_list.length,
     localState.photo_category_list.length,
-    // localState.novel_category_list.length,
+    state.homeNovelsList.length
   ]);
 
+  const getNovelsTab = () => {
+    useGlobalDispatch(getNovelsTabAction());
+  };
+
+  const updateNovelsData = (id, scrollColdEnd = () => {}) => {
+    useGlobalDispatch(getNovelsDataAction(id, scrollColdEnd));    
+  };
+
+  const clickTabEvent = (id) => {
+    useGlobalDispatch(setNowTabList(id));
+  };
+  
   const refreshData = (key) => {
     useGlobalDispatch(refreshAnimeData(key));
   };
@@ -697,39 +690,16 @@ export default function HomeMainPage() {
                 <span className="home_Main_container_title_text_span mr-2">
                   {t("Navbar.top_navigator_novel")}
                 </span>
-                {/* {!isMobile && novelTabValue && (
+                {!isMobile && novelTabValue && (
                   <StyledTabs
                     value={novelTabValue}
                     onChange={handleNovelIndexChange}
                     aria-label="lab API tabs example"
                   >
-                    {[...localState.novel_category_list]
+                    {[...state.homeNovelsList]
                    
                     .map((category) => {
-                      if (localState.novel_list[category.id].length) {
-                        return (
-                          <AntTab
-                            label={category.title}
-                            value={category.id}
-                            key={category.id}
-                          />
-                        );
-                      }
-                    })}
-                  </StyledTabs>
-                )} */}
-
-                {/* dummy data */}
-                {!isMobile && dummyNovelTabData.length && (
-                  <StyledTabs
-                    value={novelTabValue}
-                    onChange={handleNovelIndexChange}
-                    aria-label="lab API tabs example"
-                  >
-                    {[...dummyNovelTabData]
-                   
-                    .map((category) => {
-                      if (dummyNovelTabData.length) {
+                      if (state.homeNovelsList.length) {
                         return (
                           <AntTab
                             label={category.title}
@@ -741,6 +711,7 @@ export default function HomeMainPage() {
                     })}
                   </StyledTabs>
                 )}
+
               </div>
               <p
                 className="home_Main_container_subtitle"
@@ -750,16 +721,16 @@ export default function HomeMainPage() {
               </p>
             </div>
 
-            {isMobile && dummyNovelTabData && (
+            {isMobile && novelTabValue && (
               <StyledTabs
                 value={novelTabValue}
                 onChange={handleNovelIndexChange}
                 aria-label="lab API tabs example"
               >
-                {[...dummyNovelTabData]
+                {[...state.homeNovelsList]
                    
                   .map((category) => {
-                    if (dummyNovelTabData.length) {
+                    if (state.homeNovelsList.length) {
                       return (
                         <AntTab
                           label={category.title}
@@ -772,7 +743,22 @@ export default function HomeMainPage() {
               </StyledTabs>
             )}
 
-            <SlideCarousel items={localState.novel_list} type="novel" />
+            {state.homeNovelsList.map((category) => {
+              return (
+                <TabPanel
+                  value={novelTabValue}
+                  index={category.id}
+                  key={category.id}
+                >
+                  <SlideCarousel
+                    items={[...state.homeNovelsListData[category.id].list].slice(0, 20)}
+                    type="photo"
+                  />
+                </TabPanel>
+              );
+            })}    
+
+            {/* <SlideCarousel items={localState.novel_list} type="novel" /> */}
           </div>
 
         </section>

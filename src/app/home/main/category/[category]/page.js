@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef, use, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { useTranslations } from "next-intl";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
@@ -25,6 +31,18 @@ import {
   getCategoryListAction,
   restCategoryDataAction,
 } from "@/store/actions/pages/homeCategoryAction";
+import { getNovelsDataAction } from "@/store/actions/pages/homeNovelsListAction";
+import NovelCard from "@/components/common/NovelCard";
+import {
+  getNovelsTabAction,
+  setNowTabList,
+} from "@/store/actions/pages/homeNovelsAction";
+import { getPhotosDataAction } from "@/store/actions/pages/homePhotosListAction";
+import {
+  getPhotosTabAction,
+  setNowTabList as setNowPhotoTabList,
+} from "@/store/actions/pages/homePhotosAction";
+import PictureCard from "@/components/common/PictureCard";
 
 import ImageCarousel from "@/components/common/ImageCarousel";
 
@@ -35,6 +53,15 @@ const HomeCategoryPage = () => {
   const { home } = pageUrlConstants;
 
   const { isMobile } = useMediaQuery();
+
+  const categoryMap = {
+    0: "动画",
+    1: "韩漫",
+    2: "日漫",
+    3: "欧漫",
+    4: "小说",
+    5: "图文",
+  };
 
   const titleLocale = {
     "K-Comics": "韩漫",
@@ -56,16 +83,47 @@ const HomeCategoryPage = () => {
   const tabRef = useRef(null);
 
   const [tabHeight, setTabHeight] = useState(0);
-
   const [tabHeightState, setTabHeightState] = useState(false);
 
   const [type, setType] = useState(typeMapping[title] ?? 1);
   const [pickCategory, setPickCategory] = useState(
-    state.homeCategoryData[title]?.select_tag_gp || []
+    state.homeCategoryData[title]?.select_tag_gp || [],
   );
   const [pickPrice, setPickPrice] = useState(
-    title === t("Global.free_for_a_limited_time") ? 2 : 0
+    title === t("Global.free_for_a_limited_time") ? 2 : 0,
   );
+  const [isReset, setIsReset] = useState(false);
+
+  const typeRef = useRef(type);
+  const pickCategoryRef = useRef(pickCategory);
+  const pickPriceRef = useRef(pickPrice);
+  const titleRef = useRef(title);
+  const selectedNovelTabRef = useRef(state.homeNovel.nowTab);
+  const selectedPhotoTabRef = useRef(state.homePhoto.nowTab);
+
+  useEffect(() => {
+    typeRef.current = type;
+  }, [type]);
+
+  useEffect(() => {
+    pickCategoryRef.current = pickCategory;
+  }, [pickCategory]);
+
+  useEffect(() => {
+    pickPriceRef.current = pickPrice;
+  }, [pickPrice]);
+
+  useEffect(() => {
+    titleRef.current = title;
+  }, [title]);
+
+  useEffect(() => {
+    selectedNovelTabRef.current = state.homeNovel.nowTab;
+  }, [state.homeNovel.nowTab]);
+
+  useEffect(() => {
+    selectedPhotoTabRef.current = state.homePhoto.nowTab;
+  }, [state.homePhoto.nowTab]);
 
   useEffect(() => {
     setType(title === t("Global.animate") || title === t("Global.3d") ? 0 : 1);
@@ -73,8 +131,6 @@ const HomeCategoryPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaction.pathname]);
 
-  // api is_free 1 : 免費 0 : 付費 不傳 全部
-  // 辨識方式     2       1         0
   useEffect(() => {
     if (state.homeCategoryTabList.length === 0) {
       getCategoryList(getTabHeight);
@@ -82,14 +138,74 @@ const HomeCategoryPage = () => {
       getTabHeight();
     }
 
+    if (state.homeNovelsList.length === 0) {
+      getNovelsTab();
+    }
+
+    if (state.homePhotosList.length === 0) {
+      getPhotosTab();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [isInit, setIsInit] = useState(true);
   useEffect(() => {
-    getListData(true);
+    getListData(isInit);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, pickCategory, pickPrice, title]);
+    if (isInit) {
+      setIsInit(false);
+    }
+  }, [
+    type,
+    pickCategory.length,
+    pickPrice,
+    title,
+    state.homeNovel.nowTab,
+    state.homePhoto.nowTab,
+  ]);
+
+  const scrollEvent = useCallback(() => {
+    scrollBottomCallEvent((scrollColdEnd) => {
+      const currentType = typeRef.current;
+      const currentPickCategory = pickCategoryRef.current;
+      const currentPickPrice = pickPriceRef.current;
+      const currentTitle = titleRef.current;
+      const currentSelectedNovelTab = selectedNovelTabRef.current;
+      const currentSelectedPhotoTab = selectedPhotoTabRef.current;
+
+      if (currentType === 0) {
+        const params = {
+          init: false,
+          type: 0,
+          category: categoryMap[currentType],
+          is_free: currentPickPrice,
+          tag_gp: currentPickCategory,
+        };
+        getCategoryData(params, scrollColdEnd);
+        return;
+      }
+      if ([1, 2, 3].includes(currentType)) {
+        const params = {
+          init: false,
+          type: 1,
+          category: categoryMap[currentType],
+          is_free: currentPickPrice,
+          tag_gp: currentPickCategory,
+        };
+        getCategoryData(params, scrollColdEnd);
+        return;
+      }
+      if (currentType === 4) {
+        getNovelsData(currentSelectedNovelTab, scrollColdEnd);
+        return;
+      }
+      if (currentType === 5) {
+        getPhotosData(currentSelectedPhotoTab, scrollColdEnd);
+        return;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (isInit) return;
@@ -97,21 +213,7 @@ const HomeCategoryPage = () => {
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [isInit]);
-
-  function scrollEvent() {
-    scrollBottomCallEvent((scrollColdEnd) => {
-      getCategoryData(
-        {
-          type: type,
-          category: title,
-          is_free: pickPrice,
-          tag_gp: pickCategory,
-        },
-        scrollColdEnd
-      );
-    });
-  }
+  }, [isInit, scrollEvent]);
 
   const [is750, setIs750] = useState(false);
 
@@ -160,39 +262,49 @@ const HomeCategoryPage = () => {
     }
   }, [is750, isMobile, tabHeight, tabRef]);
 
-  // function toggleTabHeight() {
-  //   if (!tabRef) return;
-  //   if (tabRef.current.offsetHeight === tabHeight) {
-  //     tabRef.current.style.height = "100px";
-  //     setTabHeightState(false);
-  //   } else {
-  //     tabRef.current.style.height = tabHeight + "px";
-  //     setTabHeightState(true);
-  //   }
-  // }
-
-  // function getTabHeight() {
-  //   if (!tabRef) return;
-
-  //   tabRef.current.style.height = "unset";
-  //   setTabHeight(tabRef.current.offsetHeight);
-  //   tabRef.current.style.height = "100px";
-  // }
-
-  function getListData(init = false) {
-    getCategoryData(
-      {
-        init,
-        type: type,
-        category: title,
+  function getListData(init = false, callback = () => {}) {
+    if (type === 0) {
+      const params = {
+        reset: isReset,
+        init: init,
+        type: 0, // 1 漫畫 或 0 動畫
+        category: categoryMap[type],
         is_free: pickPrice,
         tag_gp: pickCategory,
-      },
-      () => {
+      };
+      getCategoryData(params, (data) => {
+        callback(data);
         if (init) setIsInit(false);
-      }
-    );
+      });
+      setIsReset(false);
+      return;
+    }
+    if ([1, 2, 3].includes(type)) {
+      const params = {
+        reset: isReset,
+        init: init,
+        type: 1, // 1 漫畫 或 0 動畫
+        category: categoryMap[type],
+        is_free: pickPrice,
+        tag_gp: pickCategory,
+      };
+      getCategoryData(params, (data) => {
+        callback(data);
+        if (init) setIsInit(false);
+      });
+      setIsReset(false);
+      return;
+    }
+    if (type === 4) {
+      getNovelsData(selectedNovelTab, callback);
+      return;
+    }
+    if (type === 5) {
+      getPhotosData(selectedPhotoTab, callback);
+      return;
+    }
   }
+
   function onSelectCategory(name) {
     if (pickCategory.indexOf(name) !== -1) {
       pickCategory.splice(pickCategory.indexOf(name), 1);
@@ -208,10 +320,38 @@ const HomeCategoryPage = () => {
   const getCategoryData = (data, scrollColdEnd = () => {}) => {
     useGlobalDispatch(getCategoryDataAction(data, scrollColdEnd));
   };
-  const resetSetCategoryData = (category) => {
-    useGlobalDispatch(restCategoryDataAction(category));
+  const resetSetCategoryData = () => {
+    setIsReset(true);
+    useGlobalDispatch(restCategoryDataAction(categoryMap[type]));
   };
 
+  const getNovelsData = (id, scrollColdEnd = () => {}) => {
+    useGlobalDispatch(getNovelsDataAction(id, scrollColdEnd));
+  };
+  const getNovelsTab = () => {
+    useGlobalDispatch(getNovelsTabAction());
+  };
+  const selectNowTab = (id) => {
+    useGlobalDispatch(setNowTabList(id));
+  };
+  const selectedNovelTab = useMemo(
+    () => state.homeNovel.nowTab,
+    [state.homeNovel.nowTab],
+  );
+
+  const getPhotosData = (cateId, scrollColdEnd = () => {}) => {
+    useGlobalDispatch(getPhotosDataAction(cateId, scrollColdEnd));
+  };
+  const getPhotosTab = () => {
+    useGlobalDispatch(getPhotosTabAction());
+  };
+  const selectNowPhotoTab = (id) => {
+    useGlobalDispatch(setNowPhotoTabList(id));
+  };
+  const selectedPhotoTab = useMemo(
+    () => state.homePhoto.nowTab,
+    [state.homePhoto.nowTab],
+  );
   const handleTabChange = (newType, categoryTitle) => {
     if (type === newType && title === categoryTitle) return;
 
@@ -255,18 +395,33 @@ const HomeCategoryPage = () => {
           <div className="category_container_content_box">
             <TabLabel
               text={t("Global.j_comics")}
-              active={title === t("Global.j_comics")}
-              onClick={() => handleTabChange(1, t("Global.j_comics"))}
+              active={type === 2}
+              onClick={() => {
+                if (type !== 2) {
+                  resetSetCategoryData();
+                  setType(2);
+                }
+              }}
             />
             <TabLabel
               text={t("Global.k_comics")}
-              active={title === t("Global.k_comics")}
-              onClick={() => handleTabChange(2, t("Global.k_comics"))}
+              active={type === 1}
+              onClick={() => {
+                if (type !== 1) {
+                  resetSetCategoryData();
+                  setType(1);
+                }
+              }}
             />
             <TabLabel
               text={t("Global.e_comics")}
-              active={title === t("Global.e_comics")}
-              onClick={() => handleTabChange(3, t("Global.e_comics"))}
+              active={type === 3}
+              onClick={() => {
+                if (type !== 3) {
+                  resetSetCategoryData();
+                  setType(3);
+                }
+              }}
             />
             {"韩漫".indexOf(title) === -1 && (
               <TabLabel
@@ -274,7 +429,7 @@ const HomeCategoryPage = () => {
                 active={type === 0}
                 onClick={() => {
                   if (type !== 0) {
-                    resetSetCategoryData(title);
+                    resetSetCategoryData();
                     setType(0);
                   }
                 }}
@@ -285,7 +440,7 @@ const HomeCategoryPage = () => {
               active={type === 4}
               onClick={() => {
                 if (type !== 4) {
-                  resetSetCategoryData(title);
+                  resetSetCategoryData();
                   setType(4);
                 }
               }}
@@ -295,7 +450,7 @@ const HomeCategoryPage = () => {
               active={type === 5}
               onClick={() => {
                 if (type !== 5) {
-                  resetSetCategoryData(title);
+                  resetSetCategoryData();
                   setType(5);
                 }
               }}
@@ -304,29 +459,59 @@ const HomeCategoryPage = () => {
         </div>
         <div className="category_container_content">
           <div ref={tabRef} className="category_container_content_box">
-            <TabLabel
-              text={t("Global.all")}
-              active={pickCategory.length === 0}
-              onClick={() => {
-                if (pickCategory.length !== 0) {
-                  setPickCategory([]);
-                  resetSetCategoryData(title);
-                }
-              }}
-            />
-            {state.homeCategoryTabList.map((tabName, index) => {
-              return (
+            {[0, 1, 2, 3].includes(type) && (
+              <>
                 <TabLabel
-                  key={tabName.name + index}
-                  text={tabName.name}
-                  active={pickCategory.indexOf(tabName.name) !== -1}
+                  text={t("Global.all")}
+                  active={pickCategory.length === 0}
                   onClick={() => {
-                    resetSetCategoryData(title);
-                    onSelectCategory(tabName.name);
+                    if (pickCategory.length !== 0) {
+                      setPickCategory([]);
+                      resetSetCategoryData();
+                    }
                   }}
                 />
-              );
-            })}
+                {state.homeCategoryTabList.map((tabName, index) => {
+                  return (
+                    <TabLabel
+                      key={tabName.name + index}
+                      text={tabName.name}
+                      active={pickCategory.indexOf(tabName.name) !== -1}
+                      onClick={() => {
+                        resetSetCategoryData();
+                        onSelectCategory(tabName.name);
+                      }}
+                    />
+                  );
+                })}
+              </>
+            )}
+            {type === 4 &&
+              state.homeNovelsList.map((item, i) => {
+                return (
+                  <TabLabel
+                    key={item.id + "_" + i}
+                    text={item.title}
+                    active={selectedNovelTab === item.id}
+                    onClick={() => {
+                      selectNowTab(item.id);
+                    }}
+                  />
+                );
+              })}
+            {type === 5 &&
+              state.homePhotosList.map((item, i) => {
+                return (
+                  <TabLabel
+                    key={item.id + "_" + i}
+                    text={item.title}
+                    active={selectedPhotoTab === item.id}
+                    onClick={() => {
+                      selectNowPhotoTab(item.id);
+                    }}
+                  />
+                );
+              })}
           </div>
           <div
             className="category_container_content_btn"
@@ -339,7 +524,8 @@ const HomeCategoryPage = () => {
             </WavaButton>
           </div>
         </div>
-        {true || title !== t("Global.free_for_a_limited_time") ? (
+        {[0, 1, 2, 3].includes(type) &&
+        title !== t("Global.free_for_a_limited_time") ? (
           <div className="category_container_content">
             <div className="category_container_content_box">
               <TabLabel
@@ -347,7 +533,7 @@ const HomeCategoryPage = () => {
                 active={pickPrice === 0}
                 onClick={() => {
                   if (pickPrice !== 0) {
-                    resetSetCategoryData(title);
+                    resetSetCategoryData();
                     setPickPrice(0);
                   }
                 }}
@@ -357,7 +543,7 @@ const HomeCategoryPage = () => {
                 active={pickPrice === 2}
                 onClick={() => {
                   if (pickPrice !== 2) {
-                    resetSetCategoryData(title);
+                    resetSetCategoryData();
                     setPickPrice(2);
                   }
                 }}
@@ -367,7 +553,7 @@ const HomeCategoryPage = () => {
                 active={pickPrice === 1}
                 onClick={() => {
                   if (pickPrice !== 1) {
-                    resetSetCategoryData(title);
+                    resetSetCategoryData();
                     setPickPrice(1);
                   }
                 }}
@@ -384,27 +570,51 @@ const HomeCategoryPage = () => {
             alignItems="center"
             spacing={!isMobile ? 1.178 : 1}
           >
-            {state.homeCategoryData[title]?.list?.map((data, index) => {
-              //type 0 動畫 1漫畫
-              return (
-                <Grid
-                  item
-                  md={type === 0 ? 2.4 : 1.71}
-                  xs={type === 0 ? 6 : 4}
-                  key={`${data.id}-${index}`}
-                  className={`${
-                    type === 4 || type === 5 ? "novel-illust-adj" : ""
-                  }`}
-                >
-                  <CoverCubeItem
-                    isVideo={type === 0}
-                    data={data}
-                    type={!type && "animated"}
-                    total_view_show
-                  />
+            {[0, 1, 2, 3].includes(type) &&
+              state.homeCategoryData[categoryMap[type]]?.list
+                ?.filter(
+                  (item) =>
+                    item.tag_gp.some((tag) => pickCategory.includes(tag)) ||
+                    pickCategory.length === 0,
+                )
+                .map((data, index) => (
+                  <Grid
+                    item
+                    md={type === 0 ? 2.4 : 1.71}
+                    xs={type === 0 ? 6 : 4}
+                    className={`${type === 0 ? "anime-card-adj" : "card-adj"}`}
+                    key={`${data.id}-${index}`}
+                  >
+                    <CoverCubeItem
+                      isVideo={type === 0}
+                      data={data}
+                      type={!type && "animated"}
+                      total_view_show
+                    />
+                  </Grid>
+                ))}
+            {type === 4 &&
+              state.homeNovelsListData[selectedNovelTab]?.list
+                .filter((_, index) => {
+                  return (
+                    !state.homeNovelsListData[selectedNovelTab].isNew ||
+                    index < state.homeNovelsListData[selectedNovelTab].page * 10
+                  );
+                })
+                .sort((a, b) => b.id - a.id)
+                .map((data, i) => {
+                  return (
+                    <Grid item md={1.71} xs={4} key={"小說 " + data.title + i}>
+                      <NovelCard key={data.id} data={data} total_view_show />
+                    </Grid>
+                  );
+                })}
+            {type === 5 &&
+              state.homePhotosListData[selectedPhotoTab]?.list.map((data) => (
+                <Grid item md={1.71} xs={4} key={data.title} className="illust-card-adj">
+                  <PictureCard data={data} key={data.id} total_view_show />
                 </Grid>
-              );
-            })}
+              ))}
           </Grid>
         </div>
       </div>
@@ -456,8 +666,18 @@ export const HomeCategoryElement = styled.div`
       padding-top: 1%;
     }
 
-    .novel-illust-adj .item_body div {
-      padding-bottom: 101.55%;
+    .card-adj .item_footer_gold{
+      margin-bottom: 36px;
+    }
+
+    .anime-card-adj .item_footer_gold{
+      margin-top: 0;
+      margin-bottom: 36px;
+    }
+
+    .illust-card-adj .card_body_heart{
+      margin-top: 13px;
+      margin-bottom: 36px;
     }
   }
 `;
