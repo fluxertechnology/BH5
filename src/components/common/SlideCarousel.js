@@ -63,27 +63,30 @@ const SlideCarousel = ({
     setIs1920(width > 1919);
   }, []);
 
-  const imgButtonItems = useMemo(() => [
-    {
-      style: {
-        transform: "scaleX(-1)",
-        position: "absolute",
-        left: 10,
-        top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
-        zIndex: 3,
+  const imgButtonItems = useMemo(
+    () => [
+      {
+        style: {
+          transform: "scaleX(-1)",
+          position: "absolute",
+          left: 10,
+          top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
+          zIndex: 3,
+        },
+        status: "prev",
       },
-      status: "prev",
-    },
-    {
-      style: {
-        position: "absolute",
-        right: 10,
-        top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
-        zIndex: 3,
+      {
+        style: {
+          position: "absolute",
+          right: 10,
+          top: is2540 ? "8.625rem" : is1920 ? "5.625rem" : "5.625rem",
+          zIndex: 3,
+        },
+        status: "next",
       },
-      status: "next",
-    },
-  ], [is2540, is1920]);
+    ],
+    [is2540, is1920]
+  );
 
   function judgePercentage() {
     if (continueWatch) {
@@ -99,10 +102,7 @@ const SlideCarousel = ({
     }
   }
   return (
-    <SlideCarouselElement
-      type={type}
-      flexPercentage={judgePercentage()}
-    >
+    <SlideCarouselElement type={type} flexPercentage={judgePercentage()}>
       <div style={{ overflowX: "clip" }}>
         <div
           className={`carousel_content ${type}`}
@@ -110,21 +110,22 @@ const SlideCarousel = ({
           style={{ overflow: isMobile && "auto" }}
         >
           {items.map((data, index) => {
+            const itemKey = data?.id ?? `item-${index}`; 
             if (type === "game") {
               return (
-                <div className="carousel_content_item " key={data.id}>
+                <div className="carousel_content_item" key={itemKey}>
                   <FeaturedCard data={data} />
                 </div>
               );
-            } else if (type === "photo")
+            } else if (type === "photo") {
               return (
-                <div className="carousel_content_item" key={data.id}>
+                <div className="carousel_content_item" key={itemKey}>
                   <PictureCard data={data} total_view_show />
                 </div>
               );
-            else {
+            } else {
               return (
-                <div className="carousel_content_item" key={data.id}>
+                <div className="carousel_content_item" key={itemKey}>
                   <CoverCubeItem
                     data={data}
                     type={type}
@@ -144,8 +145,18 @@ const SlideCarousel = ({
       {!isMobile &&
         items.length > (type === "anime" || type === "video" ? 4 : 6) &&
         imgButtonItems.map((item, index) => (
-          <div className={`${type === "animated" ? 'anime-slider-btn' : ''} img_btn_wrapper cursor`}>
-            {index == 0 && <div className="box-left" onClick={() => onClickEvent(item.status)}></div>}
+          <div
+            className={`${
+              type === "animated" ? "anime-slider-btn" : ""
+            } img_btn_wrapper cursor`}
+            key={index}
+          >
+            {index == 0 && (
+              <div
+                className="box-left"
+                onClick={() => onClickEvent(item.status)}
+              ></div>
+            )}
             <Image
               key={index}
               width={0}
@@ -156,10 +167,14 @@ const SlideCarousel = ({
               style={item.style}
               onClick={() => onClickEvent(item.status)}
             />
-            {index == 1 && <div className="box-right" onClick={() => onClickEvent(item.status)}></div>}
+            {index == 1 && (
+              <div
+                className="box-right"
+                onClick={() => onClickEvent(item.status)}
+              ></div>
+            )}
           </div>
         ))}
-
     </SlideCarouselElement>
   );
 };
@@ -196,7 +211,7 @@ const SlideCarouselElement = styled.div.withConfig({
     z-index: 2;
     transform: translate(0, 1.875rem);
 
-    @media (min-width: 2540px){
+    @media (min-width: 2540px) {
       transform: translate(0, 4.875rem);
     }
   }
@@ -212,7 +227,7 @@ const SlideCarouselElement = styled.div.withConfig({
     z-index: 2;
     transform: translate(0, 1.875rem);
 
-    @media (min-width: 2540px){
+    @media (min-width: 2540px) {
       transform: translate(0, 4.875rem);
     }
   }

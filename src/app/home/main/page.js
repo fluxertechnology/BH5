@@ -25,13 +25,16 @@ import ContinueWatchSlideCarousel from "@/components/index/ContinueWatchSlideCar
 import { AntTab, StyledTabs, TabPanel } from "@/components/common/MuiTabItem";
 import OriginalCarousel from "@/components/common/OriginalCarousel";
 import { refreshAnimeData } from "@/store/actions/pages/homeMainAction";
-import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js"
+import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js";
 import {
   postAttentionEventAction,
   postScribeEventAction,
 } from "@/store/actions/pages/postCardItemAction";
 import { vendorUrl } from "@/lib/constants/index.js";
-import { getNovelsTabAction, setNowTabList } from "@/store/actions/pages/homeNovelsAction";
+import {
+  getNovelsTabAction,
+  setNowTabList,
+} from "@/store/actions/pages/homeNovelsAction";
 import { getNovelsDataAction } from "@/store/actions/pages/homeNovelsListAction";
 import Grid from "@mui/material/Grid";
 import NovelCard from "@/components/common/NovelCard";
@@ -98,19 +101,19 @@ export default function HomeMainPage() {
 
   const toggleContent = (comic, video) => {
     if (comic) {
-      document.querySelectorAll('.c-comic').forEach(element => {
-        element.classList.remove('inactive')
+      document.querySelectorAll(".c-comic").forEach((element) => {
+        element.classList.remove("inactive");
       });
-      document.querySelectorAll('.c-video').forEach(element => {
-        element.classList.add('inactive')
+      document.querySelectorAll(".c-video").forEach((element) => {
+        element.classList.add("inactive");
       });
     }
     if (video) {
-      document.querySelectorAll('.c-comic').forEach(element => {
-        element.classList.add('inactive')
+      document.querySelectorAll(".c-comic").forEach((element) => {
+        element.classList.add("inactive");
       });
-      document.querySelectorAll('.c-video').forEach(element => {
-        element.classList.remove('inactive')
+      document.querySelectorAll(".c-video").forEach((element) => {
+        element.classList.remove("inactive");
       });
     }
 
@@ -167,15 +170,14 @@ export default function HomeMainPage() {
 
     if (state.homeNovelsList.length === 0) {
       getNovelsTab();
-    }else{
+    } else {
       setNovelTabValue(state.homeNovelsList[0].id);
       setNowTabList(state.homeNovelsList[0].id);
     }
-
   }, [
     localState.video_category_list.length,
     localState.photo_category_list.length,
-    state.homeNovelsList.length
+    state.homeNovelsList.length,
   ]);
 
   const getNovelsTab = () => {
@@ -183,13 +185,13 @@ export default function HomeMainPage() {
   };
 
   const updateNovelsData = (id, scrollColdEnd = () => {}) => {
-    useGlobalDispatch(getNovelsDataAction(id, scrollColdEnd));    
+    useGlobalDispatch(getNovelsDataAction(id, scrollColdEnd));
   };
 
   const clickTabEvent = (id) => {
     useGlobalDispatch(setNowTabList(id));
   };
-  
+
   const refreshData = (key) => {
     useGlobalDispatch(refreshAnimeData(key));
   };
@@ -285,17 +287,17 @@ export default function HomeMainPage() {
   };
   labelList = isMobile
     ? {
-      ...labelList,
-      comic: {
-        name: t("Global.comics"),
-      },
-      animes: {
-        name: t("Global.animate"),
-      },
-      games: {
-        name: t("Game.label.game"),
-      },
-    }
+        ...labelList,
+        comic: {
+          name: t("Global.comics"),
+        },
+        animes: {
+          name: t("Global.animate"),
+        },
+        games: {
+          name: t("Game.label.game"),
+        },
+      }
     : labelList;
 
   const clickTabLabel = (key, dynamic) => {
@@ -391,8 +393,8 @@ export default function HomeMainPage() {
       />
 
       {localState.user.id !== "guest" &&
-        (localState.anime_watch_history.length > 0 ||
-          localState.comic_watch_history.length) ? (
+      (localState.anime_watch_history.length > 0 ||
+        localState.comic_watch_history.length) ? (
         <article className="anime_continue_watch_history_area">
           <section className="home_Main_container home_Main_new_comic">
             <div className="home_Main_container_title">
@@ -416,8 +418,11 @@ export default function HomeMainPage() {
       <article className="comic_area">
         <section className="home_Main_container home_Main_new_comic">
           <div className="home_Main_container_title_wrapper g-flex-space-between">
-            <div className="home_Main_container_title cursor" >
-              <div className="home_Main_container_title_text" onClick={() => toggleContent(true, false)}>
+            <div className="home_Main_container_title cursor">
+              <div
+                className="home_Main_container_title_text"
+                onClick={() => toggleContent(true, false)}
+              >
                 <span className="home_Main_container_title_text_span c-comic">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-comic">
@@ -426,40 +431,50 @@ export default function HomeMainPage() {
                 </span>
               </div>
 
-              <div className="home_Main_container_title_text" onClick={() => toggleContent(false, true)}>
+              <div
+                className="home_Main_container_title_text"
+                onClick={() => toggleContent(false, true)}
+              >
                 <span className="home_Main_container_title_text_span c-video inactive">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-video inactive">
                     {t("Global.animate")}
                   </span>
                 </span>
-              </div>  
+              </div>
             </div>
 
-            {showComic && (<p
-              className="home_Main_container_subtitle"
-              onClick={() => toDetailPage("all_comic_list")}
-            >
-              {t("Common.see_all")}&gt;
-            </p>)}
-  
-            {showVideo && (<p
-              className="home_Main_container_subtitle"
-              onClick={() => toDetailPage("all_anime_list")}
-            >
-              {t("Common.see_all")}&gt;
-            </p>)}
-          </div>
-          {showComic && (<SlideCarousel items={localState.weekComicList} />)}
-          {showVideo && (<SlideCarousel items={localState.week_anime_list} type="animated" />)}
+            {showComic && (
+              <p
+                className="home_Main_container_subtitle"
+                onClick={() => toDetailPage("all_comic_list")}
+              >
+                {t("Common.see_all")}&gt;
+              </p>
+            )}
 
+            {showVideo && (
+              <p
+                className="home_Main_container_subtitle"
+                onClick={() => toDetailPage("all_anime_list")}
+              >
+                {t("Common.see_all")}&gt;
+              </p>
+            )}
+          </div>
+          {showComic && <SlideCarousel items={localState.weekComicList} />}
+          {showVideo && (
+            <SlideCarousel items={localState.week_anime_list} type="animated" />
+          )}
         </section>
 
-         <section className="home_Main_container home_Main_rank_comic">
+        <section className="home_Main_container home_Main_rank_comic">
           <div className="home_Main_container_title g-flex-space-between">
             <div>
               <div className="g-flex items-center gap-2 lg:gap-3">
-                <span className="home_Main_container_title_text_span">{t("Home.ranking.comic")}</span>
+                <span className="home_Main_container_title_text_span">
+                  {t("Home.ranking.comic")}
+                </span>
                 <div className="btn-daily-ranking cursor">
                   <span className="text-white">日排行榜</span>
                 </div>
@@ -479,12 +494,13 @@ export default function HomeMainPage() {
             </p>
           </div>
 
-          <div className={`g-flex-start overflow-auto h-100 ${isMobile && "w-100 g-overflow-auto"
-            } gap-3`}>
-
+          <div
+            className={`g-flex-start overflow-auto h-100 ${
+              isMobile && "w-100 g-overflow-auto"
+            } gap-3`}
+          >
             <ComicRankingItem list={localState.rank_comic_list} />
           </div>
-
         </section>
       </article>
 
@@ -493,7 +509,9 @@ export default function HomeMainPage() {
           <div className="home_Main_container_title g-flex-space-between">
             <div>
               <div className="g-flex items-center gap-2 lg:gap-3">
-                <span className="home_Main_container_title_text_span">{t("Home.ranking.anime")}</span>
+                <span className="home_Main_container_title_text_span">
+                  {t("Home.ranking.anime")}
+                </span>
                 <div className="btn-daily-ranking cursor">
                   <span className="text-white">日排行榜</span>
                 </div>
@@ -513,12 +531,17 @@ export default function HomeMainPage() {
             </p>
           </div>
 
-          <div className={`g-flex-start overflow-auto h-100 ${isMobile && "w-100 g-overflow-auto"
-            } gap-3`}>
-
-            <ComicRankingItem list={localState.rank_anime_list} type="animated" rankStyle />
+          <div
+            className={`g-flex-start overflow-auto h-100 ${
+              isMobile && "w-100 g-overflow-auto"
+            } gap-3`}
+          >
+            <ComicRankingItem
+              list={localState.rank_anime_list}
+              type="animated"
+              rankStyle
+            />
           </div>
-
         </section>
       </article>
 
@@ -680,11 +703,11 @@ export default function HomeMainPage() {
         </section>
 
         <section
-          className={`home_Main_container home_Main_novel ${isMobile ? " g-flex-column-start column-reverse" : "g-start"
-            }  gap-3`}
+          className={`home_Main_container home_Main_novel ${
+            isMobile ? " g-flex-column-start column-reverse" : "g-start"
+          }  gap-3`}
         >
           <div className={`${isMobile ? " w-100" : "f-60"}`}>
-
             <div className="home_Main_container_title g-flex-space-between">
               <div className="home_Main_container_title_text">
                 <span className="home_Main_container_title_text_span mr-2">
@@ -696,9 +719,7 @@ export default function HomeMainPage() {
                     onChange={handleNovelIndexChange}
                     aria-label="lab API tabs example"
                   >
-                    {[...state.homeNovelsList]
-                   
-                    .map((category) => {
+                    {[...state.homeNovelsList].map((category) => {
                       if (state.homeNovelsList.length) {
                         return (
                           <AntTab
@@ -711,7 +732,6 @@ export default function HomeMainPage() {
                     })}
                   </StyledTabs>
                 )}
-
               </div>
               <p
                 className="home_Main_container_subtitle"
@@ -727,19 +747,17 @@ export default function HomeMainPage() {
                 onChange={handleNovelIndexChange}
                 aria-label="lab API tabs example"
               >
-                {[...state.homeNovelsList]
-                   
-                  .map((category) => {
-                    if (state.homeNovelsList.length) {
-                      return (
-                        <AntTab
-                          label={category.title}
-                          value={category.id}
-                          key={category.id}
-                        />
-                      );
-                    }
-                  })}
+                {[...state.homeNovelsList].map((category) => {
+                  if (state.homeNovelsList.length) {
+                    return (
+                      <AntTab
+                        label={category.title}
+                        value={category.id}
+                        key={category.id}
+                      />
+                    );
+                  }
+                })}
               </StyledTabs>
             )}
 
@@ -751,25 +769,36 @@ export default function HomeMainPage() {
                   key={category.id}
                 >
                   <SlideCarousel
-                    items={[...state.homeNovelsListData[category.id].list].slice(0, 20)}
+                    items={
+                      state.homeNovelsListData[category.id]?.list
+                        ? state.homeNovelsListData[category.id].list.slice(
+                            0,
+                            20
+                          )
+                        : []
+                    }
                     type="photo"
                   />
                 </TabPanel>
               );
-            })}    
+            })}
 
             {/* <SlideCarousel items={localState.novel_list} type="novel" /> */}
           </div>
-
         </section>
 
         {/* 商城 */}
         <section
-          className={`home_Main_container home_Main_vendor ${isMobile ? " g-flex-column-start column-reverse" : ""
-            }  gap-3`}
+          className={`home_Main_container home_Main_vendor ${
+            isMobile ? " g-flex-column-start column-reverse" : ""
+          }  gap-3`}
         >
           <div className={`${isMobile ? " w-100" : "f-60"}`}>
-            <div className={`home_Main_container_title ${isMobile ? "mb-[1.87vw]" : ""}`}>
+            <div
+              className={`home_Main_container_title ${
+                isMobile ? "mb-[1.87vw]" : ""
+              }`}
+            >
               <div className="home_Main_container_title_text">
                 <span className="home_Main_container_title_text_span">
                   {t("Navbar.bottom_navigator_mall")}
@@ -784,7 +813,6 @@ export default function HomeMainPage() {
             </div>
             <SlideCarousel items={list} type="vendor" />
           </div>
-
         </section>
       </article>
     </HomeMainPageElement>
@@ -849,7 +877,7 @@ export const HomeMainPageElement = styled.div`
           // margin-bottom: 0px;
         }
 
-        &_wrapper{
+        &_wrapper {
           display: flex;
           gap: 1.09vw;
         }
@@ -883,7 +911,7 @@ export const HomeMainPageElement = styled.div`
           }
         }
 
-        .inactive{
+        .inactive {
           color: #666666;
         }
       }
@@ -918,46 +946,47 @@ export const HomeMainPageElement = styled.div`
     }
   }
 
-  .home_Main_new_comic .box-left, .home_Main_new_comic .box-right {
-    @media (min-width: 1920px){
+  .home_Main_new_comic .box-left,
+  .home_Main_new_comic .box-right {
+    @media (min-width: 1920px) {
       transform: translate(0, 4.875rem);
     }
-    
-    @media (min-width: 2540px){
+
+    @media (min-width: 2540px) {
       transform: translate(0, 8.875rem);
     }
   }
 
-  .home_Main_rank_anime{
+  .home_Main_rank_anime {
     padding-top: 3.125rem;
   }
-  
-  .home_Main_novel .item .item_body div{
+
+  .home_Main_novel .item .item_body div {
     padding-bottom: 100% !important;
   }
 
-  .home_Main_rank_comic .total_view{
+  .home_Main_rank_comic .total_view {
     top: 40%;
     bottom: 0;
     justify-content: start;
 
-    @media (min-width: 2540px){
-      top: 56%
+    @media (min-width: 2540px) {
+      top: 56%;
     }
   }
 
-  .home_Main_rank_anime .total_view{
+  .home_Main_rank_anime .total_view {
     top: 90%;
     bottom: 0;
     justify-content: start;
   }
 
-  .home_Main_novel .total_view{
+  .home_Main_novel .total_view {
     top: 90%;
     bottom: 0;
   }
 
-  .btn-daily-ranking{
+  .btn-daily-ranking {
     background: linear-gradient(to right, #335fc2, #873fdb);
     width: 90px;
     height: 30px;
@@ -966,7 +995,7 @@ export const HomeMainPageElement = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media (max-width: 898px){
+    @media (max-width: 898px) {
       width: 14.32vw;
       height: 4.56vw;
       border-radius: 2.29vw;
@@ -974,7 +1003,7 @@ export const HomeMainPageElement = styled.div`
     }
   }
 
-  .btn-weekly-ranking{
+  .btn-weekly-ranking {
     background: linear-gradient(to right, #c92379, #74478c);
     width: 90px;
     height: 30px;
@@ -983,7 +1012,7 @@ export const HomeMainPageElement = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media (max-width: 898px){
+    @media (max-width: 898px) {
       width: 14.32vw;
       height: 4.56vw;
       border-radius: 2.29vw;
@@ -991,7 +1020,7 @@ export const HomeMainPageElement = styled.div`
     }
   }
 
-  .btn-monthly-ranking{
+  .btn-monthly-ranking {
     background: linear-gradient(to right, #1494e2, #23ddc3);
     width: 90px;
     height: 30px;
@@ -1000,7 +1029,7 @@ export const HomeMainPageElement = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media (max-width: 898px){
+    @media (max-width: 898px) {
       width: 14.32vw;
       height: 4.56vw;
       border-radius: 2.29vw;
