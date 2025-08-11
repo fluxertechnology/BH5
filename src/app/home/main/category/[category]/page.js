@@ -46,6 +46,8 @@ import PictureCard from "@/components/common/PictureCard";
 
 import ImageCarousel from "@/components/common/ImageCarousel";
 
+const IS_ALLOW_MULTI_CATEGORY = false;
+
 const HomeCategoryPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
@@ -306,11 +308,19 @@ const HomeCategoryPage = () => {
   }
 
   function onSelectCategory(name) {
-    if (pickCategory.indexOf(name) !== -1) {
-      pickCategory.splice(pickCategory.indexOf(name), 1);
-      setPickCategory([...pickCategory]);
+    if (IS_ALLOW_MULTI_CATEGORY) {
+      if (pickCategory.indexOf(name) !== -1) {
+        pickCategory.splice(pickCategory.indexOf(name), 1);
+        setPickCategory([...pickCategory]);
+      } else {
+        setPickCategory([...pickCategory, name]);
+      }
     } else {
-      setPickCategory([...pickCategory, name]);
+      if (pickCategory.length === 1 && pickCategory[0] === name) {
+        setPickCategory([]);
+      } else {
+        setPickCategory([name]);
+      }
     }
   }
 
@@ -368,7 +378,7 @@ const HomeCategoryPage = () => {
         dynamic: {
           tab: categoryTitle,
         },
-      })
+      }),
     );
 
     // 不需要 setTitle()
@@ -423,18 +433,16 @@ const HomeCategoryPage = () => {
                 }
               }}
             />
-            {"韩漫".indexOf(title) === -1 && (
-              <TabLabel
-                text={t("Global.animate")}
-                active={type === 0}
-                onClick={() => {
-                  if (type !== 0) {
-                    resetSetCategoryData();
-                    setType(0);
-                  }
-                }}
-              />
-            )}
+            <TabLabel
+              text={t("Global.animate")}
+              active={type === 0}
+              onClick={() => {
+                if (type !== 0) {
+                  resetSetCategoryData();
+                  setType(0);
+                }
+              }}
+            />
             <TabLabel
               text={t("Navbar.top_navigator_novel")}
               active={type === 4}
@@ -611,7 +619,13 @@ const HomeCategoryPage = () => {
                 })}
             {type === 5 &&
               state.homePhotosListData[selectedPhotoTab]?.list.map((data) => (
-                <Grid item md={1.71} xs={4} key={data.title} className="illust-card-adj">
+                <Grid
+                  item
+                  md={1.71}
+                  xs={4}
+                  key={data.title}
+                  className="illust-card-adj"
+                >
                   <PictureCard data={data} key={data.id} total_view_show />
                 </Grid>
               ))}
