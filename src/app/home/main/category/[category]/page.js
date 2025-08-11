@@ -128,7 +128,8 @@ const HomeCategoryPage = () => {
   }, [state.homePhoto.nowTab]);
 
   useEffect(() => {
-    setType(title === t("Global.animate") || title === t("Global.3d") ? 0 : 1);
+    setType(typeMapping[title] ?? 1);
+    // setType(title === t("Global.animate") || title === t("Global.3d") ? 0 : 1);
     setPickPrice(title === t("Global.free_for_a_limited_time") ? 2 : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaction.pathname]);
@@ -368,7 +369,7 @@ const HomeCategoryPage = () => {
     setType(newType);
 
     // 清空旧数据
-    useGlobalDispatch(restCategoryDataAction(categoryTitle));
+    resetSetCategoryData()
 
     // 更新路由，这样 title 也会自动变（useParams）
     useGlobalDispatch(
@@ -408,8 +409,7 @@ const HomeCategoryPage = () => {
               active={type === 2}
               onClick={() => {
                 if (type !== 2) {
-                  resetSetCategoryData();
-                  setType(2);
+                  handleTabChange(2, t("Global.j_comics"));
                 }
               }}
             />
@@ -418,8 +418,7 @@ const HomeCategoryPage = () => {
               active={type === 1}
               onClick={() => {
                 if (type !== 1) {
-                  resetSetCategoryData();
-                  setType(1);
+                  handleTabChange(1, t("Global.k_comics"));
                 }
               }}
             />
@@ -428,8 +427,7 @@ const HomeCategoryPage = () => {
               active={type === 3}
               onClick={() => {
                 if (type !== 3) {
-                  resetSetCategoryData();
-                  setType(3);
+                  handleTabChange(3, t("Global.e_comics"));
                 }
               }}
             />
@@ -438,8 +436,7 @@ const HomeCategoryPage = () => {
               active={type === 0}
               onClick={() => {
                 if (type !== 0) {
-                  resetSetCategoryData();
-                  setType(0);
+                  handleTabChange(0, t("Global.animate"));
                 }
               }}
             />
@@ -448,8 +445,7 @@ const HomeCategoryPage = () => {
               active={type === 4}
               onClick={() => {
                 if (type !== 4) {
-                  resetSetCategoryData();
-                  setType(4);
+                  handleTabChange(4, t("Navbar.top_navigator_novel"));
                 }
               }}
             />
@@ -458,8 +454,7 @@ const HomeCategoryPage = () => {
               active={type === 5}
               onClick={() => {
                 if (type !== 5) {
-                  resetSetCategoryData();
-                  setType(5);
+                  handleTabChange(5, t("Global.visual_text"));
                 }
               }}
             />
