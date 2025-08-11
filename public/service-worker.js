@@ -6,8 +6,8 @@ let __FILTER_DOMAIN = [
   "os.pklpubq.cn",
   "ph-ph.kawaiikingdoms.com",
   "os-os.kawaiikingdoms.com",
-  "ph-ph.bacgmh.com",
-  "os-os.bacgmh.com",
+  "ph-ph2.bacgmh.com",
+  "os-os2.bacgmh.com",
 ];
 
 // 當service worker在「安裝階段」時會觸發此事件
