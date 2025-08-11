@@ -942,36 +942,6 @@ export const HomeMainPageElement = styled.div`
     }
   }
 
-  .home_Main_new_comic .anime-slider-btn .box-left, .home_Main_new_comic .anime-slider-btn .box-right {
-    @media (min-width: 1920px){
-      transform: translate(0, 1.875rem);
-    }
-
-    @media (min-width: 2540px){
-      transform: translate(0, 4.875rem);
-    }
-  }
-
-  .home_Main_new_comic .img_btn_wrapper img{
-    @media (min-width: 1920px){
-      top: 8.625rem !important;
-    }
-
-    @media (min-width: 2540px){
-      top: 12.625rem !important;
-    }
-  }
-
-  .home_Main_new_comic .anime-slider-btn img{
-    @media (min-width: 1920px){
-      top: 5.625rem !important;
-    }
-
-    @media (min-width: 2540px){
-      top: 8.625rem !important;
-    }
-  }
-
   .home_Main_rank_anime{
     padding-top: 3.125rem;
   }

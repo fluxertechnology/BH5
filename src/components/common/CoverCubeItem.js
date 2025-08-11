@@ -113,6 +113,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
   margin: 0rem;
   background: ${({ rankStyle }) => rankStyle && "#e2eeff"};
   border-radius: 3%;
+  width: 100%;
   &:hover {
     ${ImageComponentElement} {
       border-bottom-left-radius: ${({ isVideo }) => isVideo && 0};
@@ -210,7 +211,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
     }
   }
 
-  &.video {
+  &.video,
+  &.animated {
     width: 100%;
     max-width: 100%;
   }
@@ -254,7 +256,8 @@ export const CoverCubeItemElement = styled.div.withConfig({
             max-height: ${({ title_line }) => title_line * 50}px;
             font-size: 16px;
           }
-          &.video {
+          &.video,
+          &.animated {
             font-size: 3.2vw;
             max-height: 12vw;
             margin-top: 1.75vw;
@@ -269,6 +272,12 @@ export const CoverCubeItemElement = styled.div.withConfig({
               font-size: 14px;
             }
           }
+          &.animated {
+            margin-top: 0.25vw;
+            @media (min-width: 899px) {
+              margin-top: 0.15vw;
+            }
+          }
         }
       }
 
@@ -278,21 +287,30 @@ export const CoverCubeItemElement = styled.div.withConfig({
         &_text {
           font-size: 12px;
           width: fit-content;
-          padding: 4px 6px;
+          padding: 1px 6px;
+          margin-top: 0.6vw;
           height: auto;
           overflow: hidden;
           color: #ffffff !important;
           background-color: #ff367a;
           @media (max-width: 899px) {
-            font-size: 0.825rem;
-            height: 1.2125rem;
+            font-size: 2.4vw;
             padding: 0 2px;
+            line-height: 1.18;
+            margin-top: 2.45vw;
           }
         }
       }
 
       &_gold {
         margin-top: 25px;
+
+        &.animated {
+          margin-top: 1.1vw !important;
+          @media (max-width: 898px) {
+            margin-top: 2.2vw !important;
+          }
+        }
 
         &_text {
           font-family: "Microsoft YaHei";
@@ -301,16 +319,22 @@ export const CoverCubeItemElement = styled.div.withConfig({
           display: flex;
           align-items: center;
           @media (max-width: 898px) {
-            font-size: 12px;
+            font-size: 2.93vw;
           }
           &_icon {
             margin-right: 5px;
             width: 16px;
             height: 16px;
             vertical-align: bottom;
+            @media (max-width: 898px) {
+              margin-right: 1.2vw;
+              width: 3.6vw;
+              height: 2.93vw;
+              font-size: 2.93vw;
+            }
           }
         }
-        &.video {
+        &.video &.animated {
           margin-top: 2.28vw !important;
           @media (min-width: 899px) {
             margin-top: 0.68vw !important;
@@ -530,7 +554,7 @@ const CoverCubeContent = ({ isModal, total_view_show, continueWatch }) => {
               {isModal ? (
                 <>
                   <div className="item_tag">
-                    {(type === "video"
+                    {(type === "video" || type === "animated"
                       ? data?.biaoqian?.split(" ")
                       : data?.tag_gp
                     )?.map((item) => (

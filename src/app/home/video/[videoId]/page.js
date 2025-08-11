@@ -1,23 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useCallback } from "react";
-import styled from "styled-components";
-import TopBarContainer from "@/components/layout/Header/TopBarContainer";
-import TopTitleBar from "@/components/common/TopTitleBar";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import ImageComponent from "@/components/common/ImageComponent";
+import LinkComponent from "@/components/common/LinkComponent";
 import ReactPlayerComponent, {
   PlyrVideoType,
 } from "@/components/common/ReactPlayerComponent";
-import {
-  adsKeys,
-  colors,
-  side_padding,
-  pageUrlConstants,
-} from "@/lib/constants";
-import ImageCarousel from "@/components/common/ImageCarousel";
-import ImageComponent from "@/components/common/ImageComponent";
 import HomeVideos from "@/app/home/main/videos/page";
-import useMediaQuery from "@/hooks/useMediaQuery";
-import { useParams } from "next/navigation";
+import { adsKeys, pageUrlConstants } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import {
   addMissionRecordAction,
@@ -25,14 +17,17 @@ import {
 } from "@/store/actions/historyActions";
 import { checkinPageConditioncheckAction } from "@/store/actions/utilities";
 import { toggleVideoCollectAction } from "@/store/actions/pages/homeVideoContentAction";
-import LinkComponent from "@/components/common/LinkComponent";
+import VideoContentLayout from "@/components/common/VideoContentLayout";
+import Image from "next/image";
+import { getPrice } from "@/lib/services/price";
 
-const HomeVideoContent = ({}) => {
+const HomeVideoContent = () => {
   const { state } = useGlobalContext();
-  const { isMobile } = useMediaQuery();
-
+  const t = useTranslations();
   const videoId = useParams().videoId;
+
   const videoData = useMemo(() => {
+    console.log(state.homeVideoList,'state.homeVideoList');
     return state.homeVideoContent[videoId]
       ? { ...state.homeVideoContent[videoId] }
       : {
@@ -41,17 +36,15 @@ const HomeVideoContent = ({}) => {
           )[0],
         };
   }, [state.homeVideoContent, state.homeVideoList]);
+
   useEffect(() => {
     if (videoId) {
       checkUser({
         id: videoId,
       });
     }
-    // getVideoContent(videoId, ()=>{
-    //   getFavorVideo();
-    // });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId, state.user.id]);
+
   useEffect(() => {
     if (videoData.url) {
       addMissionRecord(5);
@@ -94,6 +87,7 @@ const HomeVideoContent = ({}) => {
   const toggleVideoCollect = (data) => {
     useGlobalDispatch(toggleVideoCollectAction(data));
   };
+
   const checkUser = (data) => {
     useGlobalDispatch(
       checkinPageConditioncheckAction({
@@ -103,333 +97,77 @@ const HomeVideoContent = ({}) => {
       })
     );
   };
+
   const addMissionRecord = (mission_id) => {
     useGlobalDispatch(addMissionRecordAction(mission_id));
   };
 
-  useEffect(() => {
-    useGlobalDispatch({
-      type: "INIT_NAVBAR",
-      data: {
-        isShowFooter: false,
-      },
-    });
-  }, []);
   return (
-    <HomeVideoContentElement main_height={state.navbar.mainHeight}>
-      <TopBarContainer
-        not_fixed={true}
-        show_shadow={false}
-        z_index={8}
-        top="unset"
-      >
-        <TopTitleBar
-          showBack={false}
-          back_color={"transparent"}
-          show_back_color={"#fff"}
+    <VideoContentLayout
+      hideBack
+      adsKey={adsKeys.video_banner}
+      playerComponent={
+        <ReactPlayerComponent
+          img={videoData.img}
+          src={videoData.url}
+          title={videoData.title}
+          subTitle="相关影片"
+          is_collect={videoData.is_collect}
+          collectEvent={collectEvent}
+          videoType={PlyrVideoType.video}
+          videoId={videoId}
         />
-      </TopBarContainer>
-      <div
-        className={`main-container ${!isMobile ? "mx-indent" : "mobile-width"}`}
-      >
-        <div className="left-section">
-          <ReactPlayerComponent
-            img={videoData.img}
-            src={videoData.url}
-            title={videoData.title}
-            subTitle="相关影片"
-            is_collect={videoData.is_collect}
-            collectEvent={() => {
-              collectEvent();
+      }
+      rightSectionContent={state.homeVideoList[
+        state.homeVideo.nowTab
+      ]?.videolist
+        .slice(0, 9)
+        .map((data) => (
+          <LinkComponent
+            className="container_item"
+            routes={{
+              name:
+                pageUrlConstants.home.pages.homeVideoSwitch.pages
+                  .homeVideoContent.name + data.title,
+              path: pageUrlConstants.home.pages.homeVideoSwitch.pages
+                .homeVideoContent.path,
+              dynamic: { videoId: data.id },
             }}
-            videoType={PlyrVideoType.video}
-            videoId={videoId}
-          />
-          <div className="carousel-container">
-            <ImageCarousel
-              adsKey={adsKeys.video_banner}
-              threeInOneBanner={!isMobile}
-              size="banner_animated"
-              is_cover
-              customSlidesPerView={isMobile ? 1 : 2}
-            />
-          </div>
-        </div>
-        <div className="right-section">
-          {state.homeVideoList[state.homeVideo.nowTab]?.videolist
-            .slice(0, 9) // 只取前 5 个
-            .map((data) => {
-              return (
-                <LinkComponent
-                  className="container_item"
-                  routes={{
-                    name:
-                      pageUrlConstants.home.pages.homeVideoSwitch.pages
-                        .homeVideoContent.name + data.title,
-                    path: pageUrlConstants.home.pages.homeVideoSwitch.pages
-                      .homeVideoContent.path,
-                    dynamic: {
-                      videoId: data.id,
-                    },
-                  }}
-                  key={"video" + data.id}
-                >
-                  <div className="intro-item" key={data.id}>
-                    <ImageComponent
-                      src={data.img}
-                      alt={data.title}
-                      title={data.title}
-                      width={0}
-                      height={0}
-                      border_radius="5px"
-                      cover={true}
-                      is_cover={true}
-                    />
-                    <div className="info-container">
-                      <h5>{data.title}</h5>
-                      <p>2025-03-11</p>
-                      <p>{data.need_money}</p>
-                    </div>
-                  </div>
-                </LinkComponent>
-              );
-            })}
-        </div>
-      </div>
-      <h5 className="recommend-title ">你也喜欢</h5>
-      <HomeVideos hideImageCarousel />
-      {/* <div className="recommend px-indent mt-5">
-        <Grid container direction="row" alignItems="center" spacing={4}>
-          {videoData.recommend
-            ? videoData.recommend.map((data) => {
-                return (
-                  <Grid item md={3} xs={12} key={data.id}>
-                    <div
-                      className="recommend_item"
-                      onClick={() => {
-                        toRecommendVideo(data.id, data.title);
-                      }}
-                    >
-                      <div className="recommend_item_cover">
-                        <ImageComponent
-                          src={data.img}
-                          alt={data.title}
-                          title={data.title}
-                          height={50}
-                          cover={true}
-                          is_cover={true}
-                        />
-                        <span className="recommend_item_cover_gold">
-                          {data.need_jinbi}{" "}
-                          {intl.formatMessage({ id: "GLOBAL.GOLD_MONEY" })}
-                        </span>
-                      </div>
-                      <div className="recommend_item_info">
-                        <div className="recommend_item_info_title">
-                          <p className="recommend_item_info_title_text my-2">
-                            {data.title}
-                          </p>
-                        </div>
-                        <div className="recommend_item_info_description">
-                          <p className="recommend_item_info_description_text">
-                            {data.biaoqian}
-                          </p>
-                          <p className="recommend_item_info_description_text view">
-                            {data.bfcs >= 1000
-                              ? Math.floor(data.bfcs / 100) -
-                                10 +
-                                intl.formatMessage({
-                                  id: "GLOBAL.NUMBER_PLAYS",
-                                })
-                              : data.bfcs}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Grid>
-                );
-              })
-            : ""}
-        </Grid>
-      </div> */}
-    </HomeVideoContentElement>
+            key={"video" + data.id}
+          >
+            <div className="intro-item" key={data.id}>
+              <ImageComponent
+                src={data.img}
+                alt={data.title}
+                title={data.title}
+                width={0}
+                height={0}
+                border_radius="5px"
+                cover
+                is_cover
+              />
+              <div className="info-container">
+                <div>
+                  <h5>{data.title}</h5>
+                  <p>2025-03-11</p>
+                </div>
+                <div className="flex items-center relative">
+                  <Image
+                    src="/images/icons/diamond.png"
+                    width={192}
+                    height={192}
+                    alt="diamond icon"
+                    className="diamon_icon"
+                  />
+                  <p>{getPrice(t,data)}</p>
+                </div>
+              </div>
+            </div>
+          </LinkComponent>
+        ))}
+      recommendContent={<HomeVideos hideImageCarousel />}
+    />
   );
 };
 
 export default HomeVideoContent;
-
-const HomeVideoContentElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["main_height"].includes(prop),
-})`
-  ${({ main_height }) => `
-  /*  */
-  padding: ${main_height}px 0;
-
-
-  .main-container {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-
-
-    @media (min-width: 899px) {
-      margin-top: 0.55vw;
-      gap: 1.46vw;
-      margin-top: 1.98vw;
-      margin-bottom: 1.1vw;
-      flex-direction: row;
-    }
-
-    .left-section {
-      width: 100%;
-
-      .banner-padding{
-        width: 100%;
-      }
-
-      @media (min-width: 899px) {
-        padding-bottom: 1vw;
-        width: 51.3vw;
-      }
-
-      .carousel-container{
-        margin: 0 2.67vw;
-        width: auto;
-
-        @media (min-width: 899px) {
-          margin: 0.55vw 0 0;
-          width: 100%;
-        }
-      }
-    }
-    .right-section {
-      display: none;
-
-      @media (min-width: 899px) {
-        width: 23.44vw;
-        padding-bottom: 1vw;
-        gap: 0.57vw;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .intro-item{
-        display: flex;
-        height: 5.73vw;
-        gap: 16px;
-        position: relative;
-
-        .info-container {
-            @media (min-width: 899px) {
-              flex-shrink: 0;
-              width: 13.91vw;
-            }
-
-        }
-      }
-    }
-  }
-  .nav_list {
-    display: flex;
-    overflow: auto;
-    white-space: nowrap;
-
-    &_tag {
-      cursor: pointer;
-      flex-shrink: 0;
-      display: inline-block;
-      overflow: hidden;
-      margin: 10px;
-      color: ${colors.dark_pink};
-      border: 1px solid ${colors.dark_pink};
-      border-radius: 30px;
-
-      &.active {
-        color: #fff;
-        background-color: ${colors.dark_pink};
-      }
-
-      &_text {
-        padding: 5px 10px;
-        font-size: 18px;
-      }
-    }
-  }
-
-  .recommend-title{
-    font-family: "Microsoft YaHei";
-    color: rgb(0, 0, 0);
-    font-weight: 900;
-    font-size: 3.47vw;
-    margin: 5.8vw 3.47vw 4vw;
-
-    @media (min-width: 899px) {
-      font-size: 16px;
-      margin: 0vw 12% 1.35vw;
-    }
-  }
-  .recommend {
-    &_item {
-      cursor: pointer;
-      position: relative;
-
-      &::after {
-        content: "";
-        position: absolute;
-        right: ${side_padding}px;
-        bottom: -0.5px;
-        left: ${side_padding}px;
-        height: 1px;
-        background-color: #e1e1e1;
-      }
-
-      &:last-of-type {
-        &::after {
-          content: unset;
-        }
-      }
-
-      &_cover {
-        flex-shrink: 0;
-        position: relative;
-        width: 100%;
-
-        &_gold {
-          position: absolute;
-          bottom: 10px;
-          left: 10px;
-          font-size: 12px;
-          color: #fff;
-        }
-      }
-
-      &_info {
-        &_title {
-          &_text {
-            overflow: hidden;
-            height: 36px;
-            font-size: 18px;
-            line-height: 18px;
-            letter-spacing: 1px;
-            font-weight: 900;
-          }
-        }
-
-        &_description,
-        &_viewtime {
-          &_text {
-            font-size: 16px;
-            letter-spacing: 1px;
-            color: ${colors.text_grey};
-            font-weight: 700;
-
-            &.view {
-              margin-top: 10px;
-            }
-          }
-        }
-      }
-    }
-  }
-`}
-`;

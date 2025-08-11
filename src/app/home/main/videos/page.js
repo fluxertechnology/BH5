@@ -69,7 +69,6 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
       !state.homeVideoList[state.homeVideo.nowTab]?.page)
     ) {
       updateCateVideoData(state.homeVideo.nowTab, () => {});
-      console.log(state.homeVideoList);
     }
     return () => {
       tabBar.removeEventListener("wheel", videoWheelEvent);

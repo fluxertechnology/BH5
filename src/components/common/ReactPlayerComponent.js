@@ -67,6 +67,7 @@ const ReactPlayerComponent = ({
   type = "video", // anime 影片播完會有下一個提示
   animeNextRecommend = {}, //anime播完之後會有的下一集
   animeLastWatchTime,
+  pickEpisodeList,
 }) => {
   const { state } = useGlobalContext();
   const { isMobile } = useMediaQuery();
@@ -428,7 +429,7 @@ const ReactPlayerComponent = ({
         </div>
       </CSSTransition>
       <div className="description">
-        {tabList ? (
+        {/* {tabList ? (
           <div className="description_tablist ">
             {tabList.map((title) => {
               return <CategoryTab title={title} type={0} key={title} />;
@@ -436,16 +437,16 @@ const ReactPlayerComponent = ({
           </div>
         ) : (
           ""
-        )}
+        )} */}
         <h1 className="description_title fw-l">{title}</h1>
         <div className="description_content mb-2">
           <div className="description_content_main">
-            <div className="description_content_text fw-m">
-              {description}123
-            </div>
+            {description && <div className="description_content_text fw-m">
+              {description}
+            </div>}
             {/* <div className="description_content_subTitle">{subTitle}</div> */}
             <div className="description_content_tags">
-              {tags.map((tag, index) => (
+              {(tabList || tags).map((tag, index) => (
                 <span key={index} className="description_content_tags_item">
                   {tag}
                 </span>

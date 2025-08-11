@@ -23,7 +23,13 @@ import ProfileTransferCoinPage from "@/app/profile/transfer/page.js";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { pushRoutes } from "@/store/actions/historyActions";
-import { getPriceUnit, getUserPremiumDiamond, getPremiumDiamond } from "@/lib/services/price";
+import {
+  getPriceUnit,
+  getUserPremiumDiamond,
+  getPremiumDiamond,
+} from "@/lib/services/price";
+
+import diamondIcon from "@public/images/icons/diamond.png";
 
 const { profile } = pageUrlConstants;
 
@@ -125,11 +131,11 @@ const ProfilePayment = () => {
           <div className="flex justify-center item-center pt-[6.9vw] pb-[5.9vw] md:pt-[5vw] md:pb-[3.7vw] mx-3 md:!mx-auto">
             <div className="flex item-center">
               <Image
-                src="/images/icons/diamond.png"
-                width={192}
-                height={192}
-                alt="diamond icon"
-                className="w-[26.133vw] md:w-[8.49vw] h-auto "
+                className="item_footer_gold_text_icon"
+                src={diamondIcon}
+                width={0}
+                height={0}
+                alt="heart"
               />
             </div>
             <div className="md:ml-[2vw]">
