@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import styled from "styled-components";
@@ -22,6 +22,7 @@ import { getVendorListAction } from "@/store/actions/pages/vendorMainAction.js";
 import ImageCarousel from "@/components/common/ImageCarousel";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import WebTopBar from "@/components/layout/Header/WebTopBar";
+import Pagination from "@mui/material/Pagination";
 
 const VendorMain = () => {
   const t = useTranslations("Vendor");
@@ -30,9 +31,51 @@ const VendorMain = () => {
   const { size } = useMediaQuery();
   const mobileScreenWidth = (size?.[0] ?? 0) < 889;
 
+  const [page, setPage] = useState(1);
+  const rows = isMobile? 8 : 28;
+  const [list, setList] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
   useEffect(() => {
-    useGlobalDispatch(getVendorListAction());
-  }, [isMobile]);
+    useGlobalDispatch(getVendorListAction(page, rows));
+  }, [isMobile, page]);
+
+  useEffect(() => {
+    const newData = state.vendorListData?.list || [];
+    const totalCount = state.vendorListData?.count || 0;
+
+    if (isMobile) {
+      setList((prev) => {
+        const ids = new Set(prev.map((item) => item.product_id));
+        const filteredNewData = newData.filter(
+          (item) => !ids.has(item.product_id)
+        );
+        return [...prev, ...filteredNewData];
+      });
+      setHasMore(page * rows < totalCount);
+    } else {
+      setList(newData);
+      setHasMore(page * rows < totalCount);
+    }
+  }, [state.vendorListData, isMobile, page, rows]);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 100
+      ) {
+        if (hasMore) {
+          setPage((prev) => prev + 1);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore, isMobile]);
 
   function goToVendor() {
     window.open(vendorUrl);
@@ -58,6 +101,10 @@ const VendorMain = () => {
     });
   }, [isMobile]);
 
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
   return (
     <VendorMainElement>
       <ImageCarousel
@@ -77,13 +124,28 @@ const VendorMain = () => {
             columnSpacing={0}
             className="m-auto"
           >
-            {state.vendorListData?.list?.map((data, index) => (
+            {list?.map((data, index) => (
               <Grid item md={1.712} xs={6} key={index + 1}>
                 <VendorItemCard data={data} />
               </Grid>
             ))}
           </Grid>
         </div>
+        {/* 移动端加载状态提示 */}
+        {isMobile && !hasMore && <div className="mt-[10vw] text-center">没有更多了</div>}
+
+      </div>
+      <div className="flex justify-center">
+        {/* PC端分页 */}
+        {!isMobile && (
+          <StyledPagination
+            count={Math.ceil((state.vendorListData?.count || 0) / rows)}
+            page={page}
+            onChange={handlePageChange}
+            showFirstButton
+            showLastButton
+          />
+        )}
       </div>
     </VendorMainElement>
   );
@@ -264,7 +326,6 @@ const VendorMainElement = styled.div`
     margin-top: 6.5vw;
     margin-bottom: 15vw;
 
-
     @media (min-width: 899px) {
       padding-right: 11.7%;
       padding-left: 11.7%;
@@ -317,5 +378,36 @@ const VendorMainElement = styled.div`
         width: 100%;
       }
     }
+  }
+`;
+
+const StyledPagination = styled(Pagination)`
+  margin-top: 2.05vw;
+  display: flex;
+  justify-content: center;
+
+  .MuiPagination-ul {
+    gap: 10px; /* 按钮之间的间距 */
+  }
+
+  .MuiPaginationItem-root {
+    border-radius: 5px;
+    font-weight: bold;
+    color: #555;
+    transition: all 0.3s ease;
+    border: 1px solid #d3d3d3;
+    background-color: #fff;
+    width: 35px;
+    height: 37px;
+  }
+
+  .MuiPaginationItem-root:hover {
+    background-color: #f0f0f0;
+  }
+
+  .Mui-selected {
+    background-color: ${(props) =>
+      props.theme?.colors?.dark_pink || "#ff367a"} !important;
+    color: white !important;
   }
 `;
