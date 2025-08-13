@@ -38,6 +38,7 @@ import {
 import { getNovelsDataAction } from "@/store/actions/pages/homeNovelsListAction";
 import Grid from "@mui/material/Grid";
 import NovelCard from "@/components/common/NovelCard";
+import { getHomeLeaderBoardDataAction } from "@/store/actions/pages/homeLeaderboardAction";
 
 const { home, vendor } = pageUrlConstants;
 
@@ -92,6 +93,17 @@ export default function HomeMainPage() {
       creation_list: fillDataArray("creation_list"),
     };
   }, [state.homeData, state.homeData.hot_comic_list]);
+
+  const getLeaderBoardData = (type, range) => {
+    // type: 0: 动漫排行, 1: 漫画排行
+    // range = 1: 日排行, 2: 周排行, 3: 收藏榜-周, 4: 月排行
+    useGlobalDispatch(getHomeLeaderBoardDataAction(type, range));
+  }
+  useEffect(() => {
+    getLeaderBoardData(0, 1);
+    getLeaderBoardData(1, 1);
+  }, []);
+
 
   useEffect(() => {
     if (!localState.video_category_list.length)
@@ -475,13 +487,13 @@ export default function HomeMainPage() {
                 <span className="home_Main_container_title_text_span">
                   {t("Home.ranking.comic")}
                 </span>
-                <div className="btn-daily-ranking cursor">
+                <div className="btn-daily-ranking cursor" onClick={() => getLeaderBoardData(1, 1)}>
                   <span className="text-white">日排行榜</span>
                 </div>
-                <div className="btn-weekly-ranking cursor">
+                <div className="btn-weekly-ranking cursor" onClick={() => getLeaderBoardData(1, 2)}>
                   <span className="text-white">周排行榜</span>
                 </div>
-                <div className="btn-monthly-ranking cursor">
+                <div className="btn-monthly-ranking cursor" onClick={() => getLeaderBoardData(1, 4)}>
                   <span className="text-white">月排行榜</span>
                 </div>
               </div>
@@ -499,7 +511,7 @@ export default function HomeMainPage() {
               isMobile && "w-100 g-overflow-auto"
             } gap-3`}
           >
-            <ComicRankingItem list={localState.rank_comic_list} />
+            <ComicRankingItem list={state.homeLeaderBoard.comic} />
           </div>
         </section>
       </article>
@@ -512,13 +524,13 @@ export default function HomeMainPage() {
                 <span className="home_Main_container_title_text_span">
                   {t("Home.ranking.anime")}
                 </span>
-                <div className="btn-daily-ranking cursor">
+                <div className="btn-daily-ranking cursor" onClick={() => getLeaderBoardData(0, 1)}>
                   <span className="text-white">日排行榜</span>
                 </div>
-                <div className="btn-weekly-ranking cursor">
+                <div className="btn-weekly-ranking cursor" onClick={() => getLeaderBoardData(0, 2)}>
                   <span className="text-white">周排行榜</span>
                 </div>
-                <div className="btn-monthly-ranking cursor">
+                <div className="btn-monthly-ranking cursor" onClick={() => getLeaderBoardData(0, 4)}>
                   <span className="text-white">月排行榜</span>
                 </div>
               </div>
@@ -537,7 +549,7 @@ export default function HomeMainPage() {
             } gap-3`}
           >
             <ComicRankingItem
-              list={localState.rank_anime_list}
+              list={state.homeLeaderBoard.anime}
               type="animated"
               rankStyle
             />

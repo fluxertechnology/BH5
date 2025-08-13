@@ -46,6 +46,8 @@ import PictureCard from "@/components/common/PictureCard";
 
 import ImageCarousel from "@/components/common/ImageCarousel";
 
+const IS_ALLOW_MULTI_CATEGORY = false;
+
 const HomeCategoryPage = () => {
   const { state } = useGlobalContext();
   const t = useTranslations();
@@ -126,7 +128,8 @@ const HomeCategoryPage = () => {
   }, [state.homePhoto.nowTab]);
 
   useEffect(() => {
-    setType(title === t("Global.animate") || title === t("Global.3d") ? 0 : 1);
+    setType(typeMapping[title] ?? 1);
+    // setType(title === t("Global.animate") || title === t("Global.3d") ? 0 : 1);
     setPickPrice(title === t("Global.free_for_a_limited_time") ? 2 : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaction.pathname]);
@@ -306,11 +309,19 @@ const HomeCategoryPage = () => {
   }
 
   function onSelectCategory(name) {
-    if (pickCategory.indexOf(name) !== -1) {
-      pickCategory.splice(pickCategory.indexOf(name), 1);
-      setPickCategory([...pickCategory]);
+    if (IS_ALLOW_MULTI_CATEGORY) {
+      if (pickCategory.indexOf(name) !== -1) {
+        pickCategory.splice(pickCategory.indexOf(name), 1);
+        setPickCategory([...pickCategory]);
+      } else {
+        setPickCategory([...pickCategory, name]);
+      }
     } else {
-      setPickCategory([...pickCategory, name]);
+      if (pickCategory.length === 1 && pickCategory[0] === name) {
+        setPickCategory([]);
+      } else {
+        setPickCategory([name]);
+      }
     }
   }
 
@@ -358,7 +369,7 @@ const HomeCategoryPage = () => {
     setType(newType);
 
     // 清空旧数据
-    useGlobalDispatch(restCategoryDataAction(categoryTitle));
+    resetSetCategoryData()
 
     // 更新路由，这样 title 也会自动变（useParams）
     useGlobalDispatch(
@@ -368,7 +379,7 @@ const HomeCategoryPage = () => {
         dynamic: {
           tab: categoryTitle,
         },
-      })
+      }),
     );
 
     // 不需要 setTitle()
@@ -398,8 +409,7 @@ const HomeCategoryPage = () => {
               active={type === 2}
               onClick={() => {
                 if (type !== 2) {
-                  resetSetCategoryData();
-                  setType(2);
+                  handleTabChange(2, t("Global.j_comics"));
                 }
               }}
             />
@@ -408,8 +418,7 @@ const HomeCategoryPage = () => {
               active={type === 1}
               onClick={() => {
                 if (type !== 1) {
-                  resetSetCategoryData();
-                  setType(1);
+                  handleTabChange(1, t("Global.k_comics"));
                 }
               }}
             />
@@ -418,30 +427,25 @@ const HomeCategoryPage = () => {
               active={type === 3}
               onClick={() => {
                 if (type !== 3) {
-                  resetSetCategoryData();
-                  setType(3);
+                  handleTabChange(3, t("Global.e_comics"));
                 }
               }}
             />
-            {"韩漫".indexOf(title) === -1 && (
-              <TabLabel
-                text={t("Global.animate")}
-                active={type === 0}
-                onClick={() => {
-                  if (type !== 0) {
-                    resetSetCategoryData();
-                    setType(0);
-                  }
-                }}
-              />
-            )}
+            <TabLabel
+              text={t("Global.animate")}
+              active={type === 0}
+              onClick={() => {
+                if (type !== 0) {
+                  handleTabChange(0, t("Global.animate"));
+                }
+              }}
+            />
             <TabLabel
               text={t("Navbar.top_navigator_novel")}
               active={type === 4}
               onClick={() => {
                 if (type !== 4) {
-                  resetSetCategoryData();
-                  setType(4);
+                  handleTabChange(4, t("Navbar.top_navigator_novel"));
                 }
               }}
             />
@@ -450,8 +454,7 @@ const HomeCategoryPage = () => {
               active={type === 5}
               onClick={() => {
                 if (type !== 5) {
-                  resetSetCategoryData();
-                  setType(5);
+                  handleTabChange(5, t("Global.visual_text"));
                 }
               }}
             />
@@ -611,7 +614,13 @@ const HomeCategoryPage = () => {
                 })}
             {type === 5 &&
               state.homePhotosListData[selectedPhotoTab]?.list.map((data) => (
-                <Grid item md={1.71} xs={4} key={data.title} className="illust-card-adj">
+                <Grid
+                  item
+                  md={1.71}
+                  xs={4}
+                  key={data.title}
+                  className="illust-card-adj"
+                >
                   <PictureCard data={data} key={data.id} total_view_show />
                 </Grid>
               ))}
