@@ -225,6 +225,12 @@ const TopTabBar = ({
         case "animes":
           callback("category", temp.name);
           break;
+        case "photos":
+          callback("category", t("Global.visual_text"));
+          break;
+        case "novels":
+          callback("category", temp.name);
+          break;
         default:
           callback(labelKey);
           break;

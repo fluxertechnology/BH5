@@ -217,7 +217,7 @@ export default function HomeMainPage() {
       case "all_comic_list":
         url = home.pages.homeMain.pages.homeCategory.path;
         category = {
-          tab: t("Global.comics"),
+          tab: t("Global.j_comics"),
         };
         break;
       case "anime_ranking":
@@ -236,10 +236,16 @@ export default function HomeMainPage() {
         url = home.pages.homeMain.pages.homeVideos.path;
         break;
       case "photo":
-        url = home.pages.homeMain.pages.homePhotos.path;
+        url = home.pages.homeMain.pages.homeCategory.path;
+        category = {
+          tab: t("Global.visual_text"),
+        };
         break;
       case "novel_list":
-        url = home.pages.homeMain.pages.homeNovels.path;
+        url = home.pages.homeMain.pages.homeCategory.path;
+        category = {
+          tab: t("Navbar.top_navigator_novel"),
+        };
         break;
       case "shop":
         url = vendor.path;

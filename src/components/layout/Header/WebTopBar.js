@@ -176,8 +176,13 @@ const QrCodeElement = styled.div.withConfig({
 `;
 
 const LanguageList = [
-  { name: "簡體中文", lang: "tc" },
-  { name: "English", lang: "en" },
+  { name: "日本", lang: "en" },
+  { name: "韓國", lang: "en" },
+  { name: "中東", lang: "en" },
+  { name: "西班牙", lang: "en" },
+  { name: "英文", lang: "en" },
+  { name: "簡體", lang: "tc" },
+  { name: "繁體", lang: "tc" },
 ];
 
 const TopSearchBar = ({ isPlaceholder = true }) => {
@@ -228,19 +233,34 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       activeImage: "/images/header/home_selected_btn.png",
       child: [
         {
-          intlKey: "Navbar.top_navigator_comic",
-          name: home.pages.homeMain.pages.homeAnime.name,
-          path: home.pages.homeMain.pages.homeAnime.path,
+          intlKey: "Navbar.top_navigator_jcomic",
+          dynamic: { tab: t("Navbar.top_navigator_jcomic") },
+          name: home.pages.homeMain.pages.homeCategory.name,
+          path: home.pages.homeMain.pages.homeCategory.path,
+        },
+        {
+          intlKey: "Navbar.top_navigator_kcomics",
+          dynamic: { tab: t("Navbar.top_navigator_kcomics") },
+          name: home.pages.homeMain.pages.homeCategory.name,
+          path: home.pages.homeMain.pages.homeCategory.path,
+        },
+        {
+          intlKey: "Navbar.top_navigator_ecomic",
+          dynamic: { tab: t("Navbar.top_navigator_ecomic") },
+          name: home.pages.homeMain.pages.homeCategory.name,
+          path: home.pages.homeMain.pages.homeCategory.path,
         },
         {
           intlKey: "Navbar.top_navigator_novel",
-          name: home.pages.homeMain.pages.homeNovels.name,
-          path: home.pages.homeMain.pages.homeNovels.path,
+          dynamic: { tab: t("Navbar.top_navigator_novel") },
+          name: home.pages.homeMain.pages.homeCategory.name,
+          path: home.pages.homeMain.pages.homeCategory.path,
         },
         {
-          intlKey: "Navbar.top_navigator_meitu",
-          name: home.pages.homeMain.pages.homePhotos.name,
-          path: home.pages.homeMain.pages.homePhotos.path,
+          intlKey: "Navbar.top_navigator_photos",
+          dynamic: { tab: t("Global.visual_text") },
+          name: home.pages.homeMain.pages.homeCategory.name,
+          path: home.pages.homeMain.pages.homeCategory.path,
         },
       ],
     },
@@ -651,7 +671,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                           <WavaButton className="search_bar_nav_item_dropdown_item">
                             <span
                               className={`search_bar_nav_item_dropdown_item_dot${
-                                location.indexOf(childItem.path) !== -1
+                                decodeURIComponent(location).includes(t(childItem.intlKey))
+
                                   ? " active"
                                   : ""
                               }`}
@@ -912,13 +933,25 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             <div className="search_bar_switch_cover">
               <div className="search_bar_switch_cover_content">
                 {LanguageList.map((list) => (
-                  <div
-                    key={list.name}
-                    className="cursor"
-                    onClick={() => changeLanguage(list.lang)}
-                  >
-                    {list.name}
-                  </div>
+                  <WavaButton className="search_bar_nav_item_dropdown_item lang-adj">
+                    <span
+                      className={`search_bar_nav_item_dropdown_item_dot${
+                        location.indexOf(list.path) !== -1
+                          ? " active"
+                          : ""
+                      }`}
+                    />
+
+                    <div
+                      key={list.name}
+                      className="cursor"
+                      onClick={() => changeLanguage(list.lang)}
+                    >
+                      {list.name}
+                    </div>
+                  </WavaButton>
+                  
+                  
                 ))}
               </div>
             </div>
@@ -1160,6 +1193,10 @@ const TopsearchBarElement = styled.div.withConfig({
         }
       }
 
+      .lang-adj{
+        padding: 1.5px 12px 1.5px 24px;
+      }
+
       &_avatar,
       &_main,
       &_news,
@@ -1311,7 +1348,10 @@ const TopsearchBarElement = styled.div.withConfig({
             animation: navbar-jump 1.5s;
           }
           .search_bar_switch_cover {
-            left: -10px;
+            right: 0;
+            top: 13%;
+            transform: translateY(13%);
+            min-width: 86px;
             display: block;
             position: absolute;
             &_content {
@@ -1341,6 +1381,19 @@ const TopsearchBarElement = styled.div.withConfig({
                 }
               }
             }
+          }
+
+          .search_bar_switch_cover::before {
+            content: "";
+            position: absolute;
+            top: -2.5%;
+            right: 10%;
+            transform: translate(10%, -2.5%) rotate(180deg); 
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 8px solid #d3d3d5;
           }
         }
         &_img {
