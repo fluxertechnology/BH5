@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { main_height } from "@/components/layout/Header/TopBarContainer";
@@ -18,12 +18,25 @@ import { openPopup } from "@/store/actions/user";
 import { pageUrlConstants } from "@/lib/constants";
 const { home, profile, notice, login } = pageUrlConstants;
 import { updateRechargeStateAction } from "@/store/actions/config";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
+const LanguageList = [
+  { name: "日本", lang: "jp" },
+  { name: "韓國", lang: "kr" },
+  { name: "中東", lang: "ar" },
+  { name: "西班牙", lang: "es" },
+  { name: "英文", lang: "en" },
+  { name: "簡體", lang: "zh-CN" },
+  { name: "繁體", lang: "zh-TW" },
+];
 
 const TopBar = () => {
   const { state } = useGlobalContext();
 
   const location = usePathname();
+  const router = useRouter();
+
   const t = useTranslations();
   function handleShare() {
     navigatorShare({
@@ -42,6 +55,8 @@ const TopBar = () => {
   }
 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const wrapperRef = useRef(null);
 
   const clickAvatar = () => {
     // console.log("這邊要判斷登入狀態");
@@ -109,6 +124,25 @@ const TopBar = () => {
 
   const shouldShowLogo =
     location.startsWith("/home") || routesToShowLogo.includes(location);
+
+  const changeLanguage = (newLocale) => {
+    Cookies.set("NEXT_LOCALE", newLocale, { path: "/" });
+    setIsLangOpen(false);
+    router.refresh();
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsLangOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <TopBarElement main_height={state.navbar.mainHeight}>
@@ -200,15 +234,33 @@ const TopBar = () => {
           )}
         </div>
 
-        <div className="search_bar_language">
+        <div className="search_bar_language" ref={wrapperRef}>
           <Image
             className={"search_bar_language_img "}
-            onClick={switchLanguage}
+            onClick={() => setIsLangOpen((prev) => !prev)}
             src={"/images/header/translation_1.png"}
             width={68}
             height={43}
             alt="switch language"
           />
+          {isLangOpen && (
+            <div className="search_bar_switch_cover">
+              <div className="search_bar_switch_cover_content">
+                {LanguageList.map((list) => (
+                  <div
+                    key={list.name}
+                    className={`lang-item ${
+                      location.includes(list.lang) ? "active" : ""
+                    }`}
+                    onClick={() => changeLanguage(list.lang)}
+                  >
+                    <span className="dot" />
+                    {list.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         {/* <div className="search_bar_service" onClick={clickService}>
           <img
@@ -388,6 +440,52 @@ export const TopBarElement = styled.div.withConfig({
           color: ${colors.dark_pink};
           background-color: #fff;
           border-radius: 50%;
+        }
+      }
+      &_switch {
+        position: relative;
+
+        &_cover {
+          position: absolute;
+          top: clamp(50px, 5vw, 100px);
+          right: 0;
+          background: white;
+          border-radius: 6px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+          z-index: 999;
+          width: 20.8vw;
+
+          &_content {
+            display: flex;
+            flex-direction: column;
+            padding-left: 2.067vw;
+            padding-bottom: 5vw;
+
+            .lang-item {
+              padding: 8px 12px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              font-size: 3.2vw;
+              color: #333333;
+
+              &:hover {
+                background: #f5f5f5;
+              }
+
+              .dot {
+                width: 0.867vw;
+                height: 0.867vw;
+                border-radius: 0.2vw;
+                background: #aaa;
+                margin-right: 1.8vw;
+              }
+
+              &.active .dot {
+                background: #ff4081;
+              }
+            }
+          }
         }
       }
     }
