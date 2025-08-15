@@ -12,7 +12,8 @@ const navbarReducer = function(state = {}, action) {
 					clickHome: () => { },
 					toPaymentPage: () => { },
 					mainHeight: 72,
-					subHeight: 66.7,
+					// subHeight: 66.7,
+          subHeight: 0,
 					subFontSize: 20,
 					bottomNavHeight: 88,
 					fixed: true,
@@ -26,7 +27,8 @@ const navbarReducer = function(state = {}, action) {
 					appendComponent: () => <></>,
 				},
 				mainHeight: isMobile ? 60 : 72,
-				subHeight: isMobile ? 65 : 66.7,
+				// subHeight: isMobile ? 65 : 66.7,
+        subHeight: 0,
 				subFontSize: isMobile ? 16 : 20,
 				...action.data,
 			};
@@ -40,14 +42,16 @@ const navbarReducer = function(state = {}, action) {
 				return {
 					...state,
 					mainHeight: 60,
-					subHeight: 65,
+					// subHeight: 65,
+          subHeight: 0,
 					subFontSize: 16,
 				};
 			}
 			return {
 				...state,
 				mainHeight: 72,
-				subHeight: 66.7,
+				// subHeight: 66.7,
+        subHeight: 0,
 				subFontSize: 20,
 			};
 
@@ -61,7 +65,8 @@ const navbarReducer = function(state = {}, action) {
 				clickHome: () => { },
 				toPaymentPage: () => { },
 				mainHeight: 72,
-				subHeight: 66.7,
+				// subHeight: 66.7,
+        subHeight: 0,
 				subFontSize: 20,
 				bottomNavHeight: 88,
 				fixed: true,

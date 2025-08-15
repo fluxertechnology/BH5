@@ -492,6 +492,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
     location.startsWith("/home") || routesToShowLogo.includes(location);
 
   return (
+    <>
     <TopsearchBarElement
       main_height={state.navbar.mainHeight}
       is_login={isLogin}
@@ -926,6 +927,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
         </div>
       </div>
     </TopsearchBarElement>
+
+    </>
   );
 };
 

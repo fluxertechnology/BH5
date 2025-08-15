@@ -3,6 +3,8 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useEffect } from "react";
 import { useGlobalContext } from "@/store";
 import SearchResult from "@/components/common/SearchResult";
+import TcgGameHeader from "@/components/common/TcgGameHeader";
+import { usePathname } from "next/navigation";
 
 export let main_height = 72;
 
@@ -34,6 +36,7 @@ const TopBarContainer = ({
     sub_height = !isMobile ? 64 : 65;
     sub_fontSize = !isMobile ? 20 : 16;
   }, [isMobile]);
+  const location = usePathname();
 
   return (
     <TopBarContainerElement
@@ -47,6 +50,11 @@ const TopBarContainer = ({
     >
       {state.navbar.prependComponent && state.navbar.prependComponent()}
       {children}
+        {
+      !location.startsWith('/home/tcg') && (
+        <TcgGameHeader />
+      )
+    }
       {state.navbar.appendComponent && state.navbar.appendComponent()}
       <SearchResult />
     </TopBarContainerElement>

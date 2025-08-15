@@ -249,6 +249,7 @@ const TopTabBar = ({
     ["#ff4b80"],           // PINK
   ];
 
+  return <></>
   return (
     <>
       {isMobile ? (

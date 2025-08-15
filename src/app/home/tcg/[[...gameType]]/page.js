@@ -26,6 +26,7 @@ import { getPremiumDiamond } from "@/lib/services/price";
 import LoadingComponent from "@/components/common/LoadingComponent";
 import { updateUserDataAction } from "@/store/actions/user";
 import gameManager from "@/lib/services/gameManager";
+import { useParams } from "next/navigation";
 
 const HomeTcgMainPage = () => {
   const { state } = useGlobalContext();
@@ -114,12 +115,15 @@ const HomeTcgMainPage = () => {
     },
   };
 
+  const params = useParams();
+  const initGameType = params.gameType?.[0];
+
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [tcgProductTypes, setTcgProductTypes] = useState(0);
   const [tcgProductTypesList, setTcgProductTypesList] = useState([]);
   const [tcgProductTypesDisplay, setTcgProductTypesDisplay] = useState([]);
-  const [tcgGameType, setTcgGameType] = useState("HOT");
+  const [tcgGameType, setTcgGameType] = useState(initGameType || 'HOT');
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
@@ -135,6 +139,20 @@ const HomeTcgMainPage = () => {
   const [currentGameProductType, setCurrentGameProductType] = useState("");
   const [isLoadingTransferOutAll, setIsLoadingTransferOutAll] = useState(false);
   const [isLoadingGameUrl, setIsLoadingGameUrl] = useState(false);
+
+  useEffect(() => {
+    if (!initGameType) return
+    const  typeList = tcgProductTypesList.map((m) => {
+      const isIncluded = m.game_type.includes(tcgGameType.toUpperCase());
+      return {
+        ...m,
+        display: tcgGameType !== "HOT" && isIncluded,
+      };
+    });
+    const displayList = typeList.filter((m) => m.display);
+    setTcgProductTypesDisplay(displayList);
+    setTcgProductTypes( 0);
+  }, [tcgGameType, tcgProductTypesList]);
 
   const tcgGetProductTypes = async () => {
     try {
@@ -193,7 +211,6 @@ const HomeTcgMainPage = () => {
 
       setTcgTotalGames(data.data.total || 0);
       setTcgGameList(data.data.value || []);
-      console.log(tcgGameList);
     } catch (error) {
       console.error("获取游戏列表失败:", error);
     }

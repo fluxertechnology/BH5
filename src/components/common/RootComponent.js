@@ -11,9 +11,11 @@ import { useGlobalContext, useGlobalDispatch } from "@/store";
 import { openPopup } from "@/store/actions/user";
 import { setUserAgent } from "@/hooks/useMediaQuery";
 import { useSearchParams } from "next/navigation";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const RootComponent = ({ children, locale, userAgent }) => {
   const { state } = useGlobalContext();
+  const { isMobile } = useMediaQuery();
 
   setUserAgent(userAgent);
 
@@ -148,7 +150,13 @@ const RootComponent = ({ children, locale, userAgent }) => {
   }, []);
 
   return (
-    <>
+    <div style={{
+      marginTop: state.router.location.pathname.includes('/home/tcg') 
+        ? '0' 
+        : isMobile 
+            ? '20.524vw'
+            : '5.64vw',
+    }}>
       <DesktopHeader locale={locale} />
       <MobileHeader locale={locale} />
       <div className="min-h-screen">{children}</div>
@@ -156,7 +164,7 @@ const RootComponent = ({ children, locale, userAgent }) => {
       <MobileFooter locale={locale} />
       <GlobalComponent />
       <PopupDialog locale={locale} />
-    </>
+    </div>
   );
 };
 
