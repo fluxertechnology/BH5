@@ -193,6 +193,7 @@ const BottomNavBarElement = styled.div.withConfig({
         align-items: center;
         padding: 10px;
         box-sizing: border-box;
+        gap: 2.133vw;
 
         &_icon {
           position: relative;
@@ -221,8 +222,8 @@ const BottomNavBarElement = styled.div.withConfig({
         &_title {
           &_text {
             font-size: 12px;
-            color: ${colors.text_grey};
-            font-weight: 600;
+            color: #333333;
+            font-weight: 700;
           }
         }
 
@@ -233,7 +234,7 @@ const BottomNavBarElement = styled.div.withConfig({
           }
 
           .bottom_nav_item_btn_title_text {
-            color: ${colors.dark_pink};
+            color: #ff367a;
           }
         }
       }

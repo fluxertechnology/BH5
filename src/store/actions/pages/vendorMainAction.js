@@ -10,26 +10,34 @@ const {
   postVendeorGameListUrl,
 } = requestUrlConstants;
 
-export const getVendorListAction = () => {
+export const getVendorListAction = (page = 1, limit = 20) => {
   return function (dispatch) {
-    //商城商品
-    axiosRequest
-      .get(checkIsMobile() ? postVendeorListUrlH5 : postVendeorListUrlPC)
-      .then((data) => {
-        dispatch({
-          type: "INIT_VENDORCATEGORYIDDATA",
-          data: data,
-        });
-      });
-    //18陶廣告
-    axiosRequest.get(postVendeorAdvertiseUrl).then((data) => {
+    const url = checkIsMobile()
+      ? `https://18tao.shop/api/product/spu/lst?pid=1404&page=${page}&limit=${limit}&lang=zh-Hant`
+      : `https://18tao.shop/api/product/spu/lst?lang=zh-Hans&page=${page}&limit=${limit}&keyword=&brand_id=&price_on=&price_off=&order=&cate_pid=1404&common=1`;
+
+    axiosRequest.get(url).then((data) => {
+      console.log(data,'data');
       dispatch({
-        type: "INIT_VENDORCATEGORYIDDATA_ADVERTISE",
-        data: data,
+        type:
+          page === 1
+            ? "INIT_VENDORCATEGORYIDDATA"
+            : "APPEND_VENDORCATEGORYIDDATA",
+        data,
       });
     });
+
+    if (page === 1) {
+      axiosRequest.get(postVendeorAdvertiseUrl).then((data) => {
+        dispatch({
+          type: "INIT_VENDORCATEGORYIDDATA_ADVERTISE",
+          data,
+        });
+      });
+    }
   };
 };
+
 /**
  * @description 拿取遊戲資料
  *

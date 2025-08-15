@@ -150,7 +150,7 @@ const ComicRankingElement = styled.div.withConfig({
       min-width: 8.5875rem;
       min-height: 12.625rem;
     }
-    @media (max-width: 898px) {
+    @media (max-width: 767px) {
       .item_body div{
         min-width: 28.7vw;
         min-height: 39.554vw;
@@ -168,7 +168,7 @@ const ComicRankingElement = styled.div.withConfig({
     padding-bottom: 100% ;
     min-height: 9.25rem;
 
-    @media (max-width: 898px){
+    @media (max-width: 767px){
       min-width: 43.475vw;
       min-height: 28.567vw;
     }

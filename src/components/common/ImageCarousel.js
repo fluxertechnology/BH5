@@ -43,7 +43,7 @@ const ImageCarousel = ({
   const [swiper_progress, setSwiperProgress] = useState(0);
   const [timeClock, setTimeClock] = useState(null);
   const [height, setHeight] = useState("auto");
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
 
   useEffect(() => {
     return () => {
@@ -70,7 +70,7 @@ const ImageCarousel = ({
   useEffect(() => {
     switch (size) {
       case "banner_animated": //動畫頂部banner
-        setHeight(isMobile ? "30vw" : "10.73vw");
+        setHeight(isTablet ? "20vw": isMobile ? "30vw" : "10.73vw");
         break;
       case "banner_ads": //廣告banner
         setHeight(isMobile ? "21vw" : "7vw");
@@ -236,5 +236,9 @@ export const ImageCarouselElement = styled.div.withConfig({
 
   .banner-padding {
     width: 76.04vw;
+
+    @media (min-width: 768px) and (max-width: 1023px){
+      width: 100%;
+    }
   }
 `;

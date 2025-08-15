@@ -845,9 +845,9 @@ export const requestUrlConstants = {
   postAddSocialProfileCollectUrl: "/login/login/add_oneforone_like", // 樓鳳 愛心狀態 新增
   postVendeorGameListUrl: "/mobileapi/shop/newshoplist", //商城遊戲
   postVendeorListUrlPC:
-    "https://18tao.shop/api/product/spu/lst?lang=zh-Hans&page=1&limit=15&keyword=&brand_id=&price_on=&price_off=&order=&cate_pid=1404&common=1", // 獲得商城商品清單 PC
+    "https://18tao.shop/api/product/spu/lst?lang=zh-Hans&page=1&limit=20&keyword=&brand_id=&price_on=&price_off=&order=&cate_pid=1404&common=1", // 獲得商城商品清單 PC
   postVendeorListUrlH5:
-    "https://18tao.shop/api/product/spu/lst?pid=1404&page=1&limit=15&lang=zh-Hant", // 獲得商城商品清單 H5
+    "https://18tao.shop/api/product/spu/lst?pid=1404&page=1&limit=20&lang=zh-Hant", // 獲得商城商品清單 H5
   postVendeorAdvertiseUrl:
     "https://18taoshop.cn/api/pc/rec_list?page=1&limit=4&common=1", // 獲得商城商品清單
   postVendorGoodsLikeUrl: "/mobileapi/shop/add_like", // 獲得喜歡商品

@@ -73,8 +73,8 @@ const HomeCategoryPage = () => {
   const typeMapping = {
     [t("Global.animate")]: 0,
     [t("Global.3d")]: 0,
-    [t("Global.j_comics")]: 1,
-    [t("Global.k_comics")]: 2,
+    [t("Global.j_comics")]: 2,
+    [t("Global.k_comics")]: 1,
     [t("Global.e_comics")]: 3,
     [t("Navbar.top_navigator_novel")]: 4,
     [t("Global.visual_text")]: 5,
