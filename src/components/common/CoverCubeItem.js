@@ -318,7 +318,7 @@ export const CoverCubeItemElement = styled.div.withConfig({
           color: #000000;
           display: flex;
           align-items: center;
-          @media (max-width: 898px) {
+          @media (max-width: 767px) {
             font-size: 2.93vw;
           }
           &_icon {

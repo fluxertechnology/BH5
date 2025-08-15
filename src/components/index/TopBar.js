@@ -358,7 +358,14 @@ export const TopBarElement = styled.div.withConfig({
         padding-bottom: 0.1em;
       }
 
-      &_language ,
+      &_language {
+        &_img {
+          width: ${main_height * 0.7167}px;
+          height: ${main_height * 1.141}px;
+          object-fit:contain;
+        } 
+      }
+      
       &_more {
         margin-right: 10px;
 
@@ -455,6 +462,10 @@ export const TopBarElement = styled.div.withConfig({
           z-index: 999;
           width: 20.8vw;
 
+          @media (max-width: 375px){
+            width: 25.8vw;
+          }
+
           &_content {
             display: flex;
             flex-direction: column;
@@ -466,7 +477,7 @@ export const TopBarElement = styled.div.withConfig({
               cursor: pointer;
               display: flex;
               align-items: center;
-              font-size: 3.2vw;
+              font-size: max(14px, 3.2vw);
               color: #333333;
 
               &:hover {
@@ -477,13 +488,26 @@ export const TopBarElement = styled.div.withConfig({
                 width: 0.867vw;
                 height: 0.867vw;
                 border-radius: 0.2vw;
-                background: #aaa;
+                background: #d1d1d3;
                 margin-right: 1.8vw;
               }
 
               &.active .dot {
                 background: #ff4081;
               }
+            }
+
+            ::after{
+              content: "";
+              position: absolute;
+              bottom: 2.5%;
+              right: 10%;
+              transform: translate(10%, 2.5%) rotate(90deg);
+              width: 0px;
+              height: 0px;
+              border-left: 15px solid transparent;
+              border-right: 0px solid transparent;
+              border-top: 15px solid #f0f0f0;
             }
           }
         }

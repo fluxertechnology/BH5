@@ -877,8 +877,11 @@ export const HomeMainPageElement = styled.div`
       padding: 1em 0.5em;
       padding-right: 12%;
       padding-left: 12%;
-      @media (max-width: 899px) {
+      @media (max-width: 767px) {
         padding: 0.5em;
+      }
+      @media (min-width: 768px) and (max-width: 1023px) {
+        padding: 2em 0.5em 0.5em;
       }
 
       &:last-child {
@@ -962,6 +965,19 @@ export const HomeMainPageElement = styled.div`
         }
       }
     }
+  }
+
+  .home_Main_new_comic .img_btn_wrapper img {
+    top: 5.625rem;
+
+    @media (min-width: 1920px) {
+      top: 8.625rem !important;
+    }
+
+    @media (min-width: 2540px) {
+      top: 12.625rem !important;
+    }
+
   }
 
   .home_Main_new_comic .box-left,
