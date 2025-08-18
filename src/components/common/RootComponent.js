@@ -15,7 +15,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 
 const RootComponent = ({ children, locale, userAgent }) => {
   const { state } = useGlobalContext();
-  const { isMobile } = useMediaQuery();
+  const { isDesktop } = useMediaQuery();
 
   setUserAgent(userAgent);
 
@@ -153,8 +153,8 @@ const RootComponent = ({ children, locale, userAgent }) => {
     <div style={{
       marginTop: state.router.location.pathname.includes('/home/tcg') 
         ? '0' 
-        : isMobile 
-            ? '20.524vw'
+        : !isDesktop 
+            ? '32.1vw'
             : '5.64vw',
     }}>
       <DesktopHeader locale={locale} />

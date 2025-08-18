@@ -297,6 +297,8 @@ export const TopBarElement = styled.div.withConfig({
     padding: 0 2.67vw;
     height: ${main_height}px;
     background-color: #fff;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.17);
+    position:relative;
 
     .search_bar {
       display: flex;

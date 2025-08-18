@@ -50,11 +50,7 @@ const TopBarContainer = ({
     >
       {state.navbar.prependComponent && state.navbar.prependComponent()}
       {children}
-        {
-      !location.startsWith('/home/tcg') && (
-        <TcgGameHeader />
-      )
-    }
+      {!location.startsWith("/home/tcg") && <TcgGameHeader />}
       {state.navbar.appendComponent && state.navbar.appendComponent()}
       <SearchResult />
     </TopBarContainerElement>
@@ -68,7 +64,8 @@ TopBarContainer.propTypes = {
 export default TopBarContainer;
 
 const TopBarContainerElement = styled.header.withConfig({
-  shouldForwardProp: (prop) => !["not_fixed", "show_shadow", "isMobile", "top"].includes(prop),
+  shouldForwardProp: (prop) =>
+    !["not_fixed", "show_shadow", "isMobile", "top"].includes(prop),
 })`
   /*  */
   background-color: ${({ background_color }) => background_color};
@@ -79,8 +76,6 @@ const TopBarContainerElement = styled.header.withConfig({
   z-index: ${({ z_index }) => z_index};
   width: 100%;
   margin: auto;
-  ${({ show_shadow }) =>
-    show_shadow === "true" ? "box-shadow: 0 1px 0px 0 rgb(0 0 0 / 30%);" : ""}
 
   @media (min-width: 599px) {
     max-width: 100%;

@@ -237,7 +237,7 @@ export const ImageCarouselElement = styled.div.withConfig({
   .banner-padding {
     width: 76.04vw;
 
-    @media (min-width: 768px) and (max-width: 1023px){
+    @media (min-width: 768px) and (max-width: 1024px){
       width: 100%;
     }
   }

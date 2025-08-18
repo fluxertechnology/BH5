@@ -78,7 +78,7 @@ const UserPanel = ({ className = "" }) => {
       useGlobalDispatch(
         updateUserDataAction(() => {
           window.location.reload();
-        }),
+        })
       );
     } catch (error) {
       console.error("转出失败:", error);
@@ -101,25 +101,101 @@ const UserPanel = ({ className = "" }) => {
 
   return (
     <UserPanelElement className={className}>
-      <div className="user-panel">
-        {/* Game Type List for Desktop */}
+      <>
         {isDesktop && Object.keys(gameTypes).length > 0 && (
-          <div className="w-auto">
-            <div className="flex type-list">
+          <div className="user-panel">
+            {/* Game Type List for Desktop */}
+            <div className="w-auto">
+              <div className="flex type-list">
+                {Object.entries(gameTypes).map(
+                  ([key, { label, icon }], index) => (
+                    <div
+                      key={index}
+                      className={`inline-block m-1 rounded-lg border ${
+                        tcgGameType === key
+                          ? "border-blue-500"
+                          : "border-gray-300"
+                      }`}
+                    >
+                      <button
+                        className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
+                          tcgGameType === key ? "active" : ""
+                        }`}
+                        onClick={() => handleGameTypeChange(key)}
+                      >
+                        <Image
+                          src={`/images/tcg/${icon}.png`}
+                          alt={label}
+                          width={128}
+                          height={128}
+                          className="inline-block type-item--image"
+                        />
+                        <span className="whitespace-nowrap">{label}</span>
+                      </button>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* User Info */}
+            <div className="user-info">
+              <div className="user-name truncate">
+                {state.user.id === "guest" ? "guest" : state.user.nick_name}
+              </div>
+              <div className="user-money">
+                余额: {getPremiumDiamond(t, state.user.money, false)}
+                <Image
+                  src="/images/icons/refresh.png"
+                  alt="refresh"
+                  width={24}
+                  height={24}
+                  className={`inline-block cursor-pointer refresh-icon ${
+                    state.user.id === "guest" || isLoadingTransferOutAll
+                      ? "hidden"
+                      : ""
+                  }`}
+                  onClick={handleTransferOutAll}
+                />
+              </div>
+            </div>
+
+            {/* Feature List */}
+            <div className="feature-list">
+              {defaultFeatures.map((item, index) => (
+                <div
+                  key={index}
+                  className={`feature-item ${
+                    activeFeatureIndex === index ? "active" : ""
+                  }`}
+                  onClick={() => handleFeatureClick(item, index)}
+                >
+                  <Image
+                    src={`/images/tcg/${item.icon}.png`}
+                    alt={item.title}
+                    width={128}
+                    height={128}
+                    className="feature-item--image"
+                  />
+                  <div className="title">{item.title}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {!isDesktop && Object.keys(gameTypes).length > 0 && (
+          <div className="mobile-panel">
+            <div className="game-list">
               {Object.entries(gameTypes).map(
                 ([key, { label, icon }], index) => (
                   <div
-                    key={index}
-                    className={`inline-block m-1 rounded-lg border ${
-                      tcgGameType === key
-                        ? "border-blue-500"
-                        : "border-gray-300"
-                    }`}
+                    key={key}
+                    className={`game-item ${
+                      index === 0 ? "game-item--large" : "game-item--small"
+                    } ${tcgGameType === key ? "active" : ""}`}
                   >
                     <button
-                      className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
-                        tcgGameType === key ? "active" : ""
-                      }`}
+                      className={` ${tcgGameType === key ? "active" : ""}`}
                       onClick={() => handleGameTypeChange(key)}
                     >
                       <Image
@@ -132,56 +208,26 @@ const UserPanel = ({ className = "" }) => {
                       <span className="whitespace-nowrap">{label}</span>
                     </button>
                   </div>
-                ),
+                )
               )}
+            </div>
+            <div className="notification-bar">
+              <div className="icon">
+                <Image
+                  src={`/images/tcg/type-mobile-speaker.png`}
+                  alt="speaker"
+                  width={128}
+                  height={128}
+                  className="speacker-icon"
+                />
+              </div>
+              <div className="message">
+                去年十月份的事情了。这个少妇是我在陌陌上加的。
+              </div>
             </div>
           </div>
         )}
-
-        {/* User Info */}
-        <div className="user-info">
-          <div className="user-name truncate">
-            {state.user.id === "guest" ? "guest" : state.user.nick_name}
-          </div>
-          <div className="user-money">
-            余额: {getPremiumDiamond(t, state.user.money, false)}
-            <Image
-              src="/images/icons/refresh.png"
-              alt="refresh"
-              width={24}
-              height={24}
-              className={`inline-block cursor-pointer refresh-icon ${
-                state.user.id === "guest" || isLoadingTransferOutAll
-                  ? "hidden"
-                  : ""
-              }`}
-              onClick={handleTransferOutAll}
-            />
-          </div>
-        </div>
-
-        {/* Feature List */}
-        <div className="feature-list">
-          {defaultFeatures.map((item, index) => (
-            <div
-              key={index}
-              className={`feature-item ${
-                activeFeatureIndex === index ? "active" : ""
-              }`}
-              onClick={() => handleFeatureClick(item, index)}
-            >
-              <Image
-                src={`/images/tcg/${item.icon}.png`}
-                alt={item.title}
-                width={128}
-                height={128}
-                className="feature-item--image"
-              />
-              <div className="title">{item.title}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      </>
     </UserPanelElement>
   );
 };
@@ -264,7 +310,7 @@ const UserPanelElement = styled.div`
     margin-top: 20px;
   }
 
-  @media (min-width: 1025px) {
+  @media (min-width: 1024px) {
     .user-panel {
       justify-content: space-between !important;
       background: linear-gradient(to right, #ffffff, #d18fd7, #873fdb);
@@ -337,7 +383,7 @@ const UserPanelElement = styled.div`
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1023px) {
     .user-panel {
       padding: 2vw 1vw 1.6vw !important;
       background: linear-gradient(to bottom right, #ee51ab, #873fdb);
@@ -416,6 +462,95 @@ const UserPanelElement = styled.div`
           height: 11.47vw;
           width: auto;
         }
+      }
+    }
+  }
+
+  .mobile-panel {
+    padding: 3.33vw 2.67vw 1vw;
+    background-color: #fff;
+
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 1.73vw;
+      grid-row-gap: 1.73vw;
+      height: 17.6vw;
+
+      .game-item {
+        position: relative;
+        border-radius: 1.6vw;
+        overflow: hidden;
+        text-align: center;
+
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          height: 100%;
+          padding: 0 0.8vw 0 2.13vw;
+        }
+
+        .type-item--image {
+          width: auto;
+          height: 5.33vw;
+          // margin-right: 2.93vw;
+          object-fit: contain;
+        }
+
+        span {
+          font-size: 3.2vw;
+          font-weight: 600;
+          color: #fff;
+          width: 100%;
+          text-align: center;
+        }
+      }
+
+      .game-item--large {
+        grid-column: span 1;
+        grid-row: span 2;
+        // aspect-ratio: 1 / 1;
+        background: url("/images/tcg/type-mobile-small.png") no-repeat
+          center/cover;
+      }
+
+      .game-item--small {
+        grid-column: span 1;
+        // aspect-ratio: 2 / 1;
+        background: url("/images/tcg/type-mobile-large.png") no-repeat
+          center/cover;
+      }
+    }
+
+    .notification-bar {
+      border-radius: 1.33vw;
+      background-color: rgb(255, 237, 246);
+      height: 5.2vw;
+      display: flex;
+      margin-top: 2.8vw;
+
+      .icon {
+        background-color: rgb(251, 111, 159);
+        padding: 1.2vw;
+        border-radius: 1.33vw 0 0 1.33vw;
+        margin-right: 2.4vw;
+
+        .speacker-icon {
+          width: 3.6vw;
+          height: 3.2vw;
+          object-fit: contain;
+        }
+      }
+
+      .message {
+        font-size: 2.4vw;
+        font-family: "Microsoft YaHei";
+        color: rgb(51, 51, 51);
+        display: flex;
+        align-items: center;
       }
     }
   }

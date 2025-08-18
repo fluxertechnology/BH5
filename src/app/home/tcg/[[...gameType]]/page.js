@@ -1208,7 +1208,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
 
   
     .user-feature-header {
-      padding: 0 2.67vw;
+      padding: 0 2.67vw 8vw;
       margin : 4vw 0 0vw;
       gap: 5.5vw;
 

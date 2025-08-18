@@ -513,15 +513,15 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
 
   return (
     <>
-    <TopsearchBarElement
-      main_height={state.navbar.mainHeight}
-      is_login={isLogin}
-      ref={ContainerRef}
-      scroll={scroll}
-    >
-      <div className="search_bar">
-        <div className="search_bar_item">
-          {/* <Image
+      <TopsearchBarElement
+        main_height={state.navbar.mainHeight}
+        is_login={isLogin}
+        ref={ContainerRef}
+        scroll={scroll}
+      >
+        <div className="search_bar">
+          <div className="search_bar_item">
+            {/* <Image
               src={
                 scroll
                   ? "/images/header/topbar/logo.png"
@@ -533,163 +533,166 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               className="logo cursor"
               onClick={() => clickItem(navList[0])}
             /> */}
-          <div
-            className="cursor-pointer logo"
-            onClick={() => clickItem(navList[0])}
-          >
-            {shouldShowLogo && <h1 className="logo">{t("Home.name")}</h1>}
-          </div>
+            <div
+              className="cursor-pointer logo"
+              onClick={() => clickItem(navList[0])}
+            >
+              {shouldShowLogo && <h1 className="logo">{t("Home.name")}</h1>}
+            </div>
 
-          {navList.map((navItem) =>
-            navItem.component ? (
-              <div className="search_bar_nav cursor" key={navItem.name}>
-                {navItem.component === "qrcode" && <QrCode scroll={scroll} />}
-                {navItem.component === "history" && (
-                  <div className="search_bar_history">
-                    <div className="search_bar_nav_item_btn">
-                      <div className="search_bar_nav_item_btn_title_text">
-                        {t("Navbar.bar_history")}
-                      </div>
-                    </div>
-                    <div className="search_bar_history_cover">
-                      <TabContext value={tabValue}>
-                        <Box className="search_bar_history_tab_container">
-                          <TabList
-                            onChange={handleChange}
-                            aria-label="lab API tabs example"
-                          >
-                            <Tab label="H漫" value={1} />
-                            <Tab label="番剧" value={0} />
-                          </TabList>
-                        </Box>
-                        <TabPanel value={1}>
-                          <ProfileWatchHistoryComicHandle
-                            disabledScrollRefresh
-                          />
-                        </TabPanel>
-                        <TabPanel value={0}>
-                          <ProfileWatchHistoryAnimeHandle
-                            disabledScrollRefresh
-                          />
-                        </TabPanel>
-                      </TabContext>
-                    </div>
-                  </div>
-                )}
-                {navItem.component === "recharge" ? (
-                  <div className="search_bar_recharge">
-                    {/* Button */}
-                    <div className="search_bar_nav_item_btn">
-                      <div
-                        className="search_bar_nav_item_btn_title_text"
-                        onClick={toPaymentPage}
-                      >
-                        {t("Navbar.bar_topup")}
-                      </div>
-                    </div>
-
-                    {/* Hover Element */}
-                    <div className="search_bar_recharge_float">
-                      <div>{t("Navbar.bar_recharge_description")}</div>
-                      <div className="search_bar_recharge_float_description">
-                        <span>
-                          <Image
-                            src="/images/header/topbar/free-nor.svg"
-                            width={0}
-                            height={0}
-                            alt="free"
-                          />
-                          {t("Navbar.bar_recharge_description_1")}
-                        </span>
-                        <span>
-                          <Image
-                            src="/images/header/topbar/fast-nor.svg"
-                            width={0}
-                            height={0}
-                            alt="fast"
-                          />
-                          {t("Navbar.bar_recharge_description_2")}
-                        </span>
-                      </div>
-                      <div
-                        className="search_bar_recharge_button"
-                        onClick={toPaymentPage}
-                      >
-                        <WavaButton>
-                          {t(
-                            isLogin
-                              ? "Navbar.bar_recharge_button_notlogin"
-                              : "Navbar.bar_recharge_button"
-                          )}
-                        </WavaButton>
-                      </div>
-                      <div
-                        className="search_bar_recharge_button_light"
-                        onClick={clickVip}
-                      >
-                        <WavaButton>
-                          {t("Navbar.bar_recharge_button_1")}
-                        </WavaButton>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div>{/*<navItem.component scroll={scroll} />*/}</div>
-                )}
-              </div>
-            ) : (
-              <div className="search_bar_nav cursor" key={navItem.name}>
-                <div
-                  className="search_bar_nav_item"
-                  onClick={() => clickItem(navItem)}
-                >
-                  <WavaButton
-                    className={
-                      "search_bar_nav_item_btn" +
-                      (location === navItem.path ||
-                      (navItem?.child &&
-                        navItem.child.some((child) => location === child.path))
-                        ? " active"
-                        : "")
-                    }
-                  >
-                    <div className="search_bar_nav_item_cover" />
-                    <div className="search_bar_nav_item_btn_title_text">
-                      {t(navItem.intlKey)}
-                    </div>
-                  </WavaButton>
-
-                  {navItem?.child && (
-                    <div className="search_bar_nav_item_dropdown_menu">
-                      {navItem.child.map((childItem, index) => (
-                        <div
-                          key={index}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            clickItem(childItem);
-                          }}
-                        >
-                          <WavaButton className="search_bar_nav_item_dropdown_item">
-                            <span
-                              className={`search_bar_nav_item_dropdown_item_dot${
-                                decodeURIComponent(location).includes(t(childItem.intlKey))
-
-                                  ? " active"
-                                  : ""
-                              }`}
-                            />
-
-                            <span>{t(childItem.intlKey)}</span>
-                          </WavaButton>
+            {navList.map((navItem) =>
+              navItem.component ? (
+                <div className="search_bar_nav cursor" key={navItem.name}>
+                  {navItem.component === "qrcode" && <QrCode scroll={scroll} />}
+                  {navItem.component === "history" && (
+                    <div className="search_bar_history">
+                      <div className="search_bar_nav_item_btn">
+                        <div className="search_bar_nav_item_btn_title_text">
+                          {t("Navbar.bar_history")}
                         </div>
-                      ))}
+                      </div>
+                      <div className="search_bar_history_cover">
+                        <TabContext value={tabValue}>
+                          <Box className="search_bar_history_tab_container">
+                            <TabList
+                              onChange={handleChange}
+                              aria-label="lab API tabs example"
+                            >
+                              <Tab label="H漫" value={1} />
+                              <Tab label="番剧" value={0} />
+                            </TabList>
+                          </Box>
+                          <TabPanel value={1}>
+                            <ProfileWatchHistoryComicHandle
+                              disabledScrollRefresh
+                            />
+                          </TabPanel>
+                          <TabPanel value={0}>
+                            <ProfileWatchHistoryAnimeHandle
+                              disabledScrollRefresh
+                            />
+                          </TabPanel>
+                        </TabContext>
+                      </div>
                     </div>
                   )}
+                  {navItem.component === "recharge" ? (
+                    <div className="search_bar_recharge">
+                      {/* Button */}
+                      <div className="search_bar_nav_item_btn">
+                        <div
+                          className="search_bar_nav_item_btn_title_text"
+                          onClick={toPaymentPage}
+                        >
+                          {t("Navbar.bar_topup")}
+                        </div>
+                      </div>
+
+                      {/* Hover Element */}
+                      <div className="search_bar_recharge_float">
+                        <div>{t("Navbar.bar_recharge_description")}</div>
+                        <div className="search_bar_recharge_float_description">
+                          <span>
+                            <Image
+                              src="/images/header/topbar/free-nor.svg"
+                              width={0}
+                              height={0}
+                              alt="free"
+                            />
+                            {t("Navbar.bar_recharge_description_1")}
+                          </span>
+                          <span>
+                            <Image
+                              src="/images/header/topbar/fast-nor.svg"
+                              width={0}
+                              height={0}
+                              alt="fast"
+                            />
+                            {t("Navbar.bar_recharge_description_2")}
+                          </span>
+                        </div>
+                        <div
+                          className="search_bar_recharge_button"
+                          onClick={toPaymentPage}
+                        >
+                          <WavaButton>
+                            {t(
+                              isLogin
+                                ? "Navbar.bar_recharge_button_notlogin"
+                                : "Navbar.bar_recharge_button"
+                            )}
+                          </WavaButton>
+                        </div>
+                        <div
+                          className="search_bar_recharge_button_light"
+                          onClick={clickVip}
+                        >
+                          <WavaButton>
+                            {t("Navbar.bar_recharge_button_1")}
+                          </WavaButton>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>{/*<navItem.component scroll={scroll} />*/}</div>
+                  )}
                 </div>
-              </div>
-            )
-          )}
-          {/* <div className="search_bar_recharge">
+              ) : (
+                <div className="search_bar_nav cursor" key={navItem.name}>
+                  <div
+                    className="search_bar_nav_item"
+                    onClick={() => clickItem(navItem)}
+                  >
+                    <WavaButton
+                      className={
+                        "search_bar_nav_item_btn" +
+                        (location === navItem.path ||
+                        (navItem?.child &&
+                          navItem.child.some(
+                            (child) => location === child.path
+                          ))
+                          ? " active"
+                          : "")
+                      }
+                    >
+                      <div className="search_bar_nav_item_cover" />
+                      <div className="search_bar_nav_item_btn_title_text">
+                        {t(navItem.intlKey)}
+                      </div>
+                    </WavaButton>
+
+                    {navItem?.child && (
+                      <div className="search_bar_nav_item_dropdown_menu">
+                        {navItem.child.map((childItem, index) => (
+                          <div
+                            key={index}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              clickItem(childItem);
+                            }}
+                          >
+                            <WavaButton className="search_bar_nav_item_dropdown_item">
+                              <span
+                                className={`search_bar_nav_item_dropdown_item_dot${
+                                  decodeURIComponent(location).includes(
+                                    t(childItem.intlKey)
+                                  )
+                                    ? " active"
+                                    : ""
+                                }`}
+                              />
+
+                              <span>{t(childItem.intlKey)}</span>
+                            </WavaButton>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            )}
+            {/* <div className="search_bar_recharge">
             <div className="search_bar_nav_item_btn">
               <div className="search_bar_nav_item_btn_title_text" onClick={toPaymentPage}>
                 充值
@@ -740,120 +743,120 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             </div>
           </div>
           <QrCode scroll={scroll} /> */}
-        </div>
+          </div>
 
-        <div className="search_bar_item">
-          <div className="search_bar_item" />
-          <div className="search_bar_main cursor">
-            {/* <Searchbar
+          <div className="search_bar_item">
+            <div className="search_bar_item" />
+            <div className="search_bar_main cursor">
+              {/* <Searchbar
               callback={clickSearch}
               isPlaceholder={isPlaceholder}
               scroll={scroll}
             /> */}
-            <img
-              src="/images/header/topbar/search_1.png"
-              className="w-[26px] h-[26px]"
-              alt="search"
-              onClick={clickSearch}
-            />
-          </div>
-          <div className="search_bar_avatar_container">
-            <div className="search_bar_avatar" onClick={clickAvatar}>
-              {/* <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}> */}
-              {isLogin ? (
-                <ImageComponent
-                  is_cover={true}
-                  src={state.user.avatar}
-                  height="20"
-                  width="20"
-                  border_radius="0"
-                  background_color="transparent"
-                  placeholderImg="/images/imgPlaceholder/avatar_1.png"
-                />
-              ) : (
-                <div className="search_bar_avatar_login bg-[#000]">
-                  {t("Login.login")}
-                </div>
-              )}
+              <img
+                src="/images/header/topbar/search_1.png"
+                className="w-[26px] h-[26px]"
+                alt="search"
+                onClick={clickSearch}
+              />
             </div>
-            <div className="search_bar_avatar_cover">
-              {!isLogin ? (
-                <>
-                  <div className="search_bar_avatar_cover_user_info vertical">
-                    <div>{t("Login.have_good_experiences")}</div>
+            <div className="search_bar_avatar_container">
+              <div className="search_bar_avatar" onClick={clickAvatar}>
+                {/* <div className="search_bar_avatar" onClick={() => useGlobalDispatch(openPopup("register"))}> */}
+                {isLogin ? (
+                  <ImageComponent
+                    is_cover={true}
+                    src={state.user.avatar}
+                    height="20"
+                    width="20"
+                    border_radius="0"
+                    background_color="transparent"
+                    placeholderImg="/images/imgPlaceholder/avatar_1.png"
+                  />
+                ) : (
+                  <div className="search_bar_avatar_login bg-[#000]">
+                    {t("Login.login")}
                   </div>
-                  <div onClick={clickAvatar}>
-                    <WavaButton className="search_bar_avatar_button_login">
-                      {t("Login.login_now")}
-                    </WavaButton>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="search_bar_avatar_cover_user_info">
-                    <div className="search_bar_avatar_cover_user_info_avatar">
-                      <ImageComponent
-                        is_cover={true}
-                        src={state.user.avatar}
-                        background_color="transparent"
-                        border_radius="50%"
-                        placeholderImg="/images/imgPlaceholder/avatar.png"
-                      />
+                )}
+              </div>
+              <div className="search_bar_avatar_cover">
+                {!isLogin ? (
+                  <>
+                    <div className="search_bar_avatar_cover_user_info vertical">
+                      <div>{t("Login.have_good_experiences")}</div>
                     </div>
-                    <div className="search_bar_avatar_cover_user_info_item">
-                      <div className="search_bar_avatar_cover_user_info_item_name">
-                        {state.user.nick_name}
+                    <div onClick={clickAvatar}>
+                      <WavaButton className="search_bar_avatar_button_login">
+                        {t("Login.login_now")}
+                      </WavaButton>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="search_bar_avatar_cover_user_info">
+                      <div className="search_bar_avatar_cover_user_info_avatar">
+                        <ImageComponent
+                          is_cover={true}
+                          src={state.user.avatar}
+                          background_color="transparent"
+                          border_radius="50%"
+                          placeholderImg="/images/imgPlaceholder/avatar.png"
+                        />
                       </div>
-                      <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
-                        {state.user.time === "-1" ||
-                        Date.now() < state.user.time * 1000 ? (
-                          <Image
-                            className="search_bar_avatar_cover_user_info_crown"
-                            src="/images/icons/crown.png"
-                            width={0}
-                            height={0}
-                            alt="crown"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {membershipDate}
+                      <div className="search_bar_avatar_cover_user_info_item">
+                        <div className="search_bar_avatar_cover_user_info_item_name">
+                          {state.user.nick_name}
+                        </div>
+                        <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
+                          {state.user.time === "-1" ||
+                          Date.now() < state.user.time * 1000 ? (
+                            <Image
+                              className="search_bar_avatar_cover_user_info_crown"
+                              src="/images/icons/crown.png"
+                              width={0}
+                              height={0}
+                              alt="crown"
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {membershipDate}
+                        </div>
+                      </div>
+                      <div
+                        className="search_bar_avatar_cover_user_info_setting cursor"
+                        onClick={clickSetting}
+                      >
+                        {t("Personal.setting")}
+                        &gt;
                       </div>
                     </div>
-                    <div
-                      className="search_bar_avatar_cover_user_info_setting cursor"
-                      onClick={clickSetting}
-                    >
-                      {t("Personal.setting")}
-                      &gt;
+                    <div onClick={clickCollect}>
+                      <WavaButton className="search_bar_avatar_button_t ">
+                        {t("Search.collect.recent")}
+                      </WavaButton>
                     </div>
-                  </div>
-                  <div onClick={clickCollect}>
-                    <WavaButton className="search_bar_avatar_button_t ">
-                      {t("Search.collect.recent")}
-                    </WavaButton>
-                  </div>
-                  <div onClick={clearUserData}>
-                    <WavaButton className="search_bar_avatar_button_b">
-                      {t("Login.logout")}
-                    </WavaButton>
-                  </div>
-                </>
-              )}
-              {/* </div> */}
-            </div>
-          </div>
-          {!isLogin && (
-            <div
-              className="search_bar_avatar"
-              onClick={() => useGlobalDispatch(openPopup("register"))}
-            >
-              <div className="search_bar_avatar_login bg-[#e8e8e8] text-[#000]">
-                {t("Login.register")}
+                    <div onClick={clearUserData}>
+                      <WavaButton className="search_bar_avatar_button_b">
+                        {t("Login.logout")}
+                      </WavaButton>
+                    </div>
+                  </>
+                )}
+                {/* </div> */}
               </div>
             </div>
-          )}
-          {/* <div className="search_bar_news" onClick={clickNew}>
+            {!isLogin && (
+              <div
+                className="search_bar_avatar"
+                onClick={() => useGlobalDispatch(openPopup("register"))}
+              >
+                <div className="search_bar_avatar_login bg-[#e8e8e8] text-[#000]">
+                  {t("Login.register")}
+                </div>
+              </div>
+            )}
+            {/* <div className="search_bar_news" onClick={clickNew}>
             <Image
               src={"/images/header/topbar/notification.png"}
               width={26}
@@ -868,7 +871,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
             )}
           </div> */}
 
-          {/* <div className="search_bar_task ">
+            {/* <div className="search_bar_task ">
             <Image
               src={"/images/header/topbar/checkin.png"}
               width={28}
@@ -914,7 +917,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               ))}
             </div>
           </div> */}
-          {/* <div className="search_bar_service" onClick={clickService}>
+            {/* <div className="search_bar_service" onClick={clickService}>
             <Image
               width={31}
               height={25}
@@ -923,44 +926,39 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
               className="search_bar_service_img"
             />
           </div> */}
-          <div className="search_bar_switch">
-            <Image
-              src={"/images/header/translation_1.png"}
-              width={35}
-              height={35}
-              alt="switch"
-              className="search_bar_switch_img"
-            />
-            <div className="search_bar_switch_cover">
-              <div className="search_bar_switch_cover_content">
-                {LanguageList.map((list) => (
-                  <WavaButton className="search_bar_nav_item_dropdown_item lang-adj">
-                    <span
-                      className={`search_bar_nav_item_dropdown_item_dot${
-                        location.indexOf(list.path) !== -1
-                          ? " active"
-                          : ""
-                      }`}
-                    />
+            <div className="search_bar_switch">
+              <Image
+                src={"/images/header/translation_1.png"}
+                width={35}
+                height={35}
+                alt="switch"
+                className="search_bar_switch_img"
+              />
+              <div className="search_bar_switch_cover">
+                <div className="search_bar_switch_cover_content">
+                  {LanguageList.map((list) => (
+                    <WavaButton className="search_bar_nav_item_dropdown_item lang-adj">
+                      <span
+                        className={`search_bar_nav_item_dropdown_item_dot${
+                          location.indexOf(list.path) !== -1 ? " active" : ""
+                        }`}
+                      />
 
-                    <div
-                      key={list.name}
-                      className="cursor"
-                      onClick={() => changeLanguage(list.lang)}
-                    >
-                      {list.name}
-                    </div>
-                  </WavaButton>
-                  
-                  
-                ))}
+                      <div
+                        key={list.name}
+                        className="cursor"
+                        onClick={() => changeLanguage(list.lang)}
+                      >
+                        {list.name}
+                      </div>
+                    </WavaButton>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </TopsearchBarElement>
-
+      </TopsearchBarElement>
     </>
   );
 };
@@ -975,6 +973,8 @@ const TopsearchBarElement = styled.div.withConfig({
     padding-left: 5vw;
     height: ${main_height}px;
     background-color: #fff;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.09);
+    position:relative;
 
     @media (max-width: 1024px) {
     padding-right: 1vw;
