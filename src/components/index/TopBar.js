@@ -22,13 +22,13 @@ import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 const LanguageList = [
-  { name: "日本", lang: "jp" },
-  { name: "韓國", lang: "kr" },
-  { name: "中東", lang: "ar" },
-  { name: "西班牙", lang: "es" },
+  // { name: "日本", lang: "jp" },
+  // { name: "韓國", lang: "kr" },
+  // { name: "中東", lang: "ar" },
+  // { name: "西班牙", lang: "es" },
   { name: "英文", lang: "en" },
   { name: "簡體", lang: "zh-CN" },
-  { name: "繁體", lang: "zh-TW" },
+  // { name: "繁體", lang: "zh-TW" },
 ];
 
 const TopBar = () => {
@@ -502,9 +502,11 @@ export const TopBarElement = styled.div.withConfig({
             ::after{
               content: "";
               position: absolute;
-              bottom: 2.5%;
+              // bottom: 2.5%;
+              bottom: 5.5%;
               right: 10%;
-              transform: translate(10%, 2.5%) rotate(90deg);
+              // transform: translate(10%, 2.5%) rotate(90deg);
+              transform: translate(10%, 5.5%) rotate(90deg);
               width: 0px;
               height: 0px;
               border-left: 15px solid transparent;

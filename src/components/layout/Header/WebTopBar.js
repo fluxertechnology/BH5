@@ -176,13 +176,13 @@ const QrCodeElement = styled.div.withConfig({
 `;
 
 const LanguageList = [
-  { name: "日本", lang: "en" },
-  { name: "韓國", lang: "en" },
-  { name: "中東", lang: "en" },
-  { name: "西班牙", lang: "en" },
+  // { name: "日本", lang: "en" },
+  // { name: "韓國", lang: "en" },
+  // { name: "中東", lang: "en" },
+  // { name: "西班牙", lang: "en" },
   { name: "英文", lang: "en" },
   { name: "簡體", lang: "tc" },
-  { name: "繁體", lang: "tc" },
+  // { name: "繁體", lang: "tc" },
 ];
 
 const TopSearchBar = ({ isPlaceholder = true }) => {
@@ -1352,8 +1352,10 @@ const TopsearchBarElement = styled.div.withConfig({
           }
           .search_bar_switch_cover {
             right: 0;
-            top: 13%;
-            transform: translateY(13%);
+            top: 27%;
+            transform: translateY(27%);
+            // top: 13%;
+            // transform: translateY(13%);
             min-width: 86px;
             display: block;
             position: absolute;
