@@ -686,7 +686,7 @@ const HomeTcgMainPage = () => {
                                 : "text-black"
                             }`}
                           >
-                            {label}
+                            {category.name}
                           </span>
                         </button>
                       </div>
