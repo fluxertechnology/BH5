@@ -41,7 +41,9 @@ function fetchFilter(event) {
 
   const urlDomain = new URL(event.request.url).hostname;
 
-  return __FILTER_DOMAIN.includes(urlDomain);
+  const ignorePath = ['/tcg/category'];
+  
+  return __FILTER_DOMAIN.includes(urlDomain) && !ignorePath.some((path) => event.request.url.includes(path));
 }
 
 async function handleImageRequest(event) {
@@ -99,7 +101,6 @@ async function get_url_content(url) {
     }
   } catch (error) {
     console.error("发生错误：", error);
-    return url;
     // throw new Error("发生错误：" + error.message);
   }
 }
