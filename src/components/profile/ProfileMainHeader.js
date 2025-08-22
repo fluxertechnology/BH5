@@ -17,6 +17,7 @@ import Image from "next/image";
 import store, { useGlobalContext, useGlobalDispatch } from "@/store";
 import { openPopup } from "@/store/actions/user";
 import { backRoutes, pushRoutes } from "@/store/actions/historyActions";
+import Divider from "@mui/material/Divider";
 
 const { profile, login } = pageUrlConstants;
 
@@ -40,7 +41,7 @@ const ProfileMainHeader = ({
   const [badge, setBadge] = useState("");
   const [membershipDate, setMembershipDate] = useState("");
   const [expirationTip, setExpirationTip] = useState(false);
-  const [expiringSoon,setExpiringSoon] = useState(false);
+  const [expiringSoon, setExpiringSoon] = useState(false);
   const [isVIP, setIsVIP] = useState(false);
 
   const currentDate = new Date();
@@ -56,18 +57,18 @@ const ProfileMainHeader = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // Check Vip is expiring soon
-    if ( time && time > 0){
+    if (time && time > 0) {
       const now = Date.now();
-      const differenceInMilliseconds = (time* 1000) - now; 
-      const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24); 
-  
+      const differenceInMilliseconds = (time * 1000) - now;
+      const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+
       if (rank !== '普通会员' && differenceInDays > 0 && differenceInDays <= 3) {
         setExpiringSoon(true);
       }
     }
 
     setIsVIP(rank !== "普通会员" || Date.now() < time * 1000);
-    
+
 
   }, [time]);
 
@@ -178,217 +179,223 @@ const ProfileMainHeader = ({
   const continueReadSource = (e) => {
     e.stopPropagation();
     const matchedPaths = state.breadcrumbs
-    .slice()
-    .reverse()
-    .filter(item => item.path.startsWith('/home') && item.path !== '/home/main');
+      .slice()
+      .reverse()
+      .filter(item => item.path.startsWith('/home') && item.path !== '/home/main');
     useGlobalDispatch(pushRoutes(matchedPaths[0]));
   }
   return (
     <ProfileMainHeaderElement isMobile={isMobile}>
-      <LinkComponent
-        className="profile_gear "
-        routes={profile.pages.profileSet.pages.profileSetInfo}
-      >
-        <Image
-          className="profile_gear_img "
-          src="/images/profile/gear.png"
-          width={0}
-          height={0}
-          alt="gear iicon"
-        />
-      </LinkComponent>
-      <div
-        className="profile_header_info cursor-pointer"
-        onClick={clickProfile}
-      >
-        <div className="profile_header_info_avatar ml-3 mt-5">
-          <ImageComponent
-            is_cover={true}
-            src={avatar}
-            placeholderImg={avatar}
-            alt={nick_name}
-            title={nick_name}
-            border_radius={"50%"}
-            background_color="transparent"
-          />
+      <div className="profile-cont">
+
+        <LinkComponent
+          className="profile_gear "
+          routes={profile.pages.profileSet.pages.profileSetInfo}
+        >
           <Image
-            className="profile_header_info_avatar_sex"
-            src={
-              sex === 1
-                ? "/images/icons/female_alt.svg"
-                : "/images/icons/male_alt.svg"
-            }
+            className="profile_gear_img "
+            src="/images/profile/gear.png"
             width={0}
             height={0}
-            alt="sex"
+            alt="gear iicon"
           />
-        </div>
-        <div className="profile_header_info_detill mt-5">
-          <div className="profile_header_info_detill_title">
-            {id === "guest"
-              ? t("Profile.main.click_login")
-              : nick_name || username}
-          </div>
-          {rank ? (
-            <div
-              className="profile_header_info_detill_title_badge my-2 fw-m"
-              style={{
-                backgroundImage: "url(" + badge + ")",
-              }}
-            >
-              {/* {rank.replace(
+        </LinkComponent>
+        <div
+          className="profile_header_info cursor-pointer"
+          onClick={clickProfile}
+        >
+          <div className="g-flex">
+            <div className="profile_header_info_avatar ml-3 mt-5">
+              <ImageComponent
+                is_cover={true}
+                src={avatar}
+                placeholderImg={avatar}
+                alt={nick_name}
+                title={nick_name}
+                border_radius={"50%"}
+                background_color="transparent"
+              />
+              <Image
+                className="profile_header_info_avatar_sex"
+                src={
+                  sex === 1
+                    ? "/images/icons/female_alt.svg"
+                    : "/images/icons/male_alt.svg"
+                }
+                width={0}
+                height={0}
+                alt="sex"
+              />
+            </div>
+            <div className="profile_header_info_detill ml-3 mt-5">
+              <div className="profile_header_info_detill_title">
+                {id === "guest"
+                  ? t("Profile.main.click_login")
+                  : nick_name || username}
+              </div>
+              {rank ? (
+                <div
+                  className="profile_header_info_detill_title_badge my-2 fw-m"
+                  style={{
+                    backgroundImage: "url(" + badge + ")",
+                  }}
+                >
+                  {/* {rank.replace(
                 intl.formatMessage({ id: "PROFILE.MAIN.LABEL.MEMBER" }),
                 ""
               )} */}
-              {rank.replace("会员", "")}
-            </div>
-          ) : (
-            ""
-          )}
-          {id !== "guest" ? (
-            <div className="profile_header_info_detill_time flex-col !items-start">
-              {isVIP ? (
-                <>
-                  <div className="flex">
-                    <Image
-                      className="profile_header_info_detill_time_crown"
-                      src="/images/icons/crown.png"
-                      width={0}
-                      height={0}
-                      alt="crown"
-                    />
-                  <span className="profile_header_info_detill_time_text fw-m">
-                    {formatDate(time)}
-                  </span>
+                  {rank.replace("会员", "")}
                 </div>
-                <div className="flex gap-2 mt-2">
-                  <button className="p-2 text-sm border border-[#FA719A]" onClick={openVipCommonPage}>查看VIP权益</button>
-                {
-                  getReadSource() ? (
-                    <button className="p-2 text-sm border border-[#FA719A]" onClick={continueReadSource}>繼續閱讀漫畫</button>
-                  ) :
-                  <></>
-                }
-                </div>
-                </>
               ) : (
-                <span className="profile_header_info_detill_time_text fw-m">
-                  {membershipDate} {expiringSoon&&`(${t("Profile.main.label.member_expiring_soon")})`}
-                </span>
+                ""
+              )}
+              {id !== "guest" ? (
+                <div className="profile_header_info_detill_time flex-col !items-start">
+                  {isVIP ? (
+                    <>
+                      <div className="flex">
+                        <Image
+                          className="profile_header_info_detill_time_crown"
+                          src="/images/icons/crown.png"
+                          width={0}
+                          height={0}
+                          alt="crown"
+                        />
+                        <span className="profile_header_info_detill_time_text fw-m">
+                          {formatDate(time)}
+                        </span>
+                      </div>
+                      <div className="flex gap-2 mt-2">
+                        <button className="p-2 text-sm border border-[#FA719A]" onClick={openVipCommonPage}>查看VIP权益</button>
+                        {
+                          getReadSource() ? (
+                            <button className="p-2 text-sm border border-[#FA719A]" onClick={continueReadSource}>繼續閱讀漫畫</button>
+                          ) :
+                            <></>
+                        }
+                      </div>
+                    </>
+                  ) : (
+                    <span className="profile_header_info_detill_time_text fw-m">
+                      {membershipDate} {expiringSoon && `(${t("Profile.main.label.member_expiring_soon")})`}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                ""
               )}
             </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="profile_header_info_arrow mt-5 mr-2">
-          <FontAwesomeIcon icon={faAngleRight} />
-        </div>
-      </div>
-      <div className="profile_header_daily">
-        <div className="profile_header_daily_view">
-          <p className="profile_header_daily_view_amount fw-m">
-            {id !== "guest" ? (
-              time === "-1" || Date.now() < time * 1000 ? (
-                t("Profile.main.label.infinite")
-              ) : (
-                day_usedviewcount + "/" + day_maxviewcount
-              )
-            ) : (
-              <>
-                <span>-</span>
-                <span>-</span>
-                <span>-</span>
-              </>
-            )}
-          </p>
-          <p className="profile_header_daily_view_text">
-            {t("Profile.main.watch.mount.today")}
-          </p>
-        </div>
-        <div className="profile_header_daily_share">
-          <p className="profile_header_daily_share_amount fw-m">
-            {id !== "guest" ? (
-              day_share
-            ) : (
-              <>
-                <span>-</span>
-                <span>-</span>
-                <span>-</span>
-              </>
-            )}
-          </p>
-          <p className="profile_header_daily_share_text ">
-            {t("Profile.main.heap.share.account")}
-          </p>
-        </div>
-        <LinkComponent
-          className="profile_header_daily_vendor"
-          routes={pageUrlConstants.vendor}
-        >
-          <Image
-            width={58}
-            height={75}
-            className="profile_header_daily_vendor_icon"
-            src="/images/profile/buy_bag.svg"
-            alt="buy bag"
-          />
-          <span className="profile_header_daily_vendor_text fw-m">
-            {t("Profile.main.label.go_mall")}
-            <FontAwesomeIcon
-              className="profile_header_daily_vendor_text_arrow"
-              icon={faAngleRight}
-            />
-          </span>
-        </LinkComponent>
-      </div>
-      <LinkComponent
-        className="profile_header_vip g-center"
-        routes={
-          pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
-        }
-      >
-        <Lottie
-          animationData={openVip}
-          loop={true}
-          className="profile_header_vip_img"
-          alt="open vip"
-        />
-      </LinkComponent>
-      {
-        expiringSoon && (
-          <PostsAddModalPage
-            initStatus={expirationTip}
-            title={t("Profile.main.label.member_benefit_tip")}
-            buttonProps={{
-              text: t("Profile.main.label.continue_buy"),
-              onButtonClick: () => redirectBuy(),
-              localStorageName: "member_expired_float_show",
-            }}
-          > {state.vipInfoData.length}
-            <div className="profile_main_cover">
-              <div className="profile_main_cover_tip">
-                {t("Profile.main.label.member_description")}
-              </div>
-              <div className="profile_main_cover_power">
-                <div className="profile_main_cover_power_subtitle">
-                  {t("Profile.direct_buy_vip.member_permissions")}
-                </div>
-                <div className="profile_main_cover_power_items">
-                  {memberPowerItem.map((item, index) => (
-                    <div className="profile_main_cover_power_item" key={`${item.text}-${index}`}>
-                      <Image src={item.icon} width={0} height={0} alt={item.text} />
-                      {item.text}
-                    </div>
-                  ))}
-                </div>
-                <div className="profile_main_cover_power_description">
-                  {t("Profile.main.label.member_description_1")}
-                </div>
-              </div>
+          </div>
+          <div className="profile_header_daily">
+            <div className="profile_header_daily_view">
+              <p className="profile_header_daily_view_amount fw-m">
+                {id !== "guest" ? (
+                  time === "-1" || Date.now() < time * 1000 ? (
+                    t("Profile.main.label.infinite")
+                  ) : (
+                    day_usedviewcount + "/" + day_maxviewcount
+                  )
+                ) : (
+                  <>
+                    <span>-</span>
+                    <span>-</span>
+                    <span>-</span>
+                  </>
+                )}
+              </p>
+              <p className="profile_header_daily_view_text">
+                {t("Profile.main.watch.mount.today")}
+              </p>
             </div>
-          </PostsAddModalPage>)
-      }
+            <div className="profile_header_daily_share">
+              <p className="profile_header_daily_share_amount fw-m">
+                {id !== "guest" ? (
+                  day_share
+                ) : (
+                  <>
+                    <span>-</span>
+                    <span>-</span>
+                    <span>-</span>
+                  </>
+                )}
+              </p>
+              <p className="profile_header_daily_share_text ">
+                {t("Profile.main.heap.share.account")}
+              </p>
+            </div>
+            <LinkComponent
+              className="profile_header_daily_vendor"
+              routes={pageUrlConstants.vendor}
+            >
+              <Image
+                width={28}
+                height={28}
+                className="profile_header_daily_vendor_icon"
+                src="/images/profile/buy_bag.png"
+                alt="buy bag"
+              />
+              <span className="profile_header_daily_vendor_text">
+                {t("Profile.main.label.go_mall")}
+                <FontAwesomeIcon
+                  className="profile_header_daily_vendor_text_arrow"
+                  icon={faAngleRight}
+                />
+              </span>
+            </LinkComponent>
+          </div>
+          <div className="profile_header_info_arrow mt-5 mr-2">
+            <FontAwesomeIcon icon={faAngleRight} />
+          </div>
+        </div>
+        <Divider className="profile_container_divider" />
+        <LinkComponent
+          className="profile_header_vip g-center"
+          routes={
+            pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
+          }
+        >
+          <Lottie
+            animationData={openVip}
+            loop={true}
+            className="profile_header_vip_img"
+            alt="open vip"
+          />
+        </LinkComponent>
+        {
+          expiringSoon && (
+            <PostsAddModalPage
+              initStatus={expirationTip}
+              title={t("Profile.main.label.member_benefit_tip")}
+              buttonProps={{
+                text: t("Profile.main.label.continue_buy"),
+                onButtonClick: () => redirectBuy(),
+                localStorageName: "member_expired_float_show",
+              }}
+            > {state.vipInfoData.length}
+              <div className="profile_main_cover">
+                <div className="profile_main_cover_tip">
+                  {t("Profile.main.label.member_description")}
+                </div>
+                <div className="profile_main_cover_power">
+                  <div className="profile_main_cover_power_subtitle">
+                    {t("Profile.direct_buy_vip.member_permissions")}
+                  </div>
+                  <div className="profile_main_cover_power_items">
+                    {memberPowerItem.map((item, index) => (
+                      <div className="profile_main_cover_power_item" key={`${item.text}-${index}`}>
+                        <Image src={item.icon} width={0} height={0} alt={item.text} />
+                        {item.text}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="profile_main_cover_power_description">
+                    {t("Profile.main.label.member_description_1")}
+                  </div>
+                </div>
+              </div>
+            </PostsAddModalPage>)
+        }
+      </div>
     </ProfileMainHeaderElement>
   );
 };
@@ -404,6 +411,12 @@ const ProfileMainHeaderElement = styled.div.withConfig({
   background-position: center;
   background-size: cover;
   background-image: url(/images/profile/banner_bg.jpg);
+
+  .profile-cont{
+    width: 62.5rem;
+    // width: 63%;
+    margin: 0 auto;
+  }
 
   .profile_gear {
     cursor: pointer;
@@ -437,9 +450,10 @@ const ProfileMainHeaderElement = styled.div.withConfig({
         padding: 0px ${padding}px 10px 0;
       }
       &_avatar {
+        // display: flex;
         flex-shrink: 0;
         position: relative;
-        margin-right: 30px;
+        // margin-right: 30px;
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -454,7 +468,8 @@ const ProfileMainHeaderElement = styled.div.withConfig({
       }
 
       &_detill {
-        flex-grow: 1;
+        width: 12.375rem;
+        // flex-grow: 1;
 
         &_title {
           &_badge {
@@ -489,12 +504,15 @@ const ProfileMainHeaderElement = styled.div.withConfig({
 
     &_daily {
       display: flex;
-      justify-content: space-around;
+      // justify-content: space-evenly;
+      gap: 5.8125rem;
       align-items: center;
       padding-bottom: 10px;
 
       &_view,
       &_share {
+        margin-top: 35px;
+        // padding: 6px 6px 6px 55px;
         &_amount {
           margin-top: 10px;
           margin-bottom: 10px;
@@ -510,30 +528,37 @@ const ProfileMainHeaderElement = styled.div.withConfig({
 
       &_vendor {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         margin-top: 35px;
         cursor: pointer;
-        padding: 6px 6px 6px 55px;
+        // padding: 6px 6px 6px 55px;
         text-decoration: none;
         color: #fff;
-        border: 1px solid #39b3fd;
-        border-radius: 5px;
+        // border: 1px solid #39b3fd;
+        // border-radius: 5px;
 
         @media (max-width: 599px) {
           margin-top: 20px;
         }
 
         &_icon {
-          margin: -50px 2px -42px -60px;
+          // margin: -50px 2px -42px -60px;
           max-width: 58px;
+          margin-top: 13px;
+          margin-bottom: 10px;
           @media (max-width: 599px) {
             max-width: 40px;
           }
         }
 
         &_text {
+          display: flex;
+          align-items: center;
           font-size: ${({ isMobile }) => (isMobile ? "18px" : "20px")};
 
           &_arrow {
+            margin-top: 5px;
             margin-left: 5px;
             vertical-align: bottom;
           }
@@ -556,7 +581,7 @@ const ProfileMainHeaderElement = styled.div.withConfig({
     &_vip {
       &_img {
         cursor: pointer;
-        width: ${({ isMobile }) => (isMobile ? "90%" : "30%")};
+        width: ${({ isMobile }) => (isMobile ? "90%" : "auto")};
         vertical-align: middle;
       }
     }
@@ -621,5 +646,11 @@ const ProfileMainHeaderElement = styled.div.withConfig({
         font-size: 16px;
       }
     }
+  }
+
+  .profile_container_divider{
+    margin: 3.125rem 1%;
+    border-width: 1px;
+    border-color: #303030;
   }
 `;

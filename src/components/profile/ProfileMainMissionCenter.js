@@ -8,6 +8,7 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { getProfileMissionPrice } from "@/lib/services/price";
+import Divider from "@mui/material/Divider";
 
 const ProfileMainMissionCenter = ({
   optionEvent,
@@ -30,7 +31,7 @@ const ProfileMainMissionCenter = ({
     }
     let daily = [
       {
-        icon: "/images/profile/icon_letter.svg",
+        icon: "/images/profile/icon_letter.png",
         title: t("Profile.permission.signin.everyday"),
         gold: getProfileMissionPrice(t, "signin_everyday", config),
         description: t("Profile.permission.signin.click.award"),
@@ -38,7 +39,7 @@ const ProfileMainMissionCenter = ({
         buttonEvent: dailyEvent,
       },
       {
-        icon: "/images/profile/icon_pencil.svg",
+        icon: "/images/profile/icon_pencil.png",
         title: t("Profile.permission.invite_friend"),
         gold: getProfileMissionPrice(t, "invite_friend", config),
         description: t("Profile.permission.invite_friend_signin"),
@@ -59,13 +60,13 @@ const ProfileMainMissionCenter = ({
         <div className="profile_container_header">
           <div className="profile_container_header_title">
             <span className="profile_container_header_title_text">
-              <Image
+              {/* <Image
                 className="profile_container_header_title_icon "
                 src="/images/profile/account_mission.svg"
                 width={0}
                 height={0}
                 alt="account mission icon"
-              />
+              /> */}
               {t("Profile.main.option.task.")}
             </span>
           </div>
@@ -84,53 +85,56 @@ const ProfileMainMissionCenter = ({
           </div>
         </div>
       </div>
+      <Divider className="profile_container_divider" />
       <section className="profile_mission_section board pb-3">
-        <div className="board_container">
+        <div className="board_container g-flex">
           {questInfoList.daily?.map((data) => {
             return (
-              <div className="board_container_item mb-1" key={data.title}>
-                <div className="board_container_item_header">
-                  <Image
-                    className="board_container_item_header_img"
-                    src={data.icon}
-                    width={0}
-                    height={0}
-                    alt={data.title}
-                  />
-                </div>
-                <div className="board_container_item_body">
-                  <div className="board_container_item_body_header">
-                    {data.title}
-                    <span
-                      className="title_item gold "
-                      style={{
-                        color:
-                          data.title === t("Profile.permission.signin.everyday")
-                            ? "#f4eb0b"
-                            : "purple",
-                      }}
-                    >
-                      <Image
-                        className="title_item gold_icon mr-2"
-                        src={
-                          data.title === t("Profile.permission.signin.everyday")
-                            ? "/images/profile/icon_diamond.png"
-                            : "/images/profile/icon_discount.svg"
-                        }
-                        width={0}
-                        height={0}
-                        alt={"discount"}
-                      />
-                      {data.gold}
-                    </span>
+              <div>                
+                <div className="board_container_item" key={data.title}>
+                  <div className="board_container_item_header">
+                    <Image
+                      className="board_container_item_header_img"
+                      src={data.icon}
+                      width={45}
+                      height={45}
+                      alt={data.title}
+                    />
                   </div>
-                  <div className="board_container_item_body_body pl-1">
-                    {data.description}
+                  <div className="board_container_item_body">
+                    <div className="board_container_item_body_header">
+                      {data.title}
+                      <span
+                        className="title_item gold "
+                        style={{
+                          color:
+                            data.title === t("Profile.permission.signin.everyday")
+                              ? "#f4eb0b"
+                              : "purple",
+                        }}
+                      >
+                        <Image
+                          className="title_item gold_icon mr-2"
+                          src={
+                            data.title === t("Profile.permission.signin.everyday")
+                              ? "/images/profile/icon_diamond.png"
+                              : "/images/profile/icon_discount.svg"
+                          }
+                          width={0}
+                          height={0}
+                          alt={"discount"}
+                        />
+                        {data.gold}
+                      </span>
+                    </div>
+                    <div className="board_container_item_body_body pl-1">
+                      {data.description}
+                    </div>
                   </div>
                 </div>
                 <div className="board_container_item_footer">
                   <div
-                    className="board_container_item_footer_button fw-m"
+                    className="board_container_item_footer_button"
                     onClick={data.buttonEvent}
                   >
                     {data.button}
@@ -153,22 +157,21 @@ const ProfileMainMissionElement = styled.div.withConfig({
 })`
   ${({ isBrowser }) => `
     /*  */
-    padding: 0% 1%;
+    padding: 0 28.9375rem;
     background-color: ${colors.back_grey};
 
     .profile_container {
-        padding: 20px 20px 15px 20px;
         background-color: #fff;
 
         &_header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: ${isBrowser && "20px"};
+        font-size: ${isBrowser && "0px"};
 
         &_title {
             &_text {
-            padding-top: 0px;
+            padding: 2.5rem 2.41rem 1.0625rem;
             font-weight: 1000;
             display: flex;
             align-items: center;
@@ -197,13 +200,14 @@ const ProfileMainMissionElement = styled.div.withConfig({
         }
     }
     .profile_mission_section {
-        padding: 0 20px;
+        padding: 1.5rem 2.4375rem 0;
         background-color: #fff;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
 
         &.board {
-        position: relative;
+          position: relative;
+          display: flex;
         }
 
         .board {
@@ -214,6 +218,9 @@ const ProfileMainMissionElement = styled.div.withConfig({
         }
 
         &_container {
+            justify-content: space-between;
+            width: 100%;
+
             .title_item {
             &.gold {
                 margin-left: 15px;
@@ -235,7 +242,8 @@ const ProfileMainMissionElement = styled.div.withConfig({
 
             &_item {
             display: flex;
-            padding: 10px 0;
+            padding: 10px 5.125rem;
+            background-color: #fdfbf6;
 
             &_header {
                 &_img {
@@ -273,6 +281,7 @@ const ProfileMainMissionElement = styled.div.withConfig({
                 justify-content: center;
                 align-items: center;
                 margin-left: auto;
+                background-color: #fdfbf6;
 
                 &_button {
                 text-align: center;
@@ -284,7 +293,7 @@ const ProfileMainMissionElement = styled.div.withConfig({
                 border: solid 1px ${colors.dark_pink};
                 border-radius: 100px;
                 @media (min-width: 599px) {
-                    padding: 10px 14px;
+                    padding: 8px 2.75rem;
                 }
                 }
             }
@@ -295,6 +304,10 @@ const ProfileMainMissionElement = styled.div.withConfig({
         &:first-of-type {
         margin-top: 0;
         }
+    }
+    .profile_container_divider{
+      margin: 0 0;
+      border-width: 1px;
     }
   `}
 `;

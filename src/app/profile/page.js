@@ -241,12 +241,12 @@ const ProfileMain = ({ children }) => {
   }, [isMobile])
 
   useEffect(() => {
-    if (!isMobile) {
-      let Element = document.getElementsByClassName("PCFooterElement");
-      if(Element.length){
-        Element[0].style.setProperty("display", "none");
-      }
-    }
+    // if (!isMobile) {
+    //   let Element = document.getElementsByClassName("PCFooterElement");
+    //   if(Element.length){
+    //     Element[0].style.setProperty("display", "none");
+    //   }
+    // }
     return () => {
       if (!isMobile) {
         let Element = document.getElementsByClassName("PCFooterElement");

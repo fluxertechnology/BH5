@@ -41,19 +41,20 @@ const ProfileMainNav = ({ sign, money }) => {
         <div className="profile_container_header !block">
           <h3 className="profile_container_header_title">
             <span className="profile_container_header_title_text ">
-              <Image
+              {/* <Image
                 className="profile_container_header_title_icon mb-2"
                 src="/images/profile/account_wallet.svg"
                 width={0}
                 height={0}
                 alt="account wallet icon"
-              />
+              /> */}
               {t("Profile.main.nav.my_account")}
             </span>
           </h3>
+          <Divider className="profile_container_divider" />
 
           {IS_CONVERT_TO_DIAMOND ? (
-            <div className="flex md:flex-row flex-col gap-4">
+            <div className="flex flex-col gap-4">
               <div className="w-full md:w-[608px] mx-auto">
                 <div className="w-full h-[30.667vw] md:h-[135px] rounded-t-[10px] bg-gradient-to-t from-[#f9ecd8] via-[#fdfbf5] to-[#fdfbf5] flex items-center justify-center gap-8 md:gap-4">
                   <Image
@@ -274,7 +275,7 @@ const ProfileMainNav = ({ sign, money }) => {
             {t("Profile.main.nav.charge")}
           </LinkComponent>
         </div>
-        <Divider className="profile_container_divider" />
+        {/* <Divider className="profile_container_divider" /> */}
       </div>
     </ProfileMainNavElement>
   );
@@ -287,7 +288,7 @@ export const ProfileMainNavElement = styled.div.withConfig({
 })`
   ${({ isBrowser }) => `
     /*  */
-    padding: 1% 1% 0 1%;
+    padding: 2.375rem 28.9375rem 0;
     background-color: ${colors.back_grey};
 
     .profile_container {
@@ -299,12 +300,13 @@ export const ProfileMainNavElement = styled.div.withConfig({
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
+        padding: 0px;
         font-size: ${isBrowser && "16px"};
 
         &_title {
             &_text {
-            font-size: ${isBrowser && "28px"};
+              padding: 2.5rem 2.41rem 1.0625rem;
+              font-size: ${isBrowser && "28px"};
             }
 
             &_icon {
@@ -339,7 +341,7 @@ export const ProfileMainNavElement = styled.div.withConfig({
         }
 
         &_divider {
-        margin: 0 1% 0 1%;
+        margin: 0 0 1.5rem;
         border-width: 1px;
         }
     }
