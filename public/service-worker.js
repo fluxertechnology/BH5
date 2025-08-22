@@ -25,7 +25,7 @@ self.addEventListener("activate", function (event) {
       return self.clients.matchAll().then((clients) => {
         clients.forEach((client) => client.postMessage("sw-updated"));
       });
-    })
+    }),
   );
 });
 
@@ -41,7 +41,9 @@ function fetchFilter(event) {
 
   const urlDomain = new URL(event.request.url).hostname;
 
-  return __FILTER_DOMAIN.includes(urlDomain);
+  const ignorePath = ['/tcg/category'];
+  
+  return __FILTER_DOMAIN.includes(urlDomain) && !ignorePath.some((path) => event.request.url.includes(path));
 }
 
 async function handleImageRequest(event) {
@@ -98,7 +100,8 @@ async function get_url_content(url) {
       throw new Error("网络请求失败");
     }
   } catch (error) {
-    throw new Error("发生错误：" + error.message);
+    console.error("发生错误：", error);
+    // throw new Error("发生错误：" + error.message);
   }
 }
 
@@ -231,7 +234,7 @@ function isValidImageExtension(extension) {
       if (!crypto && typeof require === "function") {
         try {
           crypto = require("crypto");
-        } catch (err) { }
+        } catch (err) {}
       }
 
       /*
@@ -245,19 +248,19 @@ function isValidImageExtension(extension) {
           if (typeof crypto.getRandomValues === "function") {
             try {
               return crypto.getRandomValues(new Uint32Array(1))[0];
-            } catch (err) { }
+            } catch (err) {}
           }
 
           // Use randomBytes method (NodeJS)
           if (typeof crypto.randomBytes === "function") {
             try {
               return crypto.randomBytes(4).readInt32LE();
-            } catch (err) { }
+            } catch (err) {}
           }
         }
 
         throw new Error(
-          "Native crypto module could not be used to get secure random number."
+          "Native crypto module could not be used to get secure random number.",
         );
       };
 
@@ -268,7 +271,7 @@ function isValidImageExtension(extension) {
       var create =
         Object.create ||
         (function () {
-          function F() { }
+          function F() {}
 
           return function (obj) {
             var subtype;
@@ -372,7 +375,7 @@ function isValidImageExtension(extension) {
            *         }
            *     });
            */
-          init: function () { },
+          init: function () {},
 
           /**
            * Copies properties into this object.
@@ -802,7 +805,7 @@ function isValidImageExtension(extension) {
             // less the number of blocks that must remain in the buffer
             nBlocksReady = Math.max(
               (nBlocksReady | 0) - this._minBufferSize,
-              0
+              0,
             );
           }
 
@@ -1309,7 +1312,7 @@ function isValidImageExtension(extension) {
         typedArray = new Uint8Array(
           typedArray.buffer,
           typedArray.byteOffset,
-          typedArray.byteLength
+          typedArray.byteLength,
         );
       }
 
@@ -1347,7 +1350,7 @@ function isValidImageExtension(extension) {
      */
     var Utf16BE =
       (C_enc.Utf16 =
-        C_enc.Utf16BE =
+      C_enc.Utf16BE =
         {
           /**
            * Converts a word array to a UTF-16 BE string.
@@ -1430,7 +1433,7 @@ function isValidImageExtension(extension) {
         var utf16Chars = [];
         for (var i = 0; i < sigBytes; i += 2) {
           var codePoint = swapEndian(
-            (words[i >>> 2] >>> (16 - (i % 4) * 8)) & 0xffff
+            (words[i >>> 2] >>> (16 - (i % 4) * 8)) & 0xffff,
           );
           utf16Chars.push(String.fromCharCode(codePoint));
         }
@@ -1459,7 +1462,7 @@ function isValidImageExtension(extension) {
         var words = [];
         for (var i = 0; i < utf16StrLength; i++) {
           words[i >>> 1] |= swapEndian(
-            utf16Str.charCodeAt(i) << (16 - (i % 2) * 16)
+            utf16Str.charCodeAt(i) << (16 - (i % 2) * 16),
           );
         }
 
@@ -2038,7 +2041,7 @@ function isValidImageExtension(extension) {
         // Add padding
         dataWords[nBitsLeft >>> 5] |= 0x80 << (24 - (nBitsLeft % 32));
         dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 14] = Math.floor(
-          nBitsTotal / 0x100000000
+          nBitsTotal / 0x100000000,
         );
         dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 15] = nBitsTotal;
         data.sigBytes = dataWords.length * 4;
@@ -2228,7 +2231,7 @@ function isValidImageExtension(extension) {
         // Add padding
         dataWords[nBitsLeft >>> 5] |= 0x80 << (24 - (nBitsLeft % 32));
         dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 14] = Math.floor(
-          nBitsTotal / 0x100000000
+          nBitsTotal / 0x100000000,
         );
         dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 15] = nBitsTotal;
         data.sigBytes = dataWords.length * 4;
@@ -2661,7 +2664,7 @@ function isValidImageExtension(extension) {
         // Add padding
         dataWords[nBitsLeft >>> 5] |= 0x80 << (24 - (nBitsLeft % 32));
         dataWords[(((nBitsLeft + 128) >>> 10) << 5) + 30] = Math.floor(
-          nBitsTotal / 0x100000000
+          nBitsTotal / 0x100000000,
         );
         dataWords[(((nBitsLeft + 128) >>> 10) << 5) + 31] = nBitsTotal;
         data.sigBytes = dataWords.length * 4;
@@ -3015,7 +3018,7 @@ function isValidImageExtension(extension) {
         dataWords[nBitsLeft >>> 5] |= 0x1 << (24 - (nBitsLeft % 32));
         dataWords[
           ((Math.ceil((nBitsLeft + 1) / blockSizeBits) * blockSizeBits) >>> 5) -
-          1
+            1
         ] |= 0x80;
         data.sigBytes = dataWords.length * 4;
 
@@ -3904,7 +3907,7 @@ function isValidImageExtension(extension) {
                   cipher,
                   message,
                   key,
-                  cfg
+                  cfg,
                 );
               },
 
@@ -3913,7 +3916,7 @@ function isValidImageExtension(extension) {
                   cipher,
                   ciphertext,
                   key,
-                  cfg
+                  cfg,
                 );
               },
             };
@@ -4512,7 +4515,7 @@ function isValidImageExtension(extension) {
           // Derive key and IV
           var key = EvpKDF.create({ keySize: keySize + ivSize }).compute(
             password,
-            salt
+            salt,
           );
 
           // Separate key and IV
@@ -4564,7 +4567,7 @@ function isValidImageExtension(extension) {
             var derivedParams = cfg.kdf.execute(
               password,
               cipher.keySize,
-              cipher.ivSize
+              cipher.ivSize,
             );
 
             // Add IV to config
@@ -4576,7 +4579,7 @@ function isValidImageExtension(extension) {
               cipher,
               message,
               derivedParams.key,
-              cfg
+              cfg,
             );
 
             // Mix in derived params
@@ -4614,7 +4617,7 @@ function isValidImageExtension(extension) {
               password,
               cipher.keySize,
               cipher.ivSize,
-              ciphertext.salt
+              ciphertext.salt,
             );
 
             // Add IV to config
@@ -4626,7 +4629,7 @@ function isValidImageExtension(extension) {
               cipher,
               ciphertext,
               derivedParams.key,
-              cfg
+              cfg,
             );
 
             return plaintext;
@@ -4651,7 +4654,7 @@ function isValidImageExtension(extension) {
           words,
           offset,
           blockSize,
-          cipher
+          cipher,
         );
 
         // Remember this block to use with next block
@@ -4673,7 +4676,7 @@ function isValidImageExtension(extension) {
           words,
           offset,
           blockSize,
-          cipher
+          cipher,
         );
 
         // This block becomes the previous block
@@ -4996,9 +4999,9 @@ function isValidImageExtension(extension) {
    * A noop padding strategy.
    */
   CryptoJS.pad.NoPadding = {
-    pad: function () { },
+    pad: function () {},
 
-    unpad: function () { },
+    unpad: function () {},
   };
 
   (function (undefined) {
@@ -5213,7 +5216,7 @@ function isValidImageExtension(extension) {
           SUB_MIX_1,
           SUB_MIX_2,
           SUB_MIX_3,
-          SBOX
+          SBOX,
         );
       },
 
@@ -5231,7 +5234,7 @@ function isValidImageExtension(extension) {
           INV_SUB_MIX_1,
           INV_SUB_MIX_2,
           INV_SUB_MIX_3,
-          INV_SBOX
+          INV_SBOX,
         );
 
         // Inv swap 2nd and 4th rows
@@ -5248,7 +5251,7 @@ function isValidImageExtension(extension) {
         SUB_MIX_1,
         SUB_MIX_2,
         SUB_MIX_3,
-        SBOX
+        SBOX,
       ) {
         // Shortcut
         var nRounds = this._nRounds;
@@ -6062,7 +6065,7 @@ function isValidImageExtension(extension) {
           keyWords.length < 6
         ) {
           throw new Error(
-            "Invalid key length - 3DES requires the key length to be 64, 128, 192 or >192."
+            "Invalid key length - 3DES requires the key length to be 64, 128, 192 or >192.",
           );
         }
 
@@ -6649,7 +6652,7 @@ function isValidImageExtension(extension) {
       require("./enc-base64"),
       require("./md5"),
       require("./evpkdf"),
-      require("./cipher-core")
+      require("./cipher-core"),
     );
   } else if (typeof define === "function" && define.amd) {
     // AMD
@@ -6830,7 +6833,7 @@ function isValidImageExtension(extension) {
           SUB_MIX_1,
           SUB_MIX_2,
           SUB_MIX_3,
-          SBOX
+          SBOX,
         );
       },
 
@@ -6848,7 +6851,7 @@ function isValidImageExtension(extension) {
           INV_SUB_MIX_1,
           INV_SUB_MIX_2,
           INV_SUB_MIX_3,
-          INV_SBOX
+          INV_SBOX,
         );
 
         // Inv swap 2nd and 4th rows
@@ -6865,7 +6868,7 @@ function isValidImageExtension(extension) {
         SUB_MIX_1,
         SUB_MIX_2,
         SUB_MIX_3,
-        SBOX
+        SBOX,
       ) {
         // Shortcut
         var nRounds = this._nRounds;
@@ -6963,4 +6966,3 @@ function isValidImageExtension(extension) {
 
   return CryptoJS.AES;
 });
-

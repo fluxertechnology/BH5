@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import Image from "next/image";
+import gameTypes from "@/lib/tcg/game_types";
 import ImageCarousel from "@/components/common/ImageCarousel";
 import ImageComponent from "@/components/common/ImageComponent";
 import { adsKeys, side_padding, apiUrl } from "@/lib/constants";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import tcgAxios from "@/lib/services/tcgAxios";
-import gameTypes from "@/lib/tcg/game_types";
+// import gameTypes from "@/lib/tcg/game_types";
 import toastCall from "@/lib/services/toastCall";
 import { PopupDialogWrapper } from "@/components/login/PopupComponent";
 import IconInput from "@/components/login/IconInputComponent";
@@ -58,14 +59,14 @@ const HomeTcgMainPage = () => {
     },
   ];
 
-  const productTypeLogos = {
-    4: "/images/tcg/logo/AG.png",
-    79: "/images/tcg/logo/BB.png",
-    41: "/images/tcg/logo/BG.png",
-    16: "/images/tcg/logo/CQ9.png",
-    55: "/images/tcg/logo/JDB.png",
-    152: "/images/tcg/logo/WL.png",
-  };
+  // const productTypeLogos = {
+  //   4: "/images/tcg/logo/AG.png",
+  //   79: "/images/tcg/logo/BB.png",
+  //   41: "/images/tcg/logo/BG.png",
+  //   16: "/images/tcg/logo/CQ9.png",
+  //   55: "/images/tcg/logo/JDB.png",
+  //   152: "/images/tcg/logo/WL.png",
+  // };
 
   const gameTypeImages = {
     RNG: {
@@ -120,6 +121,8 @@ const HomeTcgMainPage = () => {
 
   const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
   const [isOpenLogin, setIsOpenLogin] = useState(false);
+  const [gameCategoryList, setGameCategoryList] = useState([]);
+  const [productTypeLogos, setProductTypeLogos] = useState({});
   const [tcgProductTypes, setTcgProductTypes] = useState(0);
   const [tcgProductTypesList, setTcgProductTypesList] = useState([]);
   const [tcgProductTypesDisplay, setTcgProductTypesDisplay] = useState([]);
@@ -140,19 +143,41 @@ const HomeTcgMainPage = () => {
   const [isLoadingTransferOutAll, setIsLoadingTransferOutAll] = useState(false);
   const [isLoadingGameUrl, setIsLoadingGameUrl] = useState(false);
 
-  useEffect(() => {
-    if (!initGameType) return
-    const  typeList = tcgProductTypesList.map((m) => {
-      const isIncluded = m.game_type.includes(tcgGameType.toUpperCase());
-      return {
-        ...m,
-        display: tcgGameType !== "HOT" && isIncluded,
-      };
-    });
-    const displayList = typeList.filter((m) => m.display);
-    setTcgProductTypesDisplay(displayList);
-    setTcgProductTypes( 0);
-  }, [tcgGameType, tcgProductTypesList]);
+  const tcgGetGameCategory = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/appapi/tcg/get_category`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": lang,
+        },
+        body: JSON.stringify({
+          uid: state.user.id,
+        }),
+      });
+      const data = await response.json();
+      if (data.code === 0) {
+        toastCall(data.msg || "获取产品类型失败，请稍后再试");
+        return;
+      }
+      setGameCategoryList(data.data || []);
+      handleGameListUpdate(data.data);
+      setProductTypeLogos(
+        data.data
+          .flatMap((category) =>
+            category.product
+              .filter((e) => e.id < 0)
+              .map((product) => ({
+                [product.product_type]: product.img,
+              })),
+          )
+          .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+      );
+    } catch (error) {
+      console.error("获取产品类型失败:", error);
+      toastCall("获取产品类型失败，请稍后再试");
+    }
+  };
 
   const tcgGetProductTypes = async () => {
     try {
@@ -370,27 +395,33 @@ const HomeTcgMainPage = () => {
     openIframe(gameUrl || currentGameUrl);
   };
 
+  const handleGameListUpdate = (list = null) => {
+    setTcgCurrentPage(1);
+    const fullGameList = list || gameCategoryList;
+    const categoryProductList =
+      fullGameList.find((item) => item.game_type == tcgGameType)?.product || [];
+    const productType = categoryProductList.find(
+      (item) => item.id < 0 && item.product_type == tcgProductTypes,
+    );
+    const gameList = categoryProductList.filter(
+      (item) => item.product_type == productType?.product_type && item.id > 0,
+    );
+    setTcgTotalGames(gameList.length);
+    setTcgGameList(gameList);
+  };
+
   useEffect(() => {
-    const typeList = tcgProductTypesList.map((m) => {
-      const isIncluded = m.game_type.includes(tcgGameType.toUpperCase());
-      return {
-        ...m,
-        display: tcgGameType !== "HOT" && isIncluded,
-      };
-    });
-    const displayList = typeList.filter((m) => m.display);
+    const categoryProductList =
+      gameCategoryList.find((item) => item.game_type === tcgGameType)
+        ?.product || [];
+    const displayList = categoryProductList.filter((item) => item.id < 0);
     setTcgProductTypesDisplay(displayList);
     setTcgProductTypes(0);
   }, [tcgGameType]);
 
   useEffect(() => {
-    setTcgCurrentPage(1);
-    tcgGetGameList(tcgGameCurrentPage);
+    handleGameListUpdate();
   }, [tcgProductTypes, tcgGameType]);
-
-  useEffect(() => {
-    tcgGetGameList(tcgGameCurrentPage);
-  }, [tcgGameCurrentPage]);
 
   const handleGameTypeChange = (key) => {
     setTcgGameType(key);
@@ -399,7 +430,7 @@ const HomeTcgMainPage = () => {
 
   useEffect(() => {
     gameManager.setIsCurrentTabOpeningGame(0);
-    tcgGetProductTypes();
+    tcgGetGameCategory();
     useGlobalDispatch({
       type: "INIT_NAVBAR",
       key: "customComponent",
@@ -542,34 +573,41 @@ const HomeTcgMainPage = () => {
               {isDesktop && (
                 <div className="w-auto">
                   <div className="flex type-list">
-                    {Object.entries(gameTypes).map(
-                      ([key, { label, icon }], index) => (
-                        <div
-                          key={index}
-                          className={`inline-block m-1 rounded-lg border ${
-                            tcgGameType === key
-                              ? "border-blue-500"
-                              : "border-gray-300"
+                    {gameCategoryList.map((category, index) => (
+                      <div
+                        key={index}
+                        className={`inline-block m-1 rounded-lg border ${
+                          tcgGameType === category.game_type
+                            ? "border-blue-500"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        <button
+                          className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
+                            tcgGameType === category.game_type ? "active" : ""
                           }`}
+                          onClick={() =>
+                            handleGameTypeChange(category.game_type)
+                          }
                         >
-                          <button
-                            className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
-                              tcgGameType === key ? "active" : ""
-                            }`}
-                            onClick={() => handleGameTypeChange(key)}
-                          >
-                            <Image
-                              src={`/images/tcg/${icon}.png`}
-                              alt={label}
-                              width={128}
-                              height={128}
-                              className="inline-block type-item--image"
-                            />
-                            <span className="whitespace-nowrap">{label}</span>
-                          </button>
-                        </div>
-                      ),
-                    )}
+                          <Image
+                            src={
+                              tcgGameType === category.game_type
+                                ? category.img_selected
+                                : category.img
+                            }
+                            key={`${index}-${tcgGameType === category.game_type ? 1 : 0}`}
+                            alt={category.name}
+                            width={128}
+                            height={128}
+                            className="inline-block type-item--image"
+                          />
+                          <span className="whitespace-nowrap">
+                            {category.name}
+                          </span>
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -622,35 +660,40 @@ const HomeTcgMainPage = () => {
               {!isDesktop && (
                 <div className="w-auto">
                   <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap type-list">
-                    {Object.entries(gameTypes).map(
-                      ([key, { label, icon }], index) => (
-                        <div key={index} className="inline-block type-item">
-                          <button
-                            className={`flex flex-col items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
-                              tcgGameType === key ? "active" : ""
+                    {gameCategoryList.map((category, index) => (
+                      <div key={index} className="inline-block type-item">
+                        <button
+                          className={`flex flex-col items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
+                            tcgGameType === category.game_type ? "active" : ""
+                          }`}
+                          onClick={() =>
+                            handleGameTypeChange(category.game_type)
+                          }
+                        >
+                          <Image
+                            src={
+                              tcgGameType === category.game_type
+                                ? category.img_selected
+                                : category.img
+                            }
+                            key={`${index}-${tcgGameType === category.game_type ? 1 : 0}`}
+                            alt={category.name}
+                            width={128}
+                            height={128}
+                            className="inline-block type-item--image"
+                          />
+                          <span
+                            className={`md:text-base whitespace-nowrap ${
+                              tcgGameType === category.game_type
+                                ? "text-white"
+                                : "text-black"
                             }`}
-                            onClick={() => handleGameTypeChange(key)}
                           >
-                            <Image
-                              src={`/images/tcg/${icon}.png`}
-                              alt={label}
-                              width={128}
-                              height={128}
-                              className="inline-block type-item--image"
-                            />
-                            <span
-                              className={`md:text-base whitespace-nowrap ${
-                                tcgGameType === key
-                                  ? "text-white"
-                                  : "text-black"
-                              }`}
-                            >
-                              {label}
-                            </span>
-                          </button>
-                        </div>
-                      ),
-                    )}
+                            {category.name}
+                          </span>
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -743,7 +786,7 @@ const HomeTcgMainPage = () => {
                                       width={64}
                                       height={64}
                                       is_cover={true}
-                                      src={game.img.replace("/zh/", "/EN/")}
+                                      src={game.img?.replace("/zh/", "/EN/")}
                                       alt={game.name}
                                       draggable="false"
                                     />
@@ -800,7 +843,7 @@ const HomeTcgMainPage = () => {
                                     width={64}
                                     height={64}
                                     is_cover={true}
-                                    src={game.img.replace("/zh/", "/EN/")}
+                                    src={game.img?.replace("/zh/", "/EN/")}
                                     alt={game.name}
                                     draggable="false"
                                   />
