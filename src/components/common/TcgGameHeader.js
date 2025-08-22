@@ -18,36 +18,35 @@ import gameTypes from "@/lib/tcg/game_types";
 const UserPanel = ({ className = "" }) => {
   const { state } = useGlobalContext();
   const t = useTranslations();
-  const { isDesktop } = useMediaQuery();
+  const { isDesktop,isMobile } = useMediaQuery();
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(10);
   const [isLoadingTransferOutAll, setIsLoadingTransferOutAll] = useState(false);
   const [tcgGameType, setTcgGameType] = useState("HOT");
-
   const defaultFeatures = [
     {
-      title: "存款",
+      title: t("Tcg.feature.deposit"),
       icon: "user-panel-saving",
       url: pageUrlConstants.profile.pages.profilePayment,
     },
     {
-      title: "提现",
+      title: t("Tcg.feature.withdraw"),
       icon: "user-panel-withdraw",
       url: pageUrlConstants.profile.pages.profileWithdraw,
     },
     {
-      title: "优惠",
+      title: t("Tcg.feature.offer"),
       icon: "user-panel-offer",
       url: pageUrlConstants.promotions,
     },
     {
-      title: "记录",
+      title: t("Tcg.feature.record"),
       icon: "user-panel-record",
       url: pageUrlConstants.profile.pages.profileWithdraw
         .profileWithdrawHistory,
     },
   ];
 
-  const lang = ["sc", "tc"].includes(nowLang) ? "zh" : "en";
+  const lang = ["sc", "tc", "zh"].includes(nowLang) ? "zh" : "en";
 
   const handleTransferOutAll = async (e) => {
     e.stopPropagation();
@@ -95,15 +94,14 @@ const UserPanel = ({ className = "" }) => {
 
   const handleGameTypeChange = (key) => {
     setTcgGameType(key);
-    console.log("Game type changed to:", key);
     window.location.href = `/home/tcg/${key}`;
   };
 
   return (
     <UserPanelElement className={className}>
       <>
-        {isDesktop && Object.keys(gameTypes).length > 0 && (
-          <div className="user-panel">
+        {!isMobile && Object.keys(gameTypes).length > 0 && (
+          <div className={`user-panel ${lang}`}>
             {/* Game Type List for Desktop */}
             <div className="w-auto">
               <div className="flex type-list">
@@ -144,7 +142,8 @@ const UserPanel = ({ className = "" }) => {
                 {state.user.id === "guest" ? "guest" : state.user.nick_name}
               </div>
               <div className="user-money">
-                余额: {getPremiumDiamond(t, state.user.money, false)}
+                {t("Common.balance")} :{" "}
+                {getPremiumDiamond(t, state.user.money, false)}
                 <Image
                   src="/images/icons/refresh.png"
                   alt="refresh"
@@ -183,7 +182,7 @@ const UserPanel = ({ className = "" }) => {
             </div>
           </div>
         )}
-        {!isDesktop && Object.keys(gameTypes).length > 0 && (
+        {isMobile && Object.keys(gameTypes).length > 0 && (
           <div className="mobile-panel">
             <div className="game-list">
               {Object.entries(gameTypes).map(
@@ -267,14 +266,14 @@ const UserPanelElement = styled.div`
 
       .user-money {
         filter: brightness(0) invert(1);
-        margin-top: 5px;
+        margin-top: 0.26vw;
       }
     }
 
     .feature-list {
       display: flex;
       gap: 12px;
-      flex-wrap: wrap;
+      // flex-wrap: wrap;
 
       .feature-item {
         display: flex;
@@ -360,6 +359,7 @@ const UserPanelElement = styled.div`
 
     .feature-list {
       gap: 0.36vw !important;
+      flex-wrap: no-wrap !important;
 
       .feature-item {
         width: 3.65vw;
@@ -372,14 +372,28 @@ const UserPanelElement = styled.div`
         }
 
         .title {
-          font-size: 0.83vw !important;
-          margin-top: 0.13vw !important;
+          font-size: 0.83vw;
+          margin-top: 0.13vw;
         }
       }
     }
 
     .mobile-game-types {
       display: none;
+    }
+
+    .user-panel.en {
+      .user-info {
+        .user-money {
+          font-size: clamp(10px, 0.75vw, 100px);
+        }
+      }
+      .feature-list {
+        .title {
+          font-size: 0.7vw;
+          margin-top: 0.13vw;
+        }
+      }
     }
   }
 

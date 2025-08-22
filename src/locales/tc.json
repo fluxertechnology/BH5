@@ -130,7 +130,8 @@
     "download_app": "app下载",
     "download_app_description": "扫码下载手机app, \n领取免费vip",
     "download_app_description_1": "*限手机端新用户哦",
-    "episode": "第{number}话"
+    "episode": "第{number}话",
+    "balance": "余额"
   },
   "Game": {
     "label": {
@@ -296,7 +297,7 @@
       }
     },
     "sold": "已搶",
-    "promo-price":"優惠價",
+    "promo-price": "優惠價",
     "j_comics": "日漫",
     "k_comics": "韩漫",
     "e_comics": "欧漫",
@@ -368,7 +369,7 @@
     "placeholder_donate_diamond": "精钻打赏",
     "placeholder_think_again": "再想一下",
     "thx_support": "感谢支持 (ﾉ◕ヮ◕)ﾉ*:‧ﾟ✧",
-    "recommend_author":"推薦原創主"
+    "recommend_author": "推薦原創主"
   },
   "Profile": {
     "build": {
@@ -785,8 +786,8 @@
       "one_year": "一年vip",
       "choice_buy_long": "已选择"
     },
-    "withdraw":{
-      "title":"提现"
+    "withdraw": {
+      "title": "提现"
     }
   },
   "Search": {
@@ -1019,6 +1020,14 @@
       "click": {
         "copy": "点击复制"
       }
+    }
+  },
+  "Tcg": {
+    "feature": {
+      "deposit": "存款",
+      "withdraw": "提现",
+      "offer": "优惠",
+      "record": "记录"
     }
   }
 }
