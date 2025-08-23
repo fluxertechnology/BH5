@@ -130,8 +130,8 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
                 >
                   <div className="list_container_item_icon">
                     <Image
-                      width={23}
-                      height={23}
+                      width={100}
+                      height={100}
                       className="list_container_item_icon_img"
                       src={data.icon}
                       alt="mission"
@@ -142,7 +142,7 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
                       {data.name}
                     </span>
                   </div>
-                  {data.decoration?.show ? (
+                  {/* {data.decoration?.show ? (
                     data.decoration.type === 0 ? (
                       <div className="list_container_item_decoration">
                         {data.decoration.text}
@@ -152,7 +152,7 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
                     )
                   ) : (
                     ""
-                  )}
+                  )} */}
                   <div className="list_container_item_arrow">
                     <FontAwesomeIcon icon={faAngleRight} color="#f04c7e" />
                   </div>
@@ -193,8 +193,8 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
                 >
                   <div className="list_container_item_icon">
                     <Image
-                      width={23}
-                      height={23}
+                      width={100}
+                      height={100}
                       className="list_container_item_icon_img"
                       src={data.icon}
                       alt="mission"
@@ -232,8 +232,8 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
                 >
                   <div className="list_container_item_icon">
                     <Image
-                      width={23}
-                      height={23}
+                      width={100}
+                      height={100}
                       className="list_container_item_icon_img"
                       src={data.icon}
                       alt="mission"
@@ -270,7 +270,7 @@ export const ProfileMainOptionListElement = styled.div`
     font-size: 14px;
 
     @media (min-width: 599px) {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     &:last-child {
@@ -292,7 +292,7 @@ export const ProfileMainOptionListElement = styled.div`
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding: 2.0625rem 1.875rem 0;
+      // padding: 0 1.875rem;
       // margin-top: 5px;
       // background-color: #fdfbf6;
 
@@ -304,14 +304,16 @@ export const ProfileMainOptionListElement = styled.div`
         margin-right: 5px;
 
         &_img {
-          width: 34px;
-          height: 34px;
+          width: 22px;
+          height: auto;
           vertical-align: middle;
-        }
+          object-fit: contain;
+          margin-right: 0.5vw;
+          }
       }
 
       &_title {
-        // margin-right: auto;
+        margin-right: 0.83vw;
       }
 
       &_decoration {
@@ -336,6 +338,8 @@ export const ProfileMainOptionListElement = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     background-color: #fdfbf6;
+    padding: 1.65vw 1.56vw 1.95vw;
+    gap: 1.15vw 3vw;
   }
 
   .carousel-container{

@@ -50,7 +50,9 @@ const TopBarContainer = ({
     >
       {state.navbar.prependComponent && state.navbar.prependComponent()}
       {children}
-      {!location.startsWith("/home/tcg") && <TcgGameHeader />}
+      {!["/home/tcg", "/profile"].some((path) => location.startsWith(path)) && (
+        <TcgGameHeader />
+      )}
       {state.navbar.appendComponent && state.navbar.appendComponent()}
       <SearchResult />
     </TopBarContainerElement>

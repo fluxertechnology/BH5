@@ -15,7 +15,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 
 const RootComponent = ({ children, locale, userAgent }) => {
   const { state } = useGlobalContext();
-  const { isDesktop,isMobile } = useMediaQuery();
+  const { isDesktop, isMobile } = useMediaQuery();
 
   setUserAgent(userAgent);
 
@@ -72,7 +72,7 @@ const RootComponent = ({ children, locale, userAgent }) => {
 
     const routeToRegex = (route) => {
       return new RegExp(
-        "^" + route.replace(/:\w+/g, "([^/]+)").replace(/\//g, "\\/") + "$",
+        "^" + route.replace(/:\w+/g, "([^/]+)").replace(/\//g, "\\/") + "$"
       );
     };
 
@@ -118,7 +118,7 @@ const RootComponent = ({ children, locale, userAgent }) => {
         JSON.stringify({
           utm_source: utmSource || "",
           shareMa: shareMa || "",
-        }),
+        })
       );
     }
 
@@ -130,7 +130,7 @@ const RootComponent = ({ children, locale, userAgent }) => {
         JSON.stringify({
           SUBID: clickaduSUBID || "",
           campaignid: clickaduCampaignId || "",
-        }),
+        })
       );
     }
 
@@ -144,19 +144,23 @@ const RootComponent = ({ children, locale, userAgent }) => {
           subid: arSubId || "",
           event: arConversionId || "",
           cid: arCampaignId || "",
-        }),
+        })
       );
     }
   }, []);
 
   return (
-    <div style={{
-      marginTop: state.router.location.pathname.includes('/home/tcg') 
-        ? '0' 
-        : isMobile 
-            ? '32.1vw'
-            : '5.64vw',
-    }}>
+    <div
+      style={{
+        marginTop:
+          state.router.location.pathname.includes("/home/tcg") ||
+          state.router.location.pathname.includes("/profile")
+            ? "0"
+            : isMobile
+            ? "32.1vw"
+            : "5.64vw",
+      }}
+    >
       <DesktopHeader locale={locale} />
       <MobileHeader locale={locale} />
       <div className="min-h-screen">{children}</div>
