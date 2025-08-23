@@ -14,7 +14,7 @@ import Divider from "@mui/material/Divider";
 
 const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
   const { state } = useGlobalContext();
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isDesktop } = useMediaQuery();
   const t = useTranslations();
   const optionListMiddle = [
     // {
@@ -111,7 +111,7 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
   }, []);
 
   return (
-    <ProfileMainOptionListElement>
+    <ProfileMainOptionListElement isBrowser={isDesktop}>
       <div className="list_container fw-m">
         <h3 className="list_container_title fw-l">
           {t("Profile.main.option.common_effect")}
@@ -165,19 +165,19 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
       <div className="carousel-container">
         <ImageCarousel
           adsKey={adsKeys.profile_interval}
-          threeInOneBanner={!isMobile}
-          size={isMobile ? "22.667vw" : "7.578vw"}
+          threeInOneBanner={isDesktop}
+          size={!isDesktop ? "22.667vw" : "7.578vw"}
           is_cover
-          customSlidesPerView={isMobile ? 1 : 2}
+          customSlidesPerView={!isDesktop ? 1 : 2}
         />
       </div>
-      <div className="list_container fw-m">
+      <div className={`list_container fw-m ${isDesktop && "no_top_border"}`}>
         <h3 className="list_container_title">
           {t("Profile.main.option.godd_stuff")}
         </h3>
         <Divider className="profile_container_divider" />
         <div className="options-wrapper">
-          <div className="options-cont">
+          <div className="options-cont small">
             {optionListMiddle.map((data) => {
               return (
                 <div
@@ -214,13 +214,13 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
           </div>
         </div>
       </div>
-      <div className="list_container fw-m">
+      <div className={`list_container fw-m ${isDesktop && "no_top_border"}`}>
         <h3 className="list_container_title">
           {t("Profile.main.option.call_us")}
         </h3>
         <Divider className="profile_container_divider" />
         <div className="options-wrapper">
-          <div className="options-cont">
+          <div className="options-cont small">
             {optionListBottom.map((data) => {
               return (
                 <div
@@ -259,103 +259,113 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
 
 export default ProfileMainOptionList;
 
-export const ProfileMainOptionListElement = styled.div`
-  /*  */
-  padding: 0 28.9375rem 5.5rem;
-  background-color: ${colors.back_grey};
+export const ProfileMainOptionListElement = styled.div.withConfig({
+  shouldForwardProp: (prop) => !["isBrowser"].includes(prop),
+})`
+  ${({ isBrowser }) => `
+    /*  */
+    padding: ${isBrowser ? "0" : "4.5vw 2.67vw 32vw"};
+    width: ${isBrowser ? "1000px" : "auto"};
+    margin: auto;
+    background-color: ${colors.back_grey};
 
-  .list_container {
-    padding: 0;
-    background-color: #fff;
-    font-size: 14px;
-
-    @media (min-width: 599px) {
-      font-size: 18px;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    &_title {
-      padding: 2.5rem 2.41rem 1.0625rem;
-      font-size: 16px;
-      padding-top: 14px;
-      font-weight: 900;
-      @media (min-width: 599px) {
-        font-size: 24px;
-      }
-    }
-
-    &_item {
-      cursor: pointer;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      // padding: 0 1.875rem;
-      // margin-top: 5px;
-      // background-color: #fdfbf6;
+    .list_container {
+      padding: 0;
+      background-color: #fff;
+      font-size: ${isBrowser ? "18px" : "3.47vw"};
+      border-radius: ${isBrowser ? "0" : "1.33vw"};
 
       &:last-child {
-        border-bottom: none;
-      }
-
-      &_icon {
-        margin-right: 5px;
-
-        &_img {
-          width: 22px;
-          height: auto;
-          vertical-align: middle;
-          object-fit: contain;
-          margin-right: 0.5vw;
-          }
+        margin-bottom: 0;
+        padding-bottom: 0.45vw;
       }
 
       &_title {
-        margin-right: 0.83vw;
+        padding: ${
+          isBrowser ? "2.5rem 2.41rem 0.7vw" : "5.2vw 1.8vw 1.0625rem"
+        } ;
+        font-size: ${isBrowser ? "22px" : "4vw"};
+        padding-top: ${isBrowser ? "14px" : "4vw"};
+        font-weight: 900;
+        border-bottom: ${isBrowser ? "1px solid #e7e7e7" : "none"};
       }
 
-      &_decoration {
-        padding: 5px;
-        margin-right: 10px;
-        color: ${colors.dark_pink};
-        background-color: ${colors.light_pink};
+      &_item {
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        // padding: 0 1.875rem;
+        // margin-top: 5px;
+        // background-color: #fdfbf6;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &_icon {
+          margin-right: ${isBrowser ? "16px" : "2.0vw"};
+
+          &_img {
+            width: ${isBrowser ? "22px" : "4.8vw"};
+            height: auto;
+            vertical-align: middle;
+            object-fit: contain;
+            margin-right: {isBrowser ? "0.5vw" : "0"};
+          }
+        }
+
+        &_title {
+          margin-right: ${isBrowser ? "0.83vw" : "0"};
+          width: ${isBrowser ? "auto" : "17.9vw"};
+        }
+
+        &_decoration {
+          padding: 5px;
+          margin-right: 10px;
+          color: ${colors.dark_pink};
+          background-color: ${colors.light_pink};
+        }
       }
     }
-  }
-  .profile_container_divider{
-    margin: 0 0;
-    border-width: 1px;
-  }
-
-  .options-wrapper{
-    padding: 2.4375rem 2.25rem;
-    background-color: #fff;
-  }
-
-  .options-cont{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    background-color: #fdfbf6;
-    padding: 1.65vw 1.56vw 1.95vw;
-    gap: 1.15vw 3vw;
-  }
-
-  .carousel-container{
-    margin: 0 2.67vw;
-    padding: 0 2.4375rem;
-    width: auto;
-    background-color: #fff;
-
-    @media (min-width: 899px) {
+    .profile_container_divider {
       margin: 0 0;
+      border-width: 0px;
+    }
+
+    .options-wrapper {
+      padding: ${isBrowser ? "2.4375rem 2.25rem 2.2375rem" : "none"};
+      background-color: #fff;
+    }
+
+    .options-cont {
+      display: grid;
+      grid-template-columns: ${isBrowser ? "repeat(4, 1fr)" : "repeat(2, 1fr)"};
+      background-color: ${isBrowser ? "#fdfbf6" : "transparent"};
+      padding: ${isBrowser ? "1.65vw 1.56vw 1.95vw" : "1.65vw 2vw 7.3vw 10vw"};
+      gap: ${isBrowser ? "1.15vw 3vw" : "5.1vw 8.2vw"};
+    }
+
+    .options-cont.small {
+      padding: ${isBrowser ? "1vw 1.56vw 1.35vw" : "1.65vw 2vw 7.3vw 10vw"};
+      grid-template-columns: ${isBrowser ? "0.725fr 1fr 1fr" : "repeat(2, 1fr)"};
+      gap: ${isBrowser ? "1.15vw 1vw" : "5.1vw 8.2vw"};
+    }
+
+    .carousel-container {
+      padding: ${isBrowser ? "0 2.4375rem" : "0 2.67vw"};
+      width: ${isBrowser ? "100%" : "auto"};
+      margin: ${isBrowser && "0 0"};
+      background-color: #fff;
+
+    }
+
+    .no_top_border {
+        border-radius: 0 0 1.33vw 1.33vw;
+    }
+
+    .banner-padding {
       width: 100%;
     }
-  }
-
-  .banner-padding{
-    width: 100%;
-  }
-
+  `}
 `;

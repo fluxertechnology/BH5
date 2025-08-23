@@ -37,7 +37,7 @@ const ProfileMainHeader = ({
 }) => {
   const t = useTranslations();
   const { state } = useGlobalContext();
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isDesktop } = useMediaQuery();
   const [badge, setBadge] = useState("");
   const [membershipDate, setMembershipDate] = useState("");
   const [expirationTip, setExpirationTip] = useState(false);
@@ -51,31 +51,35 @@ const ProfileMainHeader = ({
       time === "-1"
         ? t("Profile.buy.watch.forever_1")
         : Date.now() > time * 1000
-          ? t("Profile.main.vip.maturity")
-          : new Date(time * 1000).toLocaleDateString().toString();
+        ? t("Profile.main.vip.maturity")
+        : new Date(time * 1000).toLocaleDateString().toString();
     setMembershipDate(variable);
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // Check Vip is expiring soon
     if (time && time > 0) {
       const now = Date.now();
-      const differenceInMilliseconds = (time * 1000) - now;
+      const differenceInMilliseconds = time * 1000 - now;
       const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
-      if (rank !== '普通会员' && differenceInDays > 0 && differenceInDays <= 3) {
+      if (
+        rank !== "普通会员" &&
+        differenceInDays > 0 &&
+        differenceInDays <= 3
+      ) {
         setExpiringSoon(true);
       }
     }
 
     setIsVIP(rank !== "普通会员" || Date.now() < time * 1000);
-
-
   }, [time]);
 
   const clickProfile = () => {
     const userData = store.getState().user;
     if (userData.id !== "guest") {
-      useGlobalDispatch(pushRoutes(profile.pages.profileEdit.pages.profileEditInfo));
+      useGlobalDispatch(
+        pushRoutes(profile.pages.profileEdit.pages.profileEditInfo)
+      );
     } else {
       // useGlobalDispatch(pushRoutes(login));
       useGlobalDispatch(openPopup("login"));
@@ -84,8 +88,8 @@ const ProfileMainHeader = ({
 
   function formatDate(date) {
     const formattedDate = new Date(date * 1000);
-    const day = String(formattedDate.getDate()).padStart(2, '0');
-    const month = String(formattedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(formattedDate.getDate()).padStart(2, "0");
+    const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
     const year = formattedDate.getFullYear();
     return `${day}/${month}/${year}`;
   }
@@ -167,27 +171,30 @@ const ProfileMainHeader = ({
         pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
       )
     );
-  }
+  };
 
   const getReadSource = () => {
     return state.breadcrumbs
       .slice()
       .reverse()
-      .find(item => item.path.startsWith('/home') && item.path !== '/home/main');
-  }
+      .find(
+        (item) => item.path.startsWith("/home") && item.path !== "/home/main"
+      );
+  };
 
   const continueReadSource = (e) => {
     e.stopPropagation();
     const matchedPaths = state.breadcrumbs
       .slice()
       .reverse()
-      .filter(item => item.path.startsWith('/home') && item.path !== '/home/main');
+      .filter(
+        (item) => item.path.startsWith("/home") && item.path !== "/home/main"
+      );
     useGlobalDispatch(pushRoutes(matchedPaths[0]));
-  }
+  };
   return (
-    <ProfileMainHeaderElement isMobile={isMobile}>
+    <ProfileMainHeaderElement isBrowser={isDesktop}>
       <div className="profile-cont">
-
         <LinkComponent
           className="profile_gear "
           routes={profile.pages.profileSet.pages.profileSetInfo}
@@ -204,8 +211,8 @@ const ProfileMainHeader = ({
           className="profile_header_info cursor-pointer"
           onClick={clickProfile}
         >
-          <div className="g-flex">
-            <div className="profile_header_info_avatar ml-3 mt-5">
+          <div className="g-flex profile_header_container">
+            <div className="profile_header_info_avatar">
               <ImageComponent
                 is_cover={true}
                 src={avatar}
@@ -227,7 +234,7 @@ const ProfileMainHeader = ({
                 alt="sex"
               />
             </div>
-            <div className="profile_header_info_detill ml-3 mt-5">
+            <div className="profile_header_info_detill">
               <div className="profile_header_info_detill_title">
                 {id === "guest"
                   ? t("Profile.main.click_login")
@@ -266,24 +273,38 @@ const ProfileMainHeader = ({
                         </span>
                       </div>
                       <div className="flex gap-2 mt-2">
-                        <button className="p-2 text-sm border border-[#FA719A]" onClick={openVipCommonPage}>查看VIP权益</button>
-                        {
-                          getReadSource() ? (
-                            <button className="p-2 text-sm border border-[#FA719A]" onClick={continueReadSource}>繼續閱讀漫畫</button>
-                          ) :
-                            <></>
-                        }
+                        <button
+                          className="p-2 text-sm border border-[#FA719A]"
+                          onClick={openVipCommonPage}
+                        >
+                          查看VIP权益
+                        </button>
+                        {getReadSource() ? (
+                          <button
+                            className="p-2 text-sm border border-[#FA719A]"
+                            onClick={continueReadSource}
+                          >
+                            繼續閱讀漫畫
+                          </button>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </>
                   ) : (
                     <span className="profile_header_info_detill_time_text fw-m">
-                      {membershipDate} {expiringSoon && `(${t("Profile.main.label.member_expiring_soon")})`}
+                      {membershipDate}{" "}
+                      {expiringSoon &&
+                        `(${t("Profile.main.label.member_expiring_soon")})`}
                     </span>
                   )}
                 </div>
               ) : (
                 ""
               )}
+            </div>
+            <div className={`profile_header_info_arrow ${!isDesktop&& 'hidden'}`}>
+              <FontAwesomeIcon icon={faAngleRight} />
             </div>
           </div>
           <div className="profile_header_daily">
@@ -343,7 +364,7 @@ const ProfileMainHeader = ({
               </span>
             </LinkComponent>
           </div>
-          <div className="profile_header_info_arrow mt-5 mr-2">
+          <div className={`profile_header_info_arrow ${isDesktop&& 'hidden'}`} >
             <FontAwesomeIcon icon={faAngleRight} />
           </div>
         </div>
@@ -351,7 +372,8 @@ const ProfileMainHeader = ({
         <LinkComponent
           className="profile_header_vip g-center"
           routes={
-            pageUrlConstants.profile.pages.profileBuyVip.pages.profileBuyVipCommon
+            pageUrlConstants.profile.pages.profileBuyVip.pages
+              .profileBuyVipCommon
           }
         >
           <Lottie
@@ -361,40 +383,49 @@ const ProfileMainHeader = ({
             alt="open vip"
           />
         </LinkComponent>
-        {
-          expiringSoon && (
-            <PostsAddModalPage
-              initStatus={expirationTip}
-              title={t("Profile.main.label.member_benefit_tip")}
-              buttonProps={{
-                text: t("Profile.main.label.continue_buy"),
-                onButtonClick: () => redirectBuy(),
-                localStorageName: "member_expired_float_show",
-              }}
-            > {state.vipInfoData.length}
-              <div className="profile_main_cover">
-                <div className="profile_main_cover_tip">
-                  {t("Profile.main.label.member_description")}
+        {expiringSoon && (
+          <PostsAddModalPage
+            initStatus={expirationTip}
+            title={t("Profile.main.label.member_benefit_tip")}
+            buttonProps={{
+              text: t("Profile.main.label.continue_buy"),
+              onButtonClick: () => redirectBuy(),
+              localStorageName: "member_expired_float_show",
+            }}
+          >
+            {" "}
+            {state.vipInfoData.length}
+            <div className="profile_main_cover">
+              <div className="profile_main_cover_tip">
+                {t("Profile.main.label.member_description")}
+              </div>
+              <div className="profile_main_cover_power">
+                <div className="profile_main_cover_power_subtitle">
+                  {t("Profile.direct_buy_vip.member_permissions")}
                 </div>
-                <div className="profile_main_cover_power">
-                  <div className="profile_main_cover_power_subtitle">
-                    {t("Profile.direct_buy_vip.member_permissions")}
-                  </div>
-                  <div className="profile_main_cover_power_items">
-                    {memberPowerItem.map((item, index) => (
-                      <div className="profile_main_cover_power_item" key={`${item.text}-${index}`}>
-                        <Image src={item.icon} width={0} height={0} alt={item.text} />
-                        {item.text}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="profile_main_cover_power_description">
-                    {t("Profile.main.label.member_description_1")}
-                  </div>
+                <div className="profile_main_cover_power_items">
+                  {memberPowerItem.map((item, index) => (
+                    <div
+                      className="profile_main_cover_power_item"
+                      key={`${item.text}-${index}`}
+                    >
+                      <Image
+                        src={item.icon}
+                        width={0}
+                        height={0}
+                        alt={item.text}
+                      />
+                      {item.text}
+                    </div>
+                  ))}
+                </div>
+                <div className="profile_main_cover_power_description">
+                  {t("Profile.main.label.member_description_1")}
                 </div>
               </div>
-            </PostsAddModalPage>)
-        }
+            </div>
+          </PostsAddModalPage>
+        )}
       </div>
     </ProfileMainHeaderElement>
   );
@@ -403,254 +434,274 @@ const ProfileMainHeader = ({
 export default ProfileMainHeader;
 
 const ProfileMainHeaderElement = styled.div.withConfig({
-  shouldForwardProp: (prop) => !["isMobile"].includes(prop),
+  shouldForwardProp: (prop) => !["isBrowser"].includes(prop),
 })`
-  /*  */
-  position: relative;
-  color: #fff;
-  background-position: center;
-  background-size: cover;
-  background-image: url(/images/profile/banner_bg.jpg);
+  ${({ isBrowser }) => `
+    /*  */
+    position: relative;
+    color: #fff;
+    background-position: center;
+    background-size: cover;
+    background-image: url(/images/profile/banner_bg.jpg);
 
-  .profile-cont{
-    width: 62.5rem;
-    // width: 63%;
-    margin: 0 auto;
-  }
+    .profile-cont {
+      width: ${isBrowser ? "62.5rem" : "100%"};
+      // width: 63%;
+      margin: 0 auto;
+    }
 
-  .profile_gear {
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    padding: 5px;
+    .profile_gear {
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      padding: 5px;
 
-    &_img {
-      width: 27px;
-      height: 27px;
-      vertical-align: middle;
+      &_img {
+        width: ${isBrowser ? "27px" : "2.67vw"};
+        height: ${isBrowser ? "27px" : "2.67vw"};
+        vertical-align: middle;
 
-      @media (max-width: 599px) {
-        width: 20px;
-        height: 20px;
       }
     }
-  }
 
-  .profile_header {
-    &_info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px ${padding}px 10px;
-      font-size: ${({ isMobile }) => (isMobile ? "20px" : "22px")};
-      text-decoration: none;
-      color: #fff;
-      @media (max-width: 599px) {
-        padding: 0px ${padding}px 10px 0;
-      }
-      &_avatar {
-        // display: flex;
-        flex-shrink: 0;
-        position: relative;
-        // margin-right: 30px;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
+    .profile_header {
+      &_info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px ${padding}px 10px;
+        font-size: ${!isBrowser ? "20px" : "22px"};
+        text-decoration: none;
+        color: #fff;
+        padding: ${!isBrowser && `0px ${padding}px 10px 0`};
+        flex-wrap: ${!isBrowser && "wrap"};
 
-        &_sex {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 20px;
-          height: 20px;
+        .g-flex {
+          margin: ${isBrowser ? "2.05vw 0 0" : "10vw auto 0"};
         }
-      }
 
-      &_detill {
-        width: 12.375rem;
-        // flex-grow: 1;
+        &_avatar {
+          // display: flex;
+          flex-shrink: 0;
+          position: relative;
+          // margin-right: 30px;
+          width: ${isBrowser ? "80px" : " 16.5vw"};
+          height: ${isBrowser ? "80px" : " 16.5vw"};
+          border-radius: 50%;
 
-        &_title {
-          &_badge {
-            padding-top: 7px;
-            padding-left: 24px;
-            text-align: center;
-            max-width: 80px;
-            height: 28px;
-            font-size: ${({ isMobile }) => (isMobile ? "14px" : "16px")};
-            line-height: 11px;
-            background-repeat: no-repeat;
-            background-size: cover;
+          &_sex {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: ${isBrowser ? "20px" : "4vw"};
+            height: ${isBrowser ? "20px" : "4vw"}
+            right: ${!isBrowser && "0.5vw"};
           }
         }
 
-        &_time {
-          display: flex;
-          align-items: center;
-          margin-top: 5px;
+        &_detill {
+          width: ${isBrowser ? "12.375rem" : " 68.27vw"};
+          margin-left: ${isBrowser ? "16px" : " 3.33vw"};
 
-          &_crown {
-            margin-right: 10px;
-            width: 30px;
+          // flex-grow: 1;
+
+          &_title {
+            font-size: ${!isBrowser && "4vw"};
+            &_badge {
+              padding-top: ${isBrowser ? "7px" : "1.8vw"};
+              padding-left: 24px;
+              text-align: center;
+              height: ${isBrowser ? "28px" : "5.41vw"};
+              font-size: ${!isBrowser ? "3.2vw" : "16px"};
+              line-height: 11px;
+              background-repeat: no-repeat;
+              background-size: contain;
+              max-width: ${isBrowser && "80px"};
+              width: ${!isBrowser && "16.69vw"};
+            }
+          }
+
+          &_time {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+
+            &_crown {
+              margin-right: 10px;
+              width: 30px;
+            }
+
+            &_text {
+              font-size: ${!isBrowser ? "2.4vw" : "16px"};
+            }
+          }
+        }
+      }
+
+      &_daily {
+        display: flex;
+        // justify-content: space-evenly;
+        gap: ${isBrowser ? "5.8125rem" : "10.75vw"};
+        align-items: center;
+        padding-bottom: 10px;
+        margin: ${!isBrowser && "0 auto 2.5vw"};
+
+        &_view,
+        &_share {
+          margin-top: ${isBrowser ? "35px" : "6.4vw"};
+          // padding: 6px 6px 6px 55px;
+
+          &_amount {
+            margin-top: ${!isBrowser ? "2.67vw" : "10px"};
+            margin-bottom: ${!isBrowser ? "1.33vw" : "10px"};
+            font-size: ${!isBrowser ? "4vw" : "20px"};
+            text-align: center;
           }
 
           &_text {
-            font-size: ${({ isMobile }) => (isMobile ? "14px" : "16px")};
-          }
-        }
-      }
-    }
-
-    &_daily {
-      display: flex;
-      // justify-content: space-evenly;
-      gap: 5.8125rem;
-      align-items: center;
-      padding-bottom: 10px;
-
-      &_view,
-      &_share {
-        margin-top: 35px;
-        // padding: 6px 6px 6px 55px;
-        &_amount {
-          margin-top: 10px;
-          margin-bottom: 10px;
-          font-size: ${({ isMobile }) => (isMobile ? "14px" : "20px")};
-          text-align: center;
-        }
-
-        &_text {
-          margin-top: 10px;
-          font-size: ${({ isMobile }) => (isMobile ? "14px" : "20px")};
-        }
-      }
-
-      &_vendor {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 35px;
-        cursor: pointer;
-        // padding: 6px 6px 6px 55px;
-        text-decoration: none;
-        color: #fff;
-        // border: 1px solid #39b3fd;
-        // border-radius: 5px;
-
-        @media (max-width: 599px) {
-          margin-top: 20px;
-        }
-
-        &_icon {
-          // margin: -50px 2px -42px -60px;
-          max-width: 58px;
-          margin-top: 13px;
-          margin-bottom: 10px;
-          @media (max-width: 599px) {
-            max-width: 40px;
+            margin-top: 10px;
+            color: #b5b5b5;
+            font-size: ${!isBrowser ? "2.4vw" : "20px"};
           }
         }
 
-        &_text {
+        &_vendor {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          font-size: ${({ isMobile }) => (isMobile ? "18px" : "20px")};
+          margin-top: ${isBrowser ? "35px" : "5.6vw"};
+          cursor: pointer;
+          // padding: 6px 6px 6px 55px;
+          text-decoration: none;
+          color: #b5b5b5;
+          // border: 1px solid #39b3fd;
+          // border-radius: 5px;
 
-          &_arrow {
-            margin-top: 5px;
-            margin-left: 5px;
-            vertical-align: bottom;
+          &_icon {
+            max-width: ${isBrowser && "58px"};
+            margin-top: ${isBrowser ? "13px" : "4.5vw"};
+            margin-bottom: ${isBrowser ? "10px" : "1.33vw"};
+            height: ${!isBrowser && "4.13vw"};
+            width: ${!isBrowser && "auto"};
+            object-fit: ${!isBrowser && "contain"};
+          }
+
+          &_text {
+            display: flex;
+            align-items: center;
+            font-size: ${!isBrowser ? "2.4vw" : "20px"};
+
+            &_arrow {
+              margin-top: 5px;
+              margin-left: 5px;
+              vertical-align: bottom;
+            }
           }
         }
-      }
 
-      /* &_check {
-      cursor: pointer;
-      padding: 3px 7px;
-      width: auto;
-      border: 1px solid white;
-      border-radius: 20px;
-
-      &_text {
-        font-size:${({ isMobile }) => (isMobile ? "14px" : "16px")};
-      }
-    } */
-    }
-
-    &_vip {
-      &_img {
+        /* &_check {
         cursor: pointer;
-        width: ${({ isMobile }) => (isMobile ? "90%" : "auto")};
-        vertical-align: middle;
+        padding: 3px 7px;
+        width: auto;
+        border: 1px solid white;
+        border-radius: 20px;
+
+        &_text {
+          font-size: ${!isBrowser ? "14px" : "16px"};
+        }
+      } */
+      }
+
+      &_vip {
+        &_img {
+          cursor: pointer;
+          width: ${!isBrowser ? "81%" : "auto"};
+          vertical-align: middle;
+        }
       }
     }
-  }
-  .profile_main_cover {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-    &_tip {
-      color: ${colors.text_grey};
-      padding: 0 2em;
-      font-size: 18px;
+    .profile_main_cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 15px;
+      &_tip {
+        color: ${colors.text_grey};
+        padding: 0 2em;
+        font-size: ${!isBrowser ? "2.4vw" : "18px"};
+      }
+      &_power {
+        &_subtitle {
+          position: relative;
+          color: #000;
+          font-weight: 700;
+
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 20%;
+            border: solid 1px ${colors.text_light_grey};
+          }
+
+          &::before {
+            right: 10%;
+          }
+
+          &::after {
+            left: 10%;
+          }
+        }
+
+        &_items {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+          margin-top: 10px;
+        }
+        &_item {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+          color: ${colors.text_light_grey};
+          font-size: 14px;
+          img {
+            width: 40px;
+          }
+        }
+
+        &_description {
+          color: ${colors.text_light_grey};
+          margin-top: 5px;
+          font-size: 16px;
+        }
+      }
     }
-    &_power {
-      &_subtitle {
-        position: relative;
-        color: #000;
-        font-weight: 700;
 
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          width: 20%;
-          border: solid 1px ${colors.text_light_grey};
-        }
+    .profile_container_divider {
+      margin: 1vw 1% 4.05vw;
+      border-width: 1px;
+      border-color: #303030;
+      display: ${!isBrowser && "none"};
+    }
 
-        &::before {
-          right: 10%;
-        }
-
-        &::after {
-          left: 10%;
-        }
-      }
-
-      &_items {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        margin-top: 10px;
-      }
-      &_item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-        color: ${colors.text_light_grey};
-        font-size: 14px;
-        img {
-          width: 40px;
-        }
-      }
-
-      &_description {
-        color: ${colors.text_light_grey};
-        margin-top: 5px;
-        font-size: 16px;
+    .mobile {
+      display: none;
+      @media (max-width: 767px) {
+        display: block;
       }
     }
-  }
 
-  .profile_container_divider{
-    margin: 3.125rem 1%;
-    border-width: 1px;
-    border-color: #303030;
-  }
+    .desktop {
+      display: block;
+      @media (max-width: 767px) {
+        display: none;
+      }
+    }
+  `}
 `;

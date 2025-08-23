@@ -15,26 +15,28 @@ import {
 } from "@/lib/services/price";
 
 const ProfileMainNav = ({ sign, money }) => {
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isDesktop } = useMediaQuery();
   const t = useTranslations();
 
   return (
-    <ProfileMainNavElement isBrowser={!isMobile}>
+    <ProfileMainNavElement isBrowser={isDesktop}>
       <div className="profile_container">
-        <div className="w-full flex gap-2 p-[20px] md:hidden">
+        <div className="w-full profile_container_inner">
           <LinkComponent
-            className="flex-1 flex items-center justify-end h-[16.8vw] bg-[url(/images/profile/topup_button.png)] bg-cover pr-[8vw]"
+            className="flex-1 flex items-center justify-end h-[19vw] bg-[url(/images/profile/topup_button.png)] bg-contain bg-no-repeat pr-[8vw]"
             routes={pageUrlConstants.profile.pages.profilePayment}
           >
-            <span className="flex justify-end text-[5.867vw] text-white">
+            <span className="flex justify-end text-[5.867vw] text-white relative top-[-0.5vw]">
               充值
             </span>
           </LinkComponent>
           <LinkComponent
-            className="flex-1 flex items-center justify-end h-[16.8vw] bg-[url(/images/profile/withdraw_button.png)] bg-cover pr-[8vw]"
+            className="flex-1 flex items-center justify-end h-[19vw] bg-[url(/images/profile/withdraw_button.png)] bg-contain bg-no-repeat pr-[8vw]"
             routes={pageUrlConstants.profile.pages.profilePayment}
           >
-            <span className="text-[5.867vw] text-white">提現</span>
+            <span className="text-[5.867vw] text-white relative top-[-0.5vw]">
+              提現
+            </span>
           </LinkComponent>
         </div>
 
@@ -51,10 +53,10 @@ const ProfileMainNav = ({ sign, money }) => {
               {t("Profile.main.nav.my_account")}
             </span>
           </h3>
-          <Divider className="profile_container_divider" />
+          {/* <Divider className="profile_container_divider" /> */}
 
           {IS_CONVERT_TO_DIAMOND ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 md:px-0 px-[2.67vw]">
               <div className="w-full md:w-[608px] mx-auto">
                 <div className="w-full h-[30.667vw] md:h-[135px] rounded-t-[10px] bg-gradient-to-t from-[#f9ecd8] via-[#fdfbf5] to-[#fdfbf5] flex items-center justify-center gap-8 md:gap-4">
                   <Image
@@ -94,7 +96,7 @@ const ProfileMainNav = ({ sign, money }) => {
                     </LinkComponent>
                   </div>
                 </div>
-                <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+                <button className="w-full h-[8.9vw] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
                   总{getPriceUnit(t, false)}：
                   {getUserPremiumDiamond(t, { sign, money })}
                 </button>
@@ -288,13 +290,28 @@ export const ProfileMainNavElement = styled.div.withConfig({
 })`
   ${({ isBrowser }) => `
     /*  */
-    padding: 2.375rem 28.9375rem 0;
+    // padding: ${isBrowser ? "4.35vw 2.67vw 0" : "0"} ;
     background-color: ${colors.back_grey};
+    padding: ${isBrowser ? "0" : "0 2.67vw "};
+    width: ${isBrowser ? "1000px" : "auto"};
+    margin: ${isBrowser ? "1.95vw auto 0" : "4.45vw auto 0"};
+
+    // @media (min-width: 768px) {
+    //   padding: 2.375rem 28.9375rem 0;
+    //   margin: 0;
+    // }
 
     .profile_container {
         background-color: #fff;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
+
+        &_inner {
+            display: ${isBrowser ? "none" : "flex"};
+            gap: 2.47vw;
+            padding: 3.07vw 1.5vw 1vw;
+
+        }
 
         &_header {
         display: flex;
@@ -304,9 +321,14 @@ export const ProfileMainNavElement = styled.div.withConfig({
         font-size: ${isBrowser && "16px"};
 
         &_title {
+            margin-bottom: 2.2vw;
+
             &_text {
-              padding: 2.5rem 2.41rem 1.0625rem;
-              font-size: ${isBrowser && "28px"};
+              padding: ${
+                isBrowser ? "2.15rem 2.41rem 0.8rem" : "5.2vw 1.8vw 1.0625rem"
+              };
+              font-size: ${isBrowser ? "22px" : "4vw"};
+              border-bottom: ${isBrowser ? "1px solid #e7e7e7" : "none"};
             }
 
             &_icon {

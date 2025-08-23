@@ -66,7 +66,7 @@ const ProfileMain = ({ children }) => {
   const [mentionAppValue, setMentionAppValue] = useState(true);
   const firstChargeRef = createRef(null);
   const { size, isMobile } = useMediaQuery();
-  const width  = size[0];  
+  const width = size[0];
 
   useEffect(() => {
     if (state.user.id !== "guest") {
@@ -226,19 +226,19 @@ const ProfileMain = ({ children }) => {
   useEffect(() => {
     if (isMobile) {
       let Element = document.getElementsByTagName("header");
-      if(Element.length){
+      if (Element.length) {
         Element[0].style.setProperty("display", "none");
       }
     }
     return () => {
       if (isMobile) {
         let Element = document.getElementsByTagName("header");
-        if(Element.length){
+        if (Element.length) {
           Element[0].style.setProperty("display", "block");
         }
       }
-    }
-  }, [isMobile])
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     // if (!isMobile) {
@@ -250,12 +250,12 @@ const ProfileMain = ({ children }) => {
     return () => {
       if (!isMobile) {
         let Element = document.getElementsByClassName("PCFooterElement");
-        if(Element.length){
+        if (Element.length) {
           Element[0].style.setProperty("display", "block");
         }
       }
-    }
-  }, [isMobile])
+    };
+  }, [isMobile]);
 
   useEffect(() => {
     useGlobalDispatch({
@@ -268,7 +268,10 @@ const ProfileMain = ({ children }) => {
   }, [isMobile]);
 
   return (
-    <ProfileMainElement main_height={state.navbar.mainHeight} isMobile={isMobile}>
+    <ProfileMainElement
+      main_height={state.navbar.mainHeight}
+      isMobile={isMobile}
+    >
       <FirstRecharge ref={firstChargeRef} user={state.user} times={times} />
       <ProfileMainHeader
         id={id}
@@ -356,6 +359,7 @@ export const ProfileMainElement = styled.div.withConfig({
   shouldForwardProp: (prop) => !["main_height", "isMobile"].includes(prop),
 })`
   ${({ main_height, isMobile }) => `
+    background-color: #f4f4f4;
     margin-top: ${isMobile ? 0 : main_height}px;
     /*  */
     @media (min-width: 599px) {
