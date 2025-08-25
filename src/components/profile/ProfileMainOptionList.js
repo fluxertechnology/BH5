@@ -264,7 +264,7 @@ export const ProfileMainOptionListElement = styled.div.withConfig({
 })`
   ${({ isBrowser }) => `
     /*  */
-    padding: ${isBrowser ? "0" : "4.5vw 2.67vw 32vw"};
+    padding: ${isBrowser ? "0 0 4.65vw" : "4.5vw 2.67vw 32vw"};
     width: ${isBrowser ? "1000px" : "auto"};
     margin: auto;
     background-color: ${colors.back_grey};
@@ -348,7 +348,9 @@ export const ProfileMainOptionListElement = styled.div.withConfig({
 
     .options-cont.small {
       padding: ${isBrowser ? "1vw 1.56vw 1.35vw" : "1.65vw 2vw 7.3vw 10vw"};
-      grid-template-columns: ${isBrowser ? "0.725fr 1fr 1fr" : "repeat(2, 1fr)"};
+      grid-template-columns: ${
+        isBrowser ? "0.725fr 1fr 1fr" : "repeat(2, 1fr)"
+      };
       gap: ${isBrowser ? "1.15vw 1vw" : "5.1vw 8.2vw"};
     }
 
@@ -361,7 +363,9 @@ export const ProfileMainOptionListElement = styled.div.withConfig({
     }
 
     .no_top_border {
-        border-radius: 0 0 1.33vw 1.33vw;
+        border-radius: ${
+          isBrowser ? "0 0 10px 10px" : "0 0 1.33vw 1.33vw"
+        };
     }
 
     .banner-padding {

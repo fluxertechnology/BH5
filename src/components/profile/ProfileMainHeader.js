@@ -303,7 +303,9 @@ const ProfileMainHeader = ({
                 ""
               )}
             </div>
-            <div className={`profile_header_info_arrow ${!isDesktop&& 'hidden'}`}>
+            <div
+              className={`profile_header_info_arrow ${isDesktop && "hidden"}`}
+            >
               <FontAwesomeIcon icon={faAngleRight} />
             </div>
           </div>
@@ -364,7 +366,9 @@ const ProfileMainHeader = ({
               </span>
             </LinkComponent>
           </div>
-          <div className={`profile_header_info_arrow ${isDesktop&& 'hidden'}`} >
+          <div
+            className={`profile_header_info_arrow ${!isDesktop && "hidden"}`}
+          >
             <FontAwesomeIcon icon={faAngleRight} />
           </div>
         </div>
@@ -474,7 +478,7 @@ const ProfileMainHeaderElement = styled.div.withConfig({
         font-size: ${!isBrowser ? "20px" : "22px"};
         text-decoration: none;
         color: #fff;
-        padding: ${!isBrowser && `0px ${padding}px 10px 0`};
+        padding: ${!isBrowser && `0px ${padding}px 10px 4vw`};
         flex-wrap: ${!isBrowser && "wrap"};
 
         .g-flex {
@@ -537,6 +541,12 @@ const ProfileMainHeaderElement = styled.div.withConfig({
             }
           }
         }
+
+        &_arrow {
+          margin-top: ${isBrowser ? "25px" : "5vw"};
+          margin-left: ${isBrowser ? "5px" : "0vw"};
+          font-size: ${isBrowser ? "32px" : "6.8vw"};
+        }
       }
 
       &_daily {
@@ -555,14 +565,14 @@ const ProfileMainHeaderElement = styled.div.withConfig({
           &_amount {
             margin-top: ${!isBrowser ? "2.67vw" : "10px"};
             margin-bottom: ${!isBrowser ? "1.33vw" : "10px"};
-            font-size: ${!isBrowser ? "4vw" : "20px"};
+            font-size: ${!isBrowser ? "4vw" : "24px"};
             text-align: center;
           }
 
           &_text {
             margin-top: 10px;
             color: #b5b5b5;
-            font-size: ${!isBrowser ? "2.4vw" : "20px"};
+            font-size: ${!isBrowser ? "2.4vw" : "14px"};
           }
         }
 
@@ -582,15 +592,15 @@ const ProfileMainHeaderElement = styled.div.withConfig({
             max-width: ${isBrowser && "58px"};
             margin-top: ${isBrowser ? "13px" : "4.5vw"};
             margin-bottom: ${isBrowser ? "10px" : "1.33vw"};
-            height: ${!isBrowser && "4.13vw"};
-            width: ${!isBrowser && "auto"};
-            object-fit: ${!isBrowser && "contain"};
+            height: ${isBrowser ? "28px" : "4.13v"};
+            width: auto;
+            object-fit: contain;
           }
 
           &_text {
             display: flex;
             align-items: center;
-            font-size: ${!isBrowser ? "2.4vw" : "20px"};
+            font-size: ${!isBrowser ? "2.4vw" : "14px"};
 
             &_arrow {
               margin-top: 5px;
