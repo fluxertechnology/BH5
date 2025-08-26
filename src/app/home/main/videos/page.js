@@ -19,9 +19,10 @@ import {
   getHomeVideoData,
   setNowTabList,
 } from "@/store/actions/pages/homeVideoAction";
+import { useTranslations } from "next-intl";
 
 const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
-  const { isMobile } = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
   const { state } = useGlobalContext();
 
   const type = [
@@ -49,7 +50,13 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
   const [currentTypeId, setCurrentTypeId] = useState(type[0].id);
   const [currentPaidId, setCurrentPaidId] = useState(paidType[0].id);
 
+  const [tabHeight, setTabHeight] = useState(0);
+  const [tabHeightState, setTabHeightState] = useState(false);
+  const tabRef = useRef(null);
+  const t = useTranslations();
+
   const videoTabListRef = useRef(null);
+  const showBtnRef = useRef(null);
   const getVideo = useCallback(() => {
     getVideoData();
   }, []);
@@ -65,16 +72,74 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
     window.addEventListener("scroll", scrollEvent);
     if (
       (state.homeVideo.nowTab,
-      state.homeVideoList,
-      !state.homeVideoList[state.homeVideo.nowTab]?.page)
+        state.homeVideoList,
+        !state.homeVideoList[state.homeVideo.nowTab]?.page)
     ) {
-      updateCateVideoData(state.homeVideo.nowTab, () => {});
+      updateCateVideoData(state.homeVideo.nowTab, () => { });
     }
     return () => {
       tabBar.removeEventListener("wheel", videoWheelEvent);
       window.removeEventListener("scroll", scrollEvent);
     };
   }, [state.homeVideo.nowTab]);
+
+  const [is750, setIs750] = useState(false);
+
+  useEffect(() => {
+
+    const updateIs750 = () => {
+      const width = window.innerWidth;
+      setIs750(width > 749);
+    };
+
+    window.addEventListener("resize", updateIs750);
+    updateIs750();
+
+    return () => {
+      window.removeEventListener("resize", updateIs750);
+    };
+  }, []);
+
+  useEffect(() => {
+    getTabHeight();
+
+  }, [is750, isMobile, tabHeight]);
+
+  const toggleTabHeight = useCallback(() => {
+    if (!videoTabListRef) return;
+    if (videoTabListRef.current.offsetHeight === tabHeight) {
+      if (isMobile) {
+        videoTabListRef.current.style.height = is750 ? "98px" : "14vw";
+      } else {
+        videoTabListRef.current.style.height = isTablet ? "108px" : "98px";
+      }
+      setTabHeightState(false);
+    } else {
+      videoTabListRef.current.style.height = tabHeight + "px";
+      setTabHeightState(true);
+    }
+
+  }, [is750, isMobile, tabHeight, videoTabListRef]);
+
+  const getTabHeight = useCallback(() => {
+    if (!videoTabListRef) return;
+
+    videoTabListRef.current.style.height = "unset";
+    setTabHeight(videoTabListRef.current.offsetHeight);
+    if (isMobile) {
+      videoTabListRef.current.style.height = is750 ? "98px" : "14vw";
+    } else {
+      videoTabListRef.current.style.height = isTablet ? "108px" : "98px";
+    }
+
+    if(videoTabListRef.current.offsetHeight >= tabHeight){
+      videoTabListRef.current.style.height = tabHeight + "px";
+      showBtnRef.current.style.display = "none";
+    }else {
+      showBtnRef.current.style.display = "block";
+    }
+    
+  }, [is750, isMobile, tabHeight, videoTabListRef, showBtnRef]);
 
   function scrollEvent() {
     scrollBottomCallEvent((scrollColdEnd) => {
@@ -94,7 +159,7 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
   const clickTabEvent = (cateid) => {
     useGlobalDispatch(setNowTabList(cateid));
   };
-  const updateCateVideoData = (cateid, scrollColdEnd = () => {}) => {
+  const updateCateVideoData = (cateid, scrollColdEnd = () => { }) => {
     useGlobalDispatch(getCateVideoData(cateid, scrollColdEnd));
   };
   return (
@@ -112,9 +177,8 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
           {type.map((item) => (
             <div
               key={item.id}
-              className={`nav_list_tag ${
-                currentTypeId === item.id ? "active" : ""
-              }`}
+              className={`nav_list_tag ${currentTypeId === item.id ? "active" : ""
+                }`}
               onClick={() => setCurrentTypeId(item.id)}
             >
               <WavaButton>
@@ -125,9 +189,8 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
         </div>
         <div
           ref={videoTabListRef}
-          className={`nav_list ${
-            !isMobile ? "mx-indent" : "mobile-width"
-          } nav_cateogry`}
+          className={`nav_list ${!isMobile ? "mx-indent" : "mobile-width"
+            } nav_cateogry`}
           onWheel={videoWheelEvent}
         >
           {Object.keys(state.homeVideoList).map((key, i) => {
@@ -156,14 +219,23 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
             );
           })}
         </div>
-        <div className="show-less-btn">&lt;显示较少&gt;</div>
+        <div
+          className="show-less-btn cursor"
+          onClick={toggleTabHeight}
+          ref={showBtnRef}
+        >
+          <WavaButton className="category_container_content_btn_button">
+            &lt;&nbsp;&nbsp;&nbsp;
+            {tabHeightState ? t("Global.show_less") : t("Global.show_more")}
+            &nbsp;&nbsp;&nbsp;&gt;
+          </WavaButton>
+        </div>
         <div className={`nav_list ${!isMobile ? "mx-indent" : "mobile-width"}`}>
           {paidType.map((item, index) => (
             <div
               key={item.id}
-              className={`nav_list_tag ${
-                currentPaidId === item.id ? "active" : ""
-              }`}
+              className={`nav_list_tag ${currentPaidId === item.id ? "active" : ""
+                }`}
               onClick={() => setCurrentPaidId(item.id)}
             >
               <WavaButton>
@@ -174,9 +246,8 @@ const HomeVideosPage = ({ containerRef, hideImageCarousel }) => {
         </div>
       </div>
       <div
-        className={`video_content ${
-          !isMobile ? "px-indent" : "mobile-width"
-        } mt-2 `}
+        className={`video_content ${!isMobile ? "px-indent" : "mobile-width"
+          } mt-2 `}
       >
         <Grid
           container
@@ -248,10 +319,14 @@ export const HomeVideosPageElement = styled.div`
         width: 14.67vw;
         height: 5.33vw;
 
+        @media (max-width: 749px){
+          width: 16.67vw;
+        }
+
         @media (min-width: 899px) {
           width: auto;
           min-width: 4.69vw;
-          height: auto;
+          height: 31px;
           margin: 7px;
         }
 
@@ -266,6 +341,10 @@ export const HomeVideosPageElement = styled.div`
           font-family: "Microsoft YaHei";
           text-align: center;
 
+          @media (max-width: 749px){
+            padding: 2px 10px;
+          }
+
           @media (min-width: 899px) {
             font-size: 16px;
           }
@@ -274,7 +353,7 @@ export const HomeVideosPageElement = styled.div`
     }
 
     .nav_cateogry {
-      padding-bottom: 2.3vw;
+      margin-bottom: 2.3vw;
       border-bottom: 1px solid #f3f3f3;
 
       @media (min-width: 899px) {
@@ -314,5 +393,9 @@ export const HomeVideosPageElement = styled.div`
   .mobile-width {
     width: 94.67vw;
     margin: auto;
+  }
+
+  .nav_list{
+    overflow: hidden;
   }
 `;
