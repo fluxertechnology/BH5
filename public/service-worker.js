@@ -41,7 +41,7 @@ function fetchFilter(event) {
 
   const urlDomain = new URL(event.request.url).hostname;
 
-  const ignorePath = ['/tcg/category'];
+  const ignorePath = ['/tcg'];
   
   return __FILTER_DOMAIN.includes(urlDomain) && !ignorePath.some((path) => event.request.url.includes(path));
 }

@@ -126,7 +126,7 @@ const HomeTcgMainPage = () => {
   const [tcgProductTypes, setTcgProductTypes] = useState(0);
   const [tcgProductTypesList, setTcgProductTypesList] = useState([]);
   const [tcgProductTypesDisplay, setTcgProductTypesDisplay] = useState([]);
-  const [tcgGameType, setTcgGameType] = useState(initGameType || 'HOT');
+  const [tcgGameType, setTcgGameType] = useState(initGameType || "HOT");
   const [tcgGameList, setTcgGameList] = useState([]);
   const [tcgGameCurrentPage, setTcgCurrentPage] = useState(1);
   const [tcgTotalGames, setTcgTotalGames] = useState(0);
@@ -702,6 +702,61 @@ const HomeTcgMainPage = () => {
                   tcgProductTypesDisplay.length > 0 &&
                   tcgProductTypes === 0 && (
                     <div className="w-auto">
+                      <div
+                        className="grid game-list"
+                        style={{
+                          "grid-template-columns": `repeat(${gameCategoryList.find((item) => item.game_type === tcgGameType)?.span_count}, minmax(0, 1fr))`,
+                        }}
+                      >
+                        {!isDesktop && gameCategoryList
+                          .find((item) => item.game_type === tcgGameType)
+                          ?.product.filter((e) => e.id > 0)
+                          ?.slice(
+                            0,
+                            gameCategoryList.find(
+                              (item) => item.game_type === tcgGameType,
+                            )?.span_count * 2,
+                          )
+                          ?.map((game, index) => (
+                            <div
+                              key={index}
+                              className="relative game-item border cursor-pointer text-center "
+                              onClick={() =>
+                                tcgGetGameUrl(
+                                  game.id,
+                                  state.user.id !== "guest",
+                                )
+                              }
+                            >
+                              <div className="icon text-2xl w-full">
+                                <div className="relative rounded-md overflow-hidden icon flex justify-center w-full">
+                                  {productTypeLogos[game.product_type] && (
+                                    <Image
+                                      src={productTypeLogos[game.product_type]}
+                                      alt="platform logo"
+                                      width={32}
+                                      height={32}
+                                      className="icon-logo"
+                                    />
+                                  )}
+                                  <ImageComponent
+                                    className="icon-img"
+                                    key={game.id}
+                                    width={64}
+                                    height={64}
+                                    is_cover={true}
+                                    src={game.img?.replace("/zh/", "/EN/")}
+                                    alt={game.name}
+                                    draggable="false"
+                                  />
+                                </div>
+                              </div>
+                              <div className="title font-medium">
+                                {game.name}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
                       <div className={`product-type-container ${tcgGameType}`}>
                         {tcgProductTypesDisplay.map((type, index) => (
                           <div
@@ -721,9 +776,15 @@ const HomeTcgMainPage = () => {
                               is_cover={true}
                               className="product_type_img"
                               src={
-                                gameTypeImages[tcgGameType]?.[
-                                  type.product_code
-                                ] || ""
+                                gameCategoryList
+                                  .find(
+                                    (item) => item.game_type === tcgGameType,
+                                  )
+                                  ?.product.find(
+                                    (item) =>
+                                      item.id < 0 &&
+                                      item.product_type === type.product_type,
+                                  )?.img || ""
                               }
                               alt={type.product_code}
                             />
@@ -752,7 +813,9 @@ const HomeTcgMainPage = () => {
                             />
                             <h5 className="title">
                               {tcgGameType}
-                              {gameTypes[tcgGameType]?.label}
+                              {gameCategoryList.find(
+                                (item) => item.game_type === tcgGameType,
+                              )?.name || ""}
                             </h5>
                           </div>
                           <div className="grid game-list">
@@ -811,7 +874,9 @@ const HomeTcgMainPage = () => {
                         {isDesktop && tcgGameType !== "HOT" && (
                           <div className="game-title">
                             {tcgGameType}
-                            {gameTypes[tcgGameType]?.label}
+                            {gameCategoryList.find(
+                              (item) => item.game_type === tcgGameType,
+                            )?.name || ""}
                           </div>
                         )}
                         <div className="grid game-list">
@@ -1400,7 +1465,7 @@ export const HomeTcgMainPageElement = styled.div.withConfig({
       grid-template-columns: repeat(3, minmax(0, 1fr));
 
       .game-item {
-        width: 22.67vw;
+        // width: 22.67vw;
         min-height: 29.23vw;
         margin-bottom: 2vw;
 
