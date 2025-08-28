@@ -593,7 +593,8 @@ const HomeTcgMainPage = () => {
                           <Image
                             src={
                               tcgGameType === category.game_type
-                                ? category.img_selected
+                                // ? category.img_selected
+                                ? category.img
                                 : category.img
                             }
                             key={`${index}-${tcgGameType === category.game_type ? 1 : 0}`}
@@ -673,7 +674,7 @@ const HomeTcgMainPage = () => {
                           <Image
                             src={
                               tcgGameType === category.game_type
-                                ? category.img_selected
+                                ? category.img
                                 : category.img
                             }
                             key={`${index}-${tcgGameType === category.game_type ? 1 : 0}`}
