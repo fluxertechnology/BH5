@@ -189,6 +189,9 @@ export const PCFooterElement = styled.div.withConfig({
     @media (max-width: 1080px) {
       padding: 1em 5em;
     }
+    @media (min-width: 768px) and (max-width: 1080px) {
+      padding: 1em 1em;
+    }
     @media (min-width: 1081px) {
       padding: 0 11.98vw 2.3125rem;
     }

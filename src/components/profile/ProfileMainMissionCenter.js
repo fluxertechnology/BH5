@@ -110,8 +110,8 @@ const ProfileMainMissionCenter = ({
                           color:
                             data.title ===
                             t("Profile.permission.signin.everyday")
-                              ? "#f4eb0b"
-                              : "purple",
+                              ? "#f24c7c"
+                              : "#f24c7c",
                         }}
                       >
                         <Image

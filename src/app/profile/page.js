@@ -26,6 +26,7 @@ import { updateUserDataAction } from "@/store/actions/user";
 import { dailyLoginAction } from "@/store/actions/pages/profileMainAction";
 import { bottom_nav_height } from "@/components/layout/Header/BottomNavBar";
 import { toggleMentionAppCoverAction } from "@/store/actions/showCoverCenter";
+import StickyShareButton from "@/components/common/StickyShareButton";
 
 const number = 6 * 60 * 60;
 const ProfileMain = ({ children }) => {
@@ -100,6 +101,39 @@ const ProfileMain = ({ children }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const shareThisRef = useRef(null);
+  const isClientSide = typeof window !== "undefined";
+  if (isClientSide) {
+    useEffect(() => {
+      //h5控制 shareThis位於底部nav上方位置
+      function scrollEvent() {
+        if (isMobile) {
+          document.body.style.paddingBottom = 0;
+          const shareRef = shareThisRef.current;
+          if (shareRef) {
+            const shareButtonRef = shareRef.buttons.current;
+            if (
+              window.scrollY >
+              document.body.clientHeight -
+                window.innerHeight -
+                state.navbar.bottomNavHeight
+            ) {
+              shareButtonRef.style.display = "flex";
+              shareButtonRef.style.bottom = `${state.navbar.bottomNavHeight}px`;
+              shareButtonRef.style.zIndex = 10;
+            } else {
+              shareButtonRef.style.display = "none";
+            }
+          }
+        }
+        return;
+      }
+      scrollEvent();
+      window.addEventListener("scroll", scrollEvent);
+      return () => window.removeEventListener("scroll", scrollEvent);
+    }, [isMobile, window.location.href]);
+  }
 
   const [optionEvent, setOptionEvent] = useState({});
 
@@ -349,6 +383,9 @@ const ProfileMain = ({ children }) => {
         </div>
       </MentaionAppBannerElement>
       {children}
+      {isMobile && (
+        <StickyShareButton ref={shareThisRef} />
+      )}
     </ProfileMainElement>
   );
 };

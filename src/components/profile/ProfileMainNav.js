@@ -67,14 +67,14 @@ const ProfileMainNav = ({ sign, money }) => {
                     className="w-[25.733vw] h-[20.667vw] md:w-[6.042vw] md:h-[4.844vw]"
                   />
                   <div className="md:flex md:flex-col md:items-center">
-                    <p className="text-[4.8vw] md:text-[24px]">
+                    <p className="text-[4.8vw] md:text-[24px] text-[#666666]">
                       -- 总{getPriceUnit(t, false)} --
                     </p>
                     <p className="text-[8vw] md:text-[45px] text-[#f04c7e] font-bold">
                       {getUserPremiumDiamond(t, {
                         sign,
                         money,
-                      })}
+                      }).replace(/\D/g, '')}
                     </p>
                   </div>
                   <div className="w-[170px] md:block hidden">
@@ -112,11 +112,11 @@ const ProfileMainNav = ({ sign, money }) => {
                       className="w-[25.733vw] h-[20.667vw] md:w-[6.042vw] md:h-[4.844vw]"
                     />
                     <div className="md:flex md:flex-col md:items-center">
-                      <p className="text-[4.8vw] md:text-[24px]">
+                      <p className="text-[4.8vw] md:text-[24px] text-[#666666]">
                         -- 总{getPriceUnit(t)} --
                       </p>
                       <p className="text-[8vw] md:text-[45px] text-[#f04c7e] font-bold">
-                        {getPremiumDiamond(t, money)}
+                        {getPremiumDiamond(t, money).replace(/\D/g, '')}
                       </p>
                     </div>
                     <div className="w-[170px] md:block hidden">
@@ -138,7 +138,7 @@ const ProfileMainNav = ({ sign, money }) => {
                       </LinkComponent>
                     </div>
                   </div>
-                  <button className="w-full h-[70px] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
+                  <button className="w-full h-[8.9vw] md:h-[30px] text-[4.8vw] md:text-[16px] text-white bg-gradient-to-r from-[#feb170] to-[#f04c7e] rounded-b-[10px]">
                     可提现：{getPremiumDiamond(t, money)}
                   </button>
                 </div>

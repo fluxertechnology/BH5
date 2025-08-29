@@ -220,7 +220,7 @@ const ProfileMainOptionList = ({ optionEvent, buyDiscount }) => {
         </h3>
         <Divider className="profile_container_divider" />
         <div className="options-wrapper">
-          <div className="options-cont small">
+          <div className="options-cont small contact">
             {optionListBottom.map((data) => {
               return (
                 <div
@@ -264,7 +264,10 @@ export const ProfileMainOptionListElement = styled.div.withConfig({
 })`
   ${({ isBrowser }) => `
     /*  */
-    padding: ${isBrowser ? "0 0 4.65vw" : "4.5vw 2.67vw 32vw"};
+    padding: ${isBrowser ? "0 0 4.65vw" : "4.5vw 2.67vw 30vw"};
+    @media (min-width: 768px) and (max-width: 1439px) {
+      padding: ${isBrowser ? "0 0 4.65vw" : "4.5vw 2.67vw 10vw"};
+    }
     width: ${isBrowser ? "1000px" : "auto"};
     margin: auto;
     background-color: ${colors.back_grey};
@@ -328,6 +331,12 @@ export const ProfileMainOptionListElement = styled.div.withConfig({
         }
       }
     }
+
+    .contact .list_container_item_title{
+      width: auto;
+      padding-right: 2.667vw;
+    }
+
     .profile_container_divider {
       margin: 0 0;
       border-width: 0px;
@@ -350,6 +359,14 @@ export const ProfileMainOptionListElement = styled.div.withConfig({
       padding: ${isBrowser ? "1vw 1.56vw 1.35vw" : "1.65vw 2vw 7.3vw 10vw"};
       grid-template-columns: ${
         isBrowser ? "0.725fr 1fr 1fr" : "repeat(2, 1fr)"
+      };
+      gap: ${isBrowser ? "1.15vw 1vw" : "5.1vw 8.2vw"};
+    }
+
+    .options-cont.small.contact {
+      padding: ${isBrowser ? "1vw 1.56vw 1.35vw" : "1.65vw 2vw 7.3vw 10vw"};
+      grid-template-columns: ${
+        isBrowser ? "0.725fr 1fr 1fr" : "repeat(1, 1fr)"
       };
       gap: ${isBrowser ? "1.15vw 1vw" : "5.1vw 8.2vw"};
     }

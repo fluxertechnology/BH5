@@ -242,7 +242,7 @@ const UserPanelElement = styled.div`
     padding-left: 5vw !important;
     padding-right: 5vw !important;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
       padding-right: 1vw !important;
       padding-left: 1vw !important;
     }
@@ -309,7 +309,7 @@ const UserPanelElement = styled.div`
     margin-top: 20px;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .user-panel {
       justify-content: space-between !important;
       background: linear-gradient(to right, #ffffff, #d18fd7, #873fdb);
@@ -397,7 +397,7 @@ const UserPanelElement = styled.div`
     }
   }
 
-  @media (max-width: 1023px) {
+  @media (max-width: 767px) {
     .user-panel {
       padding: 2vw 1vw 1.6vw !important;
       background: linear-gradient(to bottom right, #ee51ab, #873fdb);

@@ -590,9 +590,9 @@ const ProfileMainHeaderElement = styled.div.withConfig({
 
           &_icon {
             max-width: ${isBrowser && "58px"};
-            margin-top: ${isBrowser ? "13px" : "4.5vw"};
-            margin-bottom: ${isBrowser ? "10px" : "1.33vw"};
-            height: ${isBrowser ? "28px" : "4.13v"};
+            margin-top: ${isBrowser ? "13px" : "4.3vw"};
+            margin-bottom: ${isBrowser ? "10px" : "2.33vw"};
+            height: ${isBrowser ? "28px" : "4.13vw"};
             width: auto;
             object-fit: contain;
           }
