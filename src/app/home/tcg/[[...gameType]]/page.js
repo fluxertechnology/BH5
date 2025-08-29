@@ -813,7 +813,15 @@ const HomeTcgMainPage = () => {
                               }}
                             />
                             <h5 className="title">
-                              {tcgGameType}
+                              {
+                                gameCategoryList
+                                  .find((item) => item.game_type == tcgGameType)
+                                  ?.product?.find(
+                                    (i) =>
+                                      i.product_type == tcgProductTypes &&
+                                      i.id === -1,
+                                  )?.product_code
+                              }
                               {gameCategoryList.find(
                                 (item) => item.game_type === tcgGameType,
                               )?.name || ""}
@@ -874,7 +882,15 @@ const HomeTcgMainPage = () => {
                       <div>
                         {isDesktop && tcgGameType !== "HOT" && (
                           <div className="game-title">
-                            {tcgGameType}
+                            {
+                              gameCategoryList
+                                .find((item) => item.game_type == tcgGameType)
+                                ?.product?.find(
+                                  (i) =>
+                                    i.product_type == tcgProductTypes &&
+                                    i.id === -1,
+                                )?.product_code
+                            }
                             {gameCategoryList.find(
                               (item) => item.game_type === tcgGameType,
                             )?.name || ""}
