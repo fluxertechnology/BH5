@@ -87,77 +87,79 @@ function WithdrawPage() {
   };
 
   return (
-    <WithdrawPageElement
-      main_height={state.navbar.mainHeight}
-      bg={withdrawOptions[type]?.backgroundImage}
-      mobileBg={withdrawOptions[type]?.mobileBackgroundImage}
-    >
-      <TopBarContainer>
-        <TopTitleBar
-          title={withdrawOptions[type]?.title || t("Profile.withdraw.title")}
-          showBack={true}
-          color="#000"
-          back_color="#fff"
-        >
-          <LinkComponent
-            className="profile_with_draw_history"
-            routes={{
-              name: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
-                .name,
-              path: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
-                .path,
-            }}
+    <div className="bg-[#f2f2f2] pb-[20.48vw] xl:pb-0">
+      <WithdrawPageElement
+        main_height={state.navbar.mainHeight}
+        bg={withdrawOptions[type]?.backgroundImage}
+        mobileBg={withdrawOptions[type]?.mobileBackgroundImage}
+      >
+        <TopBarContainer>
+          <TopTitleBar
+            title={withdrawOptions[type]?.title || t("Profile.withdraw.title")}
+            showBack={true}
+            color="#000"
+            back_color="#fff"
           >
-            {t("Profile.payment.charge.history_1")}
-          </LinkComponent>
-        </TopTitleBar>
-      </TopBarContainer>
+            <LinkComponent
+              className="profile_with_draw_history"
+              routes={{
+                name: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
+                  .name,
+                path: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
+                  .path,
+              }}
+            >
+              {t("Profile.payment.charge.history_1")}
+            </LinkComponent>
+          </TopTitleBar>
+        </TopBarContainer>
 
-      <LoadingComponent isLoading={loading} />
+        <LoadingComponent isLoading={loading} />
 
-      <div className="info-container--outer">
-        <div className="info-container">
-          <p className="title">-- 总精钻 --</p>
-          <p className="amount"> {Number(userBalance).toFixed(2)}</p>
-          <p className="available-amount">
-            可提现：{getUserPremiumDiamond(t, { money: userBalance })}
-          </p>
+        <div className="info-container--outer">
+          <div className="info-container">
+            <p className="title">-- 总精钻 --</p>
+            <p className="amount"> {Number(userBalance).toFixed(2)}</p>
+            <p className="available-amount">
+              可提现：{getUserPremiumDiamond(t, { money: userBalance })}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="component-container--outer">
-        <div className="component-container">
-          {withdrawOptions[type]?.component ? (
-            (() => {
-              const Component = withdrawOptions[type].component;
-              return (
-                <Component
-                  withDrawData={withDrawData}
-                  fee={fee}
-                  feeUnit={feeUnit}
-                  exchangeRate={exchangeRate}
-                  exchangeCurrencyDisplay={exchangeCurrencyDisplay}
-                  paymentMethod={
-                    paymentMethods.find((e) => e.name === type) || {}
-                  }
-                  onSubmit={handleWithdraw}
-                />
-              );
-            })()
-          ) : (
-            <div className="text-center p-4">未知的提现类型: {type}</div>
-          )}
+        <div className="component-container--outer">
+          <div className="component-container">
+            {withdrawOptions[type]?.component ? (
+              (() => {
+                const Component = withdrawOptions[type].component;
+                return (
+                  <Component
+                    withDrawData={withDrawData}
+                    fee={fee}
+                    feeUnit={feeUnit}
+                    exchangeRate={exchangeRate}
+                    exchangeCurrencyDisplay={exchangeCurrencyDisplay}
+                    paymentMethod={
+                      paymentMethods.find((e) => e.name === type) || {}
+                    }
+                    onSubmit={handleWithdraw}
+                  />
+                );
+              })()
+            ) : (
+              <div className="text-center p-4">未知的提现类型: {type}</div>
+            )}
+          </div>
         </div>
-      </div>
-      {/* 提示信息 */}
-      {!isDesktop && (
-        <div className="mobile-tip-container">
-          <p className="tip">
-            <span className="tip-icon">※</span>{" "}
-            提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
-          </p>
-        </div>
-      )}
-    </WithdrawPageElement>
+        {/* 提示信息 */}
+        {!isDesktop && (
+          <div className="mobile-tip-container">
+            <p className="tip">
+              <span className="tip-icon">※</span>{" "}
+              提现精钻仅限通过实名认证的账号，点击账户信息页可申请提现
+            </p>
+          </div>
+        )}
+      </WithdrawPageElement>
+    </div>
   );
 }
 
@@ -184,7 +186,7 @@ const WithdrawPageElement = styled.div.withConfig({
         position: relative;
         // margin: calc(${main_height}px + 3.65vw) 0 1.72vw 53.7vw;
         top: 3.67vw;
-        left: 53.7vw;
+        left: 50vw;
         border-radius: 10px;
         padding-top: 1vw;
         background-image: -moz-linear-gradient( 90deg, rgb(254,224,233) 0%, rgb(255,255,255) 100%);
@@ -381,20 +383,21 @@ const WithdrawPageElement = styled.div.withConfig({
           margin-top: 10px;
 
           .submit-button {
-            background: linear-gradient(90deg, rgb(249,54,34) 0%, rgb(255,69,122) 100%);
+            background: linear-gradient(to top, rgb(249,54,34) 0%, rgb(255,69,122) 100%);
             border: none;
             border-radius: 999px;
             padding: 12px 48px;
             font-size: 16px;
             color: white;
-            font-weight: bold;
+            font-weight: regular;
             cursor: pointer;
             transition: 0.3s;
-            width: 18.75vw;
-            height: 4.69vw;
+            width: 18.23vw;
+            height: 4.17vw;
             font-size: 1.56vw;
             color: rgb(255, 255, 255);
             line-height: 1.2;
+            box-shadow: 0 -3px #7c1b12 inset;
 
             &:hover {
               opacity: 0.9;
@@ -407,10 +410,10 @@ const WithdrawPageElement = styled.div.withConfig({
           font-size: 0.83vw;
           margin-top: 4.48vw;
           padding-top: 2.14vw;
-          padding-bottom: 5.3vw;
+          padding-bottom: 14.41vw;
           text-align: center;
           border-top: 1px solid rgb(205, 205, 205);
-          border-bottom: 1px solid rgb(205, 205, 205);
+          // border-bottom: 1px solid rgb(205, 205, 205);
 
           .tip-icon {
             color: rgb(255, 69, 122);
@@ -457,9 +460,18 @@ const WithdrawPageElement = styled.div.withConfig({
         width: 100%;
         margin-bottom: 4.9vw;
 
+        @media (max-width: 1024px){
+          bottom: -3.7vw;
+          background-color: #transparent;
+        }
+
         .component-container {
           width: 93.33vw;
           padding: 6.6vw 5.73vw 13.9vw;
+
+          @media (max-width: 1024px){
+            padding: 6.6vw 1.73vw 13.9vw;
+          }
         }
       }
 
@@ -470,6 +482,10 @@ const WithdrawPageElement = styled.div.withConfig({
                 margin-bottom: 2.83vw;
                 border-bottom: none;
                 font-size: 4vw;
+
+                @media (max-width: 1024px){
+                  padding: 0 4vw;
+                }
             }
 
             .form-inputs {
@@ -541,7 +557,7 @@ const WithdrawPageElement = styled.div.withConfig({
      .tip {
         color: rgb(102, 102, 102);
         font-size: 2.4vw;
-        margin: 0 auto 20.48vw;
+        margin: 0 auto;
         text-align: center;
         border-width: 1px;
         border-color: rgb(205, 205, 205);
