@@ -43,7 +43,7 @@ function WithdrawPage() {
         "/images/profile/withdraw_mobile_bg_apple_wallet.png",
       component: AppleWalletWithdraw,
     },
-    bank: {
+    creditcard: {
       title: `银行卡 ${t("Profile.withdraw.title")}`,
       backgroundImage: "/images/profile/withdraw_bg_bank.png",
       mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_bank.png",
@@ -79,10 +79,10 @@ function WithdrawPage() {
   }, []);
 
   const handleWithdraw = (payload) => {
-    const isValidAmount = isValidWithdrawAmount(withDrawData, payload.money);
-    if (!isValidAmount) {
-      return;
-    }
+    // const isValidAmount = isValidWithdrawAmount(withDrawData, payload.money);
+    // if (!isValidAmount) {
+    //   return;
+    // }
     postUserWithdraw(state, payload);
   };
 
@@ -103,10 +103,10 @@ function WithdrawPage() {
             <LinkComponent
               className="profile_with_draw_history"
               routes={{
-                name: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
-                  .name,
-                path: pageUrlConstants.profile.pages.profilePaymentWithDrawHistory
-                  .path,
+                name: pageUrlConstants.profile.pages
+                  .profilePaymentWithDrawHistory.name,
+                path: pageUrlConstants.profile.pages
+                  .profilePaymentWithDrawHistory.path,
               }}
             >
               {t("Profile.payment.charge.history_1")}
@@ -138,7 +138,7 @@ function WithdrawPage() {
                     exchangeRate={exchangeRate}
                     exchangeCurrencyDisplay={exchangeCurrencyDisplay}
                     paymentMethod={
-                      paymentMethods.find((e) => e.name === type) || {}
+                      paymentMethods.find((e) => e.type === type) || {}
                     }
                     onSubmit={handleWithdraw}
                   />

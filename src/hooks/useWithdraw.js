@@ -61,6 +61,10 @@ const useWithdraw = () => {
   };
 };
 
+export const getCurrencyDisplay = (currency) => {
+  return currencyDisplay[currency] || currency;
+};
+
 export const calculateWithdrawTotal = (
   withdrawData,
   withdrawAmount,
@@ -145,6 +149,68 @@ export const postUserWithdraw = async (state, params) => {
       body: JSON.stringify({
         uid: state.user.id,
         ...params,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.code === 0) {
+      toastCall(data.msg || "提交提领申请失败");
+      return {
+        isSuccess: false,
+        error: data.msg || "提交提领申请失败",
+      };
+    }
+
+    toastCall(data.msg || "提交提领申请成功");
+    return {
+      isSuccess: true,
+      data: data.data || {},
+    };
+  } catch (error) {
+    toastCall("提交提领申请时发生错误");
+    console.error("Error submitting withdrawal request:", error);
+    return {
+      isSuccess: false,
+      error: "提交提领申请时发生错误",
+    };
+  }
+};
+
+export const bindWithdrawPayment = async (state, params) => {
+  try {
+    const submitData = {};
+
+    switch (params.pay_id) {
+      case 1:
+        submitData.address = params.address;
+        submitData.mainnet = params.mainnet;
+        break;
+      case 2:
+        submitData.username = params.username;
+        submitData.card_number = params.card_number;
+        submitData.card_bank = params.card_bank;
+        submitData.card_bank_branch = params.card_bank_branch;
+        break;
+      case 3:
+        submitData.email = params.email;
+        submitData.account = params.account;
+        submitData.username = params.username;
+        break;
+      default:
+        break;
+    }
+
+    const response = await fetch(`${apiUrl}/appapi/tcg/bind_withdraw_payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Language": ["sc", "tc"].includes(nowLang) ? "zh" : "en",
+      },
+      body: JSON.stringify({
+        uid: state.user.id,
+        pay_id: params.pay_id,
+        ...submitData,
       }),
     });
 

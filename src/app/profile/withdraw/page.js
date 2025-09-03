@@ -15,23 +15,6 @@ import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
 import LinkComponent from "@/components/common/LinkComponent";
 
-const withdrawOptions = [
-  {
-    label: "支付宝",
-    fee: "1",
-    type: "alipay",
-    icon: "withdraw_icon_alipay",
-  },
-  {
-    label: "Apple Wallet",
-    fee: "1",
-    type: "apple-wallet",
-    icon: "withdraw_icon_apple",
-  },
-  { label: "USDT", fee: "1", type: "usdt", icon: "withdraw_icon_usdt" },
-  { label: "银行卡", fee: "1", type: "bank", icon: "withdraw_icon_card" },
-];
-
 export default function WithdrawPage() {
   const router = useRouter();
   const t = useTranslations();
@@ -41,16 +24,7 @@ export default function WithdrawPage() {
     router.push(`/profile/withdraw/${type}`);
   };
 
-  const { paymentMethods, fee, feeUnit } = useWithdraw();
-  const [validWithdrawOptions, setValidWithdrawOptions] = useState([]);
-
-  useEffect(() => {
-    setValidWithdrawOptions(
-      withdrawOptions.filter((option) =>
-        paymentMethods.map((m) => m.name).includes(option.type)
-      )
-    );
-  }, [paymentMethods]);
+  const { paymentMethods } = useWithdraw();
 
   useEffect(() => {
     useGlobalDispatch({
@@ -114,7 +88,7 @@ export default function WithdrawPage() {
 
       <div className="md:p-6">
         <ul className="space-y-3 withdraw-list">
-          {validWithdrawOptions.map((option) => (
+          {paymentMethods.map((option) => (
             <li
               key={option.type}
               onClick={() => handleSelect(option.type)}
@@ -123,17 +97,17 @@ export default function WithdrawPage() {
               <div className="info">
                 <div className="info-icon">
                   <Image
-                    src={`/images/profile/${option.icon}.png`}
-                    alt={option.label}
+                    src={`/images/profile/withdraw_icon_${option.type}.png`}
+                    alt={option.name}
                     fill
                     className="icon"
                   />
                 </div>
                 <div>
-                  <h5>{option.label}提现</h5>
+                  <h5>{option.name.toUpperCase()}提现</h5>
                   <p>
-                    手续费：{fee}
-                    {feeUnit === "percent" ? "%" : "元"}
+                    手续费：{option.fee}
+                    {option.fee_type === "percent" ? "%" : "元"}
                   </p>
                 </div>
               </div>
