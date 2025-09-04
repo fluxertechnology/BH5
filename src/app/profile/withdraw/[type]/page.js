@@ -58,8 +58,8 @@ function WithdrawPage() {
     },
     paypal: {
       title: `Paypal ${t("Profile.withdraw.title")}`,
-      backgroundImage: "/images/profile/withdraw_bg_usdt.png",
-      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_usdt.png",
+      backgroundImage: "/images/profile/withdraw_bg_paypal.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_paypal.png",
       component: PaypalWithdraw,
     },
   };
