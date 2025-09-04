@@ -36,6 +36,13 @@ export default function BankWithdraw({
     {
       id: 3,
       title: "card-3",
+      card: {
+        name: paymentMethod?.card_bank,
+        number: paymentMethod?.card_number,
+        branch: paymentMethod.card_bank_branch,
+        type: paymentMethod.type,
+        is_binding: paymentMethod.is_binding,
+      },
     },
     {
       id: 4,
