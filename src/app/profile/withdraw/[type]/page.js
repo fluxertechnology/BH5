@@ -22,6 +22,7 @@ import AlipayWithdraw from "@/app/profile/withdraw/[type]/AlipayWithdraw";
 import AppleWalletWithdraw from "@/app/profile/withdraw/[type]/AppleWalletWithdraw";
 import BankWithdraw from "@/app/profile/withdraw/[type]/BankWithdraw";
 import USDTWithdraw from "@/app/profile/withdraw/[type]/USDTWithdraw";
+import PaypalWithdraw from "@/app/profile/withdraw/[type]/PaypalWithdraw";
 
 function WithdrawPage() {
   const t = useTranslations();
@@ -55,6 +56,12 @@ function WithdrawPage() {
       mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_usdt.png",
       component: USDTWithdraw,
     },
+    paypal: {
+      title: `Paypal ${t("Profile.withdraw.title")}`,
+      backgroundImage: "/images/profile/withdraw_bg_usdt.png",
+      mobileBackgroundImage: "/images/profile/withdraw_mobile_bg_usdt.png",
+      component: PaypalWithdraw,
+    },
   };
 
   const {
@@ -73,10 +80,10 @@ function WithdrawPage() {
       type: "INIT_NAVBAR",
       data: {
         show: false,
-        isShowFooter: false,
+        isShowFooter: isDesktop ? true : false,
       },
     });
-  }, []);
+  }, [isDesktop]);
 
   const handleWithdraw = (payload) => {
     // const isValidAmount = isValidWithdrawAmount(withDrawData, payload.money);
@@ -233,11 +240,12 @@ const WithdrawPageElement = styled.div.withConfig({
     }
 
     .component-container--outer {
-      margin: 13.6vh 0 5vh;
+      margin: 13.6vh 0 0;
       position: relative;
       bottom: 19px;
       width: 100%;
       height:60%;
+      padding-bottom: 5vh;
 
 
       .component-container {
@@ -399,6 +407,106 @@ const WithdrawPageElement = styled.div.withConfig({
             line-height: 1.2;
             box-shadow: 0 -3px #7c1b12 inset;
 
+            @media (max-width: 749px){
+              padding: 0;
+            }
+
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+
+        .paypal-btn-wrapper{
+          .submit-button{
+            width: 13.23vw;
+            height: 3.67vw;
+          }
+        }
+
+        .bind-container {
+          text-align: center;
+          margin-top: 10px;
+
+          .bind-button {
+            background: linear-gradient(to top, rgb(249,54,34) 0%, rgb(255,69,122) 100%);
+            border: none;
+            border-radius: 999px;
+            padding: 12px 48px;
+            font-size: 16px;
+            color: white;
+            font-weight: regular;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 13.23vw;
+            height: 3.67vw;
+            font-size: 1.56vw;
+            color: rgb(255, 255, 255);
+            line-height: 1.2;
+            box-shadow: 0 -3px #7c1b12 inset;
+
+            @media (max-width: 749px){
+              padding: 0;
+            }
+
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+
+        .warning-wrapper{
+          position: relative;
+        }
+        
+        .warning-cont{
+          width: 17.656vw;
+          height: auto;
+          background-color: #fff;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 2px solid #e0b1c1;
+          border-radius: 0.25rem;
+          padding: 2% 1%;
+          position: absolute;
+          top: -14%;
+          right: 8%;
+          transform: translate(8%, -14%);
+          box-shadow: 0 0 1.3rem rgba(0, 0, 0, 0.31);
+
+          p{
+            margin-bottom: 1.24vw;
+            font-size: 1.25vw;
+            font-family: "Microsoft YaHei";
+            color: rgb(255, 69, 122);
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+          }
+        }
+
+        .bind-cancel-container {
+          text-align: center;
+          margin-top: 10px;
+
+          .bind-cancel-button {
+            background: linear-gradient(to bottom, #a3abb8 0%, #c3cad4 100%);
+            border: none;
+            border-radius: 999px;
+            padding: 12px 48px;
+            font-size: 16px;
+            color: white;
+            font-weight: regular;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 13.23vw;
+            height: 3.67vw;
+            font-size: 1.56vw;
+            color: rgb(255, 255, 255);
+            line-height: 1.2;
+            box-shadow: 0 -3px #63676d inset;
+
             &:hover {
               opacity: 0.9;
             }
@@ -422,6 +530,10 @@ const WithdrawPageElement = styled.div.withConfig({
           }
         }
       }
+    }
+
+    .paypal .form-section .tip{
+      padding-bottom: 4.41vw;
     }
 
     @media (max-width: 1024px) {
@@ -538,6 +650,19 @@ const WithdrawPageElement = styled.div.withConfig({
           .submit-container {
             margin-top: 8.6vw;
             .submit-button {
+              width: 46.67vw;
+              height: 10.67vw;
+              font-size: 4vw;
+            }
+          }
+
+          .paypal-btn-wrapper .submit-container{
+            margin-top: 0;
+          }
+
+          .bind-container {
+            margin-top: 8.6vw;
+            .bind-button {
               width: 46.67vw;
               height: 10.67vw;
               font-size: 4vw;
