@@ -217,24 +217,24 @@ export const bindWithdrawPayment = async (state, params) => {
     const data = await response.json();
 
     if (data.code === 0) {
-      toastCall(data.msg || "提交提领申请失败");
+      toastCall(data.msg || "提交绑定申请失败");
       return {
         isSuccess: false,
-        error: data.msg || "提交提领申请失败",
+        error: "提交绑定申请失败"
       };
     }
 
-    toastCall(data.msg || "提交提领申请成功");
+    toastCall(data.msg || "绑定成功");
     return {
       isSuccess: true,
       data: data.data || {},
     };
   } catch (error) {
-    toastCall("提交提领申请时发生错误");
-    console.error("Error submitting withdrawal request:", error);
+    toastCall("绑定时发生错误");
+    console.error("Error submitting bind request:", error);
     return {
       isSuccess: false,
-      error: "提交提领申请时发生错误",
+      error: "绑定时发生错误",
     };
   }
 };

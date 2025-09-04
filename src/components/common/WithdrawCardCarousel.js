@@ -1,12 +1,16 @@
-import { useRef, useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-import PictureCard from "@/components/common/PictureCard";
 import useMediaQcuery from "@/hooks/useMediaQuery";
+import { useGlobalDispatch } from "@/store";
+import { pushRoutes } from "@/store/actions/historyActions";
+import { pageUrlConstants } from "@/lib/constants";
 
 const WithdrawCardCarousel = ({ items }) => {
   const { isMobile } = useMediaQcuery();
-  function onClickEvent(index) {
-    console.log("add card " + index);
+  function onClickEvent() {
+    useGlobalDispatch(
+      pushRoutes(pageUrlConstants.profile.pages.profileWithdrawBindBank),
+    );
   }
 
   useEffect(() => {
@@ -54,6 +58,7 @@ const WithdrawCardCarousel = ({ items }) => {
     if (isMobile) return 30;
     return 15;
   }
+
   return (
     <WithdrawCardCarouselElement flexPercentage={judgePercentage()}>
       <div className="card-cont">

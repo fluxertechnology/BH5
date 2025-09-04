@@ -354,6 +354,12 @@ export const pageUrlConstants = {
           },
         },
       },
+      profileWithdrawBindBank: {
+        name: "綁定銀行卡",
+        path: "/profile/withdraw/bind-bank",
+        login: true,
+        closePcFooter: true,
+      },
       profilePaymentWithDraw: {
         name: "申請提現金",
         path: "/profile/payment_record/with_draw",
