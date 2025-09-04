@@ -187,7 +187,7 @@ export const bindWithdrawPayment = async (state, params) => {
         submitData.mainnet = params.mainnet;
         break;
       case 2:
-        submitData.username = params.username;
+        submitData.username = state.user.username;
         submitData.card_number = params.card_number;
         submitData.card_bank = params.card_bank;
         submitData.card_bank_branch = params.card_bank_branch;
