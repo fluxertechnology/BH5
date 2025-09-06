@@ -18,7 +18,21 @@ export default function PaypalWithdraw({
 
   const [account, setAccount] = useState("");
   const [email, setEmail] = useState("");
-  const [realname, setRealname] = useState("");
+  const [firstName, setFirstname] = useState("");
+  const [lastName, setLastname] = useState("");
+  const [contactNo, setContactNo] = useState("");
+
+  const [countryCode, setCountryCode] = useState("");
+  const [countryCodeDummy, setCountryCodeDummy] = useState([
+    {
+      code: 886,
+      name: "台湾"
+    },
+    {
+      code: 86,
+      name: "中国"
+    },
+  ]);
 
   const handleWithdrawAmountChange = async (e) => {
     setWithdrawAmount(parseInt(e.target.value));
@@ -26,6 +40,8 @@ export default function PaypalWithdraw({
 
   useEffect(() => {
     setMainnet(paymentMethod?.mainnet?.[0] || "");
+    
+    setCountryCode(countryCodeDummy[0]?.code || "");
   }, [paymentMethod]);
 
   return (
@@ -111,7 +127,10 @@ export default function PaypalWithdraw({
                       onSubmit({
                         email,
                         account,
-                        realname,
+                        realname: {
+                          firstName,
+                          lastName
+                        },
                       })
                     }
                   >
@@ -159,12 +178,55 @@ export default function PaypalWithdraw({
         <div className="form-group">
           <label className="form-label">真实姓名：</label>
           <div className="form-inputs">
-            <input
-              className="input"
-              placeholder="输入真实姓名"
-              value={realname || paymentMethod.realname}
-              onChange={(e) => setRealname(e.target.value)}
-            />
+            <div className="g-flex gap-3">
+              
+              <input
+                className="input"
+                placeholder="First name/名"
+                value={firstName || paymentMethod.firstName}
+                onChange={(e) => setFirstname(e.target.value)}
+              />
+              <input
+                className="input"
+                placeholder="Last name/姓"
+                value={lastName || paymentMethod.lastName}
+                onChange={(e) => setLastname(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+         {/* 电话 */}
+        <div className="form-group">
+          <label className="form-label">电话：</label>
+          <div className="form-inputs">
+            <div className="g-flex phone-input-wrapper">
+              <select
+                className="select"
+                value={countryCode}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setCountryCode(e.target.value);
+                }}
+              >
+                <option value="" disabled>
+                  选择国家
+                </option>
+                {countryCodeDummy?.map((country) => (
+                  <option key={country.name} value={country.code} selected={countryCode === country.code}>
+                    {`+${country.code} (${country.name})`}
+                    {/* {country.code} */}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="input"
+                placeholder="输入电话"
+                type="tel"
+                value={contactNo || paymentMethod.contactNo}
+                onChange={(e) => setContactNo(e.target.value)}
+              />
+            </div>
           </div>
         </div>
 
@@ -177,7 +239,10 @@ export default function PaypalWithdraw({
                 onSubmit({
                   email,
                   account,
-                  realname,
+                  realname: {
+                    firstName,
+                    lastName
+                  },
                 })
               }
             >
@@ -193,7 +258,10 @@ export default function PaypalWithdraw({
                   pay_id: paymentMethod.id,
                   email,
                   account,
-                  realname,
+                  realname: {
+                    firstName,
+                    lastName
+                  },
                   mainnet,
                 })
               }

@@ -305,6 +305,59 @@ const WithdrawPageElement = styled.div.withConfig({
               box-shadow: inset 0px -3px 7px 0px rgba(0, 0, 0, 0.1);
               font-size: 0.83vw;
               color:#5c5c5c;
+              outline: none !important;
+            }
+              
+            .phone-input-wrapper{
+              height: 3.65vw;
+              border: 1px solid #ccc;
+              border-color: rgb(205, 205, 205);
+              border-style: solid;
+              background-color: rgb(255, 255, 255);
+              box-shadow: inset 0px -3px 7px 0px rgba(0, 0, 0, 0.1);
+              padding: 10px 0;
+
+              @media (max-width: 1024px) {
+                height: 9.33vw;
+                padding: 0;
+              }
+            }
+
+            .phone-input-wrapper .select{
+              width: 22%;
+              height: 100%;
+              border: none;
+              outline: none !important;
+              box-shadow: none;
+              background-color: transparent;
+              padding: 0 14px;
+              color: #999999;
+              -moz-appearance:none;
+              -webkit-appearance:none;
+              appearance:none;
+              background: transparent;
+              background-image: url("/images/profile/country-arrow.svg");
+              background-repeat: no-repeat;
+              background-position-x: 100%;
+              background-position-y: center;
+
+              @media (max-width: 1024px) {
+                width: 30%;
+              }
+            }
+
+            .phone-input-wrapper .input{
+              width: 70%;
+              height: 100%;
+              border: none;
+              outline: none !important;
+              box-shadow: none;
+              background-color: transparent;
+              padding: 0 14px 0 20px;
+
+              @media (max-width: 1024px) {
+                width: 75%;
+              }
             }
 
             .input-row {
@@ -418,6 +471,12 @@ const WithdrawPageElement = styled.div.withConfig({
         }
 
         .paypal-btn-wrapper{
+          margin-top: 10rem;
+
+          @media (max-width: 1024px){
+            margin-top: 0rem;
+          }
+
           .submit-button{
             width: 13.23vw;
             height: 3.67vw;
@@ -466,7 +525,7 @@ const WithdrawPageElement = styled.div.withConfig({
           display: flex;
           flex-direction: column;
           align-items: center;
-          border: 2px solid #e0b1c1;
+          border: 1px solid #ff457a;
           border-radius: 0.25rem;
           padding: 2% 1%;
           position: absolute;
@@ -574,6 +633,16 @@ const WithdrawPageElement = styled.div.withConfig({
 
         @media (max-width: 1024px){
           bottom: -3.7vw;
+          background-color: #transparent;
+        }
+
+        @media (max-width: 749px){
+          bottom: 13.3vw;
+          background-color: #transparent;
+        }
+
+        @media (max-width: 374px){
+          bottom: 20.3vw;
           background-color: #transparent;
         }
 
