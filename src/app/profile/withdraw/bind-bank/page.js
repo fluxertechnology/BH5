@@ -6,9 +6,11 @@ import styled from "styled-components";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { bindWithdrawPayment } from "@/hooks/useWithdraw";
 import { useGlobalContext, useGlobalDispatch } from "@/store";
+import { pageUrlConstants } from "@/lib/constants";
 
 import TopBarContainer from "@/components/layout/Header/TopBarContainer";
 import TopTitleBar from "@/components/common/TopTitleBar";
+import LinkComponent from "@/components/common/LinkComponent";
 import toastCall from "@/lib/services/toastCall";
 
 function BindBankPage() {
@@ -73,7 +75,19 @@ function BindBankPage() {
             showBack={true}
             color="#000"
             back_color="#fff"
-          />
+          >
+            <LinkComponent
+              className="profile_with_draw_history"
+              routes={{
+                name: pageUrlConstants.profile.pages
+                  .profilePaymentWithDrawHistory.name,
+                path: pageUrlConstants.profile.pages
+                  .profilePaymentWithDrawHistory.path,
+              }}
+            >
+              {t("Profile.payment.charge.history_1")}
+            </LinkComponent>
+          </TopTitleBar>
         </TopBarContainer>
 
         <div className="component-container--outer">
@@ -157,12 +171,11 @@ const BindBankPageElement = styled.div.withConfig({
   ${({ main_height, bg, mobileBg }) => `
     margin-top: ${main_height}px;
     font-family: "Microsoft YaHei";
-    background: ${bg ? `url(${bg})` : "none"};
+    background: ${bg ? `url(${bg})` : "none"} no-repeat;
     background-position: top;
     background-size: 100% 23.96vw ;
     padding-top: 10.9vw;
     padding-bottom: 10.9vw;
-    background-repeat: no-repeat;
     
     @media (max-width: 1024px) {
       background: ${mobileBg ? `url(${mobileBg})` : "none"} no-repeat;
