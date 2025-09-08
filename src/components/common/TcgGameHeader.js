@@ -100,7 +100,7 @@ const UserPanel = ({ className = "" }) => {
   return (
     <UserPanelElement className={className}>
       <>
-        {!isMobile && Object.keys(gameTypes).length > 0 && (
+        {!isMobile && !(window.innerWidth < 1023) && Object.keys(gameTypes).length > 0 && (
           <div className={`user-panel ${lang}`}>
             {/* Game Type List for Desktop */}
             <div className="w-auto">
@@ -182,7 +182,7 @@ const UserPanel = ({ className = "" }) => {
             </div>
           </div>
         )}
-        {isMobile && Object.keys(gameTypes).length > 0 && (
+        {(isMobile || (window.innerWidth < 1023)) && Object.keys(gameTypes).length > 0 && (
           <div className="mobile-panel">
             <div className="game-list">
               {Object.entries(gameTypes).map(
@@ -242,7 +242,7 @@ const UserPanelElement = styled.div`
     padding-left: 5vw !important;
     padding-right: 5vw !important;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       padding-right: 1vw !important;
       padding-left: 1vw !important;
     }
@@ -309,7 +309,7 @@ const UserPanelElement = styled.div`
     margin-top: 20px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .user-panel {
       justify-content: space-between !important;
       background: linear-gradient(to right, #ffffff, #d18fd7, #873fdb);
@@ -397,7 +397,7 @@ const UserPanelElement = styled.div`
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     .user-panel {
       padding: 2vw 1vw 1.6vw !important;
       background: linear-gradient(to bottom right, #ee51ab, #873fdb);
@@ -491,6 +491,10 @@ const UserPanelElement = styled.div`
       grid-column-gap: 1.73vw;
       grid-row-gap: 1.73vw;
       height: 17.6vw;
+
+      @media (min-width: 768px) and (max-width: 1023px){
+        height: 14.6vw;
+      }
 
       .game-item {
         position: relative;

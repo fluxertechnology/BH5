@@ -180,7 +180,7 @@ const HomeLayout = ({ children }) => {
       function scrollEvent() {
         if (isMobile) {
           if (window.location.href.includes(home.pages.homeMain.path)) {
-            document.body.style.paddingBottom = "48px";
+            document.body.style.paddingBottom = (window.innerWidth > 767) ? 0 : "48px";
           } else {
             document.body.style.paddingBottom = 0;
           }
@@ -328,6 +328,9 @@ const HomeLayoutElement = styled.div.withConfig({
     position: relative;
     @media (max-width: 899px) {
       padding-bottom: ${bottom_nav_height}px;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      padding-top: 265px;
     }
     .float_category {
       position: fixed;

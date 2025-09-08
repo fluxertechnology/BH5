@@ -73,8 +73,8 @@ export const PictureCardElement = styled.div`
 
     @media (min-width: 899px) and (max-width: 1919px) {
       .card_header{
-        min-width: 13.1875rem;
-        min-height: 12.625rem;
+        // min-width: 13.1875rem;
+        // min-height: 12.625rem;
       }
     }
 
