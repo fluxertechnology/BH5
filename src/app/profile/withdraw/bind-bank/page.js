@@ -158,10 +158,11 @@ const BindBankPageElement = styled.div.withConfig({
     margin-top: ${main_height}px;
     font-family: "Microsoft YaHei";
     background: ${bg ? `url(${bg})` : "none"};
-    background-position: center;
+    background-position: top;
     background-size: 100% 23.96vw ;
     padding-top: 10.9vw;
     padding-bottom: 10.9vw;
+    background-repeat: no-repeat;
     
     @media (max-width: 1024px) {
       background: ${mobileBg ? `url(${mobileBg})` : "none"} no-repeat;
