@@ -15,7 +15,10 @@ const { vendor } = pageUrlConstants;
 
 const VendorItemCard = ({ data }) => {
   const { size } = useMediaQuery();
-  const mobileScreenWidth = (size?.[0] ?? 0) < 889;
+  const width = size?.[0] ?? 0;
+  const mobileScreenWidth = width < 768;
+  const tabletScreenWidth = width >= 768 && width < 1200;
+  const desktopScreenWidth = width >= 1200;
   const t = useTranslations("Vendor");
   const { image, price, store_name } = data;
 
@@ -39,7 +42,9 @@ const VendorItemCard = ({ data }) => {
         border_radius={mobileScreenWidth ? "0.67vw" : "0.26vw"}
         background_color="#fff"
         is_cover={true}
-        height={mobileScreenWidth ? "46.5vw" : "10.5vw"}
+        height={
+          mobileScreenWidth ? "46.5vw" : tabletScreenWidth ? "30vw" : "10.5vw"
+        }
       />
       <div className="container_body">
         <div className="container_text">{store_name}</div>
@@ -86,14 +91,19 @@ export default VendorItemCard;
 
 export const VendorItemCardElement = styled.div`
   /*  */
-  @media (max-width: 898px) {
+  @media (max-width: 767px) {
     width: 45.5vw;
     margin: auto;
   }
-  @media (min-width: 899px) {
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 30vw;
+    margin: auto;
+  }
+  @media (min-width: 1200px) {
     width: 10.26vw;
     margin: auto;
   }
+
   .container {
     cursor: pointer;
     display: block;

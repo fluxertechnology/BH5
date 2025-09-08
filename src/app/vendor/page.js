@@ -125,7 +125,7 @@ const VendorMain = () => {
             className="m-auto"
           >
             {list?.map((data, index) => (
-              <Grid item md={1.712} xs={6} key={index + 1}>
+              <Grid item md={1.712} xs={6} sm={4} key={index + 1}>
                 <VendorItemCard data={data} />
               </Grid>
             ))}
