@@ -60,7 +60,7 @@ const ProfilePaymentWithDrawHistoryRender = () => {
           show_back_color="#ffffff"
         />
       </TopBarContainer>
-      {window.location.pathname.split("/")[5] === "submit" && (
+      {typeof window !== 'undefined' && window.location.pathname.split("/")[5] === "submit" && (
         <div className="reply_tip">提现申请成功，将有专人与您联系</div>
       )}
       <div className="transfer_record_container">

@@ -368,7 +368,8 @@ export const pageUrlConstants = {
       },
       profilePaymentWithDrawHistory: {
         name: "申請提現金紀錄",
-        path: "/profile/payment_record/with_draw/history/:type",
+        // path: "/profile/payment_record/with_draw/history/:type",
+        path: '/profile/withdraw/history',
         login: true,
       },
       profilePaymentRecord: {
