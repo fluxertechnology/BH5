@@ -193,9 +193,11 @@ export const bindWithdrawPayment = async (state, params) => {
         submitData.card_bank_branch = params.card_bank_branch;
         break;
       case 3:
-        submitData.email = params.email;
+        submitData.firstname = params.realname.firstName;
+        submitData.lastname = params.realname.lastName;
         submitData.account = params.account;
-        submitData.username = params.username;
+        submitData.email = params.email;
+        submitData.phone = params.phone;
         break;
       default:
         break;
@@ -216,7 +218,7 @@ export const bindWithdrawPayment = async (state, params) => {
 
     const data = await response.json();
 
-    if (data.code === 0) {
+    if (data.code === 0) { 
       toastCall(data.msg || "提交绑定申请失败");
       return {
         isSuccess: false,

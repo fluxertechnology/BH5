@@ -4,12 +4,16 @@ import { useState, useEffect } from "react";
 import {
   calculateWithdrawTotal,
   getCurrencyDisplay,
+  bindWithdrawPayment
 } from "@/hooks/useWithdraw";
+import toastCall from "@/lib/services/toastCall";
+import { useGlobalContext } from "@/store";
 
 export default function PaypalWithdraw({
   paymentMethod = {},
   onSubmit = () => { },
 }) {
+  const { state } = useGlobalContext();
   const { isDesktop } = useMediaQuery();
 
   const [withdrawAmount, setWithdrawAmount] = useState(0);
@@ -37,6 +41,50 @@ export default function PaypalWithdraw({
   const handleWithdrawAmountChange = async (e) => {
     setWithdrawAmount(parseInt(e.target.value));
   };
+
+  const [isBinding, setIsBinding] = useState(false);
+  const handleBind = async () => {
+    if (!email || !account || !firstName || !lastName || !contactNo) {
+      toastCall("请填写完整信息");
+      return;
+    }
+    setIsBinding(true);
+
+    try {
+      const result = await bindWithdrawPayment(state, {
+        pay_id: paymentMethod.id,
+        email,
+        account,
+        phone: countryCode + contactNo,
+        realname: {
+          firstName,
+          lastName
+        },
+      });
+      if (result.isSuccess) {
+        toastCall("绑定成功");
+      }
+    } catch (error) {
+      console.error("绑定Paypal失败:", error);
+    } finally {
+      setIsBinding(false);
+    }
+  }
+
+  useEffect(() => {
+    setAccount(paymentMethod?.account || "");
+    setEmail(paymentMethod?.email || "");
+    setFirstname(paymentMethod?.firstname || "");
+    setLastname(paymentMethod?.lastname || "");
+
+    const phone = paymentMethod?.phone || "";
+    const countryCode = countryCodeDummy.find((c) =>
+      phone.startsWith(c.code)
+    )?.code;
+    setCountryCode(countryCode || "");
+    setContactNo(phone.replace(countryCode, ""));
+  }, [paymentMethod]);
+
 
   useEffect(() => {
     setMainnet(paymentMethod?.mainnet?.[0] || "");
@@ -123,16 +171,8 @@ export default function PaypalWithdraw({
                 <div className="bind-container">
                   <button
                     className="bind-button"
-                    onClick={() =>
-                      onSubmit({
-                        email,
-                        account,
-                        realname: {
-                          firstName,
-                          lastName
-                        },
-                      })
-                    }
+                    onClick={handleBind}
+                    disabled={isBinding}
                   >
                     绑定
                   </button>
@@ -155,7 +195,7 @@ export default function PaypalWithdraw({
             <input
               className="input"
               placeholder="输入收款人的Paypal邮箱"
-              value={email || paymentMethod.email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -168,7 +208,7 @@ export default function PaypalWithdraw({
             <input
               className="input"
               placeholder="输入账户"
-              value={account || paymentMethod.account}
+              value={account}
               onChange={(e) => setAccount(e.target.value)}
             />
           </div>
@@ -183,13 +223,13 @@ export default function PaypalWithdraw({
               <input
                 className="input"
                 placeholder="First name/名"
-                value={firstName || paymentMethod.firstName}
+                value={firstName}
                 onChange={(e) => setFirstname(e.target.value)}
               />
               <input
                 className="input"
                 placeholder="Last name/姓"
-                value={lastName || paymentMethod.lastName}
+                value={lastName}
                 onChange={(e) => setLastname(e.target.value)}
               />
             </div>
@@ -203,7 +243,7 @@ export default function PaypalWithdraw({
             <div className="g-flex phone-input-wrapper">
               <select
                 className="select"
-                value={countryCode}
+                 value={countryCode}
                 onChange={(e) => {
                   console.log(e.target.value);
                   setCountryCode(e.target.value);
@@ -223,7 +263,7 @@ export default function PaypalWithdraw({
                 className="input"
                 placeholder="输入电话"
                 type="tel"
-                value={contactNo || paymentMethod.contactNo}
+                value={contactNo}
                 onChange={(e) => setContactNo(e.target.value)}
               />
             </div>
@@ -235,16 +275,8 @@ export default function PaypalWithdraw({
           <div className="bind-container">
             <button
               className="bind-button"
-              onClick={() =>
-                onSubmit({
-                  email,
-                  account,
-                  realname: {
-                    firstName,
-                    lastName
-                  },
-                })
-              }
+              onClick={handleBind}
+              disabled={isBinding}
             >
               绑定
             </button>
