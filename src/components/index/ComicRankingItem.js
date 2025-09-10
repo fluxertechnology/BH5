@@ -64,7 +64,7 @@ const ComicRankingItem = ({ list }) => {
 
                       <div className="comic_ranking_wrapper">
                         <section className="comic_ranking_number">
-                          {index + 1}
+                          <span>{index + 1}</span>
                         </section>
                         <section className={`${type == 0 ? 'anime-ranking' : '' } g-flex-column-start`}>
                           {/* <span className="comic_ranking_title">{title}</span>
@@ -93,7 +93,7 @@ const ComicRankingItem = ({ list }) => {
                     <Links contextProps={comicRankingProps}>
                     <div className="comic_ranking_wrapper">
                       <section className="comic_ranking_number">
-                        {index + 1}
+                        <span>{index + 1}</span>
                       </section>
                       <section className={`${type == 0 ? 'anime-ranking' : '' } g-flex-column-start`}>
                         {/* <span className="comic_ranking_title">{title}</span>
@@ -218,18 +218,24 @@ const ComicRankingElement = styled.div.withConfig({
     &_number {
       position: absolute;
       padding-bottom: 0.3em;
-      left: -50px;
-      top: -20px;
-      width: 7em;
-      height: 3.5em;
+      left: -1.5625rem;
+      top: -1.5625rem;
+      width: 3.13125rem;
+      height: 3.13125rem;
       display: flex;
       color: #fff;
       justify-content: center;
       align-items: end;
       background: linear-gradient(to right, #335fc2, #873fdb);
       transform: rotate(-0.13turn);
-      font-size: 1rem;
+      font-size: 0.77375rem;
       z-index: 2;
+      border-bottom: 2px solid #fff;
+
+      span{
+        transform: rotate(0.13turn);
+        padding: 0.5rem 0 0 0.5rem;
+      }
     }
 
     &_title {

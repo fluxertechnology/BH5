@@ -76,8 +76,8 @@ const DesktopFooter = ({ locale }) => {
         <div className="area_left">
           <div className="area_left_img">
             <Image
-              width={"229"}
-              height={"66"}
+              width={"154"}
+              height={"44"}
               src={"/images/footer/logo.png"}
               alt="B次元LOGO"
               className="mr-3 mb-1"

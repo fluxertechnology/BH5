@@ -70,7 +70,7 @@ const ImageCarousel = ({
   useEffect(() => {
     switch (size) {
       case "banner_animated": //動畫頂部banner
-        setHeight(isTablet ? "20vw": isMobile ? "30vw" : "10.73vw");
+        setHeight(isTablet ? "20vw": isMobile ? "30vw" : "7.45vw");
         break;
       case "banner_ads": //廣告banner
         setHeight(isMobile ? "21vw" : "7vw");

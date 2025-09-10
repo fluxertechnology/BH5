@@ -56,6 +56,9 @@ export default function HomeMainPage() {
   const [showComic, setShowComic] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
   const [page, setPage] = useState(1);
+  
+  const [rankingType, setRankingType] = useState(0);
+  const [rankingRange, setRankingRange] = useState(1);
 
   const nowTab = useMemo(
     () => state.homeNovel.nowTab,
@@ -94,15 +97,56 @@ export default function HomeMainPage() {
     };
   }, [state.homeData, state.homeData.hot_comic_list]);
 
+  
   const getLeaderBoardData = (type, range) => {
     // type: 0: 动漫排行, 1: 漫画排行
     // range = 1: 日排行, 2: 周排行, 3: 收藏榜-周, 4: 月排行
     useGlobalDispatch(getHomeLeaderBoardDataAction(type, range));
+    setRankingType(type);
+    setRankingRange(range);
+    updateRankingTagColor(rankingType, rankingRange);
   };
   useEffect(() => {
     getLeaderBoardData(0, 1);
     getLeaderBoardData(1, 1);
   }, []);
+
+  useEffect(() => {
+    updateRankingTagColor(rankingType, rankingRange);
+  }, [state.homeLeaderBoard.comic]);
+
+  useEffect(() => {
+    updateRankingTagColor(rankingType, rankingRange);
+  }, [state.homeLeaderBoard.anime]);
+
+  const updateRankingTagColor = (type, range) => {
+     let elems = null;
+    if(type){
+      elems = document.querySelectorAll(".home_Main_rank_comic .comic_ranking_number");
+    }else{
+      elems = document.querySelectorAll(".home_Main_rank_anime .comic_ranking_number");
+    }
+
+    switch (range) {
+      case 1:
+        elems.forEach(el => {
+          el.style.background = "linear-gradient(to right, #335fc2, #873fdb)";
+        });
+        break;
+      case 2:
+        elems.forEach(el => {
+          el.style.background = "linear-gradient(to right, #c92379, #74478c)";
+        });
+        break;
+      case 4:
+        elems.forEach(el => {
+          el.style.background = "linear-gradient(to right, #1494e2, #23ddc3)";
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     if (!localState.video_category_list.length)
@@ -402,12 +446,14 @@ export default function HomeMainPage() {
 
   return (
     <HomeMainPageElement>
-      <ImageCarousel
-        adsKey={adsKeys.anime_top_banner}
-        threeInOneBanner={!isMobile}
-        size="banner_animated"
-        is_cover
-      />
+      <div className="pt-[1.35vw]">
+        <ImageCarousel
+          adsKey={adsKeys.anime_top_banner}
+          threeInOneBanner={!isMobile}
+          size="banner_animated"
+          is_cover
+        />
+      </div>
 
       {localState.user.id !== "guest" &&
       (localState.anime_watch_history.length > 0 ||
@@ -440,7 +486,7 @@ export default function HomeMainPage() {
                 className="home_Main_container_title_text"
                 onClick={() => toggleContent(true, false)}
               >
-                <span className="home_Main_container_title_text_span c-comic">
+                <span className="home_Main_container_title_text_span c-comic mr-[1.09vw]">
                   {t("Home.added_this_week")}
                   <span className="home_Main_container_title_text_span_marked c-comic">
                     {t("Global.comics")}
@@ -891,7 +937,7 @@ export const HomeMainPageElement = styled.div`
   }
   .home_Main {
     &_container {
-      padding: 1em 0.5em;
+      padding: 2.5vw 0.5em 1em;
       padding-right: 12%;
       padding-left: 12%;
       @media (max-width: 1024px) {
@@ -921,6 +967,7 @@ export const HomeMainPageElement = styled.div`
 
         &_wrapper {
           display: flex;
+          align-items: baseline;
           gap: 1.09vw;
         }
 
@@ -940,9 +987,9 @@ export const HomeMainPageElement = styled.div`
           }
 
           &_span {
-            margin-left: 5px;
+            margin-left: 0px;
             vertical-align: middle;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 600;
             @media (max-width: 899px) {
               font-size: max(0.94rem, 3.47vw);
@@ -962,7 +1009,7 @@ export const HomeMainPageElement = styled.div`
         cursor: pointer;
         font-size: 3.2vw;
         @media (min-width: 899px) {
-          font-size: 16px;
+          font-size: 12px;
         }
       }
 
@@ -1122,11 +1169,23 @@ export const HomeMainPageElement = styled.div`
     }
   }
   .MuiTab-root {
-    padding: 5px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 14px;
     min-height: 30px;
+
+    @media (max-width: 750px){
+      margin-left: -14px;
+      padding: 5px 14px;
+      font-size: max(0.685rem, 2.4vw);
+    }
   }
   .MuiTabs-root {
     min-height: 30px;
+    @media (max-width: 750px){
+      margin-bottom: 15px;
+    }
+  }
+  .home_Main_rank_comic .free_tip{
+    display: none;
   }
 `;

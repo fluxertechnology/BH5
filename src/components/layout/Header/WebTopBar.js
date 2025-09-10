@@ -774,24 +774,22 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                     placeholderImg="/images/imgPlaceholder/avatar_1.png"
                   />
                 ) : (
-                  <div className="search_bar_avatar_login bg-[#000]">
-                    {t("Login.login")}
-                  </div>
+                  <ImageComponent
+                    is_cover={true}
+                    src={state.user.avatar}
+                    height="20"
+                    width="20"
+                    border_radius="0"
+                    background_color="transparent"
+                    placeholderImg="/images/imgPlaceholder/avatar_1.png"
+                  />
+                  // <div className="search_bar_avatar_login bg-[#000]">
+                  //   {t("Login.login")}
+                  // </div>
                 )}
               </div>
-              <div className="search_bar_avatar_cover">
-                {!isLogin ? (
-                  <>
-                    <div className="search_bar_avatar_cover_user_info vertical">
-                      <div>{t("Login.have_good_experiences")}</div>
-                    </div>
-                    <div onClick={clickAvatar}>
-                      <WavaButton className="search_bar_avatar_button_login">
-                        {t("Login.login_now")}
-                      </WavaButton>
-                    </div>
-                  </>
-                ) : (
+              {isLogin && (
+                <div className="search_bar_avatar_cover">
                   <>
                     <div className="search_bar_avatar_cover_user_info">
                       <div className="search_bar_avatar_cover_user_info_avatar">
@@ -842,11 +840,11 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                       </WavaButton>
                     </div>
                   </>
-                )}
                 {/* </div> */}
               </div>
+            )}
             </div>
-            {!isLogin && (
+            {/* {!isLogin && (
               <div
                 className="search_bar_avatar"
                 onClick={() => useGlobalDispatch(openPopup("register"))}
@@ -855,7 +853,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   {t("Login.register")}
                 </div>
               </div>
-            )}
+            )} */}
             {/* <div className="search_bar_news" onClick={clickNew}>
             <Image
               src={"/images/header/topbar/notification.png"}
@@ -1217,7 +1215,7 @@ const TopsearchBarElement = styled.div.withConfig({
         align-self: center;
         margin-left: 0;
         width: auto;
-        min-width: ${is_login ? main_height * 0.375 : main_height * 0.875}px;
+        min-width: ${is_login ? main_height * 0.375 : main_height * 0.375}px;
         height: ${is_login ? main_height * 0.375 : main_height * 0.375}px;
         font-size: 14px;
         color: #fff;
