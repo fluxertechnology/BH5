@@ -107,12 +107,14 @@ const VendorMain = () => {
 
   return (
     <VendorMainElement>
-      <ImageCarousel
-        adsKey={adsKeys.shop_top_banner}
-        threeInOneBanner={!isMobile}
-        is_cover
-        size="banner_main"
-      />
+      <div className="pt-[1.35vw]">
+        <ImageCarousel
+          adsKey={adsKeys.shop_top_banner}
+          threeInOneBanner={!isMobile}
+          is_cover
+          size="banner_main"
+        />
+      </div>
       <div className="vendor_container" onClick={goToVendor}>
         <p className="vendor_container_title"></p>
         <div className="relative">

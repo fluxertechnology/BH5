@@ -79,7 +79,8 @@ const ImageCarousel = ({
         setHeight("auto"); //不這樣設定H5抽獎、首購會有問題
         break;
       case "banner_main": //上方主banner
-        setHeight(isMobile ? "56vw" : "18vw");
+        // setHeight(isMobile ? "56vw" : "18vw");
+        setHeight(isTablet ? "18vw": isMobile ? "56vw" : "7.45vw");
         break;
       default: //浮動廣告banner
         setHeight(size ?? "auto");

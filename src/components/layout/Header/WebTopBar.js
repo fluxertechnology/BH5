@@ -124,7 +124,7 @@ const QrCodeElement = styled.div.withConfig({
     font-size: 12px;
     border-radius: 4px;
     // border: solid 2px ${({ scroll }) =>
-      scroll ? colors.text_grey : "#fff"};
+    scroll ? colors.text_grey : "#fff"};
     padding: 4px 0.417vw;
     // color: ${({ scroll }) => (scroll ? colors.text_grey : "#fff")};
 
@@ -247,6 +247,12 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
         {
           intlKey: "Navbar.top_navigator_ecomic",
           dynamic: { tab: t("Navbar.top_navigator_ecomic") },
+          name: home.pages.homeMain.pages.homeCategory.name,
+          path: home.pages.homeMain.pages.homeCategory.path,
+        },
+        {
+          intlKey: "Navbar.top_navigator_animate",
+          dynamic: { tab: t("Navbar.top_navigator_animate") },
           name: home.pages.homeMain.pages.homeCategory.name,
           path: home.pages.homeMain.pages.homeCategory.path,
         },
@@ -395,8 +401,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       state.user.time === "-1"
         ? t("Profile.buy.watch.forever_1")
         : Date.now() > state.user.time * 1000
-        ? t("Profile.main.vip.maturity")
-        : new Date(state.user.time * 1000).toLocaleDateString().toString();
+          ? t("Profile.main.vip.maturity")
+          : new Date(state.user.time * 1000).toLocaleDateString().toString();
     setMembershipDate(variable);
   }, [state.user.time]);
   useEffect(() => {
@@ -408,8 +414,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
       ? "/images/header/topbar/switch_lang_dark.svg"
       : "/images/header/topbar/switch_lang_en_dark.svg"
     : lang === "tc"
-    ? "/images/header/topbar/switch_lang.svg"
-    : "/images/header/topbar/switch_lang_en.svg";
+      ? "/images/header/topbar/switch_lang.svg"
+      : "/images/header/topbar/switch_lang_en.svg";
 
   async function saveUrl() {
     // navigatorShare({
@@ -647,10 +653,10 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                       className={
                         "search_bar_nav_item_btn" +
                         (location === navItem.path ||
-                        (navItem?.child &&
-                          navItem.child.some(
-                            (child) => location === child.path
-                          ))
+                          (navItem?.child &&
+                            navItem.child.some(
+                              (child) => location === child.path
+                            ))
                           ? " active"
                           : "")
                       }
@@ -673,13 +679,12 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                           >
                             <WavaButton className="search_bar_nav_item_dropdown_item">
                               <span
-                                className={`search_bar_nav_item_dropdown_item_dot${
-                                  decodeURIComponent(location).includes(
-                                    t(childItem.intlKey)
-                                  )
+                                className={`search_bar_nav_item_dropdown_item_dot${decodeURIComponent(location).includes(
+                                  t(childItem.intlKey)
+                                )
                                     ? " active"
                                     : ""
-                                }`}
+                                  }`}
                               />
 
                               <span>{t(childItem.intlKey)}</span>
@@ -807,7 +812,7 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                         </div>
                         <div className="search_bar_avatar_cover_user_info_item_description g-center gap-1">
                           {state.user.time === "-1" ||
-                          Date.now() < state.user.time * 1000 ? (
+                            Date.now() < state.user.time * 1000 ? (
                             <Image
                               className="search_bar_avatar_cover_user_info_crown"
                               src="/images/icons/crown.png"
@@ -840,9 +845,9 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                       </WavaButton>
                     </div>
                   </>
-                {/* </div> */}
-              </div>
-            )}
+                  {/* </div> */}
+                </div>
+              )}
             </div>
             {/* {!isLogin && (
               <div
@@ -937,9 +942,8 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
                   {LanguageList.map((list) => (
                     <WavaButton className="search_bar_nav_item_dropdown_item lang-adj">
                       <span
-                        className={`search_bar_nav_item_dropdown_item_dot${
-                          location.indexOf(list.path) !== -1 ? " active" : ""
-                        }`}
+                        className={`search_bar_nav_item_dropdown_item_dot${location.indexOf(list.path) !== -1 ? " active" : ""
+                          }`}
                       />
 
                       <div
@@ -1143,8 +1147,8 @@ const TopsearchBarElement = styled.div.withConfig({
             transform: translateX(-50%);
             background: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 6px;
-            padding: 6px 0;
+            border-radius: 0;
+            padding: 22px 0;
             z-index: 99;
             display: none;
             min-width: 73px;
@@ -1158,6 +1162,19 @@ const TopsearchBarElement = styled.div.withConfig({
               right: 0;
               z-index: 1;
             }
+
+            &::after{
+              content: "";
+              position: absolute;
+              bottom: 3.5%;
+              right: 10%;
+              transform: translate(10%, 3.5%) rotate(90deg);
+              width: 0px;
+              height: 0px;
+              border-left: 15px solid transparent;
+              border-right: 0px solid transparent;
+              border-top: 15px solid #f0f0f0;
+            }
           }
 
           &:hover &_dropdown_menu {
@@ -1165,7 +1182,7 @@ const TopsearchBarElement = styled.div.withConfig({
           }
 
           &_dropdown_item {
-            padding: 6px 12px;
+            padding: 3px 12px;
             cursor: pointer;
             white-space: nowrap;
             font-size: 14px;
