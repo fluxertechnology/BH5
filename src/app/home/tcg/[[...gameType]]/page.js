@@ -573,42 +573,34 @@ const HomeTcgMainPage = () => {
               {isDesktop && (
                 <div className="w-auto">
                   <div className="flex type-list">
-                    {gameCategoryList.map((category, index) => (
-                      <div
-                        key={index}
-                        className={`inline-block m-1 rounded-lg border ${
-                          tcgGameType === category.game_type
+                    {Object.entries(gameTypes).map(
+                      ([key, { label, icon }], index) => (
+                        <div
+                          key={key}
+                          className={`inline-block m-1 rounded-lg border ${
+                          tcgGameType === key.game_type
                             ? "border-blue-500"
                             : "border-gray-300"
                         }`}
-                      >
-                        <button
-                          className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
-                            tcgGameType === category.game_type ? "active" : ""
-                          }`}
-                          onClick={() =>
-                            handleGameTypeChange(category.game_type)
-                          }
                         >
-                          <Image
-                            src={
-                              tcgGameType === category.game_type
-                                // ? category.img_selected
-                                ? category.img
-                                : category.img
-                            }
-                            key={`${index}-${tcgGameType === category.game_type ? 1 : 0}`}
-                            alt={category.name}
-                            width={128}
-                            height={128}
-                            className="inline-block type-item--image"
-                          />
-                          <span className="whitespace-nowrap">
-                            {category.name}
-                          </span>
-                        </button>
-                      </div>
-                    ))}
+                          <button
+                            className={`flex flex-col items-center rounded-lg justify-center gap-1 p-2 md:p-3 w-full type-item ${
+                            tcgGameType === key.game_type ? "active" : ""
+                          }`}
+                            onClick={() => handleGameTypeChange(key)}
+                          >
+                            <Image
+                              src={`/images/tcg/${icon}.png`}
+                              alt={label}
+                              width={128}
+                              height={128}
+                              className="inline-block type-item--image"
+                            />
+                            <span className="whitespace-nowrap">{label}</span>
+                          </button>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               )}
@@ -661,40 +653,34 @@ const HomeTcgMainPage = () => {
               {!isDesktop && (
                 <div className="w-auto">
                   <div className="flex flex-col overflow-x-auto overflow-visible whitespace-nowrap type-list">
-                    {gameCategoryList.map((category, index) => (
-                      <div key={index} className="inline-block type-item">
-                        <button
-                          className={`flex flex-col items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
-                            tcgGameType === category.game_type ? "active" : ""
-                          }`}
-                          onClick={() =>
-                            handleGameTypeChange(category.game_type)
-                          }
+                    {Object.entries(gameTypes).map(
+                      ([key, { label, icon }], index) => (
+                        <div
+                          key={key}
+                          className="inline-block type-item"
                         >
-                          <Image
-                            src={
-                              tcgGameType === category.game_type
-                                ? category.img
-                                : category.img
-                            }
-                            key={`${index}-${tcgGameType === category.game_type ? 1 : 0}`}
-                            alt={category.name}
-                            width={128}
-                            height={128}
-                            className="inline-block type-item--image"
-                          />
-                          <span
-                            className={`md:text-base whitespace-nowrap ${
-                              tcgGameType === category.game_type
+                          <button
+                            className={`flex flex-col items-center rounded-lg justify-center gap-1 md:gap-2 p-2 md:p-3 w-full ${
+                              tcgGameType === key ? "active" : ""
+                            }`}
+                            onClick={() => handleGameTypeChange(key)}
+                          >
+                            <Image
+                              src={`/images/tcg/${icon}.png`}
+                              alt={label}
+                              width={128}
+                              height={128}
+                              className="inline-block type-item--image"
+                            />
+                            <span className={`md:text-base whitespace-nowrap ${
+                              tcgGameType === key
                                 ? "text-white"
                                 : "text-black"
-                            }`}
-                          >
-                            {category.name}
-                          </span>
-                        </button>
-                      </div>
-                    ))}
+                            }`}>{label}</span>
+                          </button>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               )}
