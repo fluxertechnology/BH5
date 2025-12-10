@@ -38,13 +38,13 @@ const BottomNavBar = () => {
       image: "/images/header/bottomNav/comic_selected_btn.png",
       activeImage: "/images/header/bottomNav/comic_selected_btn.png",
     },
-    {
-      cname: t("Navbar.bottom_navigator_game"),
-      name: home.pages.homeTcg.name,
-      path: home.pages.homeTcg.path,
-      image: "/images/header/bottomNav/game_selected_btn.png",
-      activeImage: "/images/header/bottomNav/game_selected_btn.png",
-    },
+    // {
+    //   cname: t("Navbar.bottom_navigator_game"),
+    //   name: home.pages.homeTcg.name,
+    //   path: home.pages.homeTcg.path,
+    //   image: "/images/header/bottomNav/game_selected_btn.png",
+    //   activeImage: "/images/header/bottomNav/game_selected_btn.png",
+    // },
     {
       cname: t("Navbar.bottom_navigator_video"),
       name: home.pages.homeMain.pages.homeVideos.name,

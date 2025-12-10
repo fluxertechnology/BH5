@@ -244,13 +244,13 @@ const TopSearchBar = ({ isPlaceholder = true }) => {
         },
       ],
     },
-    {
-      intlKey: "Navbar.bottom_navigator_game",
-      name: home.pages.homeTcg.name,
-      path: home.pages.homeTcg.path,
-      image: "/images/header/feed.svg",
-      activeImage: "/images/header/feed_selected_btn.png",
-    },
+    // {
+    //   intlKey: "Navbar.bottom_navigator_game",
+    //   name: home.pages.homeTcg.name,
+    //   path: home.pages.homeTcg.path,
+    //   image: "/images/header/feed.svg",
+    //   activeImage: "/images/header/feed_selected_btn.png",
+    // },
     {
       intlKey: "Navbar.bottom_navigator_video",
       name: home.pages.homeMain.pages.homeVideos.name,

@@ -27,8 +27,12 @@ import { getPremiumDiamond } from "@/lib/services/price";
 import LoadingComponent from "@/components/common/LoadingComponent";
 import { updateUserDataAction } from "@/store/actions/user";
 import gameManager from "@/lib/services/gameManager";
+import { notFound } from "next/navigation";
+
 
 const HomeTcgMainPage = () => {
+  notFound();
+  
   const { state } = useGlobalContext();
   const t = useTranslations();
   const { isMobile, isDesktop } = useMediaQuery();
